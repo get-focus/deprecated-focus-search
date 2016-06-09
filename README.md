@@ -80,8 +80,6 @@ Le but est juste d'afficher un composant React.
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-
-
 // On crée le composant Application
 const App = props =>
 <div>
@@ -105,3 +103,61 @@ L'objectif est maintenant de brancher un routeur dans notre application.
 
 Nous allons créer deux pages.
 Une page **Home** et qui est la page d'accueil de l'application et une page **User** qui sera la page de détail d'un utilisateur.
+Afin de pouvoir avoir naviguer au sein de l'application, nous allons utiliser la librairie React routeur.
+
+Tout d'abord il faut faire fonctionner notre app avec le routeur.
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+// importation des éléments de react-router.
+import {Router, Route, hashHistory } from 'react-router'
+
+// On crée le composant Application
+const App = props => <div><h1>Bienvenue {props.name}</h1>{props.children}</div>;
+
+ReactDOM.render(
+  <Router history={hashHistory}><Route path='/' component={App} /></Router>,
+  document.querySelector('.focus-redux-demo-app')
+);
+```
+- Ensuite nous allons créer deux composants simples
+
+```jsx
+// views/home.js
+import React from 'react';
+const Home = props => <div>Home Page: {props.date}</div>;
+export default Home;
+
+// views/user/index.js
+import React from 'react';
+const User = props => <div>User: {props.name}</div>;
+export default User;
+```
+
+- Maintenant nous allons injecter ces composants dans le routeur.
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {IndexRoute, Router, Route, hashHistory } from 'react-router'
+
+/* Components */
+import Home from './views/home';
+import User from './views/user';
+
+// On crée le composant Application
+const App = props => <div style={{color: 'red'}}><h1>Bienvenue {props.name}</h1>{props.children}</div>;
+
+ReactDOM.render(
+  <Router history={hashHistory}>
+    <Route path='/' component={App} >
+      {/* Le composant IndexRoute signifie qui sera appellée par défaut*/}
+      <IndexRoute component={Home} />
+      {/* Les :id sert à fournir un paramètre à l'url on extrait les paramètres d'url via la props params*/}
+      <Route path='user/:id' component={({params}) => <User id={params.id}/>} />
+    </Route>
+  </Router>,
+  document.querySelector('.focus-redux-demo-app')
+);
+```
