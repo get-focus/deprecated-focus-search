@@ -101,4 +101,7 @@ ReactDOM.render(
 
 ## Brancher un routeur
 
-L'objectif est maintenant de brancher un routeur
+L'objectif est maintenant de brancher un routeur dans notre application.
+
+Nous allons créer deux pages.
+Une page **Home** et qui est la page d'accueil de l'application et une page **User** qui sera la page de détail d'un utilisateur.
