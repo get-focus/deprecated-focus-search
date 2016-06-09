@@ -103,6 +103,9 @@
     "webpack-focus": "^0.11.5"
   },
   "dependencies": {
-    "focus-redux": "^0.1.1"
+    "focus-redux": "^0.1.1",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.4.1",
+    "redux": "^3.5.2"
   }
 }
