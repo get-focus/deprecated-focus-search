@@ -74,6 +74,7 @@ Nous voulons avoir les informations suivantes:
 
 Nous allons donce créer un dans le fichier index.js les élements suivants
 Le but est juste d'afficher un composant React.
+
 ```jsx
 // On récupère react
 import React from 'react';
@@ -96,5 +97,8 @@ ReactDOM.render(
   // Présent en amont
   document.querySelector('.focus-redux-demo-app')
 );
-
 ```
+
+## Brancher un routeur
+
+L'objectif est maintenant de brancher un routeur
