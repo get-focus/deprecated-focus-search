@@ -263,3 +263,50 @@ ReactDOM.render(
 
 > C'est bon maintenant nous avons un store, une application connectée à ce store
 > Rappel, pour le moment nous n'avons fait que du React, redux, et react routeur.
+
+## Bon et maintenant on va initialiser la partie focus
+
+- Afin d'initialiser l'application , nous avons besoin de définir les domaines et les définitions des entités.
+- Pour cela nous mettons à disposition plusieurs `Providers`, par exemple pour les métadonnées, nous utilisons le `MetadataProvider`, à qui on doit fournir les domaines et les définitions des entitées de l'appication.
+
+### Rappel les domaines
+
+Les domaines servent à définir les domaines de valeurs des champs, ils portent une configuration ainsi qu'un ensemble de métadonnées.
+
+On peut donc créer un fichier de config qui contiendra: les domaines.
+Les domaines sont définis plus particulièrement [ici](http://kleegroup.github.io/focus-docs/tutorial/surcharger-form-input.html).
+```js
+export const domains = {
+    DO_TEXT_MOYEN: {
+        type: 'text',
+        validator: [{
+            type: 'string',
+            options: {
+                maxLength: 50
+            }
+        }]
+    },
+    DO_TEXTE_LONG: {
+        type: 'text',
+        validator: [{
+            type: 'string',
+            options: {
+                maxLength: 200
+            }
+        }],
+        formatter: value => value + ' - formaté'
+    },
+    DO_DATE : {
+        formatter: date => date ? moment(date, format).format('DD/MM/YYYY') : ''
+    },
+    DO_CIVILITE: {
+        type: 'text',
+        validator: [{
+            type: 'string',
+            options: {
+                maxLength: 200
+            }
+        }]
+    }
+};
+```
