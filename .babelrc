@@ -1,4 +1,4 @@
 {
   "presets": ["focus"],
-  "plugins": ["flow-comments"]
+  "plugins": ["flow-comments", "react-hot-loader/babel"]
 }
