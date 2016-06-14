@@ -475,3 +475,26 @@ import * as domains from './config/domains';
   </MetadataProvider>
 </StoreProvider>;
 ```
+
+- Nous allons maintenant nous connecter au provider de metadonnées.
+- Par exemple si nos nous plaçons dans le composant application qui ets déjà connecté au store.
+
+```jsx
+import {compose} from 'redux'; // Pour composer les connecteurs
+import {connect as connectToMetadata} from 'focus-redux/behaviours/metadata';
+// ...
+// On crée le composant Application
+const App = props =>
+  <div style={{color: 'blue'}}>
+    <h1>Bienvenue dans ce superbe tutoriel {props.name} </h1>
+    {/* On récupère les définitions dans les props*/}
+    {JSON.stringify(props.definitions)}
+    {props.children}
+  </div>;
+// ...
+// On exporte le composant Application connecté au store redux.
+export default compose(
+  connectToStore(userSelector),
+  connectToMetadata(['user','address','financialMove'])
+)(App);
+```
