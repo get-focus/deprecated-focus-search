@@ -1,5 +1,5 @@
 "use strict";
-const webpackConfig = require('./webpack.config');
+let webpackConfig = require('./webpack.config');
 const serverLauncher = require('webpack-focus').serverLauncher;
 
 
