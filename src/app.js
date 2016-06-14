@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import {connect as connectToStore} from 'react-redux';
+import {connect as connectToMetadata} from 'focus-redux/behaviours';
 
 // Ceci est un sélecteur de state, il sera localisé près de son reducer plus tard.
 const userSelector = state => ({...state.user});
