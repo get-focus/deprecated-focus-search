@@ -9,11 +9,25 @@
     "start": "better-npm-run dev-server",
     "build:node": "better-npm-run babelify",
     "build": "npm run build:node",
+    "build:watch": "better-npm-run watch",
     "publish": "npm run build"
   },
   "betterScripts": {
     "dev-server": {
       "command": "node ./server.js",
+      "env": {
+        "DEV": true,
+        "SOURCE_MAPS": false,
+        "ENTRY_FILE_PATH": "./src/",
+        "PAGE_TITLE": "Focus entity dev page",
+        "MINIMIFY": false,
+        "API_PORT": 9999,
+        "PACKAGE_JSON_PATH": "../",
+        "ANCHOR_CLASS": "focus-redux-demo-app"
+      }
+    },
+    "watch": {
+      "command": "webpack --watch ./src/index.js",
       "env": {
         "DEV": true,
         "SOURCE_MAPS": false,
