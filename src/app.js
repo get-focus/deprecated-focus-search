@@ -7,7 +7,7 @@ const userSelector = state => ({...state.user});
 // On crée le composant Application
 const App = props =>
   <div style={{color: 'blue'}}>
-    <h1>Bienvenue {props.name} </h1>
+    <h1>Bienvenue dans ce superbe tutoriel {props.name} </h1>
     {props.children}
   </div>;
 

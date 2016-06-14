@@ -5,10 +5,9 @@ import {hashHistory } from 'react-router'
 import {createStore} from 'redux';
 
 import Root from './root';
-const DEFAULT_STATE = {user: {name: 'pas de nom', date: new Date().getTime(), bababa: 'dddididid'}};
-
+import reducer from './reducer'
 // On créé un store bidon qui a un state par défaut et le retourne.
-const store = createStore((state = DEFAULT_STATE) => state);
+const store = createStore(reducer);
 
 ReactDOM.render(
   <AppContainer>

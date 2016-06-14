@@ -235,7 +235,7 @@ import User from './views/user';
 // On crée le composant Application
 const App = props => <div style={{color: 'red'}}><h1>Bienvenue {props.name}</h1>{props.children}</div>;
 
-const DEFAULT_STATE = {user: {name: 'pas de nom'}};
+const DEFAULT_STATE = {user: {name: 'Pierre Besson'}};
 // On créé un store bidon qui a un state par défaut et le retourne.
 const store = createStore((state = DEFAULT_STATE) => state);
 const AppConnectToStore = connectToStore(s => ({name: s.user.name}))(App);
@@ -264,7 +264,87 @@ ReactDOM.render(
 > C'est bon maintenant nous avons un store, une application connectée à ce store
 > Rappel, pour le moment nous n'avons fait que du React, redux, et react routeur.
 
-## Bon et maintenant on va initialiser la partie focus
+- Nous allons maintenant sortir la partie application du composant root dans un fichier `src/app.js`.
+
+
+```jsx
+import React, {PropTypes} from 'react';
+import {connect as connectToStore} from 'react-redux';
+
+// Ceci est un sélecteur de state, il sera localisé près de son reducer plus tard.
+const userSelector = state => ({...state.user});
+
+// On crée le composant Application
+const App = props =>
+  <div style={{color: 'blue'}}>
+    <h1>Bienvenue {props.name} </h1>
+    {props.children}
+  </div>;
+
+App.defaultProps = {
+  name: 'Without name maybe not...'
+}
+
+App.propTypes = {
+  name: PropTypes.string.isRequired
+}
+// On exporte le composant Application connecté au store redux.
+export default connectToStore(userSelector)(App);
+
+```
+
+nous avons donc un composant `Root` qui va ressembler à ceci:
+
+```jsx
+import React, {PropTypes} from 'react';
+import {IndexRoute, Router, Route} from 'react-router'
+import {Provider as StoreProvider} from 'react-redux';
+/* Components */
+import App from './app';
+import Home from './views/home';
+import User from './views/user';
+
+const Root = ({store, history}) => /*On place le provider de store au plus haut afin de pouvoir injecter des informations du store dans toute l'applciation.*/
+<StoreProvider store={store}>
+    <Router history={history}>
+      {/* On injecte comme composant d'application un composant connecté au store redux */}
+      <Route path='/' component={App} >
+        {/* Le composant IndexRoute signifie qui sera appellée par défaut*/}
+        <IndexRoute component={Home} />
+        {/* Les :id sert à fournir un para  sssssssmètre à l'url on extrait les paramètres d'url via la props params*/}
+        <Route path='user/:id' component={({params}) => <User id={params.id}/>} />
+      </Route>
+    </Router>
+</StoreProvider>;
+
+Root.propTypes = {
+  history: PropTypes.object.isRequired,
+  store: PropTypes.object.isRequired
+};
+
+export default Root;
+```
+
+- Dernier point, nous allons également passer la partie reducer qui sert à construire le store dans un autre fichier `src/reducer/index.js`.
+
+```js
+const DEFAULT_STATE = {user: {name: 'pas de nom', date: new Date().getTime(), bababa: 'dddididid'}};
+const rootReducer = (state = DEFAULT_STATE) => state
+
+export default rootReducer;
+```
+
+On a donc dans le composant `root` pour le store:
+```js
+import reducer from './reducer';
+//...
+// On créé un store bidon qui a un state par défaut et le retourne.
+const store = createStore(reducer);
+```
+
+## Maintenant que la structure initiale est terminée, on va initialiser la partie focus
+
+> Note que cette partie n'est certainement pas présente dans le starter kit dans la mesure où tout est prêt pour un démarrage rapide.
 
 - Afin d'initialiser l'application , nous avons besoin de définir les domaines et les définitions des entités.
 - Pour cela nous mettons à disposition plusieurs `Providers`, par exemple pour les métadonnées, nous utilisons le `MetadataProvider`, à qui on doit fournir les domaines et les définitions des entitées de l'appication.
