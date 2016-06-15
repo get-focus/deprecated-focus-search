@@ -21,10 +21,10 @@ const Root = ({store, history}) => /*On place le provider de store au plus haut 
         <Router history={history}>
           {/* On injecte comme composant d'application un composant connecté au store redux */}
             {/* Le composant IndexRoute signifie qui sera appellée par défaut*/}
-            <Route path='/' component={App} >
+          <Route path='/' component={App} >
             <IndexRoute component={Home}/>
             {/* Les :id sert à fournir un paramètre à l'url on extrait les paramètres d'url via la props params*/}
-            <Route path='user/:id' component={({params}) => <User id={params.id}/>} />
+            <Route path='user/:id' component={({params}) => <User id={params.id} />} />
           </Route>
         </Router>
       </MasterDataProvider>

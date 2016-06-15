@@ -1,4 +1,12 @@
-const DEFAULT_STATE = {user: {name: 'Pierre', date: new Date().getTime(), bababa: 'dddididid'}};
-const rootReducer = (state = DEFAULT_STATE) => state
+// const DEFAULT_STATE = {user: {name: 'Pierre', date: new Date().getTime(), bababa: 'dddididid'}};
+// const rootReducer = (state = DEFAULT_STATE) => state
 
-export default rootReducer;
+import {combineReducers} from 'redux';
+import userReducer from './user-reducer';
+
+
+
+
+export default combineReducers({
+    user: userReducer
+  });
