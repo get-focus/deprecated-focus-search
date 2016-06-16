@@ -1,7 +1,8 @@
 import {actionBuilder} from 'focus-redux/actions/entity-actions-builder';
 import {loadUser, saveUser} from '../services/user-service';
 
-const _loadUserAction = actionBuilder({names: ['user'], type: 'load', service: loadUser});
+const _loadUserAction = actionBuilder({names: ['user', 'test'], type: 'load', service: loadUser});
+console.log(_loadUserAction);
 export const loadUserTypes = _loadUserAction.types;
 export const loadUserAction = _loadUserAction.action;
 
