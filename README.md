@@ -1,4 +1,4 @@
-# Tutorial de fonctionnement de la nouvelle API de forulaire
+# Tutorial de fonctionnement de la nouvelle API de gestion des entités et des pages
 
 ## De quoi part'on
 
