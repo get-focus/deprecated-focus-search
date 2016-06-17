@@ -2,11 +2,11 @@
 // const rootReducer = (state = DEFAULT_STATE) => state
 
 import {combineReducers} from 'redux';
-import userReducer from './user-reducer';
-
-
-
+import user from './user-reducer';
+import finance from './finance-reducer';
+//import {userfinanceReducer, financeUserReducer} from './user-finance-reducer'
 
 export default combineReducers({
-    user: userReducer
+    user,
+    finance
   });

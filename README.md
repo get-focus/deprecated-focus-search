@@ -538,7 +538,7 @@ const Root = ({store, history}) => /*On place le provider de store au plus haut 
 
 # Afficher les informations d'un User ! 
 
-Pour ce tuto on va se placer dans le cas de User. Ce composant et l'exemple parfait d'un formulaire. Nous voulons afficher : 
+Pour ce tuto on va se placer dans le cas de User. Ce composant est l'exemple parfait d'un formulaire. Nous voulons afficher : 
 - Son firstName
 - Son lastName
 - Son uuid 
@@ -618,9 +618,66 @@ Expliquons le pas à pas !
 
 ### Création d'un composant :
  Rien de bien nouveau au soleil, je vous invite à aller sur le site de React en cas de doute subsistant. Notre composant est un composant React des plus classique. 
+ > Dans l'immédiat, et pour une meilleure clarté de ce tutoriel, le composant User est une classe qui possède la logique ( load ... ) et l'affichage. En pratique, nous vous encourageons de séparer cette logique de l'affichage et afin d'utiliser des composants pures, pour plus de performance, de beauté ! 
+ 
+```jsx
+import React, {Component, PropTypes} from 'react';
+import {connect as connectToForm } from 'focus-redux/behaviours/form';
+import {connect as connectToMetadata} from 'focus-redux/behaviours/metadata';
+import {connect as connectToFieldHelpers} from 'focus-redux/behaviours/field';
+import {loadUserAction, saveUserAction} from '../../actions/user-actions';
+
+import Panel from 'focus-redux/components/panel';
+import compose from 'lodash/flowRight';
+
+
+const User = ({fieldFor, ...otherProps}) => (
+  <Panel title='User' {...otherProps}>
+      {fieldFor('uuid', {entityPath: 'user'})}
+      {fieldFor('firstName', {entityPath: 'user'})}
+      {fieldFor('lastName', {entityPath: 'user'})}
+  </Panel>
+)
+
+
+class SmartUser extends Component {
+    componentWillMount() {
+        const {id, load} = this.props;
+        // Et voila un load !
+        load({id});
+    }
+
+    render() {
+        const {fieldFor} = this.props;
+        return (
+          <User fieldFor={fieldFor} { ...this.props}/>
+        );
+    }
+};
+
+User.displayName = 'SmartUser ';
+
+const formConfig = {
+    formKey: 'userForm',
+    entityPathArray: ['user'],
+    loadAction: loadUserAction,
+    saveAction: saveUserAction,
+    nonValidatedFields: ['user.firstName']
+};
+
+const ConnectedUserForm = compose(
+    connectToMetadata(['user']),
+    connectToForm(formConfig),
+    connectToFieldHelpers()
+)(SmartUser );
+
+export default ConnectedUserForm;
+
+
+```
  
 ### Connection au provider : 
-Avant tout de chose, pour petit rappel, cette connexion est possible grâce au provider qui on été mis  précédemment autour de vos composants, ainsi que la création du Store ( n"hésitez pas à relire ce qui est indiqué plus haut si cela n'est pas clair ). Dans notre cas nous allons connecter notre composant : 
+Avant tout de chose, pour petit rappel, cette connexion est possible grâce au provider qui ont été mis  précédemment autour de vos composants, ainsi que la création du Store ( n"hésitez pas à relire ce qui est indiqué plus haut si cela n'est pas clair ). Dans notre cas nous allons connecter notre composant : 
 		-  au metaDonnées ( les définitions et les domaines ), 
 		-  au fonctionnalités disponibles du Form via un objet de config ( que nous allons détaillé juste en dessous). 
 		- au fieldHelpers qui va exposé les fonctionnnalité de fieldFor ( par exemple .... ) 
@@ -640,7 +697,8 @@ const formConfig = {
     nonValidatedFields: ['user.firstName']
 };
 ```
-**Le tableau de nonValidatedFields :** Vous avez une défition qui donne un champ required et pour ce form en particulier vous voulez l'enlevez, c'est l'endroit, il suffit de mettre: entityPath."nom de la proprieté", pour les listes voici un exemple : {'user.childs': ['firstName']} , 'entityPath.'nom de la propriété de la liste dans l'objet' : tableau des proprietés de l'objet de la liste
+**Le tableau de nonValidatedFields :** Ce tableau permet dans le cas où l'entity definition de votre entity utilisé dans le formulaire a des champs que vous ne souhaitez pas valider.  Nous préconisons une utilisons occasionnel de ce tableau. En effet si cela devient systématique, nous recommandons de faire des objets non-persisté en base spécifique pour le formulaire en question.  
+Pour la forme, il suffit de lui passer le champs en question de l'entity via une notation simple : 'entity.nomDuChamps'. Pour les champs listes, même principe mais avec un tableau : `nonValidatedFields: ['user.uuid', {'user.childs': ['firstName']}]`
 
 > Votre composant est maintenant connecté aux différents provider dont vous avez besoin, n'oubliez que c'est le composants connecté qu'il faut exporté ! 
 
@@ -673,41 +731,17 @@ export const saveUserAction = _saveUserAction.action;
 
 Et voilà de belles actions ! Plusieurs points à expliquer mais avant tout si vous n'êtes pas encore au point sur les actions, les reducers, le store redux, je vous invite grandement à retourner voir la documentation de redux  à ce sujet ! Vous avez trois choses à renseigner ici : 
 
-- Les `names `:  c'est un tableau qui correspond aux nodes du store redux concerné par votre action ( dans notre cas nous avons mis `user`), il est tout a fait possible d'en mettre plusieurs et ainsi vous aurez plusieurs 
+- Les `names `:  c'est un tableau qui correspond aux nodes du store redux concerné par votre action ( dans notre cas nous avons mis `user`), il est tout a fait possible d'en mettre plusieurs pour mettre à jour plusieurs noeuds.
 
-- Le type : Toute action doit avoir un type, load, saved, updated, à vous de rester cohérent en fonction de ce qu'elle fait ! 
-
+- Le type : Toute action doit avoir un type, load ou save.
 - Le service : Fonction qui fait appel aux serveurs.
 
 *IMAAAAAAAGE DU CONSOLE LOG*
 > Vous avez ainsi en retour, une action que vous allez utiliser dans votre vue, ainsi que des types qui seront utilisés dans vos reducers ( expliqué juste en dessous ! ) 
 
-@Pierr on explique les creators ? 
-
 #Les services 
 
-```jsx
-import 'babel-polyfill';
-
-export const loadUser = async ({id}) => {
-    const response = await fetch(`http://localhost:9999/x/entity/${id}`)
-    const data = await response.json();
-    return data;
-}
-
-export const saveUser = async ({user}) => {
-    await new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve()
-        }, 1500);
-    });
-    return {...user, firstName: 'Name changed by the server mwahaha'};
-
-}
-
-```
-
-Même façon qu'avant ! 
+Les services fonctionnent exactement de la même façon qu'avant, ne perdons pas de temps inutilement. 
 
 #Les reducers 
 
@@ -741,8 +775,126 @@ export default userReducer;
 
 ```
 
-Encore une fois quelques explications très simples. Souvenez-vous, dans Redux, les reducers permettent de mettre à jour une partie du state pour une action particulière, discriminée par son type.  Le reducerBuilder permet alors de realisé cela facilement pour nos deux actions construites avec l'actionBuilder. Il prend en entrée un objet composé : 
+Encore une fois quelques explications très simples. Souvenez-vous, dans Redux, les reducers permettent de mettre à jour une partie du state pour une action particulière, discriminée par son type.  Le `reducerBuilder` permet alors de realiser cela facilement pour nos deux actions construites avec l'`actionBuilder`. Il prend en entrée un objet composé : 
 
-- d'un type : L'actionBuilder permet de construire trois actions au sens Redux du terme : la request, la response, et l'error. Il faut alors ajouter ces trois types pour que le reducer correspondent aux trois actions créés par l'actionBuilder.
+- d'un type : L'`actionBuilder` permet de construire trois actions au sens Redux du terme : la request, la response, et l'error. Il faut alors ajouter ces trois types pour que le reducer correspondent aux trois actions créés par l'`actionBuilder`.
 
-- DefaultData : Il est également possible de mettre un state par default dans les reducers Redux. Cette fonctionnalité est également disponible via le reducerBuilder en lui donnant un objet ici. 
+- DefaultData : Il est également possible de mettre un state par default dans les reducers Redux. Cette fonctionnalité est également disponible via le `reducerBuilder` en lui donnant un objet ici. 
+
+> En voila vous êtes fin prêt pour utiliser ce formulaire !
+
+
+#Des exemples, encore des exemples.
+
+Le plus dur a été fait, reste maintenant des petits exemples en plus, pour agrémenter tout cela. 
+
+
+##Les listes 
+
+```
+import React, {Component, PropTypes} from 'react';
+import {connect as connectToForm } from 'focus-redux/behaviours/form';
+import {connect as connectToMetadata} from 'focus-redux/behaviours/metadata';
+import {connect as connectToFieldHelpers} from 'focus-redux/behaviours/field';
+import {loadFinanceAction, saveFinanceAction} from '../../actions/finance-actions';
+
+import Panel from 'focus-redux/components/panel';
+import compose from 'lodash/flowRight';
+import FinancialMoveLine from './financialMoveLine'
+
+const User = ({fieldFor,listFor, ...otherProps}) => (
+  <Panel title='User' {...otherProps}>
+      {fieldFor('name', {entityPath: 'finance'})}
+      {fieldFor('amount', {entityPath: 'finance'})}
+      {listFor('moves', {entityPath : 'finance', redirectEntityPath: ['financialMove'], LineComponent: FinancialMoveLine})}
+  </Panel>
+)
+
+
+class SmartUser extends Component {
+    componentWillMount() {
+        const {id, load} = this.props;
+        // Et voila un load !
+        load({id});
+    }
+
+    render() {
+        const {fieldFor, list} = this.props;
+        return (
+          <User fieldFor={fieldFor} listFor={list} { ...this.props}/>
+        );
+    }
+};
+
+User.displayName = 'SmartUser ';
+
+const formConfig = {
+    formKey: 'userForm',
+    entityPathArray: ['finance'],
+    loadAction: loadFinanceAction,
+    saveAction: saveFinanceAction,
+    nonValidatedFields: ['user.firstName']
+};
+
+const ConnectedUserForm = compose(
+    connectToMetadata(['financialMove', 'finance']),
+    connectToForm(formConfig),
+    connectToFieldHelpers()
+)(SmartUser );
+
+export default ConnectedUserForm;
+
+```
+
+En reprenant le même principe qu'en haut mais avec l'objet finance : 
+```jsx
+"finance":{  
+      "name":"Personal Loan Account",
+      "amount":"157.00",
+      "currency":"European Unit of Account 9(E.U.A.-9)",
+      "moves":[  
+         {  
+            "transactionType":"withdrawal",
+            "amount":"971.00"
+         },
+         {  
+            "transactionType":"payment",
+            "amount":"838.00"
+         }
+      ]
+   }
+```
+( les actions, les reducers ont été fait de la même façon que User mais avec Finance ) 
+
+Il suffit d'ajouter un listFor : 
+`{listFor('moves', { redirectEntityPath: ['financialMove'], LineComponent: FinancialMoveLine})}`
+
+En lui indiquant le champs qui doit être une liste et en lui donnant l'entité de la redirection ainsi que le LineCompoment : 
+
+```jsx
+import React, {PropTypes} from 'react';
+
+function FinancialMoveLine({fieldForLine,  ...otherProps}) {
+    return (
+    <div>
+        <div>  {fieldForLine('transactionType', {entityPath: 'financialMove'})} </div>
+        <div>  {fieldForLine('amount', {entityPath: 'financialMove'})}  </div>
+    </div>
+  );
+}
+
+
+FinancialMoveLine.displayName = 'financialMoveLine';
+FinancialMoveLine.propTypes = {
+    onClick: PropTypes.func.isRequired,
+    options: PropTypes.arrayOf(PropTypes.string)
+};
+FinancialMoveLine.defaultProps = {
+    options: []
+}
+export default FinancialMoveLine;
+
+
+```
+
+

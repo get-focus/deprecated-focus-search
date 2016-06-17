@@ -10,7 +10,7 @@ const {REQUEST_SAVE_USER, RESPONSE_SAVE_USER, ERROR_SAVE_USER} = saveUserTypes;
 
 // Données initiales pour la state redux
 const DEFAULT_DATA = {
-    firstName:'UserYolo'
+    firstName:'Amélie'
 };
 
 // Utilisation du reducerBuilder qui attends le type des trois actions créés par l'actionBuimlder
