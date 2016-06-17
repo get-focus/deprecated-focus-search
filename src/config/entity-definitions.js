@@ -1,44 +1,44 @@
 export const user = {
   uuid: {
     domain: 'DO_ID',
-    required: true
+    isRequired: true
   },
   firstName: {
     domain: 'DO_TEXTE',
-    required: true
+    isRequired: true
   },
   lastName: {
     domain: 'DO_TEXTE',
-    required: true
+    isRequired: true
   }
 }
 
 export const address = {
   uuid: {
     domain: 'DO_ID',
-    required: true
+    isRequired: true
   },
   city: {
     domain: 'DO_TEXTE',
-    required: true
+    isRequired: true
   }
 }
 
 export const finance = {
   name:  {
     domain: 'DO_TEXTE',
-    required: true
+    isRequired: true
   },
   amount:  {
     domain: 'DO_AMOUNT',
-    required: true
+    isRequired: true
   },
   currency:  {
     domain: 'DO_SYMBOL',
-    required: true
+    isRequired: true
   },
   moves:{
-    child: 'financialMove'
+    redirect: ['financialMove']
   }
 }
 
@@ -46,10 +46,10 @@ export const finance = {
 export const financialMove = {
   transactionType: {
     domain: 'DO_CODE',
-    required: true
+    isRequired: true
   },
   amount: {
     domain: 'DO_MONTANT',
-    required: true
+    isRequired: true
   }
 }

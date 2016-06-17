@@ -80,6 +80,8 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "faker": "^3.0.1",
     "file-loader": "^0.8.5",
+    "focus-components": "^0.16.0-beta0",
+    "focus-redux": "^0.2.0-beta.5",
     "html-webpack-plugin": "^2.8.1",
     "isomorphic-fetch": "^2.2.1",
     "jsdom": "^8.3.1",
@@ -93,7 +95,7 @@
     "react": "^0.14.7",
     "react-addons-test-utils": "^0.14.7",
     "react-dom": "^0.14.7",
-    "react-hot-loader": "^1.3.0",
+    "react-hot-loader": "^3.0.0-beta.1",
     "react-redux": "^4.3.0",
     "react-router": "^2.4.1",
     "redux": "^3.2.1",
@@ -114,7 +116,7 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.12.13",
     "webpack-dev-server": "^1.14.0",
-    "webpack-focus": "^0.11.5"
+    "webpack-focus": "^0.12.2"
   },
   "dependencies": {
     "focus-redux": "^0.1.1",

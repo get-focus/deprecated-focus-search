@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import {hashHistory } from 'react-router'
 import {createStore} from 'redux';
-
+import builder from 'focus-redux/store/builder'
 import Root from './root';
 import reducer from './reducer'
 // On créé un store bidon qui a un state par défaut et le retourne.
-const store = createStore(reducer);
+const store = builder(reducer);
+
+
 
 ReactDOM.render(
   <AppContainer>

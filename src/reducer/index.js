@@ -1,4 +1,12 @@
-const DEFAULT_STATE = {user: {name: 'Pierre', date: new Date().getTime(), bababa: 'dddididid'}};
-const rootReducer = (state = DEFAULT_STATE) => state
+// const DEFAULT_STATE = {user: {name: 'Pierre', date: new Date().getTime(), bababa: 'dddididid'}};
+// const rootReducer = (state = DEFAULT_STATE) => state
 
-export default rootReducer;
+import {combineReducers} from 'redux';
+import user from './user-reducer';
+import finance from './finance-reducer';
+//import {userfinanceReducer, financeUserReducer} from './user-finance-reducer'
+
+export default combineReducers({
+    user,
+    finance
+  });
