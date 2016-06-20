@@ -21,7 +21,7 @@ const DEFAULT_DATA = {
     amount: '78'
 };
 
-reducerBuilder({name:'Finance',  types: {load: loadUserFinanceTypes, save: saveUserFinanceTypes}, defaultData: DEFAULT_DATA})
+//reducerBuilder({name:'Finance',  types: {load: loadUserFinanceTypes, save: saveUserFinanceTypes}, defaultData: DEFAULT_DATA})
 
 // Utilisation du reducerBuilder qui attends le type des trois actions créés par l'actionBuimlder
 export const financeUserReducer = reducerBuilder({

@@ -6,14 +6,11 @@ import {createStore} from 'redux';
 import builder from 'focus-redux/store/builder'
 import Root from './root';
 import reducer from './reducer'
-// On créé un store bidon qui a un state par défaut et le retourne.
-const store = builder(reducer);
-
-
+import storeBuilder from './store';
 
 ReactDOM.render(
   <AppContainer>
-    <Root store={store} history={hashHistory}/>
+    <Root store={storeBuilder} history={hashHistory}/>
   </AppContainer>,
     document.querySelector('.focus-redux-demo-app')
 );

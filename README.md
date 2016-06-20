@@ -894,7 +894,166 @@ FinancialMoveLine.defaultProps = {
 }
 export default FinancialMoveLine;
 
+```
+
+##Les actions Builders avec deux noeuds
+
+```jsx
+
+import {actionBuilder} from 'focus-redux/actions/entity-actions-builder';
+import {loadUserFinance, saveUserFinance} from '../services/user-finance-service';
+
+const _loadUserFinanceAction = actionBuilder({names: ['user', 'finance' ], type: 'load', service: loadUserFinance});
+
+export const loadUserFinanceAction = _loadUserFinanceAction.action;
+
+
+const _saveUserFinanceAction = actionBuilder({names: ['user','finance'], type: 'save', service: saveUserFinance});
+
+export const saveUserFinanceAction = _saveUserFinanceAction.action;
+```
+
+Comme nous pouvons le remarquer, nous avons mis deux noeuds dans le tableaux names : 'user' et 'finance'. Notre serveur nous renvoyant les informations d'un user et l'objet finance de celui-ci : 
+
+```jsx
+{  
+   "user":{  
+      "uuid":"58d94a87-b8e5-40af-b2d7-fb5ee8cb1270",
+      "firstName":"Kian",
+      "lastName":"Stroman"
+   },
+   "finance":{  
+      "name":"Personal Loan Account",
+      "amount":"157.00",
+      "currency":"European Unit of Account 9(E.U.A.-9)",
+      "moves":[  
+         {  
+            "transactionType":"withdrawal",
+            "amount":"971.00"
+         },
+         {  
+            "transactionType":"payment",
+            "amount":"838.00"
+         }
+      ]
+   }
+}
 
 ```
+
+Pour le reducer plusieurs question à se poser. 
+Quand on regarder plus en détail ce que l'actionBuilder renvoie, on se rend compte qu'il y a en effet : une action et six types différents. Pourquoi ? 
+L'actionBuilder permet d'avoir un load pour deux entités, c'est l'action que vous pourrez donner dans votre formulaire ! Pour les types, pas panique c'est normal, vous avez deux entités, et donc six actions au sens redux du terme, vous avez alors six types pour vous reducer. Ainsi si vous avez suivi le superbe tutoriel depuis le début vous avez déjà un reducer pour le noeud finance, et un autre pour le noeud user. Ainsi vous n'avez besoin que de l'action pour votre vue. 
+Sinon je propose ces petits reducers ( et n'oubliez pas d'exporter vos types en retour de l'action) : 
+
+```jsx
+import {reducerBuilder} from 'focus-redux/reducers/reducer-builder';
+import {loadUserFinanceTypes, saveUserFinanceTypes} from '../actions/finance-user-actions';
+
+const {REQUEST_LOAD_FINANCE, RESPONSE_LOAD_FINANCE, ERROR_LOAD_FINANCE} = loadUserFinanceTypes;
+
+
+const {REQUEST_SAVE_FINANCE, RESPONSE_SAVE_FINANCE, ERROR_SAVE_FINANCE} = saveUserFinanceTypes;
+
+const {REQUEST_LOAD_USER, RESPONSE_LOAD_USER, ERROR_LOAD_USER} = loadUserFinanceTypes;
+
+
+const {REQUEST_SAVE_USER, RESPONSE_SAVE_USER, ERROR_SAVE_USER} = saveUserFinanceTypes;
+
+
+export const financeReducer = reducerBuilder({
+    types: {
+        load: {request: REQUEST_LOAD_FINANCE, response: RESPONSE_LOAD_FINANCE, error: ERROR_LOAD_FINANCE},
+        save: {request: REQUEST_SAVE_FINANCE, response: RESPONSE_SAVE_FINANCE, error: ERROR_SAVE_FINANCE}
+    }
+});
+
+export const userReducer = reducerBuilder({
+    types: {
+        load: {request: REQUEST_LOAD_USER, response: RESPONSE_LOAD_USER, error: ERROR_LOAD_USER},
+        save: {request: REQUEST_SAVE_USER, response: RESPONSE_SAVE_USER, error: ERROR_SAVE_USER}
+    }
+});
+
+```
+
+Sans oublier de les ajouter dans le combineReducer : 
+
+```jsx
+import {combineReducers} from 'redux';
+//import user from './user-reducer;
+//import finance from './finance-reducer';
+import {userReducer, financeReducer} from './user-finance-reducer'
+
+export default combineReducers({
+    user : userReducer,
+    finance : financeReducer
+  });
+```
+
+Nous sommes fin prêt pour mettre en place notreformulaire à deux noeuds : 
+
+```jsx
+import React, {Component, PropTypes} from 'react';
+import {connect as connectToForm } from 'focus-redux/behaviours/form';
+import {connect as connectToMetadata} from 'focus-redux/behaviours/metadata';
+import {connect as connectToFieldHelpers} from 'focus-redux/behaviours/field';
+import {loadUserFinanceAction, saveUserFinanceAction} from '../../actions/finance-user-actions';
+
+import Panel from 'focus-redux/components/panel';
+import compose from 'lodash/flowRight';
+import FinancialMoveLine from './financialMoveLine'
+
+const User = ({fieldFor,listFor, ...otherProps}) => (
+  <Panel title='User' {...otherProps}>
+      {fieldFor('uuid', {entityPath: 'user'})}
+      {fieldFor('firstName', {entityPath: 'user'})}
+      {fieldFor('lastName', {entityPath: 'user'})}
+      {fieldFor('name', {entityPath: 'finance'})}
+      {fieldFor('amount', {entityPath: 'finance'})}
+  </Panel>
+)
+
+
+class SmartUserFinance extends Component {
+    componentWillMount() {
+        const {id, load} = this.props;
+        // Et voila un load !
+        load({id});
+    }
+
+    render() {
+        const {fieldFor, list} = this.props;
+        return (
+          <User fieldFor={fieldFor} listFor={list} { ...this.props}/>
+        );
+    }
+};
+
+SmartUserFinance.displayName = 'SmartUser ';
+
+const formConfig = {
+    formKey: 'userForm',
+    entityPathArray: ['user','finance'],
+    loadAction: loadUserFinanceAction,
+    saveAction: saveUserFinanceAction,
+    nonValidatedFields: ['user.firstName']
+};
+
+const ConnectedUserForm = compose(
+    connectToMetadata(['user', 'financialMove', 'finance']),
+    connectToForm(formConfig),
+    connectToFieldHelpers()
+)(SmartUserFinance );
+
+export default ConnectedUserForm;
+
+
+```
+
+## Middleware à la main ! 
+
+
+ 
 
 
