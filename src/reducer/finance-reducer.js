@@ -9,10 +9,9 @@ const {REQUEST_LOAD_FINANCE, RESPONSE_LOAD_FINANCE, ERROR_LOAD_FINANCE} = loadFi
 const {REQUEST_SAVE_FINANCE, RESPONSE_SAVE_FINANCE, ERROR_SAVE_FINANCE} = saveFinanceTypes;
 
 // Données initiales pour la state redux
-const DEFAULT_DATA = {
-    name:'Amélie',
-    amount: '78'
-};
+// const DEFAULT_DATA = {
+//     firstName:'Amélie'
+// };
 
 // Utilisation du reducerBuilder qui attends le type des trois actions créés par l'actionBuimlder
 const financeReducer = reducerBuilder({
@@ -20,7 +19,7 @@ const financeReducer = reducerBuilder({
         load: {request: REQUEST_LOAD_FINANCE, response: RESPONSE_LOAD_FINANCE, error: ERROR_LOAD_FINANCE},
         save: {request: REQUEST_SAVE_FINANCE, response: RESPONSE_SAVE_FINANCE, error: ERROR_SAVE_FINANCE}
     },
-    defaultData: DEFAULT_DATA
+    //defaultData: DEFAULT_DATA
 });
 
 export default financeReducer;
