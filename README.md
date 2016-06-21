@@ -1052,8 +1052,52 @@ export default ConnectedUserForm;
 ```
 
 ## Middleware à la main ! 
+Je vous recommande la documentation de redux : http://redux.js.org/docs/advanced/Middleware.html
+qui vous sera d'une grande aide si vous avez un doute sur les middleware. 
+N'hésitez pas à relire également la documentation sur le createStore plus haut ! 
+
+Sinon dans notre cas précis, vous voulez avoir en fonction d'une action, un comportement particulier, une logique autre, le middleware est la pour vous. 
+Prenons un exemple précis, lorsqu'un input particulier vient à changer et que ce changement doit mettre en majuscule un autre input ( oui oui, ce cas arrive tous les jours ), c'est dans le middleware que tout va se jouer. 
+
+Pour cela deux étapes  : 
+
+- Ecrire le middleware : 
+Vous pouvez créer un dossier middleware et écrire dans notre cas : 
+```jsx
+import builder from 'focus-redux/store/builder';
+import rootReducer from '../reducer';
+import {INPUT_CHANGE} from 'focus-redux/actions/input';
+
+
+const amoutToUpperCaseMiddleware = store => next => action => {
+    if (action.type === INPUT_CHANGE && action.fieldName == 'name') {
+        const lastNameAction = {...action};
+        lastNameAction.fieldName = 'amount';
+        lastNameAction.rawValue = action.rawValue.toUpperCase();
+        next(action);
+        store.dispatch(lastNameAction);
+    } else {
+        next(action);
+    }
+}
+
+export default amoutToUpperCaseMiddleware;
+```
+
+- L'ajouter lors de la création du store : 
+
+```jsx
+import builder from 'focus-redux/store/builder';
+import rootReducer from '../../src/reducer';
+import {amoutToUpperCaseMiddleware, errorFieldMiddleware} from '../../src/middleware/user-middleware';
+
+const store = builder(rootReducer, [errorFieldMiddleware]);
+
+export default store;
+```
 
 
  
+
 
 
