@@ -617,7 +617,7 @@ export default ConnectedUserForm;
 Expliquons le pas à pas ! 
 
 ### Création d'un composant :
- Rien de bien nouveau au soleil, je vous invite à aller sur le site de React en cas de doute subsistant. Notre composant est un composant React des plus classique. 
+ Rien de bien nouveau au soleil, je vous invite à aller sur le site de React en cas de doute subsistant. Notre composant est un composant React des plus classiques. 
  > Dans l'immédiat, et pour une meilleure clarté de ce tutoriel, le composant User est une classe qui possède la logique ( load ... ) et l'affichage. En pratique, nous vous encourageons de séparer cette logique de l'affichage et afin d'utiliser des composants pures, pour plus de performance, de beauté ! 
  
 ```jsx
@@ -700,7 +700,7 @@ const formConfig = {
 **Le tableau de nonValidatedFields :** Ce tableau permet dans le cas où l'entity definition de votre entity utilisé dans le formulaire a des champs que vous ne souhaitez pas valider.  Nous préconisons une utilisons occasionnel de ce tableau. En effet si cela devient systématique, nous recommandons de faire des objets non-persisté en base spécifique pour le formulaire en question.  
 Pour la forme, il suffit de lui passer le champs en question de l'entity via une notation simple : 'entity.nomDuChamps'. Pour les champs listes, même principe mais avec un tableau : `nonValidatedFields: ['user.uuid', {'user.childs': ['firstName']}]`
 
-> Votre composant est maintenant connecté aux différents provider dont vous avez besoin, n'oubliez que c'est le composants connecté qu'il faut exporté ! 
+> Votre composant est maintenant connecté aux différents provider dont vous avez besoin, n'oubliez pas que c'est le composants connecté qu'il faut exporté ! 
 
 ### Votre composant est prêt ! 
 
@@ -991,7 +991,7 @@ export default combineReducers({
   });
 ```
 
-Nous sommes fin prêt pour mettre en place notreformulaire à deux noeuds : 
+Nous sommes fin prêt pour mettre en place notre formulaire à deux noeuds : 
 
 ```jsx
 import React, {Component, PropTypes} from 'react';
@@ -1052,8 +1052,199 @@ export default ConnectedUserForm;
 ```
 
 ## Middleware à la main ! 
+Je vous recommande la documentation de redux : http://redux.js.org/docs/advanced/Middleware.html
+qui vous sera d'une grande aide si vous avez un doute sur les middleware. 
+N'hésitez pas à relire également la documentation sur le createStore plus haut ! 
 
+Sinon dans notre cas précis, vous voulez avoir en fonction d'une action, un comportement particulier, une logique autre, le middleware est la pour vous. 
+Prenons un exemple précis, lorsqu'un input particulier vient à changer et que ce changement doit mettre en majuscule un autre input ( oui oui, ce cas arrive tous les jours ), c'est dans le middleware que tout va se jouer. 
+RESUME ET CONTEXTE DES TROIS MIDDLEWARE
 
+### Middleware de base : 
  
+Pour cela deux étapes  : 
+
+- Ecrire le middleware : 
+Vous pouvez créer un dossier middleware et écrire dans notre cas : 
+```jsx
+import builder from 'focus-redux/store/builder';
+import rootReducer from '../reducer';
+import {INPUT_CHANGE, INPUT_ERROR} from 'focus-redux/actions/input';
+
+
+export const amoutToUpperCaseMiddleware = store => next => action => {
+	// EXPLIQUER
+    const {forms, definitions, domains} = store.getState();
+    if (action.type === INPUT_CHANGE && action.fieldName == 'amount') {
+        const {formKey} = action;
+        const {fields} = forms.find(f=> f.formKey === formKey);
+        const lastNameAction = {...action};
+        lastNameAction.fieldName = 'name';
+        lastNameAction.rawValue =  fields.find(f => f.name == 'name').rawInputValue.toUpperCase();
+        next(action);
+        store.dispatch(lastNameAction);
+    } else {
+        next(action);
+    }
+}
+
+export default amoutToUpperCaseMiddleware;
+```
+
+- L'ajouter lors de la création du store : 
+
+```jsx
+import builder from 'focus-redux/store/builder';
+import rootReducer from '../../src/reducer';
+import {amoutToUpperCaseMiddleware} from '../../src/middleware/user-middleware';
+
+const store = builder(rootReducer, [amoutToUpperCaseMiddleware]);
+
+export default store;
+```
+> Le tour est joué ! C'est magique non ? 
+
+### Middleware, deuxième exemple 
+
+Il est également possible de dispatcher un autre action. 
+
+```jsx
+export const errorFieldMiddleware = store => next => action => {
+    const {forms, definitions, domains} = store.getState();
+    if (action.type === INPUT_CHANGE && action.fieldName == 'amount') {
+        const errorAction = {};
+        errorAction.type = 'INPUT_ERROR';
+        errorAction.formKey = action.formKey;
+        errorAction.fieldName = 'name';
+        errorAction.entityPath = action.entityPath;
+        errorAction.error = "Une erreur venue de l'espace !! "
+        next(action);
+        store.dispatch(errorAction);
+    } else {
+        next(action);
+    }
+}
+```
+
+sans oublier de l'injecter lors de la construction du store : 
+
+```jsx
+import builder from 'focus-redux/store/builder';
+import rootReducer from '../../src/reducer';
+import {amoutToUpperCaseMiddleware, errorFieldMiddleware} from '../../src/middleware/user-middleware';
+
+const store = builder(rootReducer, [amoutToUpperCaseMiddleware, errorFieldMiddleware]);
+
+export default store;
+```
+
+
+###Un troisième pour la route ! 
+
+> En pratique ce troisième cas ne sera pas le plus utilisé, mais c'est toujours bien de savoir que c'est possible. Qui plus est, ça montre d'autant plus la force de redux ( au cas où vous ne seriez pas encore convaincu ).
+
+Avec Focus-redux, un nombre d'actions de base est déjà présent, comme `input_change`, ou le `create_form`. Cependant pour des besoins spécifiques (très spécifiques) il se peut que vous ayez besoin d'avoir une action qui ajoute, modifie une partie du state. Pour ça, il y a un peu plus d'étapes : 
+
+- Le middleware : 
+
+```jsx
+export const ownActiondMiddleware = store => next => action => {
+    const {forms, definitions, domains} = store.getState();
+    if (action.type === INPUT_CHANGE && action.fieldName == 'name') {
+        const customAction = {};
+        customAction.type = 'MY_ACTION';
+        customAction.formKey = action.formKey;
+        next(action);
+        store.dispatch(customAction);
+    } else {
+        next(action);
+    }
+}
+```
+ Toujours le même principe,  au moment de l'action `input_change` sur le `name` on va dispatcher une autre action mais cette fois ce sera une action custom. 
+
+- L'action custom:
+
+Une action au sens redux du terme ça ressemble à ça. En effet pour les actions spécifiques du load et du save l'actionBuilder est la pour vous simplifier les dévellopements cependant, pour des actions "simples", voici ce que vous devez ecrire. Une action doit toujours avec un type, ce type étant le descriminant pour les reducers. puis elle contient les informations nécessaire au reducer pour transformer le state. Pour cet exemple la clé du formulaire et suffisant, maintenant vous pouvez tout aussi bien lui donner autre chose. 
+ 
+```jsx
+export const MY_ACTION = 'MY_ACTION';
+
+export const customAction = (formKey) => {
+  type: MY_ACTION,
+  formKey
+}
+```
+- Le reducer : 
+De la même façon qu'avec l'action, le reducerBuilder n'est pas utile ici. Cependant il est important de comprendre qu'un reducer agit sur une partie du state et donc vous devrez indiquer ici tout les reducers dont vous avez besoin pour agir sur cette partie du state en particulier, il faudra alors réaliser un switch en fonction des différentes action disponibles pour cette partie du state. Nous en avons qu'une seule ici, mais il n'est pas exclu d'en avoir plusieurs. 
+
+Lorsque l'action MY_ACTION est dipatché par notre middleware, le reducer va ajouter un message de victoire dans le state, sinon il ajoutera un autre message d'echec...  Il faut maintenant ajouter notre reducer dans le combineReducer, c'est à ce moment la qu'on définira le noeud du store, et donc le nom dans le state. Vous allez voir c'est très simple. 
+
+```jsx
+import {MY_ACTION} from '../actions/custom-actions';
+
+ const customReducer = (state = {}, action) => {
+    switch(action.type) {
+        case MY_ACTION:
+          return state.message = {victoire: 'De la Gloire'}
+        default:
+          return state.message = {echec: 'De l'echec' };
+    }
+};
+
+export default customReducer;
+
+```
+
+- Le combineReducer : 
+
+```jsx
+import {combineReducers} from 'redux';
+import user from './user-reducer';
+import finance from './finance-reducer';
+import customReducer from './custom-reducer'
+//import {userfinanceReducer, financeUserReducer} from './user-finance-reducer'
+
+export default combineReducers({
+    user,
+    finance,
+    customData : customReducer
+  });
+
+```
+
+Et voila, le tour est joué. Notre information se trouvera donc dans customData. 
+
+- Le connecteur :
+
+Un dernier petit effort, c'est presque fini ! Donc maintenant que notre information est dans notre store, il faut récupérer cette information, souvenez-vous de nos amis les connecteurs. Notre vue doit se connecter à cette information du state, on se place alors dans celle-ci en ce concentrant sur les connecteurs : 
+
+```jsx 
+import {connect as connectToState} from 'react-redux';
+import selectData from 'focus-redux/store/select-data';
+
+[...]
+
+const ConnectedUserForm = compose(
+    connectToState(selectData('customData'))
+    connectToMetadata(['user', 'financialMove', 'finance']),
+    connectToForm(formConfig),
+    connectToFieldHelpers()
+)(SmartUserFinance );
+```
+ Il vous suffit alors de renseigner le noed du state que vous voulez récupérer : `customDate` via la fontion selectData (qui permet de récupérer la bonne partie du state) et de vous connecter via la fonction connect de Redux.  
+ Et voila, je vous jure c'est fini , votre information se trouve maintenant dans vos props ! 
+
+```jsx
+const User = ({fieldFor,listFor, victoire, echec, ...otherProps}) => (
+  <Panel title={victoire ? "User " +victoire : "User " + echec} {...otherProps}>
+      {fieldFor('name', {entityPath: 'finance'})}
+      {fieldFor('amount', {entityPath: 'finance'})}
+      {listFor('moves', { redirectEntityPath: ['financialMove'], LineComponent: FinancialMoveLine})}
+  </Panel>
+)
+```
+
+> Pour rappel et pour conclure cette partie sur les middlewares, le principal c'est de comprendre qu'un middleware a accès au state dans ce globalité et qu'il fonctionnne dans un context donné, à l'inverse d'un reducer qui est pur et ne travaille que sur une partie de state pour en donner une autre. Les deux sont à utiliser pour des cas différents, et il n'est pas superflux de se poser les bonnes questions avant de choisir l'un ou l'autre. Pour cela rien de plus simple, la documentation de Redux ! 
 
 
