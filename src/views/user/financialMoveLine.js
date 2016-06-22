@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react';
 
 function FinancialMoveLine({onClick, children, fieldForLine, options,index,  ...otherProps}) {
-    console.log('yo yo je suis dans al line')
     return (
     <div>
         <div>  {fieldForLine('transactionType', {entityPath: 'financialMove'})} </div>

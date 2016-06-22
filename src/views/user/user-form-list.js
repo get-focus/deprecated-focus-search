@@ -1,21 +1,29 @@
 import React, {Component, PropTypes} from 'react';
+import {connect as connectToState} from 'react-redux';
 import {connect as connectToForm } from 'focus-redux/behaviours/form';
 import {connect as connectToMetadata} from 'focus-redux/behaviours/metadata';
 import {connect as connectToFieldHelpers} from 'focus-redux/behaviours/field';
 import {loadFinanceAction, saveFinanceAction} from '../../actions/finance-actions';
-
+//import selectData from 'focus-redux/store/selectData'
 import Panel from 'focus-redux/components/panel';
 import compose from 'lodash/flowRight';
 import FinancialMoveLine from './financialMoveLine'
 
-const User = ({fieldFor,listFor, ...otherProps}) => (
-  <Panel title='User' {...otherProps}>
+const User = ({fieldFor,listFor, victoire, echec,  ...otherProps}) => (
+  <Panel title={victoire ? "User " +victoire : "User " +echec} {...otherProps}>
       {fieldFor('name', {entityPath: 'finance'})}
       {fieldFor('amount', {entityPath: 'finance'})}
       {listFor('moves', { redirectEntityPath: ['financialMove'], LineComponent: FinancialMoveLine})}
   </Panel>
 )
 
+const selectData = name => (state ={}) => {
+  if( !state.dataset[name]) {
+    console.warn(`SELECT_DATA : there is no ${name} in the dataset of the state`)
+    return state.dataset;
+  }
+  return state.dataset[name]
+}
 
 class SmartUser extends Component {
     componentWillMount() {
@@ -26,6 +34,7 @@ class SmartUser extends Component {
 
     render() {
         const {fieldFor, list} = this.props;
+        console.log(this.props);
         return (
           <User fieldFor={fieldFor} listFor={list} { ...this.props}/>
         );
@@ -45,7 +54,8 @@ const formConfig = {
 const ConnectedUserForm = compose(
     connectToMetadata(['financialMove', 'finance']),
     connectToForm(formConfig),
-    connectToFieldHelpers()
+    connectToFieldHelpers(),
+    connectToState(selectData('customData')),
 )(SmartUser );
 
 export default ConnectedUserForm;

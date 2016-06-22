@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import {connect as connectToState} from 'react-redux';
 import {connect as connectToForm } from 'focus-redux/behaviours/form';
 import {connect as connectToMetadata} from 'focus-redux/behaviours/metadata';
 import {connect as connectToFieldHelpers} from 'focus-redux/behaviours/field';
@@ -45,6 +46,7 @@ const formConfig = {
 };
 
 const ConnectedUserForm = compose(
+    connectToState(getStatePart('customPart'))
     connectToMetadata(['user', 'financialMove', 'finance']),
     connectToForm(formConfig),
     connectToFieldHelpers()
