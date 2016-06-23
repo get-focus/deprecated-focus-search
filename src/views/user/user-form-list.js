@@ -9,11 +9,11 @@ import Panel from 'focus-redux/components/panel';
 import compose from 'lodash/flowRight';
 import FinancialMoveLine from './financialMoveLine'
 
-const User = ({fieldFor,listFor, rawInputValue, victoire, dataSetValue,formattedInputValue, echec,  ...otherProps}) => (
+const User = ({fieldFor,listFor, rawInputValue, victoire, echec,  ...otherProps}) => (
   <Panel title={victoire ? "User " +victoire : "User " +echec} {...otherProps}>
       {fieldFor('name', {entityPath: 'finance'})}
       {fieldFor('amount', {entityPath: 'finance'})}
-      {fieldFor('test', {entityPath: 'finance', value : dataSetValue, lala : formattedInputValue})}
+      {fieldFor('test', {entityPath: 'finance'})}
       {listFor('moves', { redirectEntityPath: ['financialMove'], LineComponent: FinancialMoveLine})}
   </Panel>
 )

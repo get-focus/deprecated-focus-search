@@ -1,51 +1,13 @@
-import React, {Component, PropTypes} from 'react';
-import {connect as connectToForm } from 'focus-redux/behaviours/form';
-import {connect as connectToMetadata} from 'focus-redux/behaviours/metadata';
-import {connect as connectToFieldHelpers} from 'focus-redux/behaviours/field';
-import {loadUserAction, saveUserAction} from '../../actions/user-actions';
+import React from 'react';
+import Card from './card';
 
-import Panel from 'focus-redux/components/panel';
-import compose from 'lodash/flowRight';
+const routes = [
+  {route: '/user/2', destination: 'Adress', description: 'Composant user avec une adresse', title: 'adress'},
+  {route: '/user/finance/2', destination: 'Form', description: 'Composant user avec un superbe form', title: 'form'},
+  {route: '/user/list/2', destination: 'Custom', description: 'Composant user avec un superbe form custom', title: 'custom'},
+  {route: '/user/select/2', destination: 'Custom', description: 'Composant user avec un superbe form display', title: 'display'}
+];
 
+const Home = props => <div style={{display: 'flex', flexWrap: 'wrap'}}>{routes.map(route => <Card key={route.route} {...route} />)}</div>;
 
-const User = ({fieldFor, ...otherProps}) => (
-  <Panel title='User' {...otherProps}>
-      {fieldFor('uuid', {entityPath: 'user'})}
-      {fieldFor('firstName', {entityPath: 'user'})}
-      {fieldFor('lastName', {entityPath: 'user'})}
-  </Panel>
-)
-
-
-class SmartUser extends Component {
-    componentWillMount() {
-        const {id, load} = this.props;
-        // Et voila un load !
-        load({id});
-    }
-
-    render() {
-        const {fieldFor} = this.props;
-        return (
-          <User fieldFor={fieldFor} { ...this.props}/>
-        );
-    }
-};
-
-User.displayName = 'SmartUser ';
-
-const formConfig = {
-    formKey: 'userForm',
-    entityPathArray: ['user'],
-    loadAction: loadUserAction,
-    saveAction: saveUserAction,
-    nonValidatedFields: ['user.firstName']
-};
-
-const ConnectedUserForm = compose(
-    connectToMetadata(['user']),
-    connectToForm(formConfig),
-    connectToFieldHelpers()
-)(SmartUser );
-
-export default ConnectedUserForm;
+export default Home;

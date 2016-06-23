@@ -16,11 +16,13 @@ let adressJSON = [{
     city: faker.address.city()
   }
 ];
-function createEntity(){
+function createEntity(i){
   return        {
           uuid: faker.random.uuid(),
           firstName: faker.name.firstName(),
           lastName: faker.name.lastName(),
+          style: true
+
         };
 
 }
@@ -30,7 +32,7 @@ for(let i = 0; i < NB_GENERATED_ENTITY; i++){
 }
 let complexJSON = [];
 for(let i = 0; i < NB_GENERATED_ENTITY; i++){
-   complexJSON.push(createComplexEntity());
+   complexJSON.push(createComplexEntity(i));
 }
 
 function _createFinancialMoves(){
@@ -40,9 +42,9 @@ function _createFinancialMoves(){
   }));
 }
 
-function createComplexEntity(){
+function createComplexEntity(i){
   return {
-    user: createEntity(),
+    user: createEntity(i),
     adress: adressJSON,
     finance: {
       name: faker.finance.accountName(),

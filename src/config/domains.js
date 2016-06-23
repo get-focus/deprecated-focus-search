@@ -15,6 +15,7 @@ export const DO_AMOUNT = {
 }
 export const DO_SYMBOL = {
   type: 'text',
+
   //InputComponent: (props) => <div>DO_SYMBOL {JSON.stringify(props)}</div>
 }
 export const DO_CODE = {
@@ -25,9 +26,18 @@ export const DO_MONTANT = {
   type: 'number',
   //InputComponent: (props) => <div>DO_MONTANT {JSON.stringify(props)}</div>
 }
-
+export const DO_CIVILITE= {
+    type: 'text',
+    validators: [{
+        type: 'string',
+        options: {
+            maxLength: 200
+        }
+    }]
+}
+import React from 'react'
 export const DO_CHECKBOX = {
   type: 'boolean',
   InputComponent: Checkbox,
-  DisplayComponent: Checkbox
+  DisplayComponent: props => <div>Checkbox {JSON.stringify(props)}</div>
 }

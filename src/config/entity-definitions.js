@@ -10,7 +10,12 @@ export const user = {
   lastName: {
     domain: 'DO_TEXTE',
     isRequired: true
-  }
+  },
+  style: {
+    domain: 'DO_CHECKBOX',
+    isRequired: false
+  },
+  civility: { domain: 'DO_CIVILITE', isRequired: true},
 }
 
 export const address = {

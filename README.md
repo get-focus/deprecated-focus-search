@@ -736,7 +736,6 @@ Et voilà de belles actions ! Plusieurs points à expliquer mais avant tout si v
 - Le type : Toute action doit avoir un type, load ou save.
 - Le service : Fonction qui fait appel aux serveurs.
 
-*IMAAAAAAAGE DU CONSOLE LOG*
 > Vous avez ainsi en retour, une action que vous allez utiliser dans votre vue, ainsi que des types qui seront utilisés dans vos reducers ( expliqué juste en dessous ! ) 
 
 #Les services 
@@ -753,35 +752,52 @@ import {reducerBuilder} from 'focus-redux/reducers/reducer-builder';
 import {loadUserTypes} from '../actions/user-actions';
 import {saveUserTypes} from '../actions/user-actions';
 
-
-const {REQUEST_LOAD_USER, RESPONSE_LOAD_USER, ERROR_LOAD_USER} = loadUserTypes;
-const {REQUEST_SAVE_USER, RESPONSE_SAVE_USER, ERROR_SAVE_USER} = saveUserTypes;
-
-
+// Données initiales pour la state redux
 const DEFAULT_DATA = {
-    firstName:'UserYolo'
+    firstName:'Amélie'
 };
 
-
+// Utilisation du reducerBuilder qui attends un name correspondant à votre entité, puis les types de load renvoyés par les actions
+// mais aussi les types des saves et enfin les defaultData.
 const userReducer = reducerBuilder({
-    types: {
-        load: {request: REQUEST_LOAD_USER, response: RESPONSE_LOAD_USER, error: ERROR_LOAD_USER},
-        save: {request: REQUEST_SAVE_USER, response: RESPONSE_SAVE_USER, error: ERROR_SAVE_USER}
-    },
+    name: 'user',
+    loadTypes: loadUserTypes,
+    saveTypes: saveUserTypes,
     defaultData: DEFAULT_DATA
 });
 
 export default userReducer;
-
 ```
 
 Encore une fois quelques explications très simples. Souvenez-vous, dans Redux, les reducers permettent de mettre à jour une partie du state pour une action particulière, discriminée par son type.  Le `reducerBuilder` permet alors de realiser cela facilement pour nos deux actions construites avec l'`actionBuilder`. Il prend en entrée un objet composé : 
 
-- d'un type : L'`actionBuilder` permet de construire trois actions au sens Redux du terme : la request, la response, et l'error. Il faut alors ajouter ces trois types pour que le reducer correspondent aux trois actions créés par l'`actionBuilder`.
+- name : correspondant à votre entité définition.
+
+- LoadTypes : L'`actionBuilder` permet de construire trois actions au sens Redux du terme : la request, la response, et l'error ces trois types sont dans l'objet renvoyé par l'actionBuilder dans l'objet loadUserTypes que nous avons importé. 
+
+- SaveTypes : Même principe que le load. 
 
 - DefaultData : Il est également possible de mettre un state par default dans les reducers Redux. Cette fonctionnalité est également disponible via le `reducerBuilder` en lui donnant un objet ici. 
 
+Ce builder permet donc de construire des reducers Redux, voila ce qu'il créé : 
+```jsx
+ function userReducer(state = DEFAULT_STATE, {type, payload}){
+ const {data} = state;
+  switch (type) {
+   case REQUEST_LOAD_USER:
+       return {data, loading: true, saving: false};
+   case RESPONSE_LOAD_USER:
+       return {data: payload, loading: false, saving: false};
+   default:
+       return state
+  }
+ }
+```
+
+> Juste pour information, que ce soit clair l'actionBuilder ou le reducerBuilder, ils ont été mis en place pour vous simplifier la vie, si cela vous la complique dans certain cas n'hésitez pas à écrire vos actions "à la main" ou je vous invite à lire la partie sur le middleware. 
+
 > En voila vous êtes fin prêt pour utiliser ce formulaire !
+
 
 
 #Des exemples, encore des exemples.
@@ -950,30 +966,34 @@ Sinon je propose ces petits reducers ( et n'oubliez pas d'exporter vos types en 
 import {reducerBuilder} from 'focus-redux/reducers/reducer-builder';
 import {loadUserFinanceTypes, saveUserFinanceTypes} from '../actions/finance-user-actions';
 
+
+// Récupération des types des trois actions redux créé par l'actionBuilder
 const {REQUEST_LOAD_FINANCE, RESPONSE_LOAD_FINANCE, ERROR_LOAD_FINANCE} = loadUserFinanceTypes;
 
-
+// Récupération des types des trois actions redux créé par l'actionBuilder
 const {REQUEST_SAVE_FINANCE, RESPONSE_SAVE_FINANCE, ERROR_SAVE_FINANCE} = saveUserFinanceTypes;
 
+
+// Récupération des types des trois actions redux créé par l'actionBuilder
 const {REQUEST_LOAD_USER, RESPONSE_LOAD_USER, ERROR_LOAD_USER} = loadUserFinanceTypes;
 
-
+// Récupération des types des trois actions redux créé par l'actionBuilder
 const {REQUEST_SAVE_USER, RESPONSE_SAVE_USER, ERROR_SAVE_USER} = saveUserFinanceTypes;
 
 
-export const financeReducer = reducerBuilder({
-    types: {
-        load: {request: REQUEST_LOAD_FINANCE, response: RESPONSE_LOAD_FINANCE, error: ERROR_LOAD_FINANCE},
-        save: {request: REQUEST_SAVE_FINANCE, response: RESPONSE_SAVE_FINANCE, error: ERROR_SAVE_FINANCE}
-    }
+// Utilisation du reducerBuilder qui attends le type des trois actions créés par l'actionBuimlder
+export const financeUserReducer = reducerBuilder({
+  name: 'finance',
+  loadTypes: {REQUEST_LOAD_FINANCE, RESPONSE_LOAD_FINANCE, ERROR_LOAD_FINANCE} ,
+  saveTypes: {REQUEST_SAVE_FINANCE, RESPONSE_SAVE_FINANCE, ERROR_SAVE_FINANCE}
 });
 
-export const userReducer = reducerBuilder({
-    types: {
-        load: {request: REQUEST_LOAD_USER, response: RESPONSE_LOAD_USER, error: ERROR_LOAD_USER},
-        save: {request: REQUEST_SAVE_USER, response: RESPONSE_SAVE_USER, error: ERROR_SAVE_USER}
-    }
+export const userfinanceReducer = reducerBuilder({
+    saveTypes: {REQUEST_SAVE_USER, RESPONSE_SAVE_USER, ERROR_SAVE_USER},
+    loadTypes : {REQUEST_LOAD_USER, RESPONSE_LOAD_USER, ERROR_LOAD_USER},
+    defaultData: DEFAULT_DATA
 });
+
 
 ```
 
@@ -1186,9 +1206,9 @@ import {MY_ACTION} from '../actions/custom-actions';
  const customReducer = (state = {}, action) => {
     switch(action.type) {
         case MY_ACTION:
-          return state.message = {victoire: 'De la Gloire'}
+          return state = {victoire: 'De la Gloire'}
         default:
-          return state.message = {echec: 'De l'echec' };
+          return state = {echec: 'De l'echec' };
     }
 };
 
@@ -1247,4 +1267,85 @@ const User = ({fieldFor,listFor, victoire, echec, ...otherProps}) => (
 
 > Pour rappel et pour conclure cette partie sur les middlewares, le principal c'est de comprendre qu'un middleware a accès au state dans ce globalité et qu'il fonctionnne dans un context donné, à l'inverse d'un reducer qui est pur et ne travaille que sur une partie de state pour en donner une autre. Les deux sont à utiliser pour des cas différents, et il n'est pas superflux de se poser les bonnes questions avant de choisir l'un ou l'autre. Pour cela rien de plus simple, la documentation de Redux ! 
 
+
+##Les listes de reférences 
+
+Pour une utilisation complète de Focus, il serait bien de ne pas oublier les listes de références. Alors voici un dernier exemple.  Il reprend tout les concepts déjà utilisé, du coup je vais me permettre d'aller un peu plus vite ! 
+
+On va faire ça en quelques étapes : 
+
+- Le service de chargement des listes : 
+
+Toujours la même chose c'est un service. Il a été simulé chez nous : 
+
+```jsx 
+export const loadCivility = () => Promise.resolve([{code: 'MR', label: 'M.'}, {code: 'MRS', label: 'Mme'}]);
+```
+- Le fichier de masterDataConfig : 
+Dans le dossier `config` nous avons donc ajouté un fichier : `master-data-config`, qui contruit l'objet `masterDataConfig` nécessaire au provider MasterData.
+
+- Le provider masterData :
+
+Dans le fichier `root`
+```jsx
+import {masterDataConfig} from './config/master-data-config'
+// VOTRE CODE
+<MasterDataProvider configuration={masterDataConfig}>
+```
+
+- la vue : 
+ Et enfin on vous ai fait un dernier petit exemple pour mettre en musique tout cela, on a ajouté aussi un checkBox ( de Focus-components, bien sûr ) dans l'inputComponent d'un de nos domaines, mais aussi le fait de faire apparaître des champs en fonction d'un select. Vous allez voir c'est fou. 
+ Sinon, pour les listes de références il faut ajouter le connecteur des MasterData : `connectToMetadata(['user'])`, mais aussi le load dans le `componentWillMount` : `loadMasterData();` et dans le selectFor : `{selectFor('civility', {entityPath: 'user', masterDatum: 'civility'})}` il faut préciser le propriété masterDatum et le tour est joué ! 
+
+```jsx
+import {connect as connectToMetadata} from 'focus-redux/behaviours/metadata';
+import {connect as connectToFieldHelpers} from 'focus-redux/behaviours/field';
+import {connect as connectToMasterData} from 'focus-redux/behaviours/master-data';
+import {loadUserAction, saveUserAction} from '../../actions/user-actions';
+
+import Panel from 'focus-redux/components/panel';
+import compose from 'lodash/flowRight';
+
+class UserForm extends Component {
+    componentWillMount() {
+        const {id, load, loadMasterData} = this.props;
+        load({id});
+        loadMasterData();
+    }
+
+    render() {
+        const { fields, fieldFor, selectFor} = this.props;
+        console.log(this.props)
+        const civilityField = find(fields, {name: 'civility', entityPath: 'user'});
+        return (
+            <Panel title='User with more details for Mrs' {...this.props}>
+                {fieldFor('uuid', {entityPath: 'user'})}
+                {fieldFor('style',  {entityPath: 'user'})}
+                {selectFor('civility', {entityPath: 'user', masterDatum: 'civility'})}
+                {civilityField && civilityField.rawInputValue === 'MRS' && fieldFor('firstName', {entityPath: 'user'})}
+                {civilityField && civilityField.rawInputValue === 'MRS' && fieldFor('lastName', {entityPath: 'user'})}
+            </Panel>
+        );
+    }
+};
+
+UserForm.displayName = 'UserForm';
+
+const formConfig = {
+    formKey: 'userCustomForm',
+    entityPathArray: ['user', 'address'],
+    loadAction: loadUserAction,
+    saveAction: saveUserAction,
+    nonValidatedFields: ['user.firstName']
+};
+
+const ConnectedUserForm = compose(
+    connectToMetadata(['user']),
+    connectToMasterData(['civility']),
+    connectToForm(formConfig),
+    connectToFieldHelpers()
+)(UserForm);
+
+export default ConnectedUserForm;
+```
 
