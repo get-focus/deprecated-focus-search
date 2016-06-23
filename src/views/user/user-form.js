@@ -2,24 +2,22 @@ import React, {Component, PropTypes} from 'react';
 import {connect as connectToForm } from 'focus-redux/behaviours/form';
 import {connect as connectToMetadata} from 'focus-redux/behaviours/metadata';
 import {connect as connectToFieldHelpers} from 'focus-redux/behaviours/field';
-import {loadUserFinanceAction, saveUserFinanceAction} from '../../actions/finance-user-actions';
+import {loadUserAction, saveUserAction} from '../../actions/user-actions';
 
 import Panel from 'focus-redux/components/panel';
 import compose from 'lodash/flowRight';
-import FinancialMoveLine from './financialMoveLine'
 
-const User = ({fieldFor,listFor, ...otherProps}) => (
+
+const User = ({fieldFor, ...otherProps}) => (
   <Panel title='User' {...otherProps}>
       {fieldFor('uuid', {entityPath: 'user'})}
       {fieldFor('firstName', {entityPath: 'user'})}
       {fieldFor('lastName', {entityPath: 'user'})}
-      {fieldFor('name', {entityPath: 'finance'})}
-      {fieldFor('amount', {entityPath: 'finance'})}
   </Panel>
 )
 
 
-class SmartUserFinance extends Component {
+class SmartUser extends Component {
     componentWillMount() {
         const {id, load} = this.props;
         // Et voila un load !
@@ -27,27 +25,27 @@ class SmartUserFinance extends Component {
     }
 
     render() {
-        const {fieldFor, list} = this.props;
+        const {fieldFor} = this.props;
         return (
-          <User fieldFor={fieldFor} listFor={list} { ...this.props}/>
+          <User fieldFor={fieldFor} { ...this.props}/>
         );
     }
 };
 
-SmartUserFinance.displayName = 'SmartUser ';
+User.displayName = 'SmartUser ';
 
 const formConfig = {
     formKey: 'userForm',
-    entityPathArray: ['user','finance'],
-    loadAction: loadUserFinanceAction,
-    saveAction: saveUserFinanceAction,
+    entityPathArray: ['user'],
+    loadAction: loadUserAction,
+    saveAction: saveUserAction,
     nonValidatedFields: ['user.firstName']
 };
 
 const ConnectedUserForm = compose(
-    connectToMetadata(['user', 'financialMove', 'finance']),
+    connectToMetadata(['user']),
     connectToForm(formConfig),
     connectToFieldHelpers()
-)(SmartUserFinance );
+)(SmartUser );
 
 export default ConnectedUserForm;

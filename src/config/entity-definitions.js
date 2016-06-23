@@ -10,7 +10,12 @@ export const user = {
   lastName: {
     domain: 'DO_TEXTE',
     isRequired: true
-  }
+  },
+  style: {
+    domain: 'DO_CHECKBOX',
+    isRequired: false
+  },
+  civility: { domain: 'DO_CIVILITE', isRequired: true},
 }
 
 export const address = {
@@ -36,6 +41,10 @@ export const finance = {
   currency:  {
     domain: 'DO_SYMBOL',
     isRequired: true
+  },
+  test : {
+    domain: 'DO_CHECKBOX',
+    isRequired: false
   },
   moves:{
     redirect: ['financialMove']

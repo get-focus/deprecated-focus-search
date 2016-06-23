@@ -21,8 +21,9 @@ export const amoutToUpperCaseMiddleware = store => next => action => {
 
 export const errorFieldMiddleware = store => next => action => {
     const {forms, definitions, domains} = store.getState();
-    if (action.type === INPUT_CHANGE && action.fieldName == 'amount') {
+    if (action.type === INPUT_CHANGE && action.fieldName == 'test') {
         const errorAction = {};
+        console.log(action)
         errorAction.type = 'INPUT_ERROR';
         errorAction.formKey = action.formKey;
         errorAction.fieldName = 'name';
