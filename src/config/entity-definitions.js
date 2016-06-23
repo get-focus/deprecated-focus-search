@@ -37,6 +37,10 @@ export const finance = {
     domain: 'DO_SYMBOL',
     isRequired: true
   },
+  test : {
+    domain: 'DO_CHECKBOX',
+    isRequired: false
+  },
   moves:{
     redirect: ['financialMove']
   }

@@ -1,4 +1,4 @@
-
+import Checkbox from 'focus-components/components/input/checkbox'
 
 export const DO_ID = {
   type: 'text',
@@ -24,4 +24,10 @@ export const DO_CODE = {
 export const DO_MONTANT = {
   type: 'number',
   //InputComponent: (props) => <div>DO_MONTANT {JSON.stringify(props)}</div>
+}
+
+export const DO_CHECKBOX = {
+  type: 'boolean',
+  InputComponent: Checkbox,
+  DisplayComponent: Checkbox
 }

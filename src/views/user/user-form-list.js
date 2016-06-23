@@ -9,10 +9,11 @@ import Panel from 'focus-redux/components/panel';
 import compose from 'lodash/flowRight';
 import FinancialMoveLine from './financialMoveLine'
 
-const User = ({fieldFor,listFor, victoire, echec,  ...otherProps}) => (
+const User = ({fieldFor,listFor, rawInputValue, victoire, dataSetValue,formattedInputValue, echec,  ...otherProps}) => (
   <Panel title={victoire ? "User " +victoire : "User " +echec} {...otherProps}>
       {fieldFor('name', {entityPath: 'finance'})}
       {fieldFor('amount', {entityPath: 'finance'})}
+      {fieldFor('test', {entityPath: 'finance', value : dataSetValue, lala : formattedInputValue})}
       {listFor('moves', { redirectEntityPath: ['financialMove'], LineComponent: FinancialMoveLine})}
   </Panel>
 )
@@ -34,7 +35,6 @@ class SmartUser extends Component {
 
     render() {
         const {fieldFor, list} = this.props;
-        console.log(this.props);
         return (
           <User fieldFor={fieldFor} listFor={list} { ...this.props}/>
         );
