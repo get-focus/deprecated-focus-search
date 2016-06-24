@@ -626,7 +626,7 @@ import {loadUserAction, saveUserAction} from '../../actions/user-actions';
 
 // Les boutons de de save et de load sont maintenant portés par le panel, attention de ne pas utiliser celui de Focus-components
 import Panel from 'focus-redux/components/panel';
-import compose from 'lodash/flowRight';
+import {compose} from 'redux';
 
 class User extends Component {
     componentWillMount() {
@@ -686,7 +686,10 @@ Expliquons le pas à pas !
 
 ### Création d'un composant :
  Rien de bien nouveau au soleil, je vous invite à aller sur le site de React en cas de doute subsistant. Notre composant est un composant React des plus classiques.
- > Dans l'immédiat, et pour une meilleure clarté de ce tutoriel, le composant User est une classe qui possède la logique ( load ... ) et l'affichage. En pratique, nous vous encourageons de séparer cette logique de l'affichage et afin d'utiliser des composants pures, pour plus de performance, de beauté !
+
+> A noter, le composant Panel utilisé, est le panel disponible dans Focus-redux et ainsi c'est lui qui pose les boutons save et load du panel d'où l'intérêt de lui passer `{...otherProps}`
+
+ > Dans l'immédiat, et pour une meilleure clarté de ce tutoriel, le composant User est une classe qui possède la logique ( load ... ) et l'affichage. En pratique, nous vous encourageons de séparer cette logique de l'affichage afin d'utiliser des composants pures, pour plus de performance, de beauté !
 
 ```jsx
 import React, {Component, PropTypes} from 'react';
@@ -696,8 +699,7 @@ import {connect as connectToFieldHelpers} from 'focus-redux/behaviours/field';
 import {loadUserAction, saveUserAction} from '../../actions/user-actions';
 
 import Panel from 'focus-redux/components/panel';
-import compose from 'lodash/flowRight';
-
+import {compose} from 'redux';
 
 const User = ({fieldFor, ...otherProps}) => (
   <Panel title='User' {...otherProps}>
@@ -745,6 +747,15 @@ export default ConnectedUserForm;
 ```
 
 ### Connection au provider :
+Avant tout de chose, pour petit rappel, cette connexion est possible grâce au provider qui ont été mis  précédemment autour de vos composants, ainsi que la création du store ( via le createStoreWithFocus ). Dans notre cas nous allons connecter notre composant :
+
+- au metaDonnées ( les définitions et les domaines )
+
+- au fonctionnalités disponibles du Form via un objet de config ( que nous allons détaillé juste en dessous)
+
+- au fieldHelpers qui va exposé les fonctionnnalité de fieldFor ( par exemple .... )
+
+### Connection au provider :
 Avant tout de chose, pour petit rappel, cette connexion est possible grâce au provider qui ont été mis  précédemment autour de vos composants, ainsi que la création du Store ( n"hésitez pas à relire ce qui est indiqué plus haut si cela n'est pas clair ). Dans notre cas nous allons connecter notre composant :
 		-  au metaDonnées ( les définitions et les domaines ),
 		-  au fonctionnalités disponibles du Form via un objet de config ( que nous allons détaillé juste en dessous).
@@ -767,6 +778,8 @@ const formConfig = {
 ```
 **Le tableau de nonValidatedFields :** Ce tableau permet dans le cas où l'entity definition de votre entity utilisé dans le formulaire a des champs que vous ne souhaitez pas valider.  Nous préconisons une utilisons occasionnel de ce tableau. En effet si cela devient systématique, nous recommandons de faire des objets non-persisté en base spécifique pour le formulaire en question.  
 Pour la forme, il suffit de lui passer le champs en question de l'entity via une notation simple : 'entity.nomDuChamps'. Pour les champs listes, même principe mais avec un tableau : `nonValidatedFields: ['user.uuid', {'user.childs': ['firstName']}]`
+
+> Pour information ce connecteur utilise le connect au store de redux afin de récupérer le noeud form store.
 
 > Votre composant est maintenant connecté aux différents provider dont vous avez besoin, n'oubliez pas que c'est le composants connecté qu'il faut exporté !
 
@@ -809,6 +822,8 @@ Et voilà de belles actions ! Plusieurs points à expliquer mais avant tout si v
 #Les services
 
 Les services fonctionnent exactement de la même façon qu'avant, ne perdons pas de temps inutilement.
+On rappellera juste que les services sont des promesses, pour plus d'informations voici la documentation :
+https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise.
 
 #Les reducers
 
@@ -856,6 +871,8 @@ Ce builder permet donc de construire des reducers Redux, voila ce qu'il créé :
        return {data, loading: true, saving: false};
    case RESPONSE_LOAD_USER:
        return {data: payload, loading: false, saving: false};
+   case ERROR_LOAD_USER:
+	   return {data: payload, loading: false, saving: false};    
    default:
        return state
   }
@@ -865,6 +882,10 @@ Ce builder permet donc de construire des reducers Redux, voila ce qu'il créé :
 > Juste pour information, que ce soit clair l'actionBuilder ou le reducerBuilder, ils ont été mis en place pour vous simplifier la vie, si cela vous la complique dans certain cas n'hésitez pas à écrire vos actions "à la main" ou je vous invite à lire la partie sur le middleware.
 
 > En voila vous êtes fin prêt pour utiliser ce formulaire !
+
+##Bilan
+
+C'est bien beau tout cela, mais qu'est ce qu'on a fait exactement !
 
 
 
@@ -883,7 +904,7 @@ import {connect as connectToFieldHelpers} from 'focus-redux/behaviours/field';
 import {loadFinanceAction, saveFinanceAction} from '../../actions/finance-actions';
 
 import Panel from 'focus-redux/components/panel';
-import compose from 'lodash/flowRight';
+import {compose} from 'redux';
 import FinancialMoveLine from './financialMoveLine'
 
 const User = ({fieldFor,listFor, ...otherProps}) => (
@@ -1372,7 +1393,7 @@ import {connect as connectToMasterData} from 'focus-redux/behaviours/master-data
 import {loadUserAction, saveUserAction} from '../../actions/user-actions';
 
 import Panel from 'focus-redux/components/panel';
-import compose from 'lodash/flowRight';
+import {compose} from 'redux';
 
 class UserForm extends Component {
     componentWillMount() {
