@@ -913,10 +913,20 @@ Ce builder permet donc de construire des reducers Redux, voila ce qu'il créé :
 
 ##Bilan
 
-Nous avons donc réaliser un exemple complet de formulaire. On va juste faire un petit récapitulatif :
+Nous avons donc réalisé un exemple complet de formulaire. On va juste faire un petit récapitulatif :
 ### Lancement par le cycle de vie du composant ou via un bouton
 
 `Vue (load)   => dispatch une action (request) => middleware réalisant une action asynchrone (appel au serveur)(request) => reducer => nouveau state => vue(s) mise(s) à jour ( état loading) ---(après un certain temps)----> Response du serveur => dispatch une action (response ) => middleware (construction ou maj du state du form) (response) => reducer => nouveau state => vue(s) mise(s) à jour avec les données`
+
+> Ce qu'il se passe quand un iput change ou blur
+
+```
+field:dispatch(INPUT_CHANGE) => application:middleware(INPUT_CHANGE):(dispatch(FORM_STATE)) => reducers => newState => field receive new value
+```
+
+```
+field:dispatch(INPUT_BLUR) => application:middleware(INPUT_CHANGE):(dispatch(FORM_STATE)) => reducers => newState => field receive new value
+```
 
 Ce formulaire permet ainsi d'avoir facilement :
 - les actions de load et de save avec gestion de l'asynchronité des requêtes à l'Api avec une gestion des erreurs et l'affichage de celle-ci
@@ -926,15 +936,8 @@ Ce formulaire permet ainsi d'avoir facilement :
 - Une fonctionnement par défaut sur le `onChange` avec une gestion des erreurs et l'affichage de celle-ci
 - Une validation globale du formulaire avec une gestion des erreurs et l'affichage de celle-ci.
 
-> Ce qu'il se passe quand un iput change ou blur
 
-```
-field:dispatch(INPUT_CHANGE) => application:middleware(INPUT_CHANGE):(diapatch(FORM_STATE)) => reducers => newState => field receive new value
-```
-
-```
-field:dispatch(INPUT_BLUR) => application:middleware(INPUT_CHANGE):(diapatch(FORM_STATE)) => reducers => newState => field receive new value
-```
+![capture](https://cloud.githubusercontent.com/assets/10349407/16381193/944d89fe-3c7b-11e6-9c05-d1b6c1d49a02.PNG)
 
 
 #Des exemples, encore des exemples.
