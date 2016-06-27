@@ -532,7 +532,7 @@ export default compose(
 ```
 > En pratique nous n'allons pas connecter le composant d'application au store. Nous allons plutôt travailler sur une page qui va afficher les éléments prévus.
 
-## Faire une page avec la nouvelle ma manière de gérer le form.
+## Faire une page avec la nouvelle manière de gérer le form.
 
 - Avant de commencer, pour pouvoir utiliser le form il faut placer d'autres provider
 - FieldHelpersProvider => Qui va nous servir à pouvoir récupérer les helper de form dans chacun des composantrs
