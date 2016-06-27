@@ -117,19 +117,19 @@ const User = ({fieldFor,listFor,selectFor  ...otherProps}) => (
 
 ## Field
 
-Ce que je peux fournir au `fieldFor` (et ses frères)[ici]()
-name: string,
--  isRequired: boolean,
--  validateOnBlur: boolean,
--  InputComponent: ReactClass | function,
--  SelectComponent: ReactClass | function,
--  DisplayComponent: ReactClass | function,
--  multiple: boolean
--  options: Object,
--  onChange: function,
--  onBlur: function,
--  rawInputValue: any,
--  formattedInputValue: any
+Ce que je peux fournir au `fieldFor` (et ses frères) [ici]()
+- name: string,
+- isRequired: boolean,
+- validateOnBlur: boolean,
+- InputComponent: ReactClass | function,
+- SelectComponent: ReactClass | function,
+- DisplayComponent: ReactClass | function,
+- multiple: boolean
+- options: Object,
+- onChange: function,
+- onBlur: function,
+- rawInputValue: any,
+- formattedInputValue: any
 
 ## Cas d'usages
 
