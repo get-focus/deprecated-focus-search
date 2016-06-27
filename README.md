@@ -39,7 +39,7 @@ L'utilisateur a donc :
 - Une adresse
 - Des informations financières
 
-L'objectif de ce tutorial est d'afficher chacune de ces données éventuellement un peu plus.
+L'objectif de ce tutoriel est d'afficher chacune de ces données, éventuellement un peu plus.
 
 Nous voulons avoir les informations suivantes:
 - Un bloc qui contient des données aggrégées sous la forme suivante: `Voici ${name} ${firstName} qui habite à ${ville} et disose de ${amount} sur son compte`
@@ -53,7 +53,7 @@ Un peu comme ceci
 
 ## Initialisation de l'application
 
-- Premièrement nous allons partir du starter kit qui est vide et volontairement ne contient ici que les fichiers de configuration.
+- Premièrement nous allons partir du starter kit qui est vide et qui ne contient volontairement que les fichiers de configuration.
 - Le fichier `package.json` dispose d'une commande `start` que l'on peut appeller avec `npm start`
 - Cette commande fait appel au script suivant:
 
@@ -182,9 +182,9 @@ ReactDOM.render(
 
 ## Provider et connector
 
- Maintenant nous allons nous occuper d'initialiser l'application avec l'ensemble des `Providers`. Le concept de Provider utilise des fonctionnalités avancées de `React`. React dispose d'un mécanisme appellé le `context` qui permet de passer des informations de manière implicites à un arbre de composant. Si un parent décide de fournir des informations dans son contexte, tous les enfants peuvent les lire. **Attention l'usage du contexte n'est pas recommandé pour autre chose que pour des librairies qui cherchent à abstraire un concept**. Un provider sert donc à inserer des informations dans le contexte. Il va souvent de paire avec un `connecteur` qui lui sert à extraire des informations du contexte pour les fournir en `props` au composant fils. Le concept de connecteur repose sur le pattern de `High Order Component`.
+ Maintenant nous allons nous occuper d'initialiser l'application avec l'ensemble des `Providers`. Le concept de Provider utilise des fonctionnalités avancées de `React`. React dispose d'un mécanisme appellé le `context` qui permet de passer des informations de manière implicite à un arbre de composant. Si un parent décide de fournir des informations dans son contexte, tous les enfants peuvent les lire. **Attention l'usage du contexte n'est pas recommandé pour autre chose que pour des librairies qui cherchent à abstraire un concept**. Un provider sert donc à inserer des informations dans le contexte. Il va souvent de paire avec un `connecteur` qui lui sert à extraire des informations du contexte pour les fournir en `props` au composant fils. Le concept de connecteur repose sur le pattern de `High Order Component`.
 
-- Nous allons ajouter en premier le Provider de `redux`, il sert à insérer dans le contexte le store applicatif. (On pourrait le mettre plus bas dans l'application) mais nous allons le mettre à la racine.
+- Nous allons ajouter en premier le Provider de `redux`, il sert à insérer le store applicatif dans le contexte. (On pourrait le mettre plus bas dans l'application) mais nous allons le mettre à la racine.
 
 Le Provider de redux a donc besoin d'un store, qui est construit à partir des reducers. Un reducer étant une fonction, nous allons en créer un facilement.
 
@@ -360,7 +360,7 @@ const store = createStore(reducer);
 
 ## Maintenant que la structure initiale est terminée, on va initialiser la partie focus
 
-> Note que cette partie n'est certainement pas présente dans le starter kit dans la mesure où tout est prêt pour un démarrage rapide.
+> A noter que cette partie n'est certainement pas présente dans le starter kit dans la mesure où tout est prêt pour un démarrage rapide.
 
 - Afin d'initialiser l'application , nous avons besoin de définir les domaines et les définitions des entités.
 - Pour cela nous mettons à disposition plusieurs `Providers`, par exemple pour les métadonnées, nous utilisons le `MetadataProvider`, à qui on doit fournir les domaines et les définitions des entitées de l'appication.
@@ -509,7 +509,7 @@ import * as domains from './config/domains';
 ```
 
 - Nous allons maintenant nous connecter au provider de metadonnées.
-- Par exemple si nos nous plaçons dans le composant application qui ets déjà connecté au store.
+- Par exemple si nos nous plaçons dans le composant application qui est déjà connecté au store.
 
 ```jsx
 import {compose} from 'redux'; // Pour composer les connecteurs
@@ -585,23 +585,23 @@ La création d'un store sert à :
 dispatch(action) => middleware(action) => state = reducers(previousState, action)
 ```
 
-> Petit apparté sur les middleware on a des middleware dit
-> - **third-party** qui vont ammener à redux des fonctionnalités comme le log des actions, les devtools.
-> - **custom** dont le rôle est de réagir à certaines actions et d'en dispatcher de nouvelles lors de.
+> Petit apparté sur les middleware on a des middlewares dits :
+> - **third-party :** qui vont ammener à redux des fonctionnalités comme le log des actions, les devtools.
+> - **custom :** dont le rôle est de réagir à certaines actions et d'en dispatcher de nouvelles lors de.
 
 ### Créer un store avec les comportements focus
 
-Afin de vous aider au mieux au sein des projets nous avons préparé un certain nombre de chose déjà prévue dans le store. Nous avons donc crée une méthode `createStoreWithFocus` qui ajoute les éléments suivants. `createStoreWithFocus(reducers, customMiddlewares, otherEnHancers) => createStore(reducers + focusReducers,customMiddlewares + focusmiddleWare + otherEnHancers + enhancersFocus)`
+Afin de vous aider au mieux au sein des projets nous avons préparé un certain nombre de choses déjà prévue dans le store. Nous avons donc crée une méthode `createStoreWithFocus` qui ajoute les éléments suivants. `createStoreWithFocus(reducers, customMiddlewares, otherEnHancers) => createStore(reducers + focusReducers,customMiddlewares + focusmiddleWare + otherEnHancers + enhancersFocus)`
 
 Voici ce que le `createStoreWithFocus` manipule.
 
 - `reducers: {dataSet, customData}`
   - `dataSet` qui va contenir les reducers de données, qui seront populés lors des chargement de données
   - `customData` qui contiendra un morceau de state propre au projet qui sera libre en terme de contenu
-  -  `...focusReducers` qui sont l'ensemble des reducers prévus par focus et prévus pour réagir aux différents connecteurs / providers / middleware que nous proposons.
+  -  `...focusReducers` qui sont l'ensemble des reducers prévus par focus et prévus pour réagir aux différents connecteurs / providers / middlewares que nous proposons.
     - `master-data`: les reducers responsables de stocker les listes de références
     - `metadata`: les reducers responsables de stocker les domaines et les définitions
-    - `form` qui contiendra la partie du state propre à chaque formulaire ou bloc de données indépendants. Ce morceau de state sera populé par les middlewares à chaque action comme chargement des données, sauvegarde des données, validation, saisie dans le champ, sortie de champ. Cette partie de state contient également l'ensemble des information de chaque field de l'application comme: est ce que le champ a changé, quel est sa valeur formattée, est ce qu'il est en édition, est ce qu'il a une erreur.
+    - `form` qui contiendra la partie du state propre à chaque formulaire ou bloc de données indépendants. Ce morceau de state sera populé par les middlewares à chaque action comme chargement des données, sauvegarde des données, validation, saisie dans le champ, sortie de champ. Cette partie de state contient également l'ensemble des informations de chaque field de l'application comme : est-ce que le champ a changé, quel est sa valeur formattée, est ce qu'il est en édition, est ce qu'il a une erreur.
     > Pour plus d'informations, n'hésithez pas à aller voir la forme du state de chaque [form](https://github.com/get-focus/focus-redux/blob/6cb7b32f50caaa8ebbd093b1e24459a1b9e2f3b5/src/reducers/form.js#L22) et de chaque [field](https://github.com/get-focus/focus-redux/blob/6cb7b32f50caaa8ebbd093b1e24459a1b9e2f3b5/src/reducers/form.js#L31)
 
   - `...otherReducers` qui contiendra d'autres reducers que vous pouvez fournir pour les extensions par exemple.
@@ -715,7 +715,7 @@ export default ConnectedUserForm;
 Expliquons le pas à pas !
 
 ### Création d'un composant :
- Rien de bien nouveau au soleil, je vous invite à aller sur le site de React en cas de doute subsistant. Notre composant est un composant React des plus classiques.
+ Rien de bien nouveau sous le soleil, je vous invite à aller sur le site de React en cas de doute subsistant. Notre composant est un composant React des plus classiques.
 
 > A noter, le composant Panel utilisé, est le panel disponible dans Focus-redux et ainsi c'est lui qui pose les boutons save et load du panel d'où l'intérêt de lui passer `{...otherProps}`
 
@@ -777,13 +777,13 @@ export default ConnectedUserForm;
 ```
 
 ### Connection au provider :
-Avant tout de chose, pour petit rappel, cette connexion est possible grâce au provider qui ont été mis  précédemment autour de vos composants, ainsi que la création du store ( via le createStoreWithFocus ). Dans notre cas nous allons connecter notre composant :
+Avant toute chose, pour petit rappel, cette connexion est possible grâce au provider qui ont été mis  précédemment autour de vos composants, ainsi que la création du store ( via le createStoreWithFocus ). Dans notre cas nous allons connecter notre composant :
 
-- au metaDonnées ( les définitions et les domaines )
+- aux metaDonnées ( les définitions et les domaines )
 
-- au fonctionnalités disponibles du Form via un objet de config
+- aux fonctionnalités disponibles du Form via un objet de config
 
-- au fieldHelpers qui va exposer les fonctionnnalités de fieldFor ( par exemple .... )
+- aux fieldHelpers qui va exposer les fonctionnnalités de fieldFor ( par exemple .... )
 
 Le `connectToForm` est l'élément principal de cet écran, il attend un objet spécifique :
 
@@ -800,7 +800,7 @@ const formConfig = {
     nonValidatedFields: ['user.firstName']
 };
 ```
-**Le tableau de nonValidatedFields :** Ce tableau permet dans le cas où l'entity definition de votre entity utilisé dans le formulaire a des champs que vous ne souhaitez pas valider.  Nous préconisons une utilisation occasionnelle de ce tableau. En effet si cela devient systématique, nous recommandons de faire des objets non-persistés en base spécifique pour le formulaire en question.  
+**Le tableau de nonValidatedFields :** Ce tableau permet, dans le cas où l'entity definition de votre entity utilisé dans le formulaire a des champs que vous ne souhaitez pas valider.  Nous préconisons une utilisation occasionnelle de ce tableau. En effet si cela devient systématique, nous recommandons de faire des objets non-persistés en base spécifique pour le formulaire en question.  
 Pour la forme, il suffit de lui passer le champs en question de l'entity via une notation simple : 'entity.nomDuChamps'. Pour les champs listes, même principe mais avec un tableau pour chaque champs de l'entité de la liste. Voici un exemple complet : `nonValidatedFields: ['user.uuid', {'user.childs': ['firstName']}]`
 
 > Pour information ce connecteur utilise le `connect` au store de redux afin de récupérer le noeud form du store. Pour en savoir plus sur le shape du store, n'hésitez pas à aller voir la documentation liée.
@@ -1089,7 +1089,7 @@ export default FinancialMoveLine;
 
 ##Les actions Builders avec deux noeuds
 
-Il est possible très facilement d'ajouter deux nœuds à une actionBuilder afin de charger deux entités lors d'une seul service.
+Il est possible, de manière très simple, d'ajouter deux nœuds à une actionBuilder afin de charger deux entités lors d'une seul service.
 
 ```jsx
 
@@ -1134,8 +1134,7 @@ Comme nous pouvons le remarquer, nous avons mis deux nœuds dans le tableaux nam
 
 ```
 
-Pour le reducer plusieurs question à se poser.
-Quand on regarder plus en détail ce que l'actionBuilder renvoie, on se rend compte qu'il y a en effet : une action et six types différents. Pourquoi ?
+Un question se pose concernant le reducer : *Quand on regarder plus en détail ce que l'actionBuilder renvoie, on se rend compte qu'il y a en effet : une action et six types différents. Pourquoi ?*
 L'actionBuilder permet d'avoir un load pour deux entités, c'est l'action que vous pourrez donner dans votre formulaire ! Pour les types, pas panique c'est normal, vous avez deux entités, et donc six actions au sens redux du terme, vous avez alors six types pour vous reducer. Ainsi si vous avez suivi le superbe tutoriel depuis le début vous avez déjà un reducer pour le noeud finance, et un autre pour le noeud user. Ainsi vous n'avez besoin que de l'action pour votre vue.
 Sinon je propose ces petits reducers ( et n'oubliez pas d'exporter vos types en retour de l'action) :
 
@@ -1189,7 +1188,7 @@ export default combineReducers({
   });
 ```
 
-Nous sommes fin prêt pour mettre en place notre formulaire à deux noeuds :
+Nous sommes fin prêts à mettre en place notre formulaire à deux noeuds :
 
 ```jsx
 import React, {Component, PropTypes} from 'react';
@@ -1254,7 +1253,7 @@ Je vous recommande la documentation de redux : http://redux.js.org/docs/advanced
 qui vous sera d'une grande aide si vous avez un doute sur les middleware.
 N'hésitez pas à relire également la documentation sur le createStoreWithFocus.
 
-Vous voulez avoir en fonction d'une action, un comportement particulier, une logique autre, le middleware est la pour vous. Nous allons pour cela mettre en place trois middleware d'exemple :
+Vous voulez avoir, en fonction d'une action, un comportement particulier, une logique autre : le middleware est la pour vous. Nous allons pour cela mettre en place trois middlewares d'exemple :
 
  - Un middleware qui permet lors d'une action de réaliser la même action sur un autre champs
  - Un middleware qui permet lors d'une action de réaliser une autre action du form.
@@ -1262,7 +1261,7 @@ Vous voulez avoir en fonction d'une action, un comportement particulier, une log
 
 ### Middleware de base :
 
- Prenons un exemple précis, lorsqu'un input particulier vient à changer et que ce changement doit mettre en majuscule un autre input ( oui oui, ce cas arrive tous les jours ), c'est dans le middleware que tout va se jouer.
+ Prenons un exemple précis. Lorsqu'un input particulier vient à changer et que ce changement doit mettre en majuscule un autre input ( oui oui, ce cas arrive tous les jours ), c'est dans le middleware que tout va se jouer.
 Pour cela deux étapes  :
 
 - Ecrire le middleware :
@@ -1365,7 +1364,7 @@ export const ownActiondMiddleware = store => next => action => {
 
 - L'action custom:
 
-Une action au sens redux du terme ça ressemble à ça. En effet pour les actions spécifiques du load et du save l'actionBuilder est la pour vous simplifier les dévellopements cependant, pour des actions "simples", voici ce que vous devez ecrire. Une action doit toujours avec un type, ce type étant le descriminant pour les reducers. Puis elle contient les informations nécessaire au reducer pour transformer le state. Pour cet exemple la clé du formulaire et suffisant, maintenant vous pouvez tout aussi bien lui donner autre chose.
+Une action au sens redux du terme ça ressemble à ça. En effet pour les actions spécifiques du load et du save l'actionBuilder est là pour vous simplifier les dévellopements cependant, pour des actions "simples", voici ce que vous devez ecrire. Une action doit toujours avec un type, ce type étant le descriminant pour les reducers. Puis elle contient les informations nécessaire au reducer pour transformer le state. Pour cet exemple la clé du formulaire et suffisant, maintenant vous pouvez tout aussi bien lui donner autre chose.
 
 ```jsx
 export const MY_ACTION = 'MY_ACTION';
@@ -1377,9 +1376,9 @@ export const customAction = (formKey) => {
 ```
 - Le reducer :
 
-De la même façon qu'avec l'action, le reducerBuilder n'est pas utile ici. Cependant il est important de comprendre qu'un reducer agit sur une partie du state et donc vous devrez indiquer ici tout les reducers dont vous avez besoin pour agir sur cette partie du state en particulier, il faudra alors réaliser un switch en fonction des différentes action disponibles pour cette partie du state. Nous en avons qu'une seule ici, mais il n'est pas exclu d'en avoir plusieurs.
+De la même façon qu'avec l'action, le reducerBuilder n'est pas utile ici. Cependant il est important de comprendre qu'un reducer agit sur une partie du state et donc vous devrez indiquer ici tout les reducers dont vous avez besoin pour agir sur cette partie du state en particulier, il faudra alors réaliser un switch en fonction des différentes actions disponibles pour cette partie du state. Nous en avons qu'une seule ici, mais il n'est pas exclu d'en avoir plusieurs.
 
-Lorsque l'action MY_ACTION est dipatchée par notre middleware, le reducer va ajouter un message de victoire dans le state, sinon il ajoutera un autre message d'echec...  Il faut maintenant ajouter notre reducer dans le combineReducer, c'est à ce moment la qu'on définira le noeud du store, et donc le nom dans le state. Vous allez voir c'est très simple.
+Lorsque l'action MY_ACTION est dipatchée par notre middleware, le reducer va ajouter un message de victoire dans le state, sinon il ajoutera un autre message d'echec...  Il faut maintenant ajouter notre reducer dans le combineReducer. C'est à ce moment la qu'on définira le noeud du store, et donc le nom dans le state. Vous allez voir c'est très simple.
 
 ```jsx
 import {MY_ACTION} from '../actions/custom-actions';
@@ -1397,7 +1396,7 @@ export default customReducer;
 
 ```
 
-> A noter, il est important de se rappeler que le state redux est un objet immutable et ainsi vous devez toujours renvoyer un nouvel objet et non modifier le premier.
+> A noter : il est important de se rappeler que le state redux est un objet immutable et ainsi vous devez toujours renvoyer un nouvel objet et non modifier le premier.
 
 - Le combineReducer :
 
@@ -1412,7 +1411,7 @@ Et voila, le tour est joué. Notre information se trouvera donc dans customData.
 
 - Le connecteur :
 
-Un dernier petit effort, c'est presque fini ! Donc maintenant que notre information est dans notre store, il faut récupérer cette information, souvenez-vous de nos amis les connecteurs. Notre vue doit se connecter à cette information du state, on se place alors dans celle-ci en ce concentrant sur les connecteurs :
+Un dernier petit effort, c'est presque fini ! Donc maintenant que notre information est dans notre store, il faut récupérer cette information, souvenez-vous de nos amis les connecteurs. Notre vue doit se connecter à cette information du state, on se place alors dans celle-ci en se concentrant sur les connecteurs :
 
 ```jsx
 import {connect as connectToState} from 'react-redux';
@@ -1427,8 +1426,8 @@ const ConnectedUserForm = compose(
     connectToFieldHelpers()
 )(SmartUserFinance );
 ```
- Il vous suffit alors de renseigner le noed du state que vous voulez récupérer : `customData` via la fontion selectData (qui permet de récupérer la bonne partie du state) et de vous connecter via la fonction connect de Redux.  
- Et voila, je vous jure que c'est fini , votre information se trouve maintenant dans vos props !
+ Il vous suffit alors de renseigner le noeud du state que vous voulez récupérer : `customData` via la fontion selectData (qui permet de récupérer la bonne partie du state) et de vous connecter via la fonction connect de Redux.  
+ Et voila, je vous jure que c'est fini, votre information se trouve maintenant dans vos props !
 
 ```jsx
 const User = ({fieldFor,listFor, victoire, echec, ...otherProps}) => (
@@ -1445,19 +1444,19 @@ const User = ({fieldFor,listFor, victoire, echec, ...otherProps}) => (
 
 ##Les listes de reférences
 
-Pour une utilisation complète de Focus, il serait bien de ne pas oublier les listes de références. Alors voici un dernier exemple.  Il reprend tout les concepts déjà utilisé, du coup je vais me permettre d'aller un peu plus vite !
+Pour une utilisation complète de Focus, il serait bien de ne pas oublier les listes de références. Alors voici un dernier exemple.  Il reprend tous les concepts déjà utilisés, du coup, je vais me permettre d'aller un peu plus vite !
 
 On va faire ça en quelques étapes :
 
 - Le service de chargement des listes :
 
-Toujours la même chose c'est un service. Il a été simulé chez nous mais cela correspond à un appel serveur :
+Toujours la même chose, c'est un service. Il a été simulé chez nous mais cela correspond à un appel serveur :
 
 ```jsx
 export const loadCivility = () => Promise.resolve([{code: 'MR', label: 'M.'}, {code: 'MRS', label: 'Mme'}]);
 ```
 - Le fichier de masterDataConfig :
-Dans le dossier `config` nous avons donc ajouté un fichier : `master-data-config`, qui contruit l'objet `masterDataConfig` nécessaire au provider MasterData qui permet le chargement des domaines et définitions.
+Dans le dossier `config` nous avons donc ajouté un fichier : `master-data-config`. Celui-ci construit l'objet `masterDataConfig` nécessaire au provider `MasterData` qui permet le chargement des domaines et définitions.
 
 - Le provider masterData :
 
@@ -1468,8 +1467,8 @@ import {masterDataConfig} from './config/master-data-config'
 <MasterDataProvider configuration={masterDataConfig}>
 ```
 
-- la vue :
- Et enfin on vous ai fait un dernier petit exemple pour mettre en musique tout cela, on a ajouté aussi un checkBox ( de Focus-components, bien sûr ) dans l'inputComponent d'un de nos domaines, mais aussi le fait de faire apparaître des champs en fonction d'un select. Vous allez voir c'est fou.
+- La vue :
+ Et enfin on vous a fait un dernier petit exemple pour mettre en musique tout cela, on a aussi ajouté un checkBox (de Focus-components, bien sûr) dans l'inputComponent d'un de nos domaines, mais aussi le fait de faire apparaître des champs en fonction d'un select. Vous allez voir c'est fou.
  Sinon, pour les listes de références il faut ajouter le connecteur des MasterData : `connectToMetadata(['user'])`, mais aussi le load dans le `componentWillMount` : `loadMasterData();` et dans le selectFor : `{selectFor('civility', {entityPath: 'user', masterDatum: 'civility'})}` il faut préciser le propriété masterDatum et le tour est joué !
 
 ```jsx
