@@ -1,5 +1,5 @@
 # Tutorial de fonctionnement de la nouvelle API de gestion des entités et des pages
-
+ Nous avons conscience qu'il reste quelques petites erreurs, nous avons fait ce tutoriel avec plein d'amour, n'hésitez pas à contribuer pour nous aider =) ! 
 ## De quoi part'on
 
 Nous avons une API qui nous sert un objet JSON de la forme suivante
