@@ -777,7 +777,7 @@ export default ConnectedUserForm;
 ```
 
 ### Connection au provider :
-Avant toute chose, pour petit rappel, cette connexion est possible grâce au provider qui ont été mis  précédemment autour de vos composants, ainsi que la création du store ( via le createStoreWithFocus ). Dans notre cas nous allons connecter notre composant :
+Avant toute chose, pour petit rappel, cette connexion est possible grâce au provider qui ont été mis précédemment autour de vos composants, ainsi que la création du store ( via le createStoreWithFocus ). Dans notre cas nous allons connecter notre composant :
 
 - aux metaDonnées ( les définitions et les domaines )
 
@@ -885,7 +885,7 @@ Encore une fois quelques explications très simples. Souvenez-vous, dans Redux, 
 
 - name : correspondant à votre entité définition.
 
-- LoadTypes : L'`actionBuilder` permet de construire trois actions au sens Redux du terme : la request, la response, et l'error ces trois types sont renvoyé par l'actionBuilder dans l'objet loadUserTypes que nous avons importé.
+- LoadTypes : L'`actionBuilder` permet de construire trois actions au sens Redux du terme : la request, la response, et l'error. Ces trois types sont renvoyés par l'actionBuilder dans l'objet loadUserTypes que nous avons importé.
 
 - SaveTypes : Même principe que le load.
 
@@ -1035,7 +1035,7 @@ Les actions et les reducers n'ont rien de particulier pour une liste. Je vous in
 
 ### La vue et le LineComponent
 
-Dans notre exemple, le champs `moves` de finance est une liste. Ainsi il a été précisé lors de la déclaration de l'entity definition , l'entity de redirection de la liste. Ainsi chacune de ses lignes sera un objet de cette entity de redirection.
+Dans notre exemple, le champs `moves` de finance est une liste. Ainsi il a été précisé lors de la déclaration de l'entity definition , l'entity de redirection de la liste. Chacune de ses lignes sera un objet de cette entity de redirection.
 ```jsx
 export const finance = {
   name:  {
@@ -1089,7 +1089,7 @@ export default FinancialMoveLine;
 
 ##Les actions Builders avec deux noeuds
 
-Il est possible, de manière très simple, d'ajouter deux nœuds à une actionBuilder afin de charger deux entités lors d'une seul service.
+Il est possible, de manière très simple, d'ajouter deux nœuds à une actionBuilder afin de charger deux entités lors d'un seul service.
 
 ```jsx
 
@@ -1250,7 +1250,7 @@ export default ConnectedUserForm;
 
 ## Les Middlewares
 Je vous recommande la documentation de redux : http://redux.js.org/docs/advanced/Middleware.html
-qui vous sera d'une grande aide si vous avez un doute sur les middleware.
+qui vous sera d'une grande aide si vous avez un doute sur les middlewares.
 N'hésitez pas à relire également la documentation sur le createStoreWithFocus.
 
 Vous voulez avoir, en fonction d'une action, un comportement particulier, une logique autre : le middleware est la pour vous. Nous allons pour cela mettre en place trois middlewares d'exemple :
@@ -1273,31 +1273,42 @@ import {INPUT_CHANGE, INPUT_ERROR} from 'focus-redux/actions/input';
 
 
 export const amoutToUpperCaseMiddleware = store => next => action => {
+    //On récupère les informations que l'on souhaite dans le state Redux	
     const {forms, definitions, domains} = store.getState();
+    //On recherche l'action souhaitée sur le champs souhaité afin de réaliser notre action
     if (action.type === INPUT_CHANGE && action.fieldName == 'amount') {
+        // L'objet action est celui décrit dans les actions [focus-redux](https://github.com/get-focus/focus-redux/blob/master/src/actions/form.js) 
         const {formKey} = action;
         const {fields} = forms.find(f=> f.formKey === formKey);
+        //On met en forme notre nouvelle action
         const lastNameAction = {...action};
         lastNameAction.fieldName = 'name';
         lastNameAction.rawValue =  fields.find(f => f.name == 'name').rawInputValue.toUpperCase();
+        //On réalise la première action
         next(action);
+        //On dispatch l'action que nous avons créée
         store.dispatch(lastNameAction);
     } else {
+    	//Dans tous les autres cas d'action, on realise l'action sans modification
         next(action);
     }
 }
 
 export default amoutToUpperCaseMiddleware;
 ```
+IL est très simple, via les middlewares, de se placer avant ou après une action, afin de réaliser des modifications. Il suffit pour cela de récupérer l'action qui nous intéresse, de créer la nouvelle action, de réaliser la première et enfin de dispatcher l'action créée (qui passera aussi dans les middlewares). 
 
 - L'ajouter lors de la création du store :
 
+Je vous invite pour cette partie de relire la partie sur le store Redux et sur le [createStoreWithFocus](https://github.com/get-focus/focus-tuto-redux/blob/master/README.md#dernier-point-avant-de-se-lancer-on-va-créer-un-store-un-peu-plus-avancé)
+
 ```jsx
-import builder from 'focus-redux/store/create-store';
+import createStoreWithFocus from 'focus-redux/store/create-store';
 import rootReducer from '../../src/reducer';
 import {amoutToUpperCaseMiddleware} from '../../src/middleware/user-middleware';
 
-const store = builder({dataset: rootReducer}, [amoutToUpperCaseMiddleware]);
+//
+const store = createStoreWithFocus({dataset: rootReducer}, [amoutToUpperCaseMiddleware]);
 
 export default store;
 ```
@@ -1305,7 +1316,7 @@ export default store;
 
 ### Middleware, deuxième exemple
 
-Il est également possible de dispatcher un autre action.
+Il est également possible de dispatcher un autre action. Il suffit pour cela de réaliser la même chose que précédemment en ajoutant seulement un autre type et en respectant le contract défini par les [actions](https://github.com/get-focus/focus-redux/blob/master/src/actions/form.js) du form. Il est possible de mettre en place toutes actions disponibles du form.
 
 ```jsx
 export const errorFieldMiddleware = store => next => action => {
@@ -1342,7 +1353,9 @@ export default store;
 
 > En pratique ce troisième cas ne sera pas le plus utilisé, mais c'est toujours bien de savoir que c'est possible. Qui plus est, ça montre d'autant plus la force de redux ( au cas où vous ne seriez pas encore convaincu ).
 
-Avec Focus-redux, un nombre d'actions de base est déjà présent, comme `input_change`, ou le `create_form`. Cependant pour des besoins spécifiques (très spécifiques) il se peut que vous ayez besoin d'avoir une action qui ajoute, modifie une partie du state. Il faut alors écrire cette action.  Pour ça, il y a un peu plus d'étapes :
+Avec Focus-redux, un nombre d'actions de base est déjà présent, comme `input_change`, ou le `create_form`. Cependant pour des besoins spécifiques (très spécifiques) il se peut que vous ayez besoin d'avoir une action qui ajoute, modifie une partie du state et qui ne sera pas disponible via le form. Il faut alors écrire cette action.  Pour ça, il y a un peu plus d'étapes.
+
+> Attention via cette technique il n'est pas possible de modifier l'objet form (et donc fields) du state, qui ne peut se modifier qu'à travers les actions du form. 
 
 - Le middleware :
 
@@ -1364,7 +1377,7 @@ export const ownActiondMiddleware = store => next => action => {
 
 - L'action custom:
 
-Une action au sens redux du terme ça ressemble à ça. En effet pour les actions spécifiques du load et du save l'actionBuilder est là pour vous simplifier les dévellopements cependant, pour des actions "simples", voici ce que vous devez ecrire. Une action doit toujours avec un type, ce type étant le descriminant pour les reducers. Puis elle contient les informations nécessaire au reducer pour transformer le state. Pour cet exemple la clé du formulaire et suffisant, maintenant vous pouvez tout aussi bien lui donner autre chose.
+Une action au sens redux du terme ça ressemble à ça. En effet pour les actions spécifiques du load et du save l'actionBuilder est là pour vous simplifier les développements cependant, pour des actions "simples", voici ce que vous devez ecrire. Une action doit toujours avec un type, ce type étant le descriminant pour les reducers. Puis elle contient les informations nécessaire au reducer pour transformer le state. Pour cet exemple la clé du formulaire et suffisant, maintenant vous pouvez tout aussi bien lui donner autre chose.
 
 ```jsx
 export const MY_ACTION = 'MY_ACTION';
@@ -1386,9 +1399,9 @@ import {MY_ACTION} from '../actions/custom-actions';
  const customReducer = (state = {}, action) => {
     switch(action.type) {
         case MY_ACTION:
-          return state = {victoire: 'De la Gloire'}
+          return {victoire: 'De la Gloire'};
         default:
-          return state = {echec: 'De l'echec' };
+          return {echec: 'De l'echec' };
     }
 };
 
