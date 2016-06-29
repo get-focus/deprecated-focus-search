@@ -1,7 +1,7 @@
-import builder from 'focus-redux/store/builder';
-import rootReducer from '../../src/reducer';
-import DevTools from '../containers/dev-tools'
+import {createStore, combineReducers} from 'redux';
+import DevTools from '../example/containers/dev-tools'
+import * as searchReducers from '../reducer';
 
-const store = builder(rootReducer, [DevTools.instrument()]);
+const store = createStore(combineReducers({...searchReducers}), DevTools.instrument())
 
 export default store;

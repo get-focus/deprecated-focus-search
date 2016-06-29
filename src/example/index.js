@@ -4,7 +4,7 @@ import {AppContainer } from 'react-hot-loader';
 import {hashHistory } from 'react-router'
 import {createStore} from 'redux';
 import Root from './root';
-import store from './store';
+import store from '../store';
 
 ReactDOM.render(
   <div>
