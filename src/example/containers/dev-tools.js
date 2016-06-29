@@ -9,7 +9,6 @@ import MultipleMonitors from 'redux-devtools-multiple-monitors';
 import Inspector from 'redux-devtools-inspector';
 import Dispatcher from 'redux-devtools-dispatch';
 
-import * as projectActions from '../actions/user-actions';
 
 // createDevTools takes a monitor and produces a DevTools component
 const DevTools = createDevTools(
@@ -19,7 +18,7 @@ const DevTools = createDevTools(
     <DockMonitor toggleVisibilityKey='ctrl-h' changePositionKey='ctrl-q' defaultSize={0.4} defaultIsVisible={true}>
         <MultipleMonitors>
             <Inspector />
-            <Dispatcher actionCreators={{...projectActions}} />
+            <Dispatcher  />
         </MultipleMonitors>
     </DockMonitor>
 );

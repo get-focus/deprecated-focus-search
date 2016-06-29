@@ -1,15 +1,16 @@
 import React , {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
+import {AppContainer } from 'react-hot-loader';
 import {hashHistory } from 'react-router'
 import {createStore} from 'redux';
 import Root from './root';
+import store from './store';
 
 ReactDOM.render(
   <div>
-    <Root/>
+    <Root store={store} history={hashHistory} />
   </div>,
-    document.querySelector('.focus-redux-demo-app')
+    document.querySelector('.focus-search-example')
 );
 
 if (module.hot) {
@@ -20,10 +21,9 @@ if (module.hot) {
     // If you use Webpack 2 in ES modules mode, you can
     // use <App /> here rather than require() a <NextApp />.
     ReactDOM.render(
-      <div>
-        Focus-search
-      </div>,
-        document.querySelector('.focus-redux-demo-app')
+
+        <Root store={store} history={hashHistory} />,
+        document.querySelector('.focus-search-example')
     );
   });
 }
