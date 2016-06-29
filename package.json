@@ -1,7 +1,7 @@
 {
-  "name": "focus-demo-app-redux",
+  "name": "focus-search",
   "version": "0.1.0",
-  "description": "Form, data behaviours",
+  "description": "Serach FOCUS",
   "main": "src/index.js",
   "scripts": {
     "test": "BABEL_ENV=test mocha src/**/__tests__/**/*.js",

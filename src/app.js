@@ -13,8 +13,6 @@ const StateDisplayer = connectToStore(s => s)(props => <pre><code>{JSON.stringif
 const App = props =>
   <div style={{color: 'blue'}}>
     <DevTools />
-    <h1>Bienvenue dans ce superbe tutoriel {props.name} </h1>
-    {/* On récupère les définitions dans les props*/}
     {props.children}
     <StateDisplayer/ >
   </div>;
@@ -26,7 +24,7 @@ App.defaultProps = {
 App.propTypes = {
   name: PropTypes.string.isRequired
 }
-// On exporte le composant Application connecté au store redux.
+
 export default compose(
                   connectToStore(userSelector),
                   connectToMetadata(['user','address','financialMove'])
