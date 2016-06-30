@@ -1,13 +1,39 @@
-import {UPDATE_QUERY} from '../actions/action-search';
+import {UPDATE_QUERY, UPDATE_FACETS, UPDATE_SCOPE, UPDATE_SELECTED_FACETS} from '../actions/action-search';
 const search = (state = [], action) => {
-   console.log('lolo');
    switch(action.type) {
 	   case UPDATE_QUERY:
-       console.log('lala');
-  		 return [
-         ...state,
-         {query : action.query}
-       ];
+
+  		return state.length > 0 ? state.map(search => {
+         return {
+          ...search,
+          query : action.query
+          }
+        }) : [{query: action.query}]
+        return result;
+     case UPDATE_FACETS:
+       return state.length > 0 ? state.map(search => {
+          return {
+           ...search,
+           facets : action.facets
+           }
+         }) : [{facets: action.facets}]
+         return result;
+     case UPDATE_SCOPE:
+     return state.length > 0 ? state.map(search => {
+        return {
+         ...search,
+         scope : action.scope
+         }
+       }) : [{scope: action.scope}]
+       return result;
+     case UPDATE_SELECTED_FACETS:
+        return state.length > 0 ? state.map(search => {
+          return {
+           ...search,
+           selectedFacets : action.selectedFacets
+           }
+         }) : [{selectedFacets: action.selectedFacets}]
+       return result;
 	   default:
 		   return state;
    }
