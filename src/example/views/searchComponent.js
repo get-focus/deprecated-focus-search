@@ -4,6 +4,7 @@ import Button from './components/button';
 import * as actionsSearch from '../../actions/action-search';
 import React, {Component, PropTypes} from 'react';
 import map from 'lodash/map';
+import {searchAction as search} from '../actions/search-actions'
 
 const selectData = name => (state ={}) => {
   if( !state[name]) throw new Error(`SELECTOR_DATASET : there is no ${name} in the dataset of the state`);
@@ -16,11 +17,17 @@ class Search extends Component {
     const onClick = () => dispatchDeLaGloire()
     return <Button onClick={onClick} >action</Button>
   }
+  renderSearchAction(){
+    const {dispatchDeLaGloire} = this.props;
+    const onClick = () => dispatchDeLaGloire(this.props.reduxState);
+    return <Button onClick={onClick} >seeeeeearrrrch</Button>
+  }
 
   render () {
     return <div style={{color: 'orange'}}>Search Page
       <code><pre>{JSON.stringify(this.props.reduxState)}</pre></code>
       {this.renderDispatchButton()}
+      {this.renderSearchAction()}
     </div>;
   }
 
@@ -28,11 +35,12 @@ class Search extends Component {
 
 const ConnectedComponentSearch = compose(
   connectToState(s => ({reduxState: s}), dispatch => ({
-      dispatchDeLaGloire : () => {
-        dispatch(actionsSearch.updateFacets('dfsfhsdbfbhsdgjfsj'));
-        dispatch(actionsSearch.updateScope('yo'))
-        dispatch(actionsSearch.updateQuery('yo'))
-        dispatch(actionsSearch.updateSelectedFacets('yo'))
+      dispatchDeLaGloire : (data) => {
+        dispatch(search.action(data))
+        // dispatch(actionsSearch.updateFacets('dfsfhsdbfbhsdgjfsj'));
+        // dispatch(actionsSearch.updateScope('yo'))
+        // dispatch(actionsSearch.updateQuery('yo'))
+        // dispatch(actionsSearch.updateSelectedFacets('yo'))
       }
     }
   ))

@@ -25,7 +25,6 @@ const search = (state = [], action) => {
          scope : action.scope
          }
        }) : [{scope: action.scope}]
-       return result;
      case UPDATE_SELECTED_FACETS:
         return state.length > 0 ? state.map(search => {
           return {
@@ -34,6 +33,21 @@ const search = (state = [], action) => {
            }
          }) : [{selectedFacets: action.selectedFacets}]
        return result;
+    case 'REQUEST_SEARCH_ADVANCED_SEARCH':
+      return [
+        ...state,
+        {gloire: 'tentative'}
+      ];
+    case 'RESPONSE_SEARCH_ADVANCED_SEARCH':
+      return [
+        ...state,
+        {gloire: 'victoire'}
+      ];
+    case 'ERROR_SEARCH_ADVANCED_SEARCH':
+      return [
+        ...state,
+        {gloire: 'echec'}
+      ];
 	   default:
 		   return state;
    }

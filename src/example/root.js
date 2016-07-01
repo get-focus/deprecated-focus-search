@@ -3,7 +3,7 @@ import {IndexRoute, Router, Route} from 'react-router';
 import Home from './views/home';
 import App from './app'
 import {Provider as StoreProvider} from 'react-redux';
-
+import 'babel-polyfill';
 
 /* Components */
 
