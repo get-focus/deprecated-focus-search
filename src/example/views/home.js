@@ -5,10 +5,12 @@ import * as actionsSearch from '../../actions/action-search';
 import React, {Component, PropTypes} from 'react';
 import map from 'lodash/map';
 import SearchComponent from './searchComponent'
+import OtherSearchComponent from './otherSearchComponent'
 
 const Home = () =>  {
   return <div style={{color: 'orange'}}>
     <SearchComponent/>
+    <OtherSearchComponent/>
   </div>;
 }
 

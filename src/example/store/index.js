@@ -1,8 +1,21 @@
-import {createStore} from 'redux';
-const DEFAULT_STATE = {user: {name: 'pas de nom'}};
-// On créé un store bidon qui a un state par défaut et le retourne.
-// Un reducer est une fonction qui prend le state et le modifie
-// Ici notre reducer est une fonction identité
-const store = createStore((state = DEFAULT_STATE) => state);
+import thunkMiddleware from 'redux-thunk';
+import {createStore, applyMiddleware, combineReducers, compose} from 'redux';
+import DevTools from '../containers/dev-tools'
+import {unitSearchReducers, unitOtherSearchReducers} from '../actions/search-actions';
+import {middlewareAdvancedSearch, middlewareOtherSearch} from '../middleware/middleware-search'
 
-export default store; 
+const store = createStore(
+  combineReducers({search : unitSearchReducers, otherSearch : unitOtherSearchReducers}),
+  compose(
+    applyMiddleware(
+      thunkMiddleware,
+      middlewareOtherSearch,
+      middlewareAdvancedSearch// lets us dispatch() functions
+    ),
+    DevTools.instrument()
+  )
+
+)
+
+
+export default store;

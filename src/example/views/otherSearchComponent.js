@@ -1,11 +1,10 @@
 import {connect as connectToState} from 'react-redux';
 import compose from 'lodash/flowRight';
 import Button from './components/button';
-import {unitSearchActionBuilder} from '../../actions/action-search';
 import React, {Component, PropTypes} from 'react';
 import map from 'lodash/map';
 import debounce from 'lodash/debounce'
-import {unitSearchActions, searchAction as search} from '../actions/search-actions'
+import {unitOtherSearchActions, otherSearchAction} from '../actions/search-actions'
 
 const selectData = name => (state ={}) => {
   if( !state[name]) throw new Error(`SELECTOR_DATASET : there is no ${name} in the dataset of the state`);
@@ -29,7 +28,7 @@ class Search extends Component {
     return <input onChange={({target:{value}}) => onChange(value)} />
   }
   render () {
-    return <div style={{color: 'orange'}}>Search Page
+    return <div style={{color: 'orange'}}>Other Search
       <code><pre>{JSON.stringify(this.props.reduxState)}</pre></code>
       {this.renderDispatchButton()}
       {this.renderSearchAction()}
@@ -42,16 +41,16 @@ class Search extends Component {
 const ConnectedComponentSearch = compose(
   connectToState(s => ({reduxState: s}), dispatch => ({
       dispatchDeLaGloire : (data) => {
-        dispatch(unitSearchActions.updateFacets('dfsfhsdbfbhsdgjfsj'));
-        dispatch(unitSearchActions.updateScope('yo'))
-        dispatch(unitSearchActions.updateQuery('yo'))
-        dispatch(unitSearchActions.updateSelectedFacets('yo'))
+        dispatch(unitOtherSearchActions.updateFacets('Ouaaaah'));
+        dispatch(unitOtherSearchActions.updateScope('c'))
+        dispatch(unitOtherSearchActions.updateQuery('est'))
+        dispatch(unitOtherSearchActions.updateSelectedFacets('beau'))
       },
       dipatchSearch: (data) => {
-        dispatch(search.action(data))
+        dispatch(otherSearchAction.action(data))
       },
       dispatchQuery: (value) => {
-        dispatch(unitSearchActions.updateQuery(value))
+        dispatch(unitOtherSearchActions.updateQuery(value))
       }
 
     }

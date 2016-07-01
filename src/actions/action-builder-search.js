@@ -25,12 +25,11 @@ export const _asyncSearchActionCreator = ({service, actionCreators}) => (criteri
 
 //Name ? type ?
 export const actionSearchBuilder = ({type, service, name}) => {
+   console.log(name)
    type = 'search';
    const UPPER_TYPE = toUpper(type);
    const CAPITALIZE_TYPE = capitalize(type);
-
    const searching = 'search';
-   name = 'advanced_search';
    const UPPER_NAME = toUpper(name);
    const CAPITALIZE_NAME = capitalize(name);
    const _metas = {
