@@ -5,7 +5,7 @@ import {unitSearchReducers, unitOtherSearchReducers} from '../actions/search-act
 import {middlewareAdvancedSearch, middlewareOtherSearch} from '../middleware/middleware-search'
 
 const store = createStore(
-  combineReducers({search : unitSearchReducers, otherSearch : unitOtherSearchReducers}),
+  combineReducers({advancedSearch : unitSearchReducers, otherSearch : unitOtherSearchReducers}),
   compose(
     applyMiddleware(
       thunkMiddleware,

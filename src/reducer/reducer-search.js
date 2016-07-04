@@ -52,6 +52,7 @@ export const unitSearchReducerBuilder = name => (state = [], action) => {
    return state.length > 0 ? state.map(search => {
       return {
        ...search,
+       facets: action.payload[0].facets,
        gloire : 'victoire'
        }
      }) : [{gloire : 'victoire'}]
