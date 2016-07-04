@@ -1,8 +1,20 @@
-import React from 'react';
+import {connect as connectToState} from 'react-redux';
+import compose from 'lodash/flowRight';
+import Button from './components/button';
+import * as actionsSearch from '../../actions/action-search';
+import React, {Component, PropTypes} from 'react';
+import map from 'lodash/map';
+import SearchComponent from './searchComponent'
+import OtherSearchComponent from './otherSearchComponent'
 
-const Home = props => {
-  console.log('fjdksfhsdjkfhsdjkfhsdjkhfsdjkfhsdjkfhsdjkfhqsdjkfqs')
-  return <div style={{color: 'orange'}}>Home Page</div>;
+const Home = () =>  {
+  return <div style={{color: 'orange'}}>
+    <SearchComponent/>
+    <OtherSearchComponent/>
+  </div>;
 }
 
-export default Home;
+const ConnectedComponentHome = compose(
+  connectToState(s => ({reduxState: s}))
+)(Home)
+export default ConnectedComponentHome;
