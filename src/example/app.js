@@ -9,6 +9,7 @@ import DevTools from './containers/dev-tools';
 const App = props =>
   <div style={{color: 'blue'}}>
     Bienvenue
+    <DevTools/>
     {props.children}
   </div>;
 

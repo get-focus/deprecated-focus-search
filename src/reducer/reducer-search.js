@@ -6,9 +6,9 @@ export const unitSearchReducerBuilder = name => (state = [], action) => {
   const UPDATE_FACETS_SEARCH =  toUpper(name)+"_UPDATE_FACETS";
   const UPDATE_SCOPE_SEARCH =  toUpper(name)+"_UPDATE_SCOPE";
   const UPDATE_SELECTED_FACETS_SEARCH =  toUpper(name)+"_UPDATE_SELECTED_FACETS";
-  const REQUEST_SEARCH_ADVANCED_SEARCH = "REQUEST_SEARCH_"+toUpper(name);
-  const RESPONSE_SEARCH_ADVANCED_SEARCH = "RESPONSE_SEARCH_" + toUpper(name);
-  const ERROR_SEARCH_ADVANCED_SEARCH = "ERROR_SEARCH_" + toUpper(name);
+  const REQUEST_ADVANCED_SEARCH = "REQUEST_"+toUpper(name);
+  const RESPONSE_ADVANCED_SEARCH = "RESPONSE_" + toUpper(name);
+  const ERROR_ADVANCED_SEARCH = "ERROR_" + toUpper(name);
 
   switch(action.type) {
     case UPDATE_QUERY_SEARCH:
@@ -41,14 +41,14 @@ export const unitSearchReducerBuilder = name => (state = [], action) => {
           selectedFacets : action.selectedFacets
           }
         }) : [{selectedFacets: action.selectedFacets}]
-   case REQUEST_SEARCH_ADVANCED_SEARCH:
+   case REQUEST_ADVANCED_SEARCH:
      return state.length > 0 ? state.map(search => {
         return {
          ...search,
          gloire : 'tentative'
          }
        }) : [{gloire : 'tentative'}]
-   case RESPONSE_SEARCH_ADVANCED_SEARCH:
+   case RESPONSE_ADVANCED_SEARCH:
    return state.length > 0 ? state.map(search => {
       return {
        ...search,
@@ -56,7 +56,7 @@ export const unitSearchReducerBuilder = name => (state = [], action) => {
        gloire : 'victoire'
        }
      }) : [{gloire : 'victoire'}]
-   case ERROR_SEARCH_ADVANCED_SEARCH:
+   case ERROR_ADVANCED_SEARCH:
      return state.length > 0 ? state.map(search => {
         return {
          ...search,
