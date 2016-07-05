@@ -5,6 +5,8 @@ export const PENDING = 'PENDING';
 export const SUCCESS = 'SUCCESS';
 export const ERROR = 'ERROR';
 
+const STRING_EMPTY = '';
+const ACTION_BUILDER = 'ACTION_SEARCH_BUILDER';
 
 
 const _actionCreatorBuilder = (type, name, _meta) => payload => ({...{type, _name: name, _meta}, ...(payload ? {payload} : {})});
@@ -23,8 +25,19 @@ const _asyncSearchActionCreator = ({service, actionCreators}) => (criteria => {
   }
 });
 
+const _validateActionBuilderParams = ({service, name}) => {
+    if(!isFunction(service)) {
+        throw new Error(`${ACTION_BUILDER}: the service parameter should be a function.`);
+    }
+    if(!isString(name) || STRING_EMPTY === name) {
+        throw new Error(`${ACTION_BUILDER}: the name parameter should be a string`);
+    }
+}
+
 //Name ? type ?
 export const actionSearchBuilder = ({service, name}) => {
+   //TO DO VALIDATE PARAMS
+   _validateActionBuilderParams({service, name});
    const type = 'search';
    const UPPER_TYPE = toUpper(type);
 
@@ -36,6 +49,7 @@ export const actionSearchBuilder = ({service, name}) => {
     response: {status: SUCCESS, searching},
     error: {status: ERROR, searching}
   }
+  console.log(_metas);
   const constants = {
     request: `REQUEST_${UPPER_NAME}`,
     response: `RESPONSE_${UPPER_NAME}`,
