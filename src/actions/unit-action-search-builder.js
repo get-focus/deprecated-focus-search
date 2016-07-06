@@ -1,4 +1,19 @@
 import {capitalize, toUpper} from 'lodash/string';
+import {isArray, isFunction,isString} from 'lodash/lang';
+
+const STRING_EMPTY = '';
+const UNIT_ACTION_BUILDER = 'UNIT_ACTION_SEARCH_BUILDER';
+
+
+
+const _validateUnitActionBuilderParams = (name) => {
+    if(!isString(name) || STRING_EMPTY === name) {
+        throw new Error(`${UNIT_ACTION_BUILDER}: the name parameter should be a string`);
+    }
+}
+
+
+
 
 /**
  * [unitSearchActionBuilder description]
@@ -6,6 +21,7 @@ import {capitalize, toUpper} from 'lodash/string';
  *
  */
 export const unitSearchActionBuilder = name => {
+	_validateUnitActionBuilderParams(name);
 	const UPDATE_QUERY_SEARCH =  toUpper(name)+"_UPDATE_QUERY";
 	const UPDATE_FACETS_SEARCH =  toUpper(name)+"_UPDATE_FACETS";
 	const UPDATE_SCOPE_SEARCH =  toUpper(name)+"_UPDATE_SCOPE";
