@@ -4,6 +4,7 @@ import Button from './components/button';
 import React, {Component, PropTypes} from 'react';
 import map from 'lodash/map';
 import debounce from 'lodash/debounce'
+import {selectSearchCriteria} from '../../reducer/reducer-criteria-search'
 import {unitOtherSearchActions, otherSearchAction} from '../actions/search-actions'
 
 const selectData = name => (state ={}) => {
@@ -30,7 +31,7 @@ class Search extends Component {
   render () {
     console.log(otherSearchAction);
     return <div style={{color: 'orange'}}>Other Search
-      <code><pre>{JSON.stringify(this.props.reduxState)}</pre></code>
+      <code><pre>{JSON.stringify(this.props)}</pre></code>
       {this.renderDispatchButton()}
       {this.renderSearchAction()}
       {this.renderInputToSearch()}
@@ -40,7 +41,7 @@ class Search extends Component {
 }
 
 const ConnectedComponentSearch = compose(
-  connectToState(s => ({reduxState: s}), dispatch => ({
+  connectToState(selectSearchCriteria('otherSearch'), dispatch => ({
       dispatchDeLaGloire : (data) => {
         dispatch(unitOtherSearchActions.updateFacets('Ouaaaah'));
         dispatch(unitOtherSearchActions.updateScope('c'))

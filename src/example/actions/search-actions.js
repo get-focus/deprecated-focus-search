@@ -1,6 +1,6 @@
 import {actionSearchBuilder} from '../../actions/action-search-builder'
 import {unitSearchActionBuilder} from '../../actions/unit-action-search-builder'
-import {unitSearchReducerBuilder} from '../../reducer/reducer-search'
+import {unitSearchReducerBuilder} from '../../reducer'
 import {serviceSearch} from '../services/search'
 
 //advanced_search
