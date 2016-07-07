@@ -4,6 +4,10 @@ export const PENDING = 'PENDING';
 export const SUCCESS = 'SUCCESS';
 export const ERROR = 'ERROR';
 
+const arryOfString = [undefined, 1, {}, null, "", 'nimp', ()=>{}, []];
+const toBeAFunction = [undefined, 1, {}, null, "", 'nimp', []];
+
+
 describe('The actionSearcBuilder', ()=> {
   describe('when called with wrong paramaters', () => {
       it('should throw a type error when called with all paramaters', () => {
@@ -11,11 +15,10 @@ describe('The actionSearcBuilder', ()=> {
       });
       it('should throw an error when called without a function returning a Promise service parameter', () => {
         const SERVICE_MESSAGE = 'ACTION_SEARCH_BUILDER: the service parameter should be a function.';
-        expect(() => { actionSearchBuilder({service: undefined})}).to.throw(SERVICE_MESSAGE);
-        expect(() => { actionSearchBuilder({service: 1})}).to.throw(SERVICE_MESSAGE);
-        expect(() => { actionSearchBuilder({service: 'nimp'})}).to.throw(SERVICE_MESSAGE);
-        expect(() => { actionSearchBuilder({service: {}})}).to.throw(SERVICE_MESSAGE);
-        expect(() => { actionSearchBuilder({service: null})}).to.throw(SERVICE_MESSAGE);
+        toBeAFunction.map(element => {
+           expect(() => { actionSearchBuilder({service: element})}).to.throw(SERVICE_MESSAGE);
+
+        })
         expect(() => { actionSearchBuilder({service: () => Promise.resolve({test: 'test'})})}).to.not.throw(SERVICE_MESSAGE);
       });
       it('should throw an error when called without a string type parameter : load,save,delete', () => {
