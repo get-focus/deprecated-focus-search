@@ -2,7 +2,7 @@ import {builderAdvancedSearchMiddleware} from '../middleware-search';
 
 const arryOfString = [1, {}, null, "", 'nimp', ()=>{}];
 const toBeAString = [undefined, 1, {}, null, "", ()=>{}, []];
-const toBeAFunction = [undefined, 1, {}, null, "", 'nimp', []];
+const toBeAFunction = [undefined, 1, ()=>{}, null, "", 'nimp', []];
 
 
 describe('The builderAdvancedSearchMiddleware', ()=> {
