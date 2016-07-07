@@ -1,7 +1,7 @@
 import {connect as connectToState} from 'react-redux';
 import compose from 'lodash/flowRight';
 import Button from './components/button';
-import {unitSearchActionBuilder} from '../../actions/action-search';
+import {unitSearchActionBuilder} from '../../actions/unit-action-search-builder';
 import React, {Component, PropTypes} from 'react';
 import map from 'lodash/map';
 import debounce from 'lodash/debounce'
@@ -51,7 +51,7 @@ const ConnectedComponentSearch = compose(
         dispatch(search.action(data))
       },
       dispatchQuery: (value) => {
-        dispatch(unitSearchActions.updateQuery(value))
+        dispatch(unitSearchActions.updateSelectedFacets(value))
       }
 
     }

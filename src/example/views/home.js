@@ -1,7 +1,6 @@
 import {connect as connectToState} from 'react-redux';
 import compose from 'lodash/flowRight';
 import Button from './components/button';
-import * as actionsSearch from '../../actions/action-search';
 import React, {Component, PropTypes} from 'react';
 import map from 'lodash/map';
 import SearchComponent from './searchComponent'
