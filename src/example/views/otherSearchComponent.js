@@ -29,7 +29,6 @@ class Search extends Component {
     return <input onChange={({target:{value}}) => onChange(value)} />
   }
   render () {
-    console.log(otherSearchAction);
     return <div style={{color: 'orange'}}>Other Search
       <code><pre>{JSON.stringify(this.props)}</pre></code>
       {this.renderDispatchButton()}

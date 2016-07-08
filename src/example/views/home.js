@@ -5,11 +5,13 @@ import React, {Component, PropTypes} from 'react';
 import map from 'lodash/map';
 import SearchComponent from './searchComponent'
 import OtherSearchComponent from './otherSearchComponent'
+import SearchWithComponent from './searchWithComponent'
 
 const Home = () =>  {
   return <div style={{color: 'orange'}}>
     <SearchComponent/>
     <OtherSearchComponent/>
+    <SearchWithComponent/>
   </div>;
 }
 
