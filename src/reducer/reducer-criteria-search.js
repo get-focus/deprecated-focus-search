@@ -52,7 +52,6 @@ export const unitCriteriaSearchReducerBuilder = name => (state = [], action) => 
 
 }
 
-// It  extracts data from the dataset part of the state
 export const selectSearchCriteriaByName = (searchName, name) => (state ={}) => {
   if( !state[searchName] || !state[searchName] .criteria[name] ) throw new Error(`SELECTOR_CRITERIA_SEARCH : there is no ${searchName} or ${name} in the state`);
   return state[searchName].criteria[name]

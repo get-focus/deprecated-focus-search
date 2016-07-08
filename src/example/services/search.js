@@ -1,6 +1,48 @@
+const faker = require('faker');
+
+
 
 export const serviceSearch = () => {
-  return  Promise.resolve([{facets: [
+  return  Promise.resolve([{
+
+    list: [
+      {
+        "code": 110644,
+        "title":  faker.name.firstName(),
+        "titleSortOnly": "Stardust, le mystère de l'étoile",
+        "movieType": "Long-métrage",
+        "productionYear": 2007
+      },
+      {
+        "code": 111267,
+        "title":  faker.name.firstName(),
+        "titleSortOnly": "The Moon and the Stars",
+        "movieType": "Long-métrage",
+        "productionYear": 2006
+      },
+      {
+        "code": 145475,
+        "title": faker.name.firstName(),
+        "titleSortOnly": "Star Trek Into Darkness",
+        "movieType": "Long-métrage",
+        "productionYear": 2013
+      },
+      {
+        "code": 147147,
+        "title":  faker.name.firstName(),
+        "titleSortOnly": "Confessions d'une star",
+        "movieType": "Télefilm",
+        "productionYear": 2008
+      },
+      {
+        "code": 13022,
+        "title":  faker.name.firstName(),
+        "titleSortOnly": "Star Trek : Le Film",
+        "movieType": "Long-métrage",
+        "productionYear": 1979
+      }
+    ],
+    facets: [
     {
       "FCT_MOVIE_TYPE": [
         {

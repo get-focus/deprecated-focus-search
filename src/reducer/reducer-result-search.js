@@ -16,6 +16,7 @@ export const unitResultsSearchReducerBuilder = name => (state = {}, action) => {
        return {
           ...state,
           facets: action.payload[0].facets,
+          list:action.payload[0].list,
           gloire : 'victoire'
         }
 

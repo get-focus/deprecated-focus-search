@@ -34,7 +34,7 @@ function FacetContainer({...otherProps}) {
 }
 
 
-FacetContainer.displayName = 'Button';
+FacetContainer.displayName = 'FacetContainer';
 FacetContainer.propTypes = {
     onClick: PropTypes.func.isRequired,
     options: PropTypes.arrayOf(PropTypes.string)

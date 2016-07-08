@@ -3,8 +3,8 @@ import compose from 'lodash/flowRight';
 import React, {Component, PropTypes} from 'react';
 import {selectSearch} from '../reducer'
 
-import DefaultFacet from './facet'
-
+import DefaultFacet from './facet-container';
+import DefaultList from './list-container';
 
 class AdvancedSearch extends Component {
   componentWillMount(){
@@ -19,6 +19,7 @@ class AdvancedSearch extends Component {
     const {results, criteria, dispatch,deleteSelectedFacets} = this.props;
     return <div style={{color: 'orange'}}>
       <DefaultFacet facets={results.facets} selectedFacets={criteria.selectedFacets} deleteSelectedFacets={(element) => dispatch(deleteSelectedFacets(element))} onClick={this.onClick.bind(this)}/>
+      <DefaultList list={results.list} />
     </div>;
   }
 
