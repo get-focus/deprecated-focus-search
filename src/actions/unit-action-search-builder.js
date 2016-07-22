@@ -16,17 +16,15 @@ const _validateUnitActionBuilderParams = (name) => {
 export const unitSearchActionBuilder = name => {
 	_validateUnitActionBuilderParams(name);
 	const UPDATE_QUERY_SEARCH =  `${toUpper(name)}_UPDATE_QUERY`;
-	const UPDATE_FACETS_SEARCH =  `${toUpper(name)}_UPDATE_FACETS`;
-	const UPDATE_SCOPE_SEARCH =  `${toUpper(name)}_UPDATE_SCOPE`;
-	const UPDATE_SELECTED_FACETS_SEARCH =  `${toUpper(name)}_UPDATE_SELECTED_FACETS`;
-  const DELETE_SELECTED_FACETS_SEARCH = `${toUpper(name)}_DELETE_SELECTED_FACETS`;
-
-	return {
+  const UPDATE_SORT_SEARCH =  `${toUpper(name)}_UPDATE_SORT`;
+  const UPDATE_GROUP_SEARCH =  `${toUpper(name)}_UPDATE_GROUP`;
+  const UPDATE_SELECTED_FACETS_SEARCH =  `${toUpper(name)}_UPDATE_SELECTED_FACETS`;
+  return {
 		updateQuery : updateQuery(UPDATE_QUERY_SEARCH),
-		updateScope: updateScope(UPDATE_SCOPE_SEARCH),
+    updateSort : updateSort(UPDATE_SORT_SEARCH),
+    updateGroup : updateSort(UPDATE_GROUP_SEARCH),
 		updateFacets: updateFacets(UPDATE_FACETS_SEARCH),
 		updateSelectedFacets: updateSelectedFacets(UPDATE_SELECTED_FACETS_SEARCH),
-    deleteSelectedFacets: deleteSelectedFacets(DELETE_SELECTED_FACETS_SEARCH)
 	}
 }
 
@@ -36,20 +34,22 @@ export const unitSearchActionBuilder = name => {
  * @return {object} the action itself
  */
 
-const updateQuery = type => query => ({
+const updateQuery = type => (query, replace) => ({
 	type: type,
-	query
+	query,
+  replace
 });
 
 
-/**
- * Actions comments
- * @param  {scope} search query
- * @return {object} the action itself
- */
-const updateScope = type => scope => ({
+const updateSort = type => (sort, replace) => ({
 	type: type,
-	scope
+	sort,
+  replace
+});
+const updateGroup = type => (group, replace) => ({
+	type: type,
+	group,
+  replace
 });
 
 /**
@@ -57,28 +57,22 @@ const updateScope = type => scope => ({
  * @param  {selectedFacets} search selectedFacets
  * @return {object} the action itself
  */
-const updateSelectedFacets = type => selectedFacets => ({
+const updateSelectedFacets = type => (selectedFacets, replace) => ({
 	type: type,
-	selectedFacets
+	selectedFacets,
+  replace
 });
 
+/*
 
-/**
- * Actions comments
- * @param  {selectedFacets} search selectedFacets
- * @return {object} the action itself
- */
-const deleteSelectedFacets = type => selectedFacets => ({
-	type: type,
-	selectedFacets
-});
+// High order action creator => not really readable ...
+cont hb = (type, property) => {
+  (propertyValue, replace) => ({
+    [property]: propertyValue,
+    replace,
+    type
+  })
+}
 
-/**
- * Actions comments
- * @param  {facets} search facets
- * @return {object} the action itself
- */
-const updateFacets = type => facets => ({
-	type: type,
-	facets
-});
+hb(UPDATE_QUERY_SEARCH, 'selectedFacets')
+*/
