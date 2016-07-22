@@ -26,12 +26,14 @@ export const unitSearchActionBuilder = name => {
 	const UPDATE_FACETS_SEARCH =  toUpper(name)+"_UPDATE_FACETS";
 	const UPDATE_SCOPE_SEARCH =  toUpper(name)+"_UPDATE_SCOPE";
 	const UPDATE_SELECTED_FACETS_SEARCH =  toUpper(name)+"_UPDATE_SELECTED_FACETS";
+  const DELETE_SELECTED_FACETS_SEARCH = toUpper(name)+"_DELETE_SELECTED_FACETS";
 
 	return {
 		updateQuery : updateQuery(UPDATE_QUERY_SEARCH),
 		updateScope: updateScope(UPDATE_SCOPE_SEARCH),
 		updateFacets: updateFacets(UPDATE_FACETS_SEARCH),
-		updateSelectedFacets: updateSelectedFacets(UPDATE_SELECTED_FACETS_SEARCH)
+		updateSelectedFacets: updateSelectedFacets(UPDATE_SELECTED_FACETS_SEARCH),
+    deleteSelectedFacets: deleteSelectedFacets(DELETE_SELECTED_FACETS_SEARCH)
 	}
 }
 
@@ -63,6 +65,17 @@ const updateScope = type => scope => ({
  * @return {object} the action itself
  */
 const updateSelectedFacets = type => selectedFacets => ({
+	type: type,
+	selectedFacets
+});
+
+
+/**
+ * Actions comments
+ * @param  {selectedFacets} search selectedFacets
+ * @return {object} the action itself
+ */
+const deleteSelectedFacets = type => selectedFacets => ({
 	type: type,
 	selectedFacets
 });
