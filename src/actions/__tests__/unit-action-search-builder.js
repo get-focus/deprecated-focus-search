@@ -1,4 +1,4 @@
-import {unitSearchActionBuilder} from '../unit-action-search-builder';
+import {unitSearchActionBuilder} from '../single-action-creator';
 
 export const PENDING = 'PENDING';
 export const SUCCESS = 'SUCCESS';

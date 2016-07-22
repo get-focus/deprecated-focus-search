@@ -1,7 +1,7 @@
 import {connect as connectToState} from 'react-redux';
 import compose from 'lodash/flowRight';
 import Button from './components/button';
-import {unitSearchActionBuilder} from '../../actions/unit-action-search-builder';
+import {unitSearchActionBuilder} from '../../actions/single-action-creator';
 import React, {Component, PropTypes} from 'react';
 import map from 'lodash/map';
 import debounce from 'lodash/debounce'

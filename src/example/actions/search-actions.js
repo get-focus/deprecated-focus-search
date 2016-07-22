@@ -1,5 +1,5 @@
 import {actionSearchBuilder} from '../../actions/action-search-builder'
-import {unitSearchActionBuilder} from '../../actions/unit-action-search-builder'
+import {unitSearchActionBuilder} from '../../actions/single-action-creator'
 import {unitSearchReducerBuilder} from '../../reducer'
 import {serviceSearch} from '../services/search'
 
