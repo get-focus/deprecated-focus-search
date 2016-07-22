@@ -13,20 +13,13 @@ const _validateUnitActionBuilderParams = (name) => {
 }
 
 
-
-
-/**
- * [unitSearchActionBuilder description]
- * @type {[type]}
- *
- */
 export const unitSearchActionBuilder = name => {
 	_validateUnitActionBuilderParams(name);
-	const UPDATE_QUERY_SEARCH =  toUpper(name)+"_UPDATE_QUERY";
-	const UPDATE_FACETS_SEARCH =  toUpper(name)+"_UPDATE_FACETS";
-	const UPDATE_SCOPE_SEARCH =  toUpper(name)+"_UPDATE_SCOPE";
-	const UPDATE_SELECTED_FACETS_SEARCH =  toUpper(name)+"_UPDATE_SELECTED_FACETS";
-  const DELETE_SELECTED_FACETS_SEARCH = toUpper(name)+"_DELETE_SELECTED_FACETS";
+	const UPDATE_QUERY_SEARCH =  `${toUpper(name)}_UPDATE_QUERY`;
+	const UPDATE_FACETS_SEARCH =  `${toUpper(name)}_UPDATE_FACETS`;
+	const UPDATE_SCOPE_SEARCH =  `${toUpper(name)}_UPDATE_SCOPE`;
+	const UPDATE_SELECTED_FACETS_SEARCH =  `${toUpper(name)}_UPDATE_SELECTED_FACETS`;
+  const DELETE_SELECTED_FACETS_SEARCH = `${toUpper(name)}_DELETE_SELECTED_FACETS`;
 
 	return {
 		updateQuery : updateQuery(UPDATE_QUERY_SEARCH),

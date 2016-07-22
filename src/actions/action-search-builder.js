@@ -36,7 +36,7 @@ const _validateActionBuilderParams = ({service, name}) => {
 
 //Name ? type ?
 export const actionSearchBuilder = ({service, name}) => {
-   //TO DO VALIDATE PARAMS
+   //TODO VALIDATE PARAMS
    _validateActionBuilderParams({service, name});
    const type = 'search';
    const UPPER_TYPE = toUpper(type);
@@ -49,7 +49,6 @@ export const actionSearchBuilder = ({service, name}) => {
     response: {status: SUCCESS, searching},
     error: {status: ERROR, searching}
   }
-  console.log(_metas);
   const constants = {
     request: `REQUEST_${UPPER_NAME}`,
     response: `RESPONSE_${UPPER_NAME}`,
