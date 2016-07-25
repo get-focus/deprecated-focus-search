@@ -13,19 +13,27 @@ const _validateUnitActionBuilderParams = (name) => {
 }
 
 
-export const unitSearchActionBuilder = name => {
+export const singleActionCreatorBuilder = name => {
 	_validateUnitActionBuilderParams(name);
 	const UPDATE_QUERY_SEARCH =  `${toUpper(name)}_UPDATE_QUERY`;
   const UPDATE_SORT_SEARCH =  `${toUpper(name)}_UPDATE_SORT`;
   const UPDATE_GROUP_SEARCH =  `${toUpper(name)}_UPDATE_GROUP`;
   const UPDATE_SELECTED_FACETS_SEARCH =  `${toUpper(name)}_UPDATE_SELECTED_FACETS`;
   return {
-		updateQuery : updateQuery(UPDATE_QUERY_SEARCH),
-    updateSort : updateSort(UPDATE_SORT_SEARCH),
-    updateGroup : updateSort(UPDATE_GROUP_SEARCH),
-		updateFacets: updateFacets(UPDATE_FACETS_SEARCH),
-		updateSelectedFacets: updateSelectedFacets(UPDATE_SELECTED_FACETS_SEARCH),
-	}
+    creators: {
+      updateQuery : updateQuery(UPDATE_QUERY_SEARCH),
+      updateSort : updateSort(UPDATE_SORT_SEARCH),
+      updateGroup : updateSort(UPDATE_GROUP_SEARCH),
+      updateSelectedFacets: updateSelectedFacets(UPDATE_SELECTED_FACETS_SEARCH),
+    },
+    types: {
+      [UPDATE_QUERY_SEARCH]: UPDATE_QUERY_SEARCH,
+      [UPDATE_SORT_SEARCH]: UPDATE_SORT_SEARCH,
+      [UPDATE_GROUP_SEARCH]: UPDATE_GROUP_SEARCH,
+      [UPDATE_SELECTED_FACETS_SEARCH]: UPDATE_SELECTED_FACETS_SEARCH
+    }
+  }
+
 }
 
 /**

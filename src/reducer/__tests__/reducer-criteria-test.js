@@ -1,4 +1,4 @@
-import {} from '../../actions/form';
+//import {} from '../../actions/form';
 /*
   => UPDATE_QUERY => replace(true, false) + spread new query
   => UPDATE_SLECTED_FACETS => replace(true, false) + erase or push a new selected facet
@@ -11,14 +11,9 @@ import isArray from 'lodash/isArray';
 
 describe('The search criteria reducer', () => {
     it('should have an object state');
-
     describe('when receiving a UPDATE_SORT action', () => {});
-    describe('when receiving an *_QUERY action', {
-
-    })
+    describe('when receiving an *_QUERY action', () => {});
     describe('when receiving a UPDATE_QUERY action', () => {});
     describe('when receiving a UPDATE_SELECTED_FACETS action', () => {});
-    describe('when receiving a CREATE_FORM action', () => {
-        // TO DO
-    });
+    describe('when receiving a CREATE_FORM action', () => {});
 });

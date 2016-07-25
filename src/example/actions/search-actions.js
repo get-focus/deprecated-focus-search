@@ -1,11 +1,14 @@
 import {actionSearchBuilder} from '../../actions/action-search-builder'
-import {unitSearchActionBuilder} from '../../actions/single-action-creator'
+import {singleActionCreatorBuilder} from '../../actions/single-action-creator'
 import {unitSearchReducerBuilder} from '../../reducer'
 import {serviceSearch} from '../services/search'
 
 //advanced_search
 export const searchAction = actionSearchBuilder({name: 'advanced_search', type: 'search', service: serviceSearch});
-export const unitSearchActions = unitSearchActionBuilder('advanced_search')
+const {creators : unitSearchActions, types : unitSearchActionsTypes} = singleActionCreatorBuilder('advanced_search');
+
+export unitSearchActions;
+
 export const unitSearchReducers = unitSearchReducerBuilder('advanced_search')
 
 //quick_search
