@@ -17,7 +17,13 @@ class AdvancedSearch extends Component {
   }
   render () {
     const {results, criteria, dispatch,deleteSelectedFacets} = this.props;
+    console.log(this.props)
     return <div style={{color: 'orange'}}>
+     criteria:
+      <div>{JSON.stringify(this.props.criteria)}</div>
+      results
+      <div>{JSON.stringify(this.props.results)}</div>
+
       <DefaultFacet facets={results.facets} selectedFacets={criteria.selectedFacets} deleteSelectedFacets={(element) => dispatch(deleteSelectedFacets(element))} onClick={this.onClick.bind(this)}/>
       <DefaultList list={results.list} />
     </div>;
@@ -26,7 +32,7 @@ class AdvancedSearch extends Component {
 }
 
 const ConnectedComponentHome = compose(
-  connectToState(selectSearch('otherSearch'))
+  connectToState(selectSearch('advancedSearch'))
 )(AdvancedSearch)
 export default ConnectedComponentHome;
 

@@ -5,6 +5,8 @@ import {unitSearchActionBuilder} from '../../actions/single-action-creator';
 import React, {Component, PropTypes} from 'react';
 import map from 'lodash/map';
 import debounce from 'lodash/debounce'
+import {selectSearchCriteria} from '../../reducer/reducer-criteria-search'
+
 import {unitSearchActions, searchAction as search} from '../actions/search-actions'
 
 const selectData = name => (state ={}) => {
@@ -30,7 +32,7 @@ class Search extends Component {
   }
   render () {
     return <div style={{color: 'orange'}}>Search Page
-      <code><pre>{JSON.stringify(this.props.reduxState)}</pre></code>
+      <code><pre>{JSON.stringify(this.props)}</pre></code>
       {this.renderDispatchButton()}
       {this.renderSearchAction()}
       {this.renderInputToSearch()}
@@ -40,12 +42,12 @@ class Search extends Component {
 }
 
 const ConnectedComponentSearch = compose(
-  connectToState(s => ({reduxState: s}), dispatch => ({
+  connectToState(state => state.advancedSearch, dispatch => ({
       dispatchDeLaGloire : (data) => {
-        dispatch(unitSearchActions.updateFacets('dfsfhsdbfbhsdgjfsj'));
-        dispatch(unitSearchActions.updateScope('yo'))
+        // dispatch(unitSearchActions.updateFacets('dfsfhsdbfbhsdgjfsj'));
+        // dispatch(unitSearchActions.updateScope('yo'))
         dispatch(unitSearchActions.updateQuery('yo'))
-        dispatch(unitSearchActions.updateSelectedFacets('yo'))
+        // dispatch(unitSearchActions.updateSelectedFacets('yo'))
       },
       dipatchSearch: (data) => {
         dispatch(search.action(data))

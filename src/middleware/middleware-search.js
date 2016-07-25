@@ -19,7 +19,7 @@ const _validateActionBuilderParams = (
       throw new Error(`${SEARCH_TRIGGER_MIDDLEWARE_BUILDER}: the stateSearchSelector parameter should be a function.`);
     }
 
-    if(!isObject(actionsWhichTriggerTheSearch) || !isArray(actionsWhichTriggerTheSearch)){
+    if(!isObject(actionsWhichTriggerTheSearch) && !isArray(actionsWhichTriggerTheSearch)){
       throw new Error(`${SEARCH_TRIGGER_MIDDLEWARE_BUILDER}: the actionsWhichTriggerTheSearch parameter should be an object or array.`);
     }
 }
@@ -36,8 +36,8 @@ const _validateActionBuilderParams = (
 */
 export const searchTriggerMiddlewareBuilder = (
   searchAction,
-  stateSearchSelector = state => state.search,
-  actionsWhichTriggerTheSearch = ['SEARCH_UPDATE_QUERY', 'SEARCH_UPDATE_SELECTED_FACETS']
+  actionsWhichTriggerTheSearch = ['SEARCH_UPDATE_QUERY', 'SEARCH_UPDATE_SELECTED_FACETS'],
+  stateSearchSelector = state => state.search
 ) =>  {
   // Validate params.
   _validateActionBuilderParams(
@@ -52,9 +52,9 @@ export const searchTriggerMiddlewareBuilder = (
 
     if(_actionWhichTriggerTheSearch.includes(action.type)){
       // search selector
-      const extractedStatePart = stateSearchSelector(store.getState());
         next(action);
-        store.dispatch(searchAction(extractedStatePart))
+        const {criteria} = stateSearchSelector(store.getState());
+        store.dispatch(searchAction(criteria))
     }else {
         next(action);
     }
