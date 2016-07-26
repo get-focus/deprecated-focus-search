@@ -1,29 +1,53 @@
 import {capitalize, toUpper} from 'lodash/string';
 
-export const unitResultsSearchReducerBuilder = name => (state = {}, action) => {
-  const REQUEST_ADVANCED_SEARCH = "REQUEST_"+toUpper(name);
-  const RESPONSE_ADVANCED_SEARCH = "RESPONSE_" + toUpper(name);
-  const ERROR_ADVANCED_SEARCH = "ERROR_" + toUpper(name);
+export const parseResults = (results = {}) => {
+  const hasGroups = results.groups !== undefined;
+  let newResults = {totalCount: results.totalCount, hasGroups};
+  /* Populate the new results depending */
+  if(hasGroups){
+    newResults.data = results.groups;
+  } else {
+    newResults.data = results.list;
+  }
+  if(results.facets){
+    newResults.facets = results.facets;
+  }
+  if(results.highlights){
+    newResults.highlights = results.highlights;
+  }
 
+  return newResults;
+}
+
+// Build a single search result reducer builder
+// Example call
+// unitResultsSearchReducerBuilder('search');
+//
+//
+//
+export const unitResultsSearchReducerBuilder = (name, resultParser = parseResults) => (state = {}, action) => {
+  const _UPPER_NAME = toUpper(name);
+  const REQUEST_SEARCH = `REQUEST_SEARCH_${_UPPER_NAME}`;
+  const RESPONSE_SEARCH = `RESPONSE_SEARCH_${_UPPER_NAME}`;
+  const ERROR_SEARCH = `ERROR_SEARCH_${_UPPER_NAME}`;
+  const {error, ...otherStatePart} = state;
   switch(action.type) {
-    case REQUEST_ADVANCED_SEARCH:
+    case REQUEST_SEARCH:
          return {
-            ...state,
-            gloire : 'tentative'
-          }
-
-    case RESPONSE_ADVANCED_SEARCH:
-       return {
-          ...state,
-          facets: action.payload[0].facets,
-          list:action.payload[0].list,
-          gloire : 'victoire'
-        }
-
-    case ERROR_ADVANCED_SEARCH:
+           ...otherStatePart,
+           searching: true
+          };
+    case RESPONSE_SEARCH:
+        return {
+          searching: false,
+          ...parseResults(action.payload)
+        };
+    case ERROR_SEARCH:
          return {
-            ...state,
-            gloire : 'echec'
+           ...otherStatePart,
+           searching: false,
+           //TODO:  to be discussed
+           error: action.payload
           }
 
     default:
