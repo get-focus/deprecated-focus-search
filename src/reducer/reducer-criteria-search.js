@@ -1,6 +1,6 @@
 import {capitalize, toUpper} from 'lodash/string';
 
-export const unitCriteriaSearchReducerBuilder = name => (state = [], action) => {
+export const unitCriteriaSearchReducerBuilder = name => (state = {}, action) => {
 
   const UPPER_NAME = toUpper(name);
   const UPDATE_QUERY_SEARCH =  `${toUpper(name)}_UPDATE_QUERY`;

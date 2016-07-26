@@ -23,7 +23,7 @@ export const singleActionCreatorBuilder = name => {
     creators: {
       updateQuery : updateQuery(UPDATE_QUERY_SEARCH),
       updateSort : updateSort(UPDATE_SORT_SEARCH),
-      updateGroup : updateSort(UPDATE_GROUP_SEARCH),
+      updateGroup : updateGroup(UPDATE_GROUP_SEARCH),
       updateSelectedFacets: updateSelectedFacets(UPDATE_SELECTED_FACETS_SEARCH),
     },
     types: {
@@ -42,19 +42,19 @@ export const singleActionCreatorBuilder = name => {
  * @return {object} the action itself
  */
 
-const updateQuery = type => (query, replace) => ({
+const updateQuery = type => (query, replace = false) => ({
 	type: type,
 	query,
   replace
 });
 
 
-const updateSort = type => (sort, replace) => ({
+const updateSort = type => (sort, replace = false) => ({
 	type: type,
 	sort,
   replace
 });
-const updateGroup = type => (group, replace) => ({
+const updateGroup = type => (group, replace = false) => ({
 	type: type,
 	group,
   replace
@@ -65,7 +65,7 @@ const updateGroup = type => (group, replace) => ({
  * @param  {selectedFacets} search selectedFacets
  * @return {object} the action itself
  */
-const updateSelectedFacets = type => (selectedFacets, replace) => ({
+const updateSelectedFacets = type => (selectedFacets, replace = false) => ({
 	type: type,
 	selectedFacets,
   replace
