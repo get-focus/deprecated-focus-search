@@ -9,7 +9,6 @@ const _createSearchCreators = _UPPER_NAME => ({
 describe('The search result reducer', () => {
     const reducerResults = unitResultsSearchReducerBuilder('searchlol')
     const SEARCH_TYPES = _createSearchCreators('SEARCHLOL');
-    const state = {};
     describe('when it receives an unknown action', () => {
       it('should not modify the existing state', () => {
         const EXISTING_STATE = {lol: 'lol'};
