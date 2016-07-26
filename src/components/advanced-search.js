@@ -16,15 +16,14 @@ class AdvancedSearch extends Component {
     dispatch(updateSelectedFacets({facetTitle : facet, facetData : value}))
   }
   render () {
-    const {results, criteria, dispatch,deleteSelectedFacets} = this.props;
-    console.log(this.props)
+    const {results, criteria, dispatch, updateSelectedFacets} = this.props;
     return <div style={{color: 'orange'}}>
      criteria:
       <div>{JSON.stringify(this.props.criteria)}</div>
       results
       <div>{JSON.stringify(this.props.results)}</div>
 
-      <DefaultFacet facets={results.facets} selectedFacets={criteria.selectedFacets} deleteSelectedFacets={(element) => dispatch(deleteSelectedFacets(element))} onClick={this.onClick.bind(this)}/>
+      <DefaultFacet facets={results.facets} selectedFacets={criteria.selectedFacets} deleteSelectedFacets={(element) => dispatch(updateSelectedFacets(element, true))} onClick={this.onClick.bind(this)}/>
       <DefaultList list={results.list} />
     </div>;
   }
