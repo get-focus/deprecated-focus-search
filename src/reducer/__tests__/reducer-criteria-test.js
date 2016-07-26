@@ -5,15 +5,26 @@
   => UPDATE_SORT => replace(true, false) + erase + push
   => UPDATE_GROUP => replace(true, false) + erase + push
 */
+import {singleActionCreatorBuilder} from '../../actions/single-action-creator';
+import {unitCriteriaSearchReducerBuilder} from '../reducer-criteria-search'
 import searchCriteriaReducer from '../reducer-criteria-search';
+
+
 
 import isArray from 'lodash/isArray';
 
 describe('The search criteria reducer', () => {
-    it('should have an object state');
-    describe('when receiving a UPDATE_SORT action', () => {});
-    describe('when receiving an *_QUERY action', () => {});
-    describe('when receiving a UPDATE_QUERY action', () => {});
-    describe('when receiving a UPDATE_SELECTED_FACETS action', () => {});
-    describe('when receiving a CREATE_FORM action', () => {});
+    console.log(singleActionCreatorBuilder)
+    const actionsUnit = singleActionCreatorBuilder('search');
+    console.log(actionsUnit)
+    const {updateSelectedFacets} = actionsUnit.creators;
+    console.log(updateSelectedFacets);
+    const action = updateSelectedFacets({code: "R1", label: "Yo", values: [{code: "lala", count : 2, label: "test"}]})
+    const state = [];
+    const reducerCriteria = unitCriteriaSearchReducerBuilder('search')
+    const newState =reducerCriteria(state, action)
+    it('should return an array', ()=> {
+       expect(newState).to.be.an.array;
+    })
+
 });

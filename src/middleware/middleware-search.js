@@ -8,19 +8,18 @@ const STRING_EMPTY = '';
 
 
 const _validateActionBuilderParams = (
-    searchActionAdvancedSearch,
+    actionsWhichTriggerTheSearch,
     stateSearchSelector,
-    actionsWhichTriggerTheSearch
+    searchActionAdvancedSearch
   ) => {
-    if(!isFunction(searchActionAdvancedSearch)) {
-        throw new Error(`${SEARCH_TRIGGER_MIDDLEWARE_BUILDER}: the searchActionAdvancedSearch parameter should be a function.`);
+    if(!isObject(actionsWhichTriggerTheSearch) && !isArray(actionsWhichTriggerTheSearch)){
+      throw new Error(`${SEARCH_TRIGGER_MIDDLEWARE_BUILDER}: the actionsWhichTriggerTheSearch parameter should be an object or array.`);
     }
     if(!isFunction(stateSearchSelector)){
       throw new Error(`${SEARCH_TRIGGER_MIDDLEWARE_BUILDER}: the stateSearchSelector parameter should be a function.`);
     }
-
-    if(!isObject(actionsWhichTriggerTheSearch) && !isArray(actionsWhichTriggerTheSearch)){
-      throw new Error(`${SEARCH_TRIGGER_MIDDLEWARE_BUILDER}: the actionsWhichTriggerTheSearch parameter should be an object or array.`);
+    if(!isFunction(searchActionAdvancedSearch)) {
+        throw new Error(`${SEARCH_TRIGGER_MIDDLEWARE_BUILDER}: the stateSearchSelector parameter should be a function.`);
     }
 }
 
@@ -35,15 +34,15 @@ const _validateActionBuilderParams = (
 )
 */
 export const searchTriggerMiddlewareBuilder = (
-  searchAction,
-  actionsWhichTriggerTheSearch = ['SEARCH_UPDATE_QUERY', 'SEARCH_UPDATE_SELECTED_FACETS'],
-  stateSearchSelector = state => state.search
+  actionsWhichTriggerTheSearch, /*= ['SEARCH_UPDATE_QUERY', 'SEARCH_UPDATE_SELECTED_FACETS']*/
+  stateSearchSelector, /*= state => state.search*/
+  searchAction
 ) =>  {
   // Validate params.
   _validateActionBuilderParams(
-    searchAction,
+    actionsWhichTriggerTheSearch,
     stateSearchSelector,
-    actionsWhichTriggerTheSearch
+    searchAction
   );
   const _actionWhichTriggerTheSearch = isArray(actionsWhichTriggerTheSearch) ? actionsWhichTriggerTheSearch : Object.keys(actionsWhichTriggerTheSearch);
 

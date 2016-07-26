@@ -20,12 +20,12 @@ describe('The singleActionCreatorBuilder', ()=> {
   })
   describe('when called with right parameters', () => {
     it('should return an object', ()=> {
-      const result = singleActionCreator('test');
+      const result = singleActionCreator('test').creators;
       expect(result).to.be.an('object');
       expect(result).to.include.keys('updateQuery', 'updateSort', 'updateGroup', 'updateSelectedFacets');
     })
     describe('and the all parts of the result', () => {
-      const {updateQuery, updateGroup, updateSort, updateSelectedFacets} = singleActionCreator('test');
+      const {updateQuery, updateGroup, updateSort, updateSelectedFacets} = singleActionCreator('test').creators;
       it('should return a function', () => {
           expect(updateQuery).to.be.a.function;
           expect(updateSort).to.be.a.function;

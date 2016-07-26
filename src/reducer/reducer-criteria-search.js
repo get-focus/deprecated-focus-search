@@ -3,11 +3,10 @@ import {capitalize, toUpper} from 'lodash/string';
 export const unitCriteriaSearchReducerBuilder = name => (state = [], action) => {
 
   const UPPER_NAME = toUpper(name);
-  const UPDATE_QUERY_SEARCH =  `${UPPER_NAME}_UPDATE_QUERY`;
-  const UPDATE_FACETS_SEARCH =  `${UPPER_NAME}_UPDATE_FACETS`;
-  const UPDATE_SCOPE_SEARCH =  `${UPPER_NAME}_UPDATE_SCOPE`;
-  const UPDATE_SELECTED_FACETS_SEARCH =  `${UPPER_NAME}_UPDATE_SELECTED_FACETS`;
-  const DELETE_SELECTED_FACETS_SEARCH = `${UPPER_NAME}_DELETE_SELECTED_FACETS`;
+  const UPDATE_QUERY_SEARCH =  `${toUpper(name)}_UPDATE_QUERY`;
+  const UPDATE_SORT_SEARCH =  `${toUpper(name)}_UPDATE_SORT`;
+  const UPDATE_GROUP_SEARCH =  `${toUpper(name)}_UPDATE_GROUP`;
+  const UPDATE_SELECTED_FACETS_SEARCH =  `${toUpper(name)}_UPDATE_SELECTED_FACETS`;
 
   switch(action.type) {
     case UPDATE_QUERY_SEARCH:
@@ -16,36 +15,27 @@ export const unitCriteriaSearchReducerBuilder = name => (state = [], action) => 
          ...state,
          query : action.query
          }
-    case UPDATE_FACETS_SEARCH:
-         return {
-          ...state,
-          facets : action.facets
-          }
-    case UPDATE_SCOPE_SEARCH:
+    case UPDATE_SORT_SEARCH :
        return {
         ...state,
         scope : action.scope
         }
-    case DELETE_SELECTED_FACETS_SEARCH:
-       return {
-        ...state,
-        selectedFacets : state.selectedFacets.reduce((select, newValue) => {
-          if(newValue !== action.selectedFacets) select.push(newValue)
-          return select;
-        }, [])
-        }
     case UPDATE_SELECTED_FACETS_SEARCH:
-
-    return (state.selectedFacets && state.selectedFacets.length > 0) ?
-        {
-        ...state,
-        selectedFacets : [...state.selectedFacets, action.selectedFacets ]
-        }
-     :  {
-      ...state,
-      selectedFacets : [ action.selectedFacets ]
-      }
-
+      return action.replace ? {
+         ...state,
+         selectedFacets : state.selectedFacets.reduce((select, newValue) => {
+           if(newValue !== action.selectedFacets) select.push(newValue)
+           return select;
+         }, [])
+       } : ((state.selectedFacets && state.selectedFacets.length > 0) ?
+           {
+           ...state,
+           selectedFacets : [...state.selectedFacets, action.selectedFacets ]
+           }
+        :  {
+         ...state,
+         selectedFacets : [ action.selectedFacets ]
+         })
     default:
       return state;
   }
