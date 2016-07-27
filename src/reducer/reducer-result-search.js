@@ -25,7 +25,7 @@ export const parseResults = (results = {}) => {
 //
 //
 //
-export const unitResultsSearchReducerBuilder = (name, resultParser = parseResults) => (state = {}, action) => {
+export const unitResultsSearchReducerBuilder = (name, resultParser = parseResults) => (state = {}, action = {}) => {
   const _UPPER_NAME = toUpper(name);
   const REQUEST_SEARCH = `REQUEST_SEARCH_${_UPPER_NAME}`;
   const RESPONSE_SEARCH = `RESPONSE_SEARCH_${_UPPER_NAME}`;

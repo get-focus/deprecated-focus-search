@@ -12,8 +12,10 @@ describe('The search result reducer', () => {
     describe('when it receives an unknown action', () => {
       it('should not modify the existing state', () => {
         const EXISTING_STATE = {lol: 'lol'};
+        expect(reducerResults(EXISTING_STATE)).to.equal(EXISTING_STATE)
         expect(reducerResults(EXISTING_STATE, {type: 'inconnuAuBataillon'})).to.equal(EXISTING_STATE)
       })
+
     });
     describe('when it receive the REQUEST action', () => {
       it('should preserve the existing state and add a searching attribute', () => {

@@ -1,7 +1,7 @@
 import {capitalize, toUpper} from 'lodash/string';
 import isEqual from 'lodash/isEqual';
 import differenceWith from 'lodash/differenceWith'
-export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = {}, action) => {
+export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = {}, action = {}) => {
 
   const UPPER_NAME = toUpper(name);
   const UPDATE_QUERY_SEARCH =  `${toUpper(name)}_UPDATE_QUERY`;
