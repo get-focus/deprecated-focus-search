@@ -52,8 +52,15 @@ export const searchTriggerMiddlewareBuilder = (
     if(_actionWhichTriggerTheSearch.includes(action.type)){
       // search selector
         next(action);
-        const {criteria} = stateSearchSelector(store.getState());
-        store.dispatch(searchAction(criteria))
+        const stateSearch = stateSearchSelector(store.getState());
+        if(!stateSearch.hasOwnProperty('criteria')){
+          console.warn(
+            `SEARCH_TRIGGER_MIDDLEWARE_FOR_${actionsWhichTriggerTheSearch.join('_')}: It seems the state selector you provide does not have a criteria in its shape.`,
+            'stateSelector',  stateSearchSelector,
+            'extractedStatePart', stateSearch
+          );
+        }
+        store.dispatch(searchAction(stateSearch.criteria))
     }else {
         next(action);
     }
