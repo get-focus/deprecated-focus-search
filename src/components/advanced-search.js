@@ -16,17 +16,22 @@ class AdvancedSearch extends Component {
     dispatch(updateSelectedFacets({facetTitle : facet, facetData : value}))
   }
   render () {
-    const {results, criteria, dispatch,deleteSelectedFacets} = this.props;
+    const {results, criteria, dispatch, updateSelectedFacets} = this.props;
     return <div style={{color: 'orange'}}>
-      <DefaultFacet facets={results.facets} selectedFacets={criteria.selectedFacets} deleteSelectedFacets={(element) => dispatch(deleteSelectedFacets(element))} onClick={this.onClick.bind(this)}/>
-      <DefaultList list={results.list} />
+     criteria:
+      <div>{JSON.stringify(this.props.criteria)}</div>
+      results
+      <div>{JSON.stringify(this.props.results)}</div>
+      Bonjouuuuur
+      <DefaultFacet facets={results.facets} selectedFacets={criteria.selectedFacets} deleteSelectedFacets={(element) => dispatch(updateSelectedFacets(element, true))} onClick={this.onClick.bind(this)}/>
+      <DefaultList list={results.data} />
     </div>;
   }
 
 }
 
 const ConnectedComponentHome = compose(
-  connectToState(selectSearch('otherSearch'))
+  connectToState(selectSearch('advancedSearch'))
 )(AdvancedSearch)
 export default ConnectedComponentHome;
 

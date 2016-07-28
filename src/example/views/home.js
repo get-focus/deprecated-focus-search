@@ -9,8 +9,8 @@ import SearchWithComponent from './searchWithComponent'
 
 const Home = () =>  {
   return <div style={{color: 'orange'}}>
-    <SearchComponent/>
-    <OtherSearchComponent/>
+    {/*<SearchComponent/>*/}
+    {/*<OtherSearchComponent/>*/}
     <SearchWithComponent/>
   </div>;
 }

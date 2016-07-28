@@ -3,7 +3,7 @@ const faker = require('faker');
 
 
 export const serviceSearch = () => {
-  return  Promise.resolve([{
+  return  Promise.resolve({
 
     list: [
       {
@@ -145,5 +145,5 @@ export const serviceSearch = () => {
         }
       ]
     }
-  ]}]);
+  ]});
 }

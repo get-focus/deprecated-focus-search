@@ -1,35 +1,67 @@
-const SEARCH_UPDATE_QUERY = 'SEARCH_UPDATE_QUERY';
-const DEFAULT_LISTEN_TYPES = ['QUERY'/*, SELECTEDFACETS*/ ]
 import {capitalize, toUpper} from 'lodash/string';
 import {isArray, isFunction,isString, isObject} from 'lodash/lang';
-const SEARCH_MIDDLEWARE_BUILDER = 'SEARCH_MIDDLEWARE_BUILDER';
+const DEFAULT_LISTEN_TYPES = ['QUERY'/*, SELECTEDFACETS*/ ]
+const SEARCH_UPDATE_QUERY = 'SEARCH_UPDATE_QUERY';
+const SEARCH_TRIGGER_MIDDLEWARE_BUILDER = 'SEARCH_TRIGGER_MIDDLEWARE_BUILDER';
 const STRING_EMPTY = '';
 
 
 
-const _validateActionBuilderParams = ({searchActionAdvancedSearch, name, listenedTypes}) => {
-    if(!isObject(searchActionAdvancedSearch)) {
-        throw new Error(`${SEARCH_MIDDLEWARE_BUILDER}: the searchActionAdvancedSearch parameter should be a object.`);
+const _validateActionBuilderParams = (
+    actionsWhichTriggerTheSearch,
+    stateSearchSelector,
+    searchActionAdvancedSearch
+  ) => {
+    if(!isObject(actionsWhichTriggerTheSearch) && !isArray(actionsWhichTriggerTheSearch)){
+      throw new Error(`${SEARCH_TRIGGER_MIDDLEWARE_BUILDER}: the actionsWhichTriggerTheSearch parameter should be an object or array.`);
     }
-    if(!isString(name) || STRING_EMPTY === name) {
-        throw new Error(`${SEARCH_MIDDLEWARE_BUILDER}: the name parameter should be a string`);
+    if(!isFunction(stateSearchSelector)){
+      throw new Error(`${SEARCH_TRIGGER_MIDDLEWARE_BUILDER}: the stateSearchSelector parameter should be a function.`);
     }
-    if(!isArray(listenedTypes)){
-      throw new Error(`${SEARCH_MIDDLEWARE_BUILDER}: the listenedTypes parameter should be an array.`);
+    if(!isFunction(searchActionAdvancedSearch)) {
+        throw new Error(`${SEARCH_TRIGGER_MIDDLEWARE_BUILDER}: the stateSearchSelector parameter should be a function.`);
     }
 }
 
 
+/*
+ The purpose of the builder is to take a search function, trigger actions and launch the search when they are called.
+ Example call:
+ searchTriggerMiddlewareBuilder(
+ searchService,
+ state => state.advancedSearch,
+ [] => Be aware that if you pass the actionsWhichTriggerTheSearch as an object it should be the types result of the state action builder.
+)
+*/
+export const searchTriggerMiddlewareBuilder = (
+  actionsWhichTriggerTheSearch, /*= ['SEARCH_UPDATE_QUERY', 'SEARCH_UPDATE_SELECTED_FACETS']*/
+  stateSearchSelector, /*= state => state.search*/
+  searchAction
+) =>  {
+  // Validate params.
+  _validateActionBuilderParams(
+    actionsWhichTriggerTheSearch,
+    stateSearchSelector,
+    searchAction
+  );
+  const _actionWhichTriggerTheSearch = isArray(actionsWhichTriggerTheSearch) ? actionsWhichTriggerTheSearch : Object.keys(actionsWhichTriggerTheSearch);
 
-export const builderAdvancedSearchMiddleware = (searchActionAdvancedSearch, name, listenedTypes = DEFAULT_LISTEN_TYPES) =>  {
-  _validateActionBuilderParams({searchActionAdvancedSearch, name, listenedTypes});
-  const searchObjectAction = listenedTypes.map((element)=> toUpper(name)+"_UPDATE_"+element);
-  const UPDATE_QUERY_SEARCH =  toUpper(name)+"_UPDATE_QUERY";
+  // Creates a middleware given a redux store, the next action and the current action.
   return  store => next => action => {
-    const {search} = store.getState();
-    if(searchObjectAction.indexOf(action.type) !== -1){
+
+    if(_actionWhichTriggerTheSearch.includes(action.type)){
+      // search selector
         next(action);
-        store.dispatch(searchActionAdvancedSearch.action(search))
+        const stateSearch = stateSearchSelector(store.getState());
+        if(!stateSearch.hasOwnProperty('criteria')){
+          console.warn(
+            `SEARCH_TRIGGER_MIDDLEWARE_FOR_${actionsWhichTriggerTheSearch.join('_')}: It seems the state selector you provide does not have a criteria in its shape.`,
+            'stateSelector',  stateSearchSelector,
+            'extractedStatePart', stateSearch
+          );
+        }
+        console.log('je passe par la')
+        store.dispatch(searchAction(stateSearch.criteria))
     }else {
         next(action);
     }
