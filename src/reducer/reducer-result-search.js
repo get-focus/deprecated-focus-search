@@ -3,6 +3,8 @@ import {capitalize, toUpper} from 'lodash/string';
 export const parseResults = (results = {}) => {
   const hasGroups = results.groups !== undefined;
   let newResults = {totalCount: results.totalCount, hasGroups};
+  console.log(newResults)
+
   /* Populate the new results depending */
   if(hasGroups){
     newResults.data = results.groups;
@@ -27,9 +29,9 @@ export const parseResults = (results = {}) => {
 //
 export const unitResultsSearchReducerBuilder = (name, resultParser = parseResults) => (state = {}, action = {}) => {
   const _UPPER_NAME = toUpper(name);
-  const REQUEST_SEARCH = `REQUEST_SEARCH_${_UPPER_NAME}`;
-  const RESPONSE_SEARCH = `RESPONSE_SEARCH_${_UPPER_NAME}`;
-  const ERROR_SEARCH = `ERROR_SEARCH_${_UPPER_NAME}`;
+  const REQUEST_SEARCH = `REQUEST_${_UPPER_NAME}`;
+  const RESPONSE_SEARCH = `RESPONSE_${_UPPER_NAME}`;
+  const ERROR_SEARCH = `ERROR_${_UPPER_NAME}`;
   const {error, ...otherStatePart} = state;
   switch(action.type) {
     case REQUEST_SEARCH:

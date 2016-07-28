@@ -16,7 +16,15 @@ import isArray from 'lodash/isArray';
 describe('The search criteria reducer', () => {
     const actionsUnit = singleActionCreatorBuilder('search');
     const {updateSelectedFacets, updateQuery, updateSort, updateGroup} = actionsUnit.creators;
-
+    describe('with a no existing function', () => {
+      const reducerCriteria = unitCriteriaSearchReducerBuilder('search')
+      it('should not change the state', () => {
+        const state = {};
+        const actionCreate = {type: 'inconnuAuBataillon'}
+        const newState = reducerCriteria(state, actionCreate)
+        expect(newState).to.deep.equal({})
+      })
+    })
     describe('with the selectedFacets action should create the selectedFacets object', () => {
       const reducerCriteria = unitCriteriaSearchReducerBuilder('search')
       it("when it's to create", ()=> {

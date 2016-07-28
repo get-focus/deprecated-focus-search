@@ -22,9 +22,9 @@ class AdvancedSearch extends Component {
       <div>{JSON.stringify(this.props.criteria)}</div>
       results
       <div>{JSON.stringify(this.props.results)}</div>
-
+      Bonjouuuuur
       <DefaultFacet facets={results.facets} selectedFacets={criteria.selectedFacets} deleteSelectedFacets={(element) => dispatch(updateSelectedFacets(element, true))} onClick={this.onClick.bind(this)}/>
-      <DefaultList list={results.list} />
+      <DefaultList list={results.data} />
     </div>;
   }
 

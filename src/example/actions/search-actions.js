@@ -5,9 +5,9 @@ import {serviceSearch} from '../services/search'
 import {searchTriggerMiddlewareBuilder} from '../../middleware/middleware-search';
 
 //advanced_search
-export const searchAction = actionSearchBuilder({name: 'advanced_search', type: 'search', service: serviceSearch});
-export const {creators : unitSearchActions, types : unitSearchActionsTypes} = singleActionCreatorBuilder('advanced_search');
-export const unitSearchReducers = unitSearchReducerBuilder('advanced_search')
+export const searchAction = actionSearchBuilder({name: 'advancedSearch', type: 'search', service: serviceSearch});
+export const {creators : unitSearchActions, types : unitSearchActionsTypes} = singleActionCreatorBuilder('advancedSearch');
+export const unitSearchReducers = unitSearchReducerBuilder('advancedSearch')
 export const middlewareAdvancedSearch = searchTriggerMiddlewareBuilder(unitSearchActionsTypes, state => state.advancedSearch,searchAction.action);
 
 
