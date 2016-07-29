@@ -42,6 +42,7 @@ export function FacetCount(props){
 
 export function Facet(props){
   return (<li
+        data-focus='facet'
         className='mdl-list__item'
         onClick={() => props.selectFacet(props.code)}>
         <FacetTitle>{props.label}</FacetTitle>
@@ -54,8 +55,8 @@ Facet.propTypes = FACET_TYPE;
 
 // add hover style
 export function FacetBlock(props){
-  return <div data-focus='facet-block' className=' mdl-card mdl-shadow--2dp' style={{maxWidth: '300px'}}>
-      <h3 onClick={() => console.log(`facet blocl ${props.code} ${props.label}`)}>{props.label}</h3>
+  return <div data-focus='facet-block' className='mdl-card mdl-shadow--2dp' style={{maxWidth: '300px'}}>
+      <h3>{props.label}</h3>
       <ul className='mdl-list'>
           {
             props.values.map(
@@ -67,7 +68,8 @@ export function FacetBlock(props){
 }
 
 FacetBlock.defaultProps = {
-  FacetComponent: Facet
+  FacetComponent: Facet,
+  values: []
 }
 FacetBlock.propTypes = {
   ...FACET_DESCRIPTOR_TYPE,
