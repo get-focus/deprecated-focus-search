@@ -54,6 +54,21 @@ export function Facet(props){
 Facet.propTypes = FACET_TYPE;
 
 // add hover style
+// connect(sFacetBlock, code => FacetComponent)
+/*
+function connectToFacetDomain(FacetComponent){
+// context property
+  const facetComponentsMap = {
+    'PAYS': (props) => <div>Pays</div>
+  }
+  function DomainConnectedFacetComponent(props){
+      return <FacetComponent {...props} FacetComponent={facetComponentsMap[props.code]}/>
+  };
+
+  return DomainConnectedFacetComponent;
+}
+*/
+
 export function FacetBlock(props){
   return <div data-focus='facet-block' className='mdl-card mdl-shadow--2dp' style={{maxWidth: '300px'}}>
       <h3>{props.label}</h3>
@@ -66,6 +81,7 @@ export function FacetBlock(props){
       </ul>
   </div>
 }
+
 
 FacetBlock.defaultProps = {
   FacetComponent: Facet,

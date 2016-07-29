@@ -1,9 +1,9 @@
 import isArray from 'lodash/isArray';
 import {unitResultsSearchReducerBuilder} from '../reducer-result-search'
 const _createSearchCreators = _UPPER_NAME => ({
-  request: `REQUEST_SEARCH_${_UPPER_NAME}`,
-  response: `RESPONSE_SEARCH_${_UPPER_NAME}`,
-  error: `ERROR_SEARCH_${_UPPER_NAME}`
+  request: `REQUEST_${_UPPER_NAME}`,
+  response: `RESPONSE_${_UPPER_NAME}`,
+  error: `ERROR_${_UPPER_NAME}`
 });
 
 describe('The search result reducer', () => {
