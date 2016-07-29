@@ -15,18 +15,18 @@
   },
   "betterScripts": {
     "test": {
-        "command": "mocha src/**/__tests__/**/*.js --watch",
-        "env": {
-          "BABEL_ENV": "test",
-          "DEV": true,
-          "SOURCE_MAPS": false,
-          "ENTRY_FILE_PATH": "./src/example/index.js",
-          "PAGE_TITLE": "Focus entity dev page",
-          "MINIMIFY": false,
-          "API_PORT": 9999,
-          "PACKAGE_JSON_PATH": "../",
-          "ANCHOR_CLASS": "focus-search-example"
-        }
+      "command": "mocha src/**/__tests__/**/*.js --watch",
+      "env": {
+        "BABEL_ENV": "test",
+        "DEV": true,
+        "SOURCE_MAPS": false,
+        "ENTRY_FILE_PATH": "./src/example/index.js",
+        "PAGE_TITLE": "Focus entity dev page",
+        "MINIMIFY": false,
+        "API_PORT": 9999,
+        "PACKAGE_JSON_PATH": "../",
+        "ANCHOR_CLASS": "focus-search-example"
+      }
     },
     "dev-server": {
       "command": "node ./server.js",
@@ -91,6 +91,7 @@
     "chai": "^3.5.0",
     "chai-subset": "^1.2.0",
     "css-loader": "^0.23.1",
+    "enzyme": "^2.4.1",
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
     "faker": "^3.0.1",
@@ -105,9 +106,6 @@
     "mocha": "^2.4.5",
     "moment": "^2.12.0",
     "node-sass": "^3.4.2",
-    "react": "^0.14.7",
-    "react-addons-test-utils": "^0.14.7",
-    "react-dom": "^0.14.7",
     "react-hot-loader": "^3.0.0-beta.1",
     "react-redux": "^4.3.0",
     "react-router": "^2.4.1",
@@ -133,6 +131,9 @@
   },
   "dependencies": {
     "focus-redux": "^0.1.1",
+    "react": "^15.2.1",
+    "react-addons-test-utils": "^15.2.1",
+    "react-dom": "^15.2.1",
     "react-redux": "^4.4.5",
     "react-router": "^2.4.1",
     "redux": "^3.5.2"

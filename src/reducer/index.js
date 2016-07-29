@@ -13,7 +13,21 @@ export const selectSearch = (searchName) => (state ={}) => {
   return state[searchName]
 }
 
-const SEARCH_STATE_TYPE = {
+
+export const FACET_TYPE = PropTypes.shape({
+  code: PropTypes.string,
+  label: PropTypes.string,
+  count: PropTypes.number
+});
+
+export const FACET_DESCRIPTOR_TYPE =
+  PropTypes.shape({
+    code: PropTypes.string,
+    values: PropTypes.arrayOf(FACET_TYPE),
+    label: PropTypes.string,
+  })
+
+export const SEARCH_STATE_TYPE = {
   criteria: PropTypes.shape({
     selectedFacets: PropTypes.arrayOf(PropTypes.shape({
       code: PropTypes.string,
@@ -25,17 +39,7 @@ const SEARCH_STATE_TYPE = {
   }),
   results: {
     //highlights: PropTypes.arrayOf(PropTypes.object),
-    facets: PropTypes.arrayOf(
-      PropTypes.shape({
-        code: PropTypes.string,
-        values: PropTypes.arrayOf(PropTypes.shape({
-          code: PropTypes.string,
-          label: PropTypes.string,
-          count: PropTypes.number
-        })),
-        label: PropTypes.string,
-      })
-    ),
+    facets: PropTypes.arrayOf(FACET_DESCRIPTOR_TYPE),
     data: PropTypes.oneOfType([
       PropTypes.shape({
         code: PropTypes.string,

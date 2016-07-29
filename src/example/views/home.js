@@ -7,11 +7,14 @@ import SearchComponent from './searchComponent'
 import OtherSearchComponent from './otherSearchComponent'
 import SearchWithComponent from './searchWithComponent'
 
+import FacetPanel from '../../components/facet';
+
 const Home = () =>  {
   return <div style={{color: 'orange'}}>
     {/*<SearchComponent/>*/}
     {/*<OtherSearchComponent/>*/}
-    <SearchWithComponent/>
+    {/*<SearchWithComponent/>*/}
+    <FacetPanel title='My awesome facets'/>
   </div>;
 }
 
