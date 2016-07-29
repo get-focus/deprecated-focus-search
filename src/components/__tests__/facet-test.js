@@ -4,6 +4,34 @@ import { mount, shallow } from 'enzyme';
 import {Facet, FacetPanel, FacetBlock,FacetTitle, FacetCount} from '../facet';
 
 describe('Facets components ', () => {
+  describe('<FacetTitle />', ()=> {
+    it('should be a div with a data-focus=facet-title', () => {
+      const wrapper = shallow(<FacetTitle />);
+      expect(wrapper.find('[data-focus="facet-title"]')).to.have.length(1);
+    });
+    it('should be a span with a material line content class', () => {
+      const wrapper = shallow(<FacetTitle />);
+      expect(wrapper.find('span.mdl-list__item-primary-content')).to.have.length(1);
+    });
+    it('should add its children props', () => {
+      const wrapper = shallow(<FacetTitle><div>{'Pierre'}</div></FacetTitle>);
+      expect(wrapper.contains(<div>{'Pierre'}</div>)).to.be.true;
+    });
+  });
+  describe('<FacetCount />', ()=> {
+    it('should be a div with a data-focus=facet-count', () => {
+      const wrapper = shallow(<FacetCount />);
+      expect(wrapper.find('[data-focus="facet-count"]')).to.have.length(1);
+    });
+    it('should be a span with a material line secondary content class', () => {
+      const wrapper = shallow(<FacetCount />);
+      expect(wrapper.find('div.mdl-list__item-secondary-content')).to.have.length(1);
+    });
+    it('should add its children props in a badge material', () => {
+      const wrapper = shallow(<FacetCount>{'3'}</FacetCount>);
+      expect(wrapper.contains(<span className='mdl-badge' data-badge={'3'}></span>)).to.be.true;
+    });
+  })
   describe('<FacetBlock />', () => {
     it('should be a div with a data-focus=facet', () => {
       const wrapper = shallow(<FacetBlock />);

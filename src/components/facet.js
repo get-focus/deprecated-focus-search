@@ -33,11 +33,11 @@ const facetActions = dispatch => ({
 })
 
 export function FacetTitle(props){
-  return <span className='mdl-list__item-primary-content'>{props.children}</span>
+  return <span data-focus='facet-title' className='mdl-list__item-primary-content'>{props.children}</span>
 }
 export function FacetCount(props){
-  return <span className='mdl-list__item-secondary-content'>
-  <span className='mdl-badge' data-badge={props.children}></span></span>
+  return <div data-focus='facet-count' className='mdl-list__item-secondary-content'>
+  <span className='mdl-badge' data-badge={props.children}></span></div>
 }
 
 export function Facet(props){
@@ -78,14 +78,18 @@ FacetBlock.propTypes = {
 };
 
 export function FacetPanel(props){
-  return <div>
-    <h2>Facet panel</h2>
+  return <div data-focus='facet-panel'>
+    <h2>{props.title}</h2>
     {props.data.map(
       facetDescriptor => <FacetBlock key={facetDescriptor.code} {...facetDescriptor} selectFacet={props.selectFacet}/>)
     }
   </div>
 }
+FacetPanel.defaultProps = {
+  data: []
+}
 FacetPanel.propTypes = {
+  title: PropTypes.string,
   data: PropTypes.arrayOf(FACET_DESCRIPTOR_TYPE)
 };
 
