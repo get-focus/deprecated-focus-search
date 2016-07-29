@@ -78,7 +78,9 @@ FacetBlock.propTypes = {
 };
 
 export function FacetPanel(props){
-  return <div data-focus='facet-panel'>
+  return <div data-focus='facet-panel'
+  className='mdl-card mdl-shadow--3dp'
+  >
     <h2>{props.title}</h2>
     {props.data.map(
       facetDescriptor => <FacetBlock key={facetDescriptor.code} {...facetDescriptor} selectFacet={props.selectFacet}/>)
