@@ -49,12 +49,13 @@ export const SEARCH_STATE_TYPE = {
     //highlights: PropTypes.arrayOf(PropTypes.object),
     facets: PropTypes.arrayOf(PropTypes.shape(FACET_DESCRIPTOR_SHAPE_TYPE)),
     data: PropTypes.oneOfType([
-      PropTypes.shape({
+      PropTypes.arrayOf(PropTypes.shape({
         code: PropTypes.string,
         label: PropTypes.string,
+        totalCount: PropTypes.number,
         values: PropTypes.arrayOf(PropTypes.object)
-      }),
-      PropTypes.arrayOf(PropTypes.object)
+      })),
+      PropTypes.shape({totalCount: PropTypes.number, values: PropTypes.arrayOf(PropTypes.object)})
     ])
   }
 }
