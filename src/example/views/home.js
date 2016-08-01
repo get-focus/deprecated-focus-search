@@ -6,6 +6,7 @@ import map from 'lodash/map';
 import SearchComponent from './searchComponent'
 import OtherSearchComponent from './otherSearchComponent'
 import SearchWithComponent from './searchWithComponent'
+import ResultPanel from '../../components/results';
 
 import FacetPanel from '../../components/facet';
 
@@ -14,6 +15,7 @@ const Home = () =>  {
     {/*<SearchComponent/>*/}
     {/*<OtherSearchComponent/>*/}
     {/*<SearchWithComponent/>*/}
+    <ResultPanel />
     <FacetPanel title='My awesome facets'/>
   </div>;
 }
