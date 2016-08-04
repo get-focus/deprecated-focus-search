@@ -7,7 +7,7 @@ const FAKE_DATA_LIST = [
   {id: 4, firstName: 'Don Michello', age: 22}
 ]
 
-export function ListWrapper ({children}) {
+export function MaterialListWrapper ({children}) {
   return <ul className='mdl-list' data-focus>{children}</ul>;
 }
 
@@ -15,7 +15,29 @@ export function LineComponentToDefine (props){
   return <div style={{color: 'white', backgroundColor: 'tomato'}}>You should define a line component, props: {JSON.stringify(props)}</div>
 }
 
-export function ResultList ({data, lineIdentifierProperty, LineComponent}) {
+const _getLineComponentFromContentTypeExample = contentType => {
+  switch (contentType) {
+    case 'DonDiegoType':
+      return props => <div>Line DonDiegoType {JSON.stringify(props)}</div>
+      break;
+    case 'DonRicardoType':
+      return props => <div>Line DonRicardoType {JSON.stringify(props)}</div>
+      break;
+    default:
+      return LineComponentToDefine;
+
+  }
+}
+/*
+<Provider Lines>
+
+const connectToLineComponent =  Component => ({contentType, ...otherProps}) => {
+  const LineComponent = _getLineComponentFromContext(contentType);
+  return <Component {...otherProps} LineComponent={LineComponent}/>;
+}
+*/
+export function ResultList ({data, lineIdentifierProperty,getLineComponent, contentType, ListWrapper}) {
+  const LineComponent = getLineComponent(contentType);
   return(
     <div>
       <h2>result list</h2>
@@ -29,12 +51,15 @@ export function ResultList ({data, lineIdentifierProperty, LineComponent}) {
 ResultList.defaultProps = {
   data: FAKE_DATA_LIST/*[]*/,
   lineIdentifierProperty: 'id',
-  LineComponent: LineComponentToDefine
+  getLineComponent: _getLineComponentFromContentTypeExample, // TODO: remove it.
+  ListWrapper: MaterialListWrapper
 }
 
 ResultList.propTypes = {
   data: PropTypes.array,
-  lineIdentifierProperty: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  lineIdentifierProperty: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  getLineComponent: PropTypes.func,
+  ListWrapper: PropTypes.func
 }
 
 export default ResultList;
