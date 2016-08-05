@@ -27,7 +27,30 @@ export const parseResults = (results = {}) => {
 //
 //
 //
-export const unitResultsSearchReducerBuilder = (name, resultParser = parseResults) => (state = {}, action = {}) => {
+//
+//
+const FAKE_DATA = [
+  {
+    code: 'GENS_LEVEL',
+    label: 'Niveau des gens',
+    values: [
+      {code: 'FAIBLE', label: 'faible', count: 22},
+      {code: 'MOYEN', label: 'moyen', count: 54},
+      {code: 'FORT', label: 'fort', count: 7}
+    ]
+  },
+  {
+    code: 'SALAIRE',
+    label: 'Salaire des gens',
+    values: [
+      {code: 'PAS_CHER', label: 'pas cher', count: 45},
+      {code: 'DANS_LA_FOURCHETTE', label: 'dans la moyennt', count: 4},
+      {code: 'CHER', label: 'très cher', count: 2}
+    ]
+  }
+];
+
+export const unitResultsSearchReducerBuilder = (name, resultParser = parseResults) => (state = {facets:FAKE_DATA }, action = {}) => {
   const _UPPER_NAME = toUpper(name);
   const REQUEST_SEARCH = `REQUEST_${_UPPER_NAME}`;
   const RESPONSE_SEARCH = `RESPONSE_${_UPPER_NAME}`;

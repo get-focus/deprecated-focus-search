@@ -13,19 +13,27 @@ export const selectSearch = (searchName) => (state ={}) => {
   return state[searchName]
 }
 
+// cpmpose :+1
+export function facetListWithselectedInformation(state) {
+  const selectedFacets = state.criteria.selectedFacets || [];
+  const facets = state.results.facets || [];
+  // TODO: Check the selected value presence
+  return {
+    data: facets.map(facetDescriptor => selectedFacets[facetDescriptor.code] ? {...facetDescriptor, selected: true} : facetDescriptor)
+  }
+}
 
-export const FACET_TYPE = PropTypes.shape({
+export const FACET_SHAPE_TYPE = {
   code: PropTypes.string,
   label: PropTypes.string,
   count: PropTypes.number
-});
+};
 
-export const FACET_DESCRIPTOR_TYPE =
-  PropTypes.shape({
+export const FACET_DESCRIPTOR_SHAPE_TYPE = {
     code: PropTypes.string,
-    values: PropTypes.arrayOf(FACET_TYPE),
+    values: PropTypes.arrayOf(PropTypes.shape(FACET_SHAPE_TYPE)),
     label: PropTypes.string,
-  })
+  };
 
 export const SEARCH_STATE_TYPE = {
   criteria: PropTypes.shape({
@@ -39,7 +47,7 @@ export const SEARCH_STATE_TYPE = {
   }),
   results: {
     //highlights: PropTypes.arrayOf(PropTypes.object),
-    facets: PropTypes.arrayOf(FACET_DESCRIPTOR_TYPE),
+    facets: PropTypes.arrayOf(PropTypes.shape(FACET_DESCRIPTOR_SHAPE_TYPE)),
     data: PropTypes.oneOfType([
       PropTypes.shape({
         code: PropTypes.string,

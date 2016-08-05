@@ -1,6 +1,8 @@
 import {capitalize, toUpper} from 'lodash/string';
 import isEqual from 'lodash/isEqual';
-import differenceWith from 'lodash/differenceWith'
+import differenceWith from 'lodash/differenceWith';
+
+
 export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = {}, action = {}) => {
 
   const UPPER_NAME = toUpper(name);
@@ -8,7 +10,7 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
   const UPDATE_SORT_SEARCH =  `${toUpper(name)}_UPDATE_SORT`;
   const UPDATE_GROUP_SEARCH =  `${toUpper(name)}_UPDATE_GROUP`;
   const UPDATE_SELECTED_FACETS_SEARCH =  `${toUpper(name)}_UPDATE_SELECTED_FACETS`;
-
+  console.log(UPDATE_SELECTED_FACETS_SEARCH)
   switch(action.type) {
     case UPDATE_QUERY_SEARCH:
       if(reduceQuery) {
@@ -49,15 +51,19 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
          sort: newSort
        }
     case UPDATE_SELECTED_FACETS_SEARCH:
-      let newSelectedFacets = [action.selectedFacets]
-      if(state.selectedFacets) newSelectedFacets = [...state.selectedFacets, action.selectedFacets]
-      return action.replace ? {
-         ...state,
-         selectedFacets : differenceWith(state.selectedFacets, [action.selectedFacets], isEqual)
-       } :  {
-         ...state,
-         selectedFacets : newSelectedFacets
-         }
+    //facetBlockCode + selectedValue => merge into selectedValue
+      let newSelectedFacets = {}
+      if(state.selectedFacets && state.selectedFacets[action.value.code]){
+        newSelectedFacets = {...state.selectedFacets}
+        newSelectedFacets[action.value.code] = [...state.selectedFacets[action.value.code], action.value.values]
+      }else {
+        newSelectedFacets  = {...state.selectedFacets}
+        newSelectedFacets[action.value.code] = [action.value.values]
+      }
+      return {
+        ...state,
+        selectedFacets: newSelectedFacets
+      }
     default:
       return state;
   }
