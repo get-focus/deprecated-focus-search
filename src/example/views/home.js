@@ -9,12 +9,14 @@ import SearchWithComponent from './searchWithComponent'
 import ResultPanel from '../../components/results';
 
 import FacetPanel from '../../components/facet';
+import ToolBar from '../../components/toolbar';
 
 const Home = () =>  {
   return <div style={{color: 'orange'}}>
     {/*<SearchComponent/>*/}
     {/*<OtherSearchComponent/>*/}
     {/*<SearchWithComponent/>*/}
+    <ToolBar title="ToolBar de la mort"/>
     <ResultPanel>
       {name => <div>{JSON.stringify(name)}</div>}
     </ResultPanel>
