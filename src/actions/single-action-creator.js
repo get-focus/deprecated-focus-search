@@ -44,19 +44,19 @@ export const singleActionCreatorBuilder = name => {
 
 const updateQuery = type => (query, replace = false) => ({
 	type: type,
-	query,
+	query: query,
   replace
 });
 
 
 const updateSort = type => (sort, replace = false) => ({
 	type: type,
-	sort,
+	sort: sort,
   replace
 });
 const updateGroup = type => (group, replace = false) => ({
 	type: type,
-	group,
+	group: group,
   replace
 });
 
@@ -67,7 +67,7 @@ const updateGroup = type => (group, replace = false) => ({
  */
 const updateSelectedFacets = type => (selectedFacets, replace = false) => ({
 	type: type,
-	selectedFacets,
+	selectedFacets: selectedFacets,
   replace
 });
 

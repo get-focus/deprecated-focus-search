@@ -28,20 +28,20 @@ describe('The search criteria reducer', () => {
     describe('with the selectedFacets action should create the selectedFacets object', () => {
       const reducerCriteria = unitCriteriaSearchReducerBuilder('search')
       it("when it's to create", ()=> {
-        const actionCreate = updateSelectedFacets({code: "R1", label: "Yo", values: [{code: "lala", count : 2, label: "test"}]}, false)
+        const actionCreate = updateSelectedFacets({code: "R1", values: "lala"}, false)
         const state = {};
         const newState = reducerCriteria(state, actionCreate)
         expect(newState).to.be.an.object;
-        expect(newState.selectedFacets).to.deep.equal([
-          {code: "R1", label: "Yo", values: [{code: "lala", count : 2, label: "test"}]}
-        ])
+        expect(newState.selectedFacets).to.deep.equal(
+          {"R1": ["lala"]}
+        )
       })
       it("when it's to delete", () => {
-        const actionDelete = updateSelectedFacets({code: "R1", label: "Yo", values: [{code: "lala", count : 2, label: "test"}]}, true)
-        const state = {selectedFacets: [{code: "R1", label: "Yo", values: [{code: "lala", count : 2, label: "test"}]}]};
+        const actionDelete = updateSelectedFacets({code: "R1", values: "lala"}, true)
+        const state = {selectedFacets: [{code: "R1", values: ["lala"]}]};
         const newState = reducerCriteria(state, actionDelete)
         expect(newState).to.be.an.object;
-        expect(newState.selectedFacets).to.deep.equal([])
+        expect(newState.selectedFacets['R1']).to.be.undefined
       })
 
     })

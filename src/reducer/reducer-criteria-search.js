@@ -1,6 +1,10 @@
 import {capitalize, toUpper} from 'lodash/string';
 import isEqual from 'lodash/isEqual';
-import differenceWith from 'lodash/differenceWith'
+import differenceWith from 'lodash/differenceWith';
+import difference from 'lodash/difference';
+import omit from 'lodash/omit';
+
+
 export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = {}, action = {}) => {
 
   const UPPER_NAME = toUpper(name);
@@ -8,7 +12,6 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
   const UPDATE_SORT_SEARCH =  `${toUpper(name)}_UPDATE_SORT`;
   const UPDATE_GROUP_SEARCH =  `${toUpper(name)}_UPDATE_GROUP`;
   const UPDATE_SELECTED_FACETS_SEARCH =  `${toUpper(name)}_UPDATE_SELECTED_FACETS`;
-
   switch(action.type) {
     case UPDATE_QUERY_SEARCH:
       if(reduceQuery) {
@@ -49,15 +52,27 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
          sort: newSort
        }
     case UPDATE_SELECTED_FACETS_SEARCH:
-      let newSelectedFacets = [action.selectedFacets]
-      if(state.selectedFacets) newSelectedFacets = [...state.selectedFacets, action.selectedFacets]
-      return action.replace ? {
-         ...state,
-         selectedFacets : differenceWith(state.selectedFacets, [action.selectedFacets], isEqual)
-       } :  {
-         ...state,
-         selectedFacets : newSelectedFacets
-         }
+    //facetBlockCode + selectedValue => merge into selectedValue
+      console.log(action)
+      let newSelectedFacets = {...state.selectedFacets}
+      if(action.replace){
+          const dif = difference(state.selectedFacets[action.selectedFacets.code], [action.selectedFacets.values])
+          dif.length > 0 ?
+          newSelectedFacets[action.selectedFacets.code] = dif :
+          newSelectedFacets = omit(newSelectedFacets, [action.selectedFacets.code])
+      }else {
+        if(state.selectedFacets && state.selectedFacets[action.selectedFacets.code]){
+          newSelectedFacets[action.selectedFacets.code] = [...state.selectedFacets[action.selectedFacets.code], action.selectedFacets.values]
+        }else {
+          console.log("*********************************************************************************************************")
+          console.log(action)
+          newSelectedFacets[action.selectedFacets.code] = [action.selectedFacets.values]
+        }
+      }
+      return {
+        ...state,
+        selectedFacets: newSelectedFacets
+      }
     default:
       return state;
   }

@@ -1,8 +1,12 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {facetListWithselectedInformation, selectSearch} from '../reducer'
+
+
 import {
-  FACET_TYPE,
-  FACET_DESCRIPTOR_TYPE
+  FACET_SHAPE_TYPE,
+  FACET_DESCRIPTOR_SHAPE_TYPE
 } from '../reducer';
 const FAKE_DATA = [
   {
@@ -24,11 +28,16 @@ const FAKE_DATA = [
     ]
   }
 ];
-const facetSelector = s => ({data: FAKE_DATA});
+//const facetSelector = s => ({data: FAKE_DATA});
 const facetActions = dispatch => ({
   selectFacet: facet => dispatch({
-    type: 'YOLO_SELECTED_FACETS',
-    value: facet
+    type: 'ADVANCEDSEARCH_UPDATE_SELECTED_FACETS',
+    selectedFacets: facet
+  }),
+  deleteFacet: facet => dispatch({
+    type: 'ADVANCEDSEARCH_UPDATE_SELECTED_FACETS',
+    selectedFacets: facet,
+    replace: true
   })
 })
 
@@ -41,17 +50,18 @@ export function FacetCount(props){
 }
 
 export function Facet(props){
+
   return (<li
         data-focus='facet'
         className='mdl-list__item'
-        onClick={() => props.selectFacet(props.code)}>
+        onClick={() => props.onClick(props.code)}>
         <FacetTitle>{props.label}</FacetTitle>
         <FacetCount>{props.count}</FacetCount>
       </li>
   );
 }
 
-Facet.propTypes = FACET_TYPE;
+Facet.propTypes = FACET_SHAPE_TYPE;
 
 // add hover style
 // connect(sFacetBlock, code => FacetComponent)
@@ -72,10 +82,14 @@ function connectToFacetDomain(FacetComponent){
 export function FacetBlock(props){
   return <div data-focus='facet-block' className='mdl-card mdl-shadow--2dp' style={{maxWidth: '300px'}}>
       <h3>{props.label}</h3>
+
       <ul className='mdl-list'>
           {
+            props.selected ?
+            <div>{props.selectedFacets.map (value =><props.FacetComponent key={props.code} label={value} code={value} onClick={selectedValue => props.deleteFacet({code: props.code, values: selectedValue})}/>)}</div>
+            :
             props.values.map(
-              facet => <props.FacetComponent key={facet.code} {...facet} selectFacet={props.selectFacet} selectFacet={props.selectFacet}/>
+              facet => <props.FacetComponent key={facet.code} {...facet} onClick={selectedValue => props.selectFacet({code: props.code, values: selectedValue})}/>
             )
           }
       </ul>
@@ -88,7 +102,8 @@ FacetBlock.defaultProps = {
   values: []
 }
 FacetBlock.propTypes = {
-  ...FACET_DESCRIPTOR_TYPE,
+  ...FACET_DESCRIPTOR_SHAPE_TYPE,
+  deleteFacet: PropTypes.func.isRequired,
   selectFacet: PropTypes.func.isRequired,
   FacetComponent: PropTypes.func
 };
@@ -99,7 +114,7 @@ export function FacetPanel(props){
   >
     <h2>{props.title}</h2>
     {props.data.map(
-      facetDescriptor => <FacetBlock key={facetDescriptor.code} {...facetDescriptor} selectFacet={props.selectFacet}/>)
+      facetDescriptor => <FacetBlock key={facetDescriptor.code} {...facetDescriptor} selected={facetDescriptor.selected} selectFacet={props.selectFacet} deleteFacet={props.deleteFacet}/>)
     }
   </div>
 }
@@ -108,7 +123,7 @@ FacetPanel.defaultProps = {
 }
 FacetPanel.propTypes = {
   title: PropTypes.string,
-  data: PropTypes.arrayOf(FACET_DESCRIPTOR_TYPE)
+  data: PropTypes.arrayOf(PropTypes.shape(FACET_DESCRIPTOR_SHAPE_TYPE))
 };
 
 
@@ -128,4 +143,9 @@ FacetPanel.propTypes = {
 --------------
 
 /* Default Export is a connected component */
-export default connect(facetSelector, facetActions)(FacetPanel);
+
+export const facetSelector =   compose(
+     facetListWithselectedInformation,
+     selectSearch('advancedSearch')
+  );
+export default connect(facetSelector,facetActions)(FacetPanel);
