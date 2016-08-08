@@ -49,12 +49,18 @@ export const SEARCH_STATE_TYPE = {
     //highlights: PropTypes.arrayOf(PropTypes.object),
     facets: PropTypes.arrayOf(PropTypes.shape(FACET_DESCRIPTOR_SHAPE_TYPE)),
     data: PropTypes.oneOfType([
-      PropTypes.shape({
+      PropTypes.arrayOf(PropTypes.shape({
         code: PropTypes.string,
         label: PropTypes.string,
+        totalCount: PropTypes.number,
+        values: PropTypes.arrayOf(PropTypes.object),
+        contentType: PropTypes.string.isRequired
+      })),
+      PropTypes.shape({
+        totalCount: PropTypes.number,
+        contentType: PropTypes.string.isRequired,
         values: PropTypes.arrayOf(PropTypes.object)
-      }),
-      PropTypes.arrayOf(PropTypes.object)
+      })
     ])
   }
 }
