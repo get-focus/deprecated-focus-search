@@ -33,7 +33,7 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
 
      case UPDATE_GROUP_SEARCH:
        let newGroup = [action.group]
-       if(state.group) newGroup = [...state.group, action.group]
+       if(state.group) newGroup.group = [...state.group, action.group]
      return action.replace ? {
        ...state,
        group: differenceWith(state.group, [action.group], isEqual)
@@ -53,7 +53,6 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
        }
     case UPDATE_SELECTED_FACETS_SEARCH:
     //facetBlockCode + selectedValue => merge into selectedValue
-      console.log(action)
       let newSelectedFacets = {...state.selectedFacets}
       if(action.replace){
           const dif = difference(state.selectedFacets[action.selectedFacets.code], [action.selectedFacets.values])
@@ -64,8 +63,6 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
         if(state.selectedFacets && state.selectedFacets[action.selectedFacets.code]){
           newSelectedFacets[action.selectedFacets.code] = [...state.selectedFacets[action.selectedFacets.code], action.selectedFacets.values]
         }else {
-          console.log("*********************************************************************************************************")
-          console.log(action)
           newSelectedFacets[action.selectedFacets.code] = [action.selectedFacets.values]
         }
       }

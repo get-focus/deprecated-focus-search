@@ -4,15 +4,33 @@ import {connect} from 'react-redux';
 
 import {selectSearch} from '../reducer'
 
-export function ToolBar(props){
+export function ToolBar({listSort, listGroup, sort, group}){
   return <ToolBarContainer>
-    <button onClick={() =>props.sort({name:'lalaSort' , order: 'lolSort'})}>Sort</button>
-    <button onClick={() =>props.group({name:'lalaGroup' , order: 'lolGroup'})}>Group</button>
+    <span style={{margin: '5px', color: 'blue'}}>Sort</span>
+    <select onChange={({target:{value}}) =>{
+      sort({name:value.split('-')[0] , order: value.split('-')[1]})
+    }}>
+      {
+        listSort.map(element => {
+          return <div><option value={element+"-asc"}>{element} Asc</option>
+                 <option value={element+"-desc"}>{element} Desc</option></div>
+        })
+      }
+
+    </select>
+    <span style={{margin: '5px', color: 'blue'}} >Group</span>
+    <select onClick={({target:{value}}) => group({name:value})}>
+    {
+      listGroup.map(element => {
+        return <div><option value={element}>{element}</option></div>
+      })
+    }
+    </select>
   </ToolBarContainer>
 }
 
 export function ToolBarContainer(props){
-  return <div className='mdl-grid mdl-shadow--3dp' style={{margin: '10 0 10 0'}}>{props.title} Bonjour je suis une belle toolBar de la classe !{props.children}</div>
+  return <div className='mdl-grid mdl-shadow--3dp' style={{margin: '10 0 10 0'}}><span style={{margin: '5px'}}>{props.title} Bonjour je suis une belle toolBar de la classe !</span>{props.children}</div>
 }
 
 export const toolBarSelector =   compose(
@@ -28,3 +46,23 @@ export default connect(toolBarSelector, dispatch => ({
     group: group
   })
 }))(ToolBar);
+
+
+
+ToolBar.defaultProps = {
+  listSort: [
+    "ouaaaaah",
+    "trop",
+    "bien"
+  ],
+  listGroup: [
+    "ouaaaaah",
+    "trop",
+    "bien"
+  ]
+}
+
+ToolBar.propTypes = {
+  listSort : PropTypes.array.required,
+  listGroup : PropTypes.array.required,
+}
