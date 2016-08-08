@@ -19,7 +19,7 @@ export function facetListWithselectedInformation(state) {
   const facets = state.results.facets || [];
   // TODO: Check the selected value presence
   return {
-    data: facets.map(facetDescriptor => selectedFacets[facetDescriptor.code] ? {...facetDescriptor, selected: true} : facetDescriptor)
+    data: facets.map(facetDescriptor => (selectedFacets[facetDescriptor.code]) ? {...facetDescriptor,selectedFacets: selectedFacets[facetDescriptor.code], selected: true} : facetDescriptor)
   }
 }
 

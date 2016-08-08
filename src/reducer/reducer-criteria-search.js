@@ -1,6 +1,8 @@
 import {capitalize, toUpper} from 'lodash/string';
 import isEqual from 'lodash/isEqual';
 import differenceWith from 'lodash/differenceWith';
+import difference from 'lodash/difference';
+import omit from 'lodash/omit';
 
 
 export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = {}, action = {}) => {
@@ -52,13 +54,18 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
        }
     case UPDATE_SELECTED_FACETS_SEARCH:
     //facetBlockCode + selectedValue => merge into selectedValue
-      let newSelectedFacets = {}
-      if(state.selectedFacets && state.selectedFacets[action.value.code]){
-        newSelectedFacets = {...state.selectedFacets}
-        newSelectedFacets[action.value.code] = [...state.selectedFacets[action.value.code], action.value.values]
+      let newSelectedFacets = {...state.selectedFacets}
+      if(action.replace){
+          const dif = difference(state.selectedFacets[action.value.code], [action.value.values])
+          dif.length > 0 ?
+          newSelectedFacets[action.value.code] = dif :
+          newSelectedFacets = omit(newSelectedFacets, [action.value.code])
       }else {
-        newSelectedFacets  = {...state.selectedFacets}
-        newSelectedFacets[action.value.code] = [action.value.values]
+        if(state.selectedFacets && state.selectedFacets[action.value.code]){
+          newSelectedFacets[action.value.code] = [...state.selectedFacets[action.value.code], action.value.values]
+        }else {
+          newSelectedFacets[action.value.code] = [action.value.values]
+        }
       }
       return {
         ...state,
