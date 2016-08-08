@@ -15,7 +15,9 @@ const Home = () =>  {
     {/*<SearchComponent/>*/}
     {/*<OtherSearchComponent/>*/}
     {/*<SearchWithComponent/>*/}
-    <ResultPanel />
+    <ResultPanel>
+      {name => <div>{JSON.stringify(name)}</div>}
+    </ResultPanel>
     <FacetPanel title='My awesome facets'/>
   </div>;
 }

@@ -15,7 +15,7 @@ export function LineComponentToDefine (props){
   return <div style={{color: 'white', backgroundColor: 'tomato'}}>You should define a line component, props: {JSON.stringify(props)}</div>
 }
 
-const _getLineComponentFromContentTypeExample = contentType => {
+const _getLineComponentFromContentTypeExample = (contentType, listData) => {
   switch (contentType) {
     case 'DonDiegoType':
       return props => <div>Line DonDiegoType {JSON.stringify(props)}</div>
@@ -37,7 +37,7 @@ const connectToLineComponent =  Component => ({contentType, ...otherProps}) => {
 }
 */
 export function ResultList ({data, lineIdentifierProperty,getLineComponent, contentType, ListWrapper}) {
-  const LineComponent = getLineComponent(contentType);
+  const LineComponent = getLineComponent(contentType, data);
   return(
     <div>
       <h2>result list</h2>
@@ -58,6 +58,7 @@ ResultList.defaultProps = {
 ResultList.propTypes = {
   data: PropTypes.array,
   lineIdentifierProperty: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /* This function is use to get the line component depending */
   getLineComponent: PropTypes.func,
   ListWrapper: PropTypes.func
 }
