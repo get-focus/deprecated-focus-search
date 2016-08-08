@@ -32,11 +32,11 @@ const FAKE_DATA = [
 const facetActions = dispatch => ({
   selectFacet: facet => dispatch({
     type: 'ADVANCEDSEARCH_UPDATE_SELECTED_FACETS',
-    value: facet
+    selectedFacets: facet
   }),
   deleteFacet: facet => dispatch({
     type: 'ADVANCEDSEARCH_UPDATE_SELECTED_FACETS',
-    value: facet,
+    selectedFacets: facet,
     replace: true
   })
 })

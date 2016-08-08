@@ -12,7 +12,6 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
   const UPDATE_SORT_SEARCH =  `${toUpper(name)}_UPDATE_SORT`;
   const UPDATE_GROUP_SEARCH =  `${toUpper(name)}_UPDATE_GROUP`;
   const UPDATE_SELECTED_FACETS_SEARCH =  `${toUpper(name)}_UPDATE_SELECTED_FACETS`;
-  console.log(UPDATE_SELECTED_FACETS_SEARCH)
   switch(action.type) {
     case UPDATE_QUERY_SEARCH:
       if(reduceQuery) {
@@ -54,17 +53,20 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
        }
     case UPDATE_SELECTED_FACETS_SEARCH:
     //facetBlockCode + selectedValue => merge into selectedValue
+      console.log(action)
       let newSelectedFacets = {...state.selectedFacets}
       if(action.replace){
-          const dif = difference(state.selectedFacets[action.value.code], [action.value.values])
+          const dif = difference(state.selectedFacets[action.selectedFacets.code], [action.selectedFacets.values])
           dif.length > 0 ?
-          newSelectedFacets[action.value.code] = dif :
-          newSelectedFacets = omit(newSelectedFacets, [action.value.code])
+          newSelectedFacets[action.selectedFacets.code] = dif :
+          newSelectedFacets = omit(newSelectedFacets, [action.selectedFacets.code])
       }else {
-        if(state.selectedFacets && state.selectedFacets[action.value.code]){
-          newSelectedFacets[action.value.code] = [...state.selectedFacets[action.value.code], action.value.values]
+        if(state.selectedFacets && state.selectedFacets[action.selectedFacets.code]){
+          newSelectedFacets[action.selectedFacets.code] = [...state.selectedFacets[action.selectedFacets.code], action.selectedFacets.values]
         }else {
-          newSelectedFacets[action.value.code] = [action.value.values]
+          console.log("*********************************************************************************************************")
+          console.log(action)
+          newSelectedFacets[action.selectedFacets.code] = [action.selectedFacets.values]
         }
       }
       return {

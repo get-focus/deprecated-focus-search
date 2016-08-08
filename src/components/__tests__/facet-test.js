@@ -51,7 +51,7 @@ describe('Facets components ', () => {
     });
     it('should call the action on click', () => {
       const selectFacetSpy =  sinon.spy();
-      const wrapper = shallow(<Facet code='MONKEY'count={3} label='papa' selectFacet={selectFacetSpy}/>)
+      const wrapper = shallow(<Facet code='MONKEY'count={3} label='papa' onClick={selectFacetSpy}/>)
       wrapper.find('li').simulate('click');
       expect(selectFacetSpy).to.have.property('callCount', 1);
       expect(selectFacetSpy).to.have.been.calledWith('MONKEY')
