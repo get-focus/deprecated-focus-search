@@ -4,22 +4,74 @@ const DATA_TEST = [
   {id: 2, name: 'Pierre', age: 28}
 ]
 
-function PureSelectableList(props){
-  // TODO: add a component with explaination on how to do the selectable connxion.
-  return <ul>
-    hello
-    {
-      props.data.map(
-      ({isSelected, ...lineData}) => <li key={lineData[props.lineIdentifierProperty]}>
-          {'IsSelected:'} {isSelected ? '[x]' : '[ ]'} -
+const EXPLAINATION = `
+  You forget to provide a ListComponent to the selectableList connector. <code></code>
+  In the props of your list you should have
+  - data
+  - a line component in LineComponent
+  - a lineIdentifierProperty to know which property is the id of your line
+  With the connector to selectableList you will have
+  - a isSelected property in each line data
+  - a toggleLineSelection function to toggle the line selection (you need to provide the id of the line)
+  // Example function
+  function MyExampleList({toggleLineSelection, lineIdentifierProperty, data}){
+    return <ul>
+      {
+        data.map(
+        ({isSelected, ...lineData}) => <li>
+
           {JSON.stringify(lineData)}
-          <button onClick={() => props.toggleLineSelection(lineData[props.lineIdentifierProperty])}>{'ToggleLine'}</button>
+          <button onClick={() => toggleLineSelection(lineData.id)}>
+          {isSelected ? 'unselect' : 'select'}
+          </button>
         </li>
-      )
-    }</ul>
+        )
+      }
+    </ul>
+  }
+`;
+
+function DefaultPureSelectableList(props){
+  return <div style={{backgroundColor: 'tomato', color: 'white'}}>
+
+    <p>
+    {`  You forget to provide a ListComponent to the selectableList connector.`}
+    <code>{`connectSelectableList(ListComponentToConnect)`}</code>
+    </p>
+    <p>
+    {`In the props of your list you should have`}
+    <ul>
+     <li>{`data`}</li>
+    <li>{`a line component in LineComponent`}</li>
+    <li>{`a lineIdentifierProperty to know which property is the id of your line`}</li>
+    </ul>
+    With the connector to selectableList you will have
+    <li>{`a isSelected property in each line data`}</li>
+    <li>{`a toggleLineSelection function to toggle the line selection (you need to provide the id of the line)`}</li>
+  }</p>
+    // Example function
+    <pre><code>
+  {`function MyExampleList({toggleLineSelection,   lineIdentifierProperty, data}){
+      return <ul>
+        {
+          data.map(
+          ({isSelected, ...lineData}) => <li>
+
+            {JSON.stringify(lineData)}
+            <button onClick={() => toggleLineSelection(lineData.id)}>
+            {isSelected ? 'unselect' : 'select'}
+            </button>
+          </li>
+          )
+        }
+      </ul>
+    }
+    `}
+    </code></pre>
+  </div>
 }
 
-PureSelectableList.propTypes = {
+DefaultPureSelectableList.propTypes = {
   lineIdentifierProperty: PropTypes.string.isRequired
 }
 
@@ -70,7 +122,7 @@ function PureSelectableListCustom({data, lineIdentifierProperty, toggleLineSelec
  }
  *
 */
-const connect = (ListToConnect = PureSelectableList) => {
+const connect = (ListToConnect = DefaultPureSelectableList) => {
   class SelectableList extends Component {
     constructor(props){
         super(props);
