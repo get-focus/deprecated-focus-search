@@ -4,33 +4,7 @@ const DATA_TEST = [
   {id: 2, name: 'Pierre', age: 28}
 ]
 
-const EXPLAINATION = `
-  You forget to provide a ListComponent to the selectableList connector. <code></code>
-  In the props of your list you should have
-  - data
-  - a line component in LineComponent
-  - a lineIdentifierProperty to know which property is the id of your line
-  With the connector to selectableList you will have
-  - a isSelected property in each line data
-  - a toggleLineSelection function to toggle the line selection (you need to provide the id of the line)
-  // Example function
-  function MyExampleList({toggleLineSelection, lineIdentifierProperty, data}){
-    return <ul>
-      {
-        data.map(
-        ({isSelected, ...lineData}) => <li>
-
-          {JSON.stringify(lineData)}
-          <button onClick={() => toggleLineSelection(lineData.id)}>
-          {isSelected ? 'unselect' : 'select'}
-          </button>
-        </li>
-        )
-      }
-    </ul>
-  }
-`;
-
+// Default component which explains how the connect works.
 function DefaultPureSelectableList(props){
   return <div style={{backgroundColor: 'tomato', color: 'white'}}>
 
