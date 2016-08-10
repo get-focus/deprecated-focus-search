@@ -8,12 +8,14 @@ import OtherSearchComponent from './otherSearchComponent'
 import SearchWithComponent from './searchWithComponent'
 import ResultPanel from '../../components/results';
 
+import {connect as connectToSearch} from '../../behaviours/search'
 import FacetPanel from '../../components/facet';
 import ToolBar from '../../components/toolbar';
 import ActionQuery from '../../components/searchbar';
 
 
-const Home = () =>  {
+const Home = (props) =>  {
+  console.log(props)
   return <div style={{color: 'orange'}}>
     {/*<SearchComponent/>*/}
     {/*<OtherSearchComponent/>*/}
@@ -29,6 +31,7 @@ const Home = () =>  {
 }
 
 const ConnectedComponentHome = compose(
-  connectToState(s => ({reduxState: s}))
+  connectToState(s => ({reduxState: s})),
+  connectToSearch()
 )(Home)
 export default ConnectedComponentHome;
