@@ -5,7 +5,7 @@ import {SearchBar, ActionQueryContainer, ScopeSelection,ActionBar} from '../sear
 
 describe('SearchBar components ', () => {
   describe('<SearchBar />', ()=> {
-    it('should be a div with a data-focus=toolbar-container', () => {
+    it('should call the query props on the change event ', () => {
       const searchbarSpy = sinon.spy();
       const wrapper = shallow(<SearchBar query={searchbarSpy}/>);
       wrapper.find("[data-focus='searchbar']").simulate('change', {target: {value: 'My new value'}})
@@ -14,14 +14,14 @@ describe('SearchBar components ', () => {
     });
   });
   describe('<ActionQueryContainer />', ()=> {
-    it('should be a div with a data-focus=toolbar', () => {
+    it('should be a div with a data-focus="action-query-container"', () => {
       const wrapper = shallow(<ActionQueryContainer/>);
       expect(wrapper.find("[data-focus='action-query-container']")).to.have.length(1);
     });
 
   });
   describe('<ScopeSelection />', ()=> {
-    it('should be a div with a data-focus=toolbar', () => {
+    it('should call the group props on the change event', () => {
       const groupSpy = sinon.spy();
       const wrapper = shallow(<ScopeSelection group={groupSpy}/>);
       expect(wrapper.find("[data-focus='scope-selection']")).to.have.length(1);
@@ -33,7 +33,7 @@ describe('SearchBar components ', () => {
 
   });
   describe('<ActionBar />', ()=> {
-    it('should be a div with a data-focus=toolbar', () => {
+    it('should be a div with a data-focus="action-bar"', () => {
       const wrapper = shallow(<ActionBar/>);
       expect(wrapper.find("[data-focus='action-bar']")).to.have.length(1);
     });

@@ -18,12 +18,12 @@ describe('ToolBar components ', () => {
 
   });
   describe('<ToolbarGroup/>', () => {
-    it('nananna2', ()=> {
+    it("should have three options if the listeGroup have a length equal to 3 ", ()=> {
       const wrapper = shallow(<ToolbarGroup listGroup={['truc', 'machin', 'bidule']}/>)
       expect(wrapper.find("[data-focus='option-group']")).to.have.length(3);
     })
 
-    it('nananna2', ()=> {
+    it('should call the props group on the change event', ()=> {
       const groupSpy = sinon.spy();
       const wrapper = shallow(<ToolbarGroup group={groupSpy} listGroup={['truc', 'machin', 'bidule']}/>)
       wrapper.find("[data-focus='select-group']").simulate('change', {target: {value: 'My new value'}})
@@ -32,7 +32,7 @@ describe('ToolBar components ', () => {
     })
   })
   describe('<ToolbarSort/>', () => {
-    it('nananna3', ()=> {
+    it('should call the props sort on the change event', ()=> {
       const sortSpy = sinon.spy();
       const wrapper = shallow(<ToolbarSort sort={sortSpy} listSort={['truc', 'machin', 'bidule']}/>)
       wrapper.find("[data-focus='select-sort']").simulate('change', {target: {value: 'My new value'}})
@@ -40,7 +40,7 @@ describe('ToolBar components ', () => {
       expect(sortSpy).to.have.been.calledWith()
     })
 
-    it('nananna', ()=> {
+    it('should have 6 options if the listeGroup have a length equal to 3', ()=> {
       const wrapper = shallow(<ToolbarSort listSort={['truc', 'machin', 'bidule']}/>)
       expect(wrapper.find("[data-focus='option-sort']")).to.have.length(6);
     })
