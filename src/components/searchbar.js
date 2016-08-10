@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 
 import {selectSearch} from '../reducer';
 
-function SearchBar ({query}) {
-  return <input onChange={({target : {value}}) => query({term : value})}></input>
+export function SearchBar ({query}) {
+  return <input data-focus='searchbar' onChange={({target : {value}}) => query({term : value})}></input>
 }
 
 const searchbarSelector = compose(
@@ -20,8 +20,8 @@ const SearchBarConnected = connect(searchbarSelector, dispatch => ({
 }))(SearchBar)
 
 
-function ActionQueryContainer (props) {
-  return <div className='mdl-grid mdl-shadow--3dp' style={{padding : '50 0 50 0', display : 'flex', alignItems:'center', flexDirection: 'column'}} >
+export function ActionQueryContainer (props) {
+  return <div data-focus='action-query-container' className='mdl-grid mdl-shadow--3dp' style={{padding : '50 0 50 0', display : 'flex', alignItems:'center', flexDirection: 'column'}} >
 
   <div style={{color: 'green'}}><span>Que recherchez-vous ?</span></div>
   <div style={{display : 'flex', justifyContent:'center'}}>{props.children}</div>
@@ -29,11 +29,11 @@ function ActionQueryContainer (props) {
   </div>
 }
 
-function ScopeSelection ({group}) {
-  return <select onChange= {({target : {value}})=> group({name:value}) }>
+export function ScopeSelection ({group}) {
+  return <select data-focus='scope-selection' onChange= {({target : {value}})=> group({name:value}) }>
     <option value='scope 1'>Scope 2</option>
     <option value='scope 2'>Scope 1</option>
-    <option value='all' selected>All</option>
+    <option value='all'>All</option>
   </select>
 }
 
@@ -46,10 +46,12 @@ const ScopeSelectionConnected = connect(searchbarSelector, dispatch => ({
 
 export function ActionBar () {
   return(
+    <div data-focus='action-bar'>
     <ActionQueryContainer>
       <ScopeSelectionConnected/>
       <SearchBarConnected/>
     </ActionQueryContainer>
+    </div>
   )
 
 }
