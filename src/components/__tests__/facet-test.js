@@ -14,8 +14,8 @@ describe('Facets components ', () => {
       expect(wrapper.find('span.mdl-list__item-primary-content')).to.have.length(1);
     });
     it('should add its children props', () => {
-      const wrapper = shallow(<FacetTitle><div>{'Pierre'}</div></FacetTitle>);
-      expect(wrapper.contains(<div>{'Pierre'}</div>)).to.be.true;
+      const wrapper = shallow(<FacetTitle><div>{'Amélie'}</div></FacetTitle>);
+      expect(wrapper.contains(<div>{'Amélie'}</div>)).to.be.true;
     });
   });
   describe('<FacetCount />', ()=> {

@@ -33,7 +33,7 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
 
      case UPDATE_GROUP_SEARCH:
        let newGroup = [action.group]
-       if(state.group) newGroup.group = [...state.group, action.group]
+       if(state.group) newGroup = [ action.group]
      return action.replace ? {
        ...state,
        group: differenceWith(state.group, [action.group], isEqual)

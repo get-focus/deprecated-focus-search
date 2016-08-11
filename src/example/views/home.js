@@ -10,12 +10,16 @@ import ResultPanel from '../../components/results';
 
 import FacetPanel from '../../components/facet';
 import ToolBar from '../../components/toolbar';
+import ActionQuery from '../../components/searchbar';
+
 
 const Home = () =>  {
   return <div style={{color: 'orange'}}>
     {/*<SearchComponent/>*/}
     {/*<OtherSearchComponent/>*/}
     {/*<SearchWithComponent/>*/}
+
+    <ActionQuery/>
     <ToolBar title="ToolBar de la mort"/>
     <ResultPanel>
       {name => <div>{JSON.stringify(name)}</div>}

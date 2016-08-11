@@ -25,7 +25,6 @@ function FacetContainer({...otherProps}) {
         </div>
      })
    }
-   console.log('jfdkshf')
     return (
       <div>
         {builOneFacet()}
