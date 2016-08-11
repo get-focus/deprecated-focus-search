@@ -1,5 +1,6 @@
 import {unitResultsSearchReducerBuilder} from './reducer-result-search';
 import {unitCriteriaSearchReducerBuilder} from './reducer-criteria-search';
+
 import {combineReducers} from 'redux';
 import {PropTypes} from 'react';
 
