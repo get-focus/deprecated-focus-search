@@ -50,7 +50,15 @@ const FAKE_DATA = [
   }
 ];
 
-export const unitResultsSearchReducerBuilder = (name, resultParser = parseResults) => (state = {facets:FAKE_DATA }, action = {}) => {
+const FAKE_DATA_LIST = [
+  {id: 1, firstName: 'Don Rodrigo', age: 12},
+  {id: 2, firstName: 'Don Stefano', age: 87},
+  {id: 3, firstName: 'Don Roberto', age: 46},
+  {id: 4, firstName: 'Don Michello', age: 22}
+];
+
+
+export const unitResultsSearchReducerBuilder = (name, resultParser = parseResults) => (state = {facets:FAKE_DATA, data:{ contentType: 'DonDiegoType', values : FAKE_DATA_LIST}}, action = {}) => {
   const _UPPER_NAME = toUpper(name);
   const REQUEST_SEARCH = `REQUEST_${_UPPER_NAME}`;
   const RESPONSE_SEARCH = `RESPONSE_${_UPPER_NAME}`;

@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {facetListWithselectedInformation, selectSearch} from '../reducer'
 
@@ -114,7 +113,7 @@ export function FacetPanel(props){
   >
     <h2>{props.title}</h2>
     {props.data.map(
-      facetDescriptor => <FacetBlock key={facetDescriptor.code} {...facetDescriptor} selected={facetDescriptor.selected} selectFacet={props.selectFacet} deleteFacet={props.deleteFacet}/>)
+      facetDescriptor => <FacetBlock key={facetDescriptor.code} {...facetDescriptor} selected={facetDescriptor.selected} selectFacet={(value) => props.facet(value, false)} deleteFacet={value => props.facet(value, true)}/>)
     }
   </div>
 }
@@ -148,4 +147,4 @@ export const facetSelector =   compose(
      facetListWithselectedInformation,
      selectSearch('advancedSearch')
   );
-export default connect(facetSelector,facetActions)(FacetPanel);
+export default FacetPanel
