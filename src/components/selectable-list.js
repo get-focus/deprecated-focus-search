@@ -1,9 +1,10 @@
 import React, {PropTypes, Component} from 'react';
+import isFunction from 'lodash/isFunction'
 const DATA_TEST = [
   {id: 1,name: 'Amelie', age: 25},
   {id: 2, name: 'Pierre', age: 28}
 ]
-
+const SELECTABLE_LIST = 'SELECTABLE_LIST';
 // Default component which explains how the connect works.
 function DefaultPureSelectableList(props){
   return <div style={{backgroundColor: 'tomato', color: 'white'}}>
@@ -97,6 +98,7 @@ function PureSelectableListCustom({data, lineIdentifierProperty, toggleLineSelec
  *
 */
 const connect = (ListToConnect = DefaultPureSelectableList) => {
+  if(!isFunction(ListToConnect)) throw new Error(`${SELECTABLE_LIST}: You should provide a List Component to the connector.`);
   class SelectableList extends Component {
     constructor(props){
         super(props);
@@ -135,4 +137,4 @@ const connect = (ListToConnect = DefaultPureSelectableList) => {
 
 
 
-export default connect();
+export default connect;
