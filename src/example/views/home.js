@@ -8,7 +8,7 @@ import map from 'lodash/map';
 import SearchComponent from './searchComponent'
 import OtherSearchComponent from './otherSearchComponent'
 import SearchWithComponent from './searchWithComponent'
-import ResultPanel from '../../components/results';
+import {ResultList, ResultGroup} from '../../components/results';
 import {unitSearchActions, searchAction as search} from '../actions/search-actions'
 
 import {facetListWithselectedInformation, selectSearch} from '../../reducer'
@@ -19,17 +19,19 @@ import ToolBar from '../../components/toolbar';
 import ActionQuery from '../../components/searchbar';
 
 
-const Home = ({searchMetadata, metaDataProps, sort, group, query, facet, LineComponent, data, values}) =>  {
+const Home = ({sortList,groupList , metaDataProps, sort, group, query, facet, LineComponent, data, values, isGroup}) =>  {
 
   return <div style={{color: 'orange'}}>
     {/*<SearchComponent/>*/}
     {/*<OtherSearchComponent/>*/}
     {/*<SearchWithComponent/>*/}
     <ActionQuery group={group} query={query}/>
-    <ToolBar listGroup={metaDataProps.groupList} listSort={metaDataProps.sortList} sort={sort} group={group}/>
-    <ResultPanel data={values} LineComponent={LineComponent} >
-      {name => <div>{JSON.stringify(name)}</div>}
-    </ResultPanel>
+    {/*<ToolBar listGroup={metaDataProps.groupList} listSort={metaDataProps.sortList} sort={sort} group={group}/>*/}
+
+    {isGroup ?
+      <ResultGroup isGroup={isGroup} data={values} sort={sort} group={group}/> :
+      <ResultList sort={sort} group={group} data={values} sortList={sortList} groupList={groupList} LineComponent={LineComponent}/>
+    }
     <FacetPanel data={data} facet={facet} title='My awesome facets'/>
   </div>;
 }

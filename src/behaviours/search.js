@@ -53,9 +53,9 @@ export function connect(searchOptions) {
         })
         return <ComponentToConnect group={_group}
                   query={_query}
+                  isGroup
                   facet={_facet}
-                  values={props.results.data.values}
-                  groupsWithLineAndToolBar={groupsWithLineAndToolBar}
+                  values={groupsWithLineAndToolBar}
                   data={facetListWithselectedInformation(props)}
                   sort={_sort}
                   />
@@ -64,6 +64,7 @@ export function connect(searchOptions) {
         return <ComponentToConnect group={_group}
                   query={_query}
                   facet={_facet}
+                  isGroup={false}
                   values={props.results.data.values}
                   data={facetListWithselectedInformation(props)}
                   metaDataProps={metaDataProps}

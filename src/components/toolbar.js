@@ -39,7 +39,7 @@ export function ToolbarGroup({listGroup, group}){
 }
 
 
-export function ToolBar({listSort, listGroup, sort, group}){
+export function ToolBar({listSort, listGroup, sort, group, isGroup}){
 
   _checkProps(listGroup, listSort)
   return <div data-focus="toolbar">
@@ -47,8 +47,8 @@ export function ToolBar({listSort, listGroup, sort, group}){
         <span style={{margin: '5px', color: 'blue'}}>Sort</span>
         <ToolbarSort sort={sort} listSort={listSort}/>
 
-        <span style={{margin: '5px', color: 'blue'}} >Group</span>
-        <ToolbarGroup group={group} listGroup={listGroup}/>
+        { !isGroup &&  <span style={{margin: '5px', color: 'blue'}} >Group</span>}
+        {!isGroup && <ToolbarGroup group={group} listGroup={listGroup}/>}
 
       </ToolBarContainer>
   </div>

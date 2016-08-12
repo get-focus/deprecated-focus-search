@@ -13,9 +13,9 @@ const _getLineComponentFromContentTypeExample = (contentType, listData) => {
       return {
         LineComponent: props => <div>Line DonDiegoType {JSON.stringify(props)}</div>,
         sortList : [
-          'lala',
-          'lolo',
-          'lulu'
+          'ouuuuaaa',
+          'trrropo',
+          'lalal'
         ],
         groupList: [
           'lala',
