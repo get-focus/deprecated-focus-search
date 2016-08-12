@@ -36,14 +36,13 @@ const connectToLineComponent =  Component => ({contentType, ...otherProps}) => {
   return <Component {...otherProps} LineComponent={LineComponent}/>;
 }
 */
-export function ResultList ({data, lineIdentifierProperty,getLineComponent, LineComponent,contentType, ListWrapper}) {
-  const LineComponentResult = LineComponent ||  getLineComponent(contentType, data);
-  console.log(LineComponent)
+export function ResultList ({data, lineIdentifierProperty,getLineComponent, contentType, ListWrapper}) {
+  const LineComponent = getLineComponent(contentType, data);
   return(
     <div>
       <h2>result list</h2>
       <ListWrapper>
-        {data.map(lineDescriptor => <LineComponentResult key={lineDescriptor[lineIdentifierProperty]} {...lineDescriptor}/>)}
+        {data.map(lineDescriptor => <LineComponent key={lineDescriptor[lineIdentifierProperty]} {...lineDescriptor}/>)}
       </ListWrapper>
     </div>
   );
