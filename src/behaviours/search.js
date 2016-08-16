@@ -44,7 +44,7 @@ export function connect(searchOptions) {
       }
       //List ! =)
       let results = {};
-      if(props.results.isGroup){
+      if(props.results.hasGroups){
         const groups = props.results.data;
          results = groups.map(element => {
            const {LineComponent, sortList, groupList} = searchMetadata.getLineComponentFromContentTypeExample( element.contentType, element.values)

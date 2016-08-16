@@ -7,10 +7,8 @@ export const parseResults = (results = {}) => {
 
   /* Populate the new results depending */
   if(hasGroups){
-    newResults.isGroup = true;
     newResults.data = results.groups;
   } else {
-    newResults.isGroup = false;
     newResults.data = results.list;
   }
   if(results.facets){
