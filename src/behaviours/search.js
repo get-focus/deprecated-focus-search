@@ -2,6 +2,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect as connectToState} from 'react-redux';
 import {compose} from 'redux';
+import {map} from 'lodash/map'
 import {loadLine} from '../actions/single-action-creator';
 
 import isArray from 'lodash/isArray';
@@ -27,22 +28,25 @@ export function connect(searchOptions) {
       const {store} = context;
       const {unitSearch: {updateSort, updateGroup, updateSelectedFacets, updateQuery}} = searchOptions;
       //TO DO REPLACE ON EACH ACTIONS
-      const  _sort = (element) => {
-        dispatch(updateSort(element))
-      }
-      const _group = (element) => {
-        dispatch(updateGroup(element))
-      }
-      const _facet = (element, replace) => {
-        dispatch(updateSelectedFacets(element, replace))
-      }
-      const _query = (element) => {
-        dispatch(updateQuery(element))
+      const unitSearchDispatch = {
+        sort: (element) => {
+          dispatch(updateSort(element))
+        },
+        group: (element) => {
+          dispatch(updateGroup(element))
+        },
+        facet: (element, replace) => {
+          dispatch(updateSelectedFacets(element, replace))
+        },
+        query :(element) => {
+          dispatch(updateQuery(element))
+        }
       }
       //List ! =)
-      if(isArray(props.results.data)){
+      let results = {};
+      if(props.results.isGroup){
         const groups = props.results.data;
-        const groupsWithLineAndToolBar = groups.map(element => {
+         results = groups.map(element => {
            const {LineComponent, sortList, groupList} = searchMetadata.getLineComponentFromContentTypeExample( element.contentType, element.values)
            return {
              ...element,
@@ -51,28 +55,22 @@ export function connect(searchOptions) {
              groupList
            }
         })
-        return <ComponentToConnect group={_group}
-                  query={_query}
-                  isGroup
-                  facet={_facet}
-                  values={groupsWithLineAndToolBar}
-                  data={facetListWithselectedInformation(props)}
-                  sort={_sort}
-                  />
       }else {
         const metaDataProps = searchMetadata.getLineComponentFromContentTypeExample( props.results.data.contentType, props.results.data.values);
-        return <ComponentToConnect group={_group}
-                  query={_query}
-                  facet={_facet}
-                  isGroup={false}
-                  values={props.results.data.values}
-                  data={facetListWithselectedInformation(props)}
-                  metaDataProps={metaDataProps}
-                  sort={_sort}
-                  searchMetadata={searchMetadata}
-                  LineComponent={metaDataProps.LineComponent}
-                  />
+         results ={
+          values: props.results.data.values,
+          groupList: searchMetadata.groupList,
+          sortList: searchMetadata.sortList,
+          LineComponent: metaDataProps.LineComponent
+        }
+
       }
+      return <ComponentToConnect
+                isGroup={props.results.isGroup}
+                valuesForResults={results}
+                facetListWithselectedInformation={facetListWithselectedInformation(props)}
+                unitSearchDispatch={unitSearchDispatch}
+                />
 
     }
     SearchConnectedComponent.displayName= 'SearchConnectedComponent';

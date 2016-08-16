@@ -19,20 +19,30 @@ import ToolBar from '../../components/toolbar';
 import ActionQuery from '../../components/searchbar';
 
 
-const Home = ({sortList,groupList , metaDataProps, sort, group, query, facet, LineComponent, data, values, isGroup}) =>  {
-
+const Home = ({valuesForResults,unitSearchDispatch,  facetListWithselectedInformation, sort, group,data, query, facet, isGroup}) =>  {
   return <div style={{color: 'orange'}}>
     {/*<SearchComponent/>*/}
     {/*<OtherSearchComponent/>*/}
     {/*<SearchWithComponent/>*/}
-    <ActionQuery group={group} query={query}/>
     {/*<ToolBar listGroup={metaDataProps.groupList} listSort={metaDataProps.sortList} sort={sort} group={group}/>*/}
-
+    <ActionQuery group={unitSearchDispatch.group} query={unitSearchDispatch.query}/>
     {isGroup ?
-      <ResultGroup isGroup={isGroup} data={values} sort={sort} group={group}/> :
-      <ResultList sort={sort} group={group} data={values} sortList={sortList} groupList={groupList} LineComponent={LineComponent}/>
+      <ResultGroup isGroup={isGroup}
+            data={valuesForResults}
+            sort={unitSearchDispatch.sort}
+            group={unitSearchDispatch.group}
+            /> :
+      <ResultList sort={unitSearchDispatch.sort}
+            group={unitSearchDispatch.group}
+            data={valuesForResults.values}
+            sortList={valuesForResults.sortList}
+            groupList={valuesForResults.groupList}
+            LineComponent={valuesForResults.LineComponent}
+            />
     }
-    <FacetPanel data={data} facet={facet} title='My awesome facets'/>
+    <FacetPanel data={facetListWithselectedInformation}
+              facet={unitSearchDispatch.facet}
+              title='My awesome facets'/>
   </div>;
 }
 
