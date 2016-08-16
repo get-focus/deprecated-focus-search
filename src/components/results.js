@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import ToolBar from './toolbar';
 
 const FAKE_DATA_LIST = [
   {id: 1, firstName: 'Don Rodrigo', age: 12},
@@ -36,11 +37,12 @@ const connectToLineComponent =  Component => ({contentType, ...otherProps}) => {
   return <Component {...otherProps} LineComponent={LineComponent}/>;
 }
 */
-export function ResultList ({data, lineIdentifierProperty,getLineComponent, contentType, ListWrapper}) {
-  const LineComponent = getLineComponent(contentType, data);
+export function ResultList ({data, lineIdentifierProperty,getLineComponent, LineComponent, contentType, sort, group, ListWrapper, sortList, isGroup, groupList}) {
+
   return(
     <div>
       <h2>result list</h2>
+      <ToolBar listGroup={groupList} listSort={sortList} sort={sort} group={group} isGroup={isGroup}/>
       <ListWrapper>
         {data.map(lineDescriptor => <LineComponent key={lineDescriptor[lineIdentifierProperty]} {...lineDescriptor}/>)}
       </ListWrapper>
@@ -62,5 +64,12 @@ ResultList.propTypes = {
   getLineComponent: PropTypes.func,
   ListWrapper: PropTypes.func
 }
-
+export function ResultGroup  ({data, sort, group, isGroup}) {
+  return <div data-focus='result-group' >
+    {data.map(element => {
+        //TO do add ListWrapper
+        return <ResultList data={element.data} sort={sort} group={group} isGroup={isGroup} LineComponent={element.LineComponent} groupList={element.groupList} sortList={element.sortList} />
+    })}
+  </div>
+}
 export default ResultList;

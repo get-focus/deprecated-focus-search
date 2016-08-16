@@ -3,44 +3,30 @@ import compose from 'lodash/flowRight';
 import React, {Component, PropTypes} from 'react';
 import {selectSearch} from '../reducer'
 
-import DefaultFacet from './facet-container';
-import DefaultList from './list-container';
+import FacetPanel from './facet';
+import ToolBar from './toolbar';
+import ActionQuery from './searchbar';
+import {ResultList, ResultGroup} from './results';
 
-class AdvancedSearch extends Component {
-  componentWillMount(){
-    const {action, dispatch} = this.props;
-    dispatch(action())
-  }
-  onClick(value, facet){
-    const {updateSelectedFacets, dispatch} = this.props;
-    dispatch(updateSelectedFacets({facetTitle : facet, facetData : value}))
-  }
-  render () {
-    const {results, criteria, dispatch, updateSelectedFacets} = this.props;
-    return <div style={{color: 'orange'}}>
-     criteria:
-      <div>{JSON.stringify(this.props.criteria)}</div>
-      results
-      <div>{JSON.stringify(this.props.results)}</div>
-      Bonjouuuuur
-      <DefaultFacet facets={results.facets} selectedFacets={criteria.selectedFacets} deleteSelectedFacets={(element) => dispatch(updateSelectedFacets(element, true))} onClick={this.onClick.bind(this)}/>
-      <DefaultList list={results.data} />
-    </div>;
-  }
-
-}
-
-const ConnectedComponentHome = compose(
-  connectToState(selectSearch('advancedSearch'))
-)(AdvancedSearch)
-export default ConnectedComponentHome;
-
-
-AdvancedSearch.propTypes = {
-    results: PropTypes.object
-
-};
-
-AdvancedSearch.defaultProps = {
-    results: {}
+export const AdvancedSearch = ({valuesForResults,unitSearchDispatch,  facetListWithselectedInformation, sort, group,data, query, facet, isGroup}) =>  {
+  return <div style={{color: 'orange'}}>
+    <ActionQuery group={unitSearchDispatch.group} query={unitSearchDispatch.query}/>
+    {isGroup ?
+      <ResultGroup isGroup={isGroup}
+            data={valuesForResults}
+            sort={unitSearchDispatch.sort}
+            group={unitSearchDispatch.group}
+            /> :
+      <ResultList sort={unitSearchDispatch.sort}
+            group={unitSearchDispatch.group}
+            data={valuesForResults.values}
+            sortList={valuesForResults.sortList}
+            groupList={valuesForResults.groupList}
+            LineComponent={valuesForResults.LineComponent}
+            />
+    }
+    <FacetPanel data={facetListWithselectedInformation}
+              facet={unitSearchDispatch.facet}
+              title='My awesome facets'/>
+  </div>;
 }

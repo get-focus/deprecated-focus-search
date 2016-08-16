@@ -22,12 +22,12 @@ describe('SearchBar components ', () => {
   });
   describe('<ScopeSelection />', ()=> {
     it('should call the group props on the change event', () => {
-      const groupSpy = sinon.spy();
-      const wrapper = shallow(<ScopeSelection group={groupSpy}/>);
+      const spy = sinon.spy();
+      const wrapper = shallow(<ScopeSelection group={spy} query={spy}/>);
       expect(wrapper.find("[data-focus='scope-selection']")).to.have.length(1);
       wrapper.find("[data-focus='scope-selection']").simulate('change',{target: {value: 'My new value'}} )
-      expect(groupSpy).to.have.property('callCount', 1);
-      expect(groupSpy).to.have.been.calledWith()
+      expect(spy).to.have.property('callCount', 1);
+      expect(spy).to.have.been.calledWith()
 
     });
 

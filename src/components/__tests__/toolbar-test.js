@@ -12,7 +12,7 @@ describe('ToolBar components ', () => {
   });
   describe('<ToolBar />', ()=> {
     it('should be a div with a data-focus=toolbar', () => {
-      const wrapper = shallow(<ToolBar/>);
+      const wrapper = shallow(<ToolBar listGroup={['truc', 'machin', 'bidule']} listSort={['truc', 'machin', 'bidule']}/>);
       expect(wrapper.find("[data-focus='toolbar']")).to.have.length(1);
     });
 
