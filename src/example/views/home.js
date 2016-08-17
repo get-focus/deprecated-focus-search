@@ -2,7 +2,7 @@ import compose from 'lodash/flowRight';
 import React, {Component, PropTypes} from 'react';
 import {unitSearchActions, searchAction as search} from '../actions/search-actions';
 import {connect as connectToSearch} from '../../behaviours/search';
-import {AdvancedSearch} from '../../components/advanced-search';
+import AdvancedSearch from '../../components/advanced-search';
 
 const searchOptions={
   searchName : 'advancedSearch',

@@ -27,12 +27,18 @@ const connectToLineComponent =  Component => ({contentType, ...otherProps}) => {
 }
 */
 export function ResultList ({data, isSelectable, lineIdentifierProperty,getLineComponent, LineComponent, contentType, sort, group, ListWrapper, sortList, isGroup, groupList}) {
-  const ListWrapperSelectable = isSelectable ? connectToSelectableList(ListComponent, LineComponent) : ()=> <ListComponent data={data} LineComponent={LineComponent}/>;
+  const ListWrapperSelectable = connectToSelectableList(ListComponent, LineComponent) ;
   return(
     <div>
       <h2>result list</h2>
       <ToolBar listGroup={groupList} listSort={sortList} sort={sort} group={group} isGroup={isGroup}/>
-      <ListWrapperSelectable data={data}/>
+      {
+        isSelectable ?
+        <ListWrapperSelectable data={data}/> :
+        <ListWrapper>
+          {data.map(lineDescriptor => <LineComponent  key={lineDescriptor[lineIdentifierProperty]} {...lineDescriptor} />)}
+        </ListWrapper>
+      }
     </div>
   );
 }
@@ -41,13 +47,13 @@ ResultList.defaultProps = {
   data: FAKE_DATA_LIST/*[]*/,
   lineIdentifierProperty: 'id',
   isSelectable: false,
-  listWrapper: MaterialListWrapper
+  ListWrapper: MaterialListWrapper
 }
 
 ResultList.propTypes = {
   data: PropTypes.array,
   lineIdentifierProperty: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  isSelectable: PropTypes.boolean,
+  isSelectable: PropTypes.bool,
   /* This function is use to get the line component depending */
   getLineComponent: PropTypes.func,
   ListWrapper: PropTypes.func
