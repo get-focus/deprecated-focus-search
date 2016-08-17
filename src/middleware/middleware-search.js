@@ -60,7 +60,6 @@ export const searchTriggerMiddlewareBuilder = (
             'extractedStatePart', stateSearch
           );
         }
-        console.log('je passe par la')
         store.dispatch(searchAction(stateSearch.criteria))
     }else {
         next(action);
