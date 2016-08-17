@@ -49,11 +49,14 @@ AdvancedSearch.propTypes ={
   isGroup: PropTypes.bool,
   valuesForResults: PropTypes.object.isRequired,
   unitSearchDispatch: PropTypes.object.isRequired,
-  facetListWithselectedInformation: PropTypes.object.isRequired
+  facetListWithselectedInformation: PropTypes.array.isRequired
 }
 AdvancedSearch.defaultProps = {
   isSelectable:  true,
-  isGroup: false
+  isGroup: false,
+  unitSearchDispatch: {},
+  valuesForResults: {},
+  facetListWithselectedInformation: []
 }
 
 export default AdvancedSearch;

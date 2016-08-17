@@ -1,11 +1,6 @@
 // test utils
 import { mount, shallow } from 'enzyme';
 // Components
-import FacetPanel from '../facet';
-import ToolBar from '../toolbar';
-import ActionQuery from '../searchbar';
-import {ResultList, ResultGroup} from '../results';
-
 import AdvancedSearch from '../advanced-search'
 
 describe('Advanced Search components ', () => {
