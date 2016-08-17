@@ -1,22 +1,26 @@
 import React, {PropTypes} from 'react';
 import ToolBar from './toolbar';
 import connectToSelectableList from './selectable-list';
-const FAKE_DATA_LIST = [
-  {id: 1, firstName: 'Don Rodrigo', age: 12},
-  {id: 2, firstName: 'Don Stefano', age: 87},
-  {id: 3, firstName: 'Don Roberto', age: 46},
-  {id: 4, firstName: 'Don Michello', age: 22}
-]
 
 export function MaterialListWrapper ({children}) {
-  return <ul className='mdl-list' data-focus>{children}</ul>;
+  return <ul data-focus='list-component' className='mdl-list'>{children}</ul>;
 }
 
-function ListComponent({toggleLineSelection, LineComponent, lineIdentifierProperty, data,children, ...otherProps}){
-    return <ul>
-    {data.map( ({isSeleted, ...lineDescriptor}) => <LineComponent isSelected={isSeleted} toggleLineSelection={toggleLineSelection} key={lineDescriptor[lineIdentifierProperty]} {...lineDescriptor} />)}
+export function ListComponent({toggleLineSelection, LineComponent, lineIdentifierProperty, data}){
+    return <ul data-focus='list-component'>
+    {data.map( ({isSeleted, ...lineDescriptor}) =><div data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]}> <LineComponent isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  {...lineDescriptor} /></div>)}
     </ul>
   }
+
+ListComponent.displayName='Selectable List Component ';
+ListComponent.propTypes= {
+  toggleLineSelection: PropTypes.func.isRequired,
+  LineComponent: PropTypes.func.isRequired,
+  lineIdentifierProperty: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  data: PropTypes.array.isRequired,
+
+}
+
 
 /*
 <Provider Lines>
@@ -26,17 +30,17 @@ const connectToLineComponent =  Component => ({contentType, ...otherProps}) => {
   return <Component {...otherProps} LineComponent={LineComponent}/>;
 }
 */
-export function ResultList ({data, isSelectable, lineIdentifierProperty,getLineComponent, LineComponent, contentType, sort, group, ListWrapper, sortList, isGroup, groupList}) {
+export function ResultList ({data, isSelectable, lineIdentifierProperty, LineComponent, sort, group, ListWrapper, sortList, isGroup, groupList}) {
   const ListWrapperSelectable = connectToSelectableList(ListComponent, LineComponent) ;
   return(
-    <div>
+    <div data-focus='result-list-advanced-search'>
       <h2>result list</h2>
-      <ToolBar listGroup={groupList} listSort={sortList} sort={sort} group={group} isGroup={isGroup}/>
+      <ToolBar data-focus='toolbar-advanced-search' listGroup={groupList} listSort={sortList} sort={sort} group={group} isGroup={isGroup}/>
       {
         isSelectable ?
-        <ListWrapperSelectable data={data}/> :
-        <ListWrapper>
-          {data.map(lineDescriptor => <LineComponent  key={lineDescriptor[lineIdentifierProperty]} {...lineDescriptor} />)}
+        <ListWrapperSelectable data-focus='selectable-list-advanced-search'  data={data}/> :
+        <ListWrapper data-focus='list-advanced-search'>
+          {data.map(lineDescriptor => <LineComponent  data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]} {...lineDescriptor} />)}
         </ListWrapper>
       }
     </div>
@@ -44,7 +48,7 @@ export function ResultList ({data, isSelectable, lineIdentifierProperty,getLineC
 }
 
 ResultList.defaultProps = {
-  data: FAKE_DATA_LIST/*[]*/,
+  data: [],
   lineIdentifierProperty: 'id',
   isSelectable: false,
   ListWrapper: MaterialListWrapper
@@ -55,15 +59,31 @@ ResultList.propTypes = {
   lineIdentifierProperty: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isSelectable: PropTypes.bool,
   /* This function is use to get the line component depending */
-  getLineComponent: PropTypes.func,
   ListWrapper: PropTypes.func
 }
 export function ResultGroup  ({data, sort, group, isGroup}) {
   return <div data-focus='result-group' >
     {data.map(element => {
         //TO do add ListWrapper
-        return <ResultList data={element.data} sort={sort} group={group} isGroup={isGroup} LineComponent={element.LineComponent} groupList={element.groupList} sortList={element.sortList} />
+        return <ResultList data={element.data}
+                  sort={sort} group={group}
+                  isGroup={isGroup}
+                  LineComponent={element.LineComponent}
+                  groupList={element.groupList}
+                  sortList={element.sortList} />
     })}
   </div>
 }
-export default ResultList;
+
+ResultGroup.displayName='Result Group'
+ResultGroup.propTypes= {
+  data: PropTypes.array.isRequired,
+  sort: PropTypes.func.isRequired,
+  group: PropTypes.func.isRequired,
+
+}
+ResultGroup.defaultProps= {
+  data: [],
+  sort: ()=>{},
+  group: ()=>{}
+}
