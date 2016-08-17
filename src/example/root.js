@@ -11,7 +11,13 @@ const _getLineComponentFromContentTypeExample = (contentType, listData) => {
   switch (contentType) {
     case 'DonDiegoType':
       return {
-        LineComponent: props => <div>Line DonDiegoType {JSON.stringify(props)}</div>,
+        LineComponent: props => {
+          const color = props.isSelected ? 'orange' : 'blue'
+          return <div style={{color: color}}>
+                Line DonDiegoType {JSON.stringify(props)}
+                <button onClick={() => props.toggleLineSelection(props.id)}>action</button>
+                </div>
+        },
         sortList : [
           'ouuuuaaa',
           'trrropo',

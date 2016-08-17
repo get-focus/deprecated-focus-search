@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import ToolBar from './toolbar';
-
+import connectToSelectableList from './selectable-list';
 const FAKE_DATA_LIST = [
   {id: 1, firstName: 'Don Rodrigo', age: 12},
   {id: 2, firstName: 'Don Stefano', age: 87},
@@ -12,23 +12,12 @@ export function MaterialListWrapper ({children}) {
   return <ul className='mdl-list' data-focus>{children}</ul>;
 }
 
-export function LineComponentToDefine (props){
-  return <div style={{color: 'white', backgroundColor: 'tomato'}}>You should define a line component, props: {JSON.stringify(props)}</div>
-}
-
-const _getLineComponentFromContentTypeExample = (contentType, listData) => {
-  switch (contentType) {
-    case 'DonDiegoType':
-      return props => <div>Line DonDiegoType {JSON.stringify(props)}</div>
-      break;
-    case 'DonRicardoType':
-      return props => <div>Line DonRicardoType {JSON.stringify(props)}</div>
-      break;
-    default:
-      return LineComponentToDefine;
-
+function ListComponent({toggleLineSelection, LineComponent, lineIdentifierProperty, data,children, ...otherProps}){
+    return <ul>
+    {data.map( ({isSeleted, ...lineDescriptor}) => <LineComponent isSelected={isSeleted} toggleLineSelection={toggleLineSelection} key={lineDescriptor[lineIdentifierProperty]} {...lineDescriptor} />)}
+    </ul>
   }
-}
+
 /*
 <Provider Lines>
 
@@ -37,15 +26,19 @@ const connectToLineComponent =  Component => ({contentType, ...otherProps}) => {
   return <Component {...otherProps} LineComponent={LineComponent}/>;
 }
 */
-export function ResultList ({data, lineIdentifierProperty,getLineComponent, LineComponent, contentType, sort, group, ListWrapper, sortList, isGroup, groupList}) {
-
+export function ResultList ({data, isSelectable, lineIdentifierProperty,getLineComponent, LineComponent, contentType, sort, group, ListWrapper, sortList, isGroup, groupList}) {
+  const ListWrapperSelectable = connectToSelectableList(ListComponent, LineComponent) ;
   return(
     <div>
       <h2>result list</h2>
       <ToolBar listGroup={groupList} listSort={sortList} sort={sort} group={group} isGroup={isGroup}/>
-      <ListWrapper>
-        {data.map(lineDescriptor => <LineComponent key={lineDescriptor[lineIdentifierProperty]} {...lineDescriptor}/>)}
-      </ListWrapper>
+      {
+        isSelectable ?
+        <ListWrapperSelectable data={data}/> :
+        <ListWrapper>
+          {data.map(lineDescriptor => <LineComponent  key={lineDescriptor[lineIdentifierProperty]} {...lineDescriptor} />)}
+        </ListWrapper>
+      }
     </div>
   );
 }
@@ -53,13 +46,14 @@ export function ResultList ({data, lineIdentifierProperty,getLineComponent, Line
 ResultList.defaultProps = {
   data: FAKE_DATA_LIST/*[]*/,
   lineIdentifierProperty: 'id',
-  getLineComponent: _getLineComponentFromContentTypeExample, // TODO: remove it.
+  isSelectable: false,
   ListWrapper: MaterialListWrapper
 }
 
 ResultList.propTypes = {
   data: PropTypes.array,
   lineIdentifierProperty: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  isSelectable: PropTypes.bool,
   /* This function is use to get the line component depending */
   getLineComponent: PropTypes.func,
   ListWrapper: PropTypes.func

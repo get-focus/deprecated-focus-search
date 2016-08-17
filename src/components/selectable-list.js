@@ -97,7 +97,7 @@ function PureSelectableListCustom({data, lineIdentifierProperty, toggleLineSelec
  }
  *
 */
-const connect = (ListToConnect = DefaultPureSelectableList) => {
+const connect = (ListToConnect = DefaultPureSelectableList, LineComponent) => {
   if(!isFunction(ListToConnect)) throw new Error(`${SELECTABLE_LIST}: You should provide a List Component to the connector.`);
   class SelectableList extends Component {
     constructor(props){
@@ -115,7 +115,7 @@ const connect = (ListToConnect = DefaultPureSelectableList) => {
       );
     }
     render(){
-      const {data, lineIdentifierProperty} = this.props;
+      const {data, lineIdentifierProperty, children} = this.props;
       const dataWithSelectedInformation = addSelectedInformationInList(
         data,
         this.state.selectedElements,
@@ -123,6 +123,7 @@ const connect = (ListToConnect = DefaultPureSelectableList) => {
       );
       return(
       <ListToConnect
+        LineComponent={LineComponent}
         data={dataWithSelectedInformation}
         toggleLineSelection={this.toggleLineSelectionInState.bind(this)}
         lineIdentifierProperty={lineIdentifierProperty}
