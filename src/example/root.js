@@ -14,8 +14,8 @@ const _getLineComponentFromContentTypeExample = (contentType, listData) => {
         LineComponent: props => {
           const color = props.isSelected ? 'orange' : 'blue'
           return <div style={{color: color}}>
+                <input type='checkbox' value={props.isSelected} onClick={() => props.toggleLineSelection(props.id)}/>
                 Line DonDiegoType {JSON.stringify(props)}
-                <button onClick={() => props.toggleLineSelection(props.id)}>action</button>
                 </div>
         },
         sortList : [

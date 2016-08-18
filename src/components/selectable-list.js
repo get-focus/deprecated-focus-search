@@ -1,5 +1,6 @@
 import React, {PropTypes, Component} from 'react';
 import isFunction from 'lodash/isFunction'
+import map from 'lodash/map'
 const DATA_TEST = [
   {id: 1,name: 'Amelie', age: 25},
   {id: 2, name: 'Pierre', age: 28}
@@ -76,6 +77,11 @@ function toggleLineSelection(selectedElements, elementId){
   return {...selectedElements, ...{[elementId] : !selectedElements[elementId]}};
 }
 
+function toggleAllLine(selectedElements, dataList){
+  return map((dataList), (element, idx) => {
+    return {[dataList[idx].id] : true}
+  })
+}
 /**
  * Convert a list into a selectable list.
  * It does two things =>
@@ -114,6 +120,13 @@ const connect = (ListToConnect = DefaultPureSelectableList, LineComponent) => {
         this.props.afterSelection.bind(this)
       );
     }
+    toggleAllLine(){
+      console.log('jdvks')
+      console.log(toggleAllLine(this.state.selectedElements, this.props.data))
+      this.setState({
+        selectedElements: toggleAllLine(this.state.selectedElements, this.props.data)
+      })
+    }
     render(){
       const {data, lineIdentifierProperty, children} = this.props;
       const dataWithSelectedInformation = addSelectedInformationInList(
@@ -125,6 +138,7 @@ const connect = (ListToConnect = DefaultPureSelectableList, LineComponent) => {
       <ListToConnect
         LineComponent={LineComponent}
         data={dataWithSelectedInformation}
+        toggleAllLine={this.toggleAllLine.bind(this)}
         toggleLineSelection={this.toggleLineSelectionInState.bind(this)}
         lineIdentifierProperty={lineIdentifierProperty}
       />);
