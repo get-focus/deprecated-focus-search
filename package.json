@@ -79,22 +79,14 @@
     "homepage": "https://github.com/pierr/data-behaviours#readme",
     "dependencies": {
         "lodash": "^4.6.1",
-        "moment": "^2.12.0"
-    },
-    "peerDependencies": {
-        "react": ">= 15.3.0 < 16.0.0",
-        "react-dom": ">= 15.3.0 < 16.0.0",
-        "react-redux": ">= 4.4.5",
-        "redux": ">= 3.5.2",
-        "redux-thunk": ">= 2.1.0"
-    },
-    "devDependencies": {
+        "moment": "^2.12.0",
         "react": "^15.3.0",
         "react-dom": "^15.3.0",
         "react-redux": "^4.4.5",
         "redux": "^3.5.2",
         "redux-thunk": "^2.1.0",
-
+    },
+    "devDependencies": {
         "autoprefixer-loader": "^3.2.0",
         "babel-core": "^6.7.6",
         "babel-eslint": "^6.0.2",
