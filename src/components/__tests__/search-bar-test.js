@@ -1,7 +1,7 @@
 // test utils
 import { mount, shallow } from 'enzyme';
 // Components
-import {SearchBar, ActionQueryContainer, ScopeSelection,ActionBar} from '../searchbar';
+import {SearchBar, ActionQueryContainer, ScopeSelection,ActionBar} from '../search-bar';
 
 describe('SearchBar components ', () => {
   describe('<SearchBar />', ()=> {

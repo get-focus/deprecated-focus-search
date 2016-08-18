@@ -39,8 +39,7 @@ export function ToolbarGroup({listGroup, group}){
 }
 
 
-export function ToolBar({listSort, listGroup, sort, group, isGroup}){
-
+export function ToolBar({listSort, listGroup, sort, group, isGroup}) {
   _checkProps(listGroup, listSort)
   return <div data-focus="toolbar">
       <ToolBarContainer>
@@ -53,23 +52,23 @@ export function ToolBar({listSort, listGroup, sort, group, isGroup}){
       </ToolBarContainer>
   </div>
 }
+ToolBar.defaultProps = {
+    listSort: [],
+    listGroup: []
+}
+ToolBar.propTypes = {
+    sort: PropTypes.func.isRequired,
+    group: PropTypes.func.isRequired,
+    listSort : PropTypes.array.isRequired,
+    listGroup : PropTypes.array.isRequired,
+}
+ToolBar.displayName = 'Toolbar';
+
 
 export function ToolBarContainer(props){
-  return <div data-focus='toolbar-container'  className='mdl-grid mdl-shadow--3dp' style={{margin: '10 0 10 0'}}><span style={{margin: '5px'}}>{props.title} Bonjour je suis une belle toolBar de la classe !</span>{props.children}</div>
+    return <div data-focus='toolbar-container'  className='mdl-grid mdl-shadow--3dp' style={{margin: '10 0 10 0'}}><span style={{margin: '5px'}}>{props.title} Bonjour je suis une belle toolBar de la classe !</span>{props.children}</div>
 }
 
-const ToolBarConnected =ToolBar;
-
+const ToolBarConnected = ToolBar;
+ToolBarConnected.displayName = 'ToolBarConnected';
 export default ToolBarConnected;
-
-ToolBar.defaultProps = {
-  listSort: [],
-  listGroup: []
-}
-
-ToolBar.propTypes = {
-  sort: PropTypes.func.isRequired,
-  group: PropTypes.func.isRequired,
-  listSort : PropTypes.array.isRequired,
-  listGroup : PropTypes.array.isRequired,
-}

@@ -33,12 +33,11 @@ const connectToLineComponent =  Component => ({contentType, ...otherProps}) => {
 export function ResultList ({data, isSelectable, lineIdentifierProperty, LineComponent, sort, group, ListWrapper, sortList, isGroup, groupList}) {
   const ListWrapperSelectable = connectToSelectableList(ListComponent, LineComponent) ;
   return(
-    <div data-focus='result-list-advanced-search'>
-      <h2>result list</h2>
+    <div data-focus='result-list'>
       <ToolBar data-focus='toolbar-advanced-search' listGroup={groupList} listSort={sortList} sort={sort} group={group} isGroup={isGroup}/>
       {
         isSelectable ?
-        <ListWrapperSelectable data-focus='selectable-list-advanced-search'  data={data}/> :
+        <ListWrapperSelectable data-focus='selectable-list-advanced-search' data={data}/> :
         <ListWrapper data-focus='list-advanced-search'>
           {data.map(lineDescriptor => <LineComponent  data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]} {...lineDescriptor} />)}
         </ListWrapper>
