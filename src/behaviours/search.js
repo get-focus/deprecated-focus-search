@@ -84,6 +84,9 @@ export function connect(searchOptions) {
   }
 }
 
+
+
+
 class SearchProvider extends Component {
     getChildContext() {
         return {
@@ -99,4 +102,8 @@ SearchProvider.childContextTypes = SEARCH_CONTEXT_TYPE;
 SearchProvider.propTypes = {
     searchMetadata: PropTypes.object.isRequired
 };
+
+
+
+
 export const Provider = SearchProvider;
