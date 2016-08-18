@@ -6,9 +6,8 @@ export function MaterialListWrapper ({children}) {
   return <ul data-focus='list-component' className='mdl-list'>{children}</ul>;
 }
 
-export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent, lineIdentifierProperty, data}){
+export function ListComponent({toggleLineSelection, LineComponent, lineIdentifierProperty, data}){
     return <ul data-focus='list-component'>
-    <button onClick={() => toggleAllLine()}>Yo</button>
     {data.map( ({isSeleted, ...lineDescriptor}) =><div data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]}> <LineComponent isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  {...lineDescriptor} /></div>)}
     </ul>
   }
