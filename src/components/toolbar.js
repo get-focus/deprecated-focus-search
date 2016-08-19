@@ -4,53 +4,54 @@ import {connect} from 'react-redux';
 import isArray from 'lodash/isArray';
 import {selectSearch} from '../reducer';
 
-export function ToolbarSort({listSort, sort}){
-  return <select data-focus='select-sort' onChange={({target:{value}}) =>{
-      sort({name:value.split('-')[0] , order: value.split('-')[1]})
-      }}>
-        {
-          listSort.map((element, idx) => {
-            return <optgroup label={element} key={idx}>
-                      <option data-focus='option-sort' value={element+"-asc"}>{element} Croissant</option>
-                      <option data-focus='option-sort' value={element+"-desc"}>{element} Décroissant</option>
-                   </optgroup>
-          })
-        }
-  </select>
-}
 
-function _checkProps(listSort, listGroup){
+function _checkProps(listSort, listGroup) {
   if(!isArray(listSort) || listSort.length < 1){
-     throw new Error("You must provide a array for the listGroup not empty in the SearchProvider")
+     throw new Error('You must provide a array for the listGroup not empty in the SearchProvider')
   }
   if(!isArray(listGroup) || listGroup.length < 1){
-     throw new Error("You must provide a array fort the listSort in not empty in the SearchProvider")
+     throw new Error('You must provide a array fort the listSort in not empty in the SearchProvider')
   }
-}
+};
 
-export function ToolbarGroup({listGroup, group}){
-  return <select data-focus='select-group' onChange={({target:{value}}) => group({name:value})}>
-  {
-    listGroup.map((element, idx) => {
-      return <option key={idx} data-focus='option-group' value={element}>{element}</option>
-    })
-  }
-  </select>
-}
+export const ToolbarSort = ({listSort, sort}) => (
+    <select data-focus='select-sort' onChange={({target:{value}}) => { sort({name:value.split('-')[0] , order: value.split('-')[1]}) }}>
+        {listSort.map((element, idx) => (
+            <optgroup label={element} key={idx}>
+                <option data-focus='option-sort' value={element+'-asc'}>{element} Croissant</option>
+                <option data-focus='option-sort' value={element+'-desc'}>{element} Décroissant</option>
+            </optgroup>
+        ))}
+    </select>
+);
+
+export const ToolbarGroup = ({listGroup, group}) => (
+    <select data-focus='select-group' onChange={({target:{value}}) => group({name:value})}>
+        {listGroup.map((element, idx) => { return <option key={idx} data-focus='option-group' value={element}>{element}</option> })}
+    </select>
+);
 
 
 export function ToolBar({listSort, listGroup, sort, group, isGroup}) {
-  _checkProps(listGroup, listSort)
-  return <div data-focus="toolbar">
-      <ToolBarContainer>
-        <span style={{margin: '5px', color: 'blue'}}>Sort</span>
-        <ToolbarSort sort={sort} listSort={listSort}/>
-
-        { !isGroup &&  <span style={{margin: '5px', color: 'blue'}} >Group</span>}
-        {!isGroup && <ToolbarGroup group={group} listGroup={listGroup}/>}
-
-      </ToolBarContainer>
-  </div>
+    _checkProps(listGroup, listSort)
+    const hasSort = listGroup && listGroup.length > 0;
+    const hasGroup = !isGroup;
+    return (
+        <div data-focus='toolbar' className='mdl-grid mdl-shadow--3dp'>
+            {_checkProps &&
+                <div>
+                    <span>Sort</span>
+                    <ToolbarSort sort={sort} listSort={listSort}/>
+                </div>
+            }
+            {hasGroup &&
+                <div>
+                    <span>Group</span>
+                    <ToolbarGroup group={group} listGroup={listGroup}/>
+                </div>
+            }
+        </div>
+    );
 }
 ToolBar.defaultProps = {
     listSort: [],
@@ -63,12 +64,6 @@ ToolBar.propTypes = {
     listGroup : PropTypes.array.isRequired,
 }
 ToolBar.displayName = 'Toolbar';
-
-
-export function ToolBarContainer(props){
-    return <div data-focus='toolbar-container'  className='mdl-grid mdl-shadow--3dp' style={{margin: '10 0 10 0'}}><span style={{margin: '5px'}}>{props.title} Bonjour je suis une belle toolBar de la classe !</span>{props.children}</div>
-}
-
 const ToolBarConnected = ToolBar;
 ToolBarConnected.displayName = 'ToolBarConnected';
 export default ToolBarConnected;

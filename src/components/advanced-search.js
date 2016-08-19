@@ -15,7 +15,6 @@ import {ResultList, ResultGroup} from './results';
 //     </ul>
 //   }
 
-
 const AdvancedSearch = ({valuesForResults, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable}) => (
     <div data-focus='advanced-search'>
         <FacetPanel data={facetListWithselectedInformation}
@@ -49,7 +48,7 @@ AdvancedSearch.propTypes ={
     facetListWithselectedInformation: PropTypes.array.isRequired
 }
 AdvancedSearch.defaultProps = {
-    isSelectable:  true,
+    isSelectable: false,
     isGroup: false,
     unitSearchDispatch: {},
     valuesForResults: {},
