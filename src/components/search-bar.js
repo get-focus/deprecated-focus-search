@@ -12,7 +12,7 @@ const InputSearchConnected = InputSearch;
 
 //TO PAS DE PROPS
 export const ActionQueryContainer = (props) => (
-    <div data-demo='action-query-container'>
+    <div data-focus='search-bar-query-container'>
         <div>Que recherchez-vous ?</div>
         <div>{props.children}</div>
     </div>
@@ -27,7 +27,7 @@ export const ScopeSelection = ({group, query}) => (
 );
 const ScopeSelectionConnected = ScopeSelection;
 
-const ActionBar = ({query, group}) => (
+const SearchBar = ({query, group}) => (
     <div data-focus='search-bar'>
         <ActionQueryContainer>
             <ScopeSelectionConnected group={group} query={query}/>
@@ -35,4 +35,4 @@ const ActionBar = ({query, group}) => (
         </ActionQueryContainer>
     </div>
 );
-export default ActionBar;
+export default SearchBar;

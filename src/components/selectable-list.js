@@ -121,6 +121,7 @@ const connect = (ListToConnect = DefaultPureSelectableList, listProps) => {
             this.state.selectedElements,
             lineIdentifierProperty
         );
+        console.log(this.props);
         return(
             <ListToConnect
                 {...listProps}

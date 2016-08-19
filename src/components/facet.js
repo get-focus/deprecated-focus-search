@@ -109,6 +109,7 @@ const FacetPanel = (props) => (
     }
     </div>
 );
+FacetPanel.displayName = 'FacetPanel';
 FacetPanel.defaultProps = {
     data: []
 }

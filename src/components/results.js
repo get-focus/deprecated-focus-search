@@ -13,7 +13,7 @@ export const MaterialListWrapper = ({children}) => (
 );
 
 export const MaterialLineWrapper = ({children, data, isSelected}) => (
-    <li data-focus='list-component' className='mdl-list__item'>{children}</li>
+    <li data-focus='line-component' className='mdl-list__item'>{children}</li>
 );
 
 /*
