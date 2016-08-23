@@ -1,0 +1,14 @@
+
+
+[data-focus="advanced-search"] {
+    margin: 20px 20px;
+    display: flex;
+    [data-focus="facet-panel"] {
+        order: 1;
+        flex-grow: 1;
+    }
+    [data-focus="result-list"] {
+        order: 2;
+        flex-grow: 5;
+    }
+}

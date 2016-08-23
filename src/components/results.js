@@ -33,7 +33,7 @@ const connectToLineComponent =  Component => ({contentType, ...otherProps}) => {
 export function ResultList ({data, isSelectable, lineIdentifierProperty, LineComponent, sort, group, ListWrapper, sortList, isGroup, groupList}) {
   const ListWrapperSelectable = connectToSelectableList(ListComponent, LineComponent) ;
   return(
-    <div data-focus='result-list-advanced-search'>
+    <div data-focus='result-list'>
       <h2>result list</h2>
       <ToolBar data-focus='toolbar-advanced-search' listGroup={groupList} listSort={sortList} sort={sort} group={group} isGroup={isGroup}/>
       {

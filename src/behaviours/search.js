@@ -17,48 +17,50 @@ export function facetListWithselectedInformation(state) {
   return  facets.map(facetDescriptor => (selectedFacets[facetDescriptor.code]) ? {...facetDescriptor,selectedFacets: selectedFacets[facetDescriptor.code], selected: true} : facetDescriptor);
 }
 
+export function getResultsForGroup(groups, searchMetadata){
+   results = groups.map(element => {
+     // TODO: searchMetadataProvider => getListMetadata in data, and get sorts and groups function from data and facets
+     // getListMetadata => LineComponent , ListComponent and maybe other informations concidered usefull
+     const {LineComponent, sortList, groupList} = searchMetadata.getLineComponentFromContentTypeExample( element.contentType, element.values)
+     return {
+       ...element,
+       LineComponent,
+       sortList,
+       groupList
+     }
+  })
+  return results;
+}
+
+export function getResultsForList(list, searchMetadata, contentType){
+  const {LineComponent, sortList, groupList} = searchMetadata.getLineComponentFromContentTypeExample( list.contentType, list.values)
+  return {
+   values: list.values,
+   groupList,
+   sortList,
+   LineComponent
+ }
+
+}
+
 export function connect(searchOptions) {
   const {unitSearch: {updateSort, updateGroup, updateSelectedFacets, updateQuery}} = searchOptions;
   return function getSearchConnectedComponent(ComponentToConnect){
     function SearchConnectedComponent(props, context){
       const {searchMetadata} = context;
-      const {dispatch} = props;
-      const {store} = context;
+      const {dispatch, results: {hasGroups, data, contentType}} = props;
       //TO DO REPLACE ON EACH ACTIONS
       const unitSearchDispatch = {
         sort: element => dispatch(updateSort(element)),
         group: element => dispatch(updateGroup(element)),
         facet: (element, replace) => dispatch(updateSelectedFacets(element, replace)),
-        query : element => dispatch(updateQuery(element))
+        query: element => dispatch(updateQuery(element))
       }
       //List ! =)
       //
-      let results = {}; //TODO:  hasGroups ? getResultsForGroup : getResultsForList
-      if(props.results.hasGroups){
-        const groups = props.results.data;
-         results = groups.map(element => {
-           // TODO: searchMetadataProvider => getListMetadata in data, and get sorts and groups function from data and facets
-           // getListMetadata => LineComponent , ListComponent and maybe other informations concidered usefull
-           const {LineComponent, sortList, groupList} = searchMetadata.getLineComponentFromContentTypeExample( element.contentType, element.values)
-           return {
-             ...element,
-             LineComponent,
-             sortList,
-             groupList
-           }
-        })
-      }else {
-        const metaDataProps = searchMetadata.getLineComponentFromContentTypeExample( props.results.data.contentType, props.results.data.values);
-         results ={
-          values: props.results.data.values,
-          groupList: searchMetadata.groupList,
-          sortList: searchMetadata.sortList,
-          LineComponent: metaDataProps.LineComponent
-        }
-
-      }
+      const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, contentType)
       return <ComponentToConnect
-                isGroup={props.results.isGroup}
+                isGroup={hasGroups}
                 valuesForResults={results}
                 facetListWithselectedInformation={facetListWithselectedInformation(props)}
                 unitSearchDispatch={unitSearchDispatch}

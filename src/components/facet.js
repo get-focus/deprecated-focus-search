@@ -7,31 +7,17 @@ import {
   FACET_DESCRIPTOR_SHAPE_TYPE
 } from '../reducer';
 
-const facetActions = dispatch => ({
-  selectFacet: facet => dispatch({
-    type: 'ADVANCEDSEARCH_UPDATE_SELECTED_FACETS',
-    selectedFacets: facet
-  }),
-  deleteFacet: facet => dispatch({
-    type: 'ADVANCEDSEARCH_UPDATE_SELECTED_FACETS',
-    selectedFacets: facet,
-    replace: true
-  })
-})
-
 export function FacetTitle(props){
-  return <span data-focus='facet-title' className='mdl-list__item-primary-content'>{props.children}</span>
+  return <span data-focus='facet-title' >{props.children}</span>
 }
 export function FacetCount(props){
-  return <div data-focus='facet-count' className='mdl-list__item-secondary-content'>
-  <span className='mdl-badge' data-badge={props.children}></span></div>
+  return <span data-focus='facet-count'>{props.children}</span>
 }
 
 export function Facet(props){
 
   return (<li
         data-focus='facet'
-        className='mdl-list__item'
         onClick={() => props.onClick(props.code)}>
         <FacetTitle>{props.label}</FacetTitle>
         <FacetCount>{props.count}</FacetCount>
@@ -58,10 +44,10 @@ function connectToFacetDomain(FacetComponent){
 */
 
 export function FacetBlock(props){
-  return <div data-focus='facet-block' className='mdl-card mdl-shadow--2dp' style={{maxWidth: '300px'}}>
+  return <div data-focus='facet-block' >
       <h3>{props.label}</h3>
 
-      <ul className='mdl-list'>
+      <ul >
           {
             props.selected ?
             <div>{props.selectedFacets.map (value =><props.FacetComponent key={props.code} label={value} code={value} onClick={selectedValue => props.deleteFacet({code: props.code, values: selectedValue})}/>)}</div>
@@ -87,9 +73,7 @@ FacetBlock.propTypes = {
 };
 
 export function FacetPanel(props){
-  return <div data-focus='facet-panel'
-  className='mdl-card mdl-shadow--3dp'
-  >
+  return <div data-focus='facet-panel' >
     <h2>{props.title}</h2>
     {props.data.map(
       facetDescriptor => <FacetBlock key={facetDescriptor.code} {...facetDescriptor} selected={facetDescriptor.selected} selectFacet={(value) => props.facet(value, false)} deleteFacet={value => props.facet(value, true)}/>)

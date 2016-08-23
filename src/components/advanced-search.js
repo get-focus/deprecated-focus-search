@@ -15,10 +15,10 @@ import {ResultList, ResultGroup} from './results';
 //     </ul>
 //   }
 
+// <ActionQuery data-focus='action-query-advanced-search' group={unitSearchDispatch.group} query={unitSearchDispatch.query}/>
 
 const AdvancedSearch = ({valuesForResults, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable}) =>  {
   return <div style={{color: 'orange'}} data-focus='advanced-search'>
-    <ActionQuery data-focus='action-query-advanced-search' group={unitSearchDispatch.group} query={unitSearchDispatch.query}/>
     {isGroup ?
       <ResultGroup isGroup={isGroup}
             data-focus='result-group-advanced-search'
