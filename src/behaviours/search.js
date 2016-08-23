@@ -1,52 +1,44 @@
-
 import React, {Component, PropTypes} from 'react';
 import {connect as connectToState} from 'react-redux';
 import {compose} from 'redux';
 import {map} from 'lodash/map'
-import {loadLine} from '../actions/single-action-creator';
-
 import isArray from 'lodash/isArray';
+import {loadLine} from '../actions/single-action-creator';
 
 const SEARCH_CONTEXT_TYPE = {
   searchMetadata: PropTypes.object
-
 };
 
+// Maybe this function should take the facets and the selectedFacets only.
 export function facetListWithselectedInformation(state) {
   const selectedFacets = state.criteria.selectedFacets || [];
   const facets = state.results.facets || [];
   // TODO: Check the selected value presence
-  return  facets.map(facetDescriptor => (selectedFacets[facetDescriptor.code]) ? {...facetDescriptor,selectedFacets: selectedFacets[facetDescriptor.code], selected: true} : facetDescriptor)
-
+  return  facets.map(facetDescriptor => (selectedFacets[facetDescriptor.code]) ? {...facetDescriptor,selectedFacets: selectedFacets[facetDescriptor.code], selected: true} : facetDescriptor);
 }
 
 export function connect(searchOptions) {
+  const {unitSearch: {updateSort, updateGroup, updateSelectedFacets, updateQuery}} = searchOptions;
   return function getSearchConnectedComponent(ComponentToConnect){
     function SearchConnectedComponent(props, context){
       const {searchMetadata} = context;
       const {dispatch} = props;
       const {store} = context;
-      const {unitSearch: {updateSort, updateGroup, updateSelectedFacets, updateQuery}} = searchOptions;
       //TO DO REPLACE ON EACH ACTIONS
       const unitSearchDispatch = {
-        sort: (element) => {
-          dispatch(updateSort(element))
-        },
-        group: (element) => {
-          dispatch(updateGroup(element))
-        },
-        facet: (element, replace) => {
-          dispatch(updateSelectedFacets(element, replace))
-        },
-        query :(element) => {
-          dispatch(updateQuery(element))
-        }
+        sort: element => dispatch(updateSort(element)),
+        group: element => dispatch(updateGroup(element)),
+        facet: (element, replace) => dispatch(updateSelectedFacets(element, replace)),
+        query : element => dispatch(updateQuery(element))
       }
       //List ! =)
-      let results = {};
+      //
+      let results = {}; //TODO:  hasGroups ? getResultsForGroup : getResultsForList
       if(props.results.hasGroups){
         const groups = props.results.data;
          results = groups.map(element => {
+           // TODO: searchMetadataProvider => getListMetadata in data, and get sorts and groups function from data and facets
+           // getListMetadata => LineComponent , ListComponent and maybe other informations concidered usefull
            const {LineComponent, sortList, groupList} = searchMetadata.getLineComponentFromContentTypeExample( element.contentType, element.values)
            return {
              ...element,
@@ -84,9 +76,7 @@ export function connect(searchOptions) {
   }
 }
 
-
-
-
+// Usage and example
 class SearchProvider extends Component {
     getChildContext() {
         return {
@@ -100,7 +90,7 @@ class SearchProvider extends Component {
 
 SearchProvider.childContextTypes = SEARCH_CONTEXT_TYPE;
 SearchProvider.propTypes = {
-    searchMetadata: PropTypes.object.isRequired
+    searchMetadata: PropTypes.object.isRequired // Add a shape
 };
 
 
