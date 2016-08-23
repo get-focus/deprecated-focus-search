@@ -81,8 +81,8 @@ export const ResultList = ({data, group, groupList, isGroup, isSelectable, lineI
     return (
         <div data-focus='result-list'>
             <ToolBar listGroup={groupList} listSort={sortList} sort={sort} group={group} isGroup={isGroup} />
-            {isSelectable && <ListWrapperSelectable />}
-            {!isSelectable && <ListComponent {...notSelectableProps}/>}
+            {isSelectable && <ListWrapperSelectable data-focus='selectable-list-advanced-search' />}
+            {!isSelectable && <ListComponent data-focus='list-advanced-search' {...notSelectableProps}/>}
         </div>
     );
 };
