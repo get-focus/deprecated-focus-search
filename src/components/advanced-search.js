@@ -6,7 +6,7 @@ import {selectSearch} from '../reducer'
 import connectToSelectableList from './selectable-list'
 import FacetPanel from './facet';
 import ToolBar from './toolbar';
-import ActionQuery from './searchbar';
+import SearchBar from './search-bar';
 import {ResultList, ResultGroup} from './results';
 
 // function ListComponent({toggleLineSelection, LineComponent, lineIdentifierProperty, data,children, ...otherProps}){
@@ -15,48 +15,43 @@ import {ResultList, ResultGroup} from './results';
 //     </ul>
 //   }
 
-
-const AdvancedSearch = ({valuesForResults, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable}) =>  {
-  return <div style={{color: 'orange'}} data-focus='advanced-search'>
-    <ActionQuery data-focus='action-query-advanced-search' group={unitSearchDispatch.group} query={unitSearchDispatch.query}/>
-    {isGroup ?
-      <ResultGroup isGroup={isGroup}
-            data-focus='result-group-advanced-search'
-            data={valuesForResults}
-            sort={unitSearchDispatch.sort}
-            group={unitSearchDispatch.group}
-            /> :
-      <ResultList sort={unitSearchDispatch.sort}
-            data-focus='result-list-advanced-search'
-            group={unitSearchDispatch.group}
-            data={valuesForResults.values}
-            isSelectable={isSelectable}
-            sortList={valuesForResults.sortList}
-            groupList={valuesForResults.groupList}
-            LineComponent={valuesForResults.LineComponent}
+const AdvancedSearch = ({valuesForResults, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable}) => (
+    <div data-focus='advanced-search'>
+        <FacetPanel data={facetListWithselectedInformation}
+                    facet={unitSearchDispatch.facet}
+                    title='My awesome facets'/>
+        {isGroup ?
+            <ResultGroup isGroup={isGroup}
+                        data={valuesForResults}
+                        sort={unitSearchDispatch.sort}
+                        group={unitSearchDispatch.group}
+                        />
+                :
+            <ResultList sort={unitSearchDispatch.sort}
+                        group={unitSearchDispatch.group}
+                        data={valuesForResults.values}
+                        isSelectable={isSelectable}
+                        sortList={valuesForResults.sortList}
+                        groupList={valuesForResults.groupList}
+                        LineComponent={valuesForResults.LineComponent}
             />
-    }
-    <FacetPanel data={facetListWithselectedInformation}
-            data-focus="facet-panel-advanced-search"
-            facet={unitSearchDispatch.facet}
-            title='My awesome facets'/>
-  </div>;
-}
+        }
+    </div>
+);
 
-AdvancedSearch.displayName= 'Advanced Search'
+AdvancedSearch.displayName= 'Advanced Search';
 AdvancedSearch.propTypes ={
-  isSelectable: PropTypes.bool,
-  isGroup: PropTypes.bool,
-  valuesForResults: PropTypes.object.isRequired,
-  unitSearchDispatch: PropTypes.object.isRequired,
-  facetListWithselectedInformation: PropTypes.array.isRequired
+    isSelectable: PropTypes.bool,
+    isGroup: PropTypes.bool,
+    valuesForResults: PropTypes.object.isRequired,
+    unitSearchDispatch: PropTypes.object.isRequired,
+    facetListWithselectedInformation: PropTypes.array.isRequired
 }
 AdvancedSearch.defaultProps = {
-  isSelectable:  true,
-  isGroup: false,
-  unitSearchDispatch: {},
-  valuesForResults: {},
-  facetListWithselectedInformation: []
+    isSelectable: false,
+    isGroup: false,
+    unitSearchDispatch: {},
+    valuesForResults: {},
+    facetListWithselectedInformation: []
 }
-
 export default AdvancedSearch;

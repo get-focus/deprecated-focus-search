@@ -1,0 +1,47 @@
+@import "variables";
+
+[data-focus="facet-panel"] {
+    padding: 10px;
+    //width: $advanced-search-facet-box-width;
+    h2 {
+        color: $primary-text-color;
+        font-size: 22px;
+        line-height: 24px;
+        margin: 5px 0;
+        padding: 0;
+    }
+    [data-focus="facet-block"] {
+        margin: 20px 0;
+        h3 {
+            color: $secondary-text-color;
+            font-size: 16px;
+            line-height: 18px;
+            margin: 5px 0;
+            padding: 0;
+        }
+        ul {
+            padding: 0 20px;
+            margin: 0;
+            list-style-type: none;
+            li {
+
+            }
+        }
+        [data-focus="facet"] {
+            cursor: pointer;
+            [data-focus="facet-title"] {
+
+            }
+            [data-focus="facet-count"] {
+                font-size: 0.8em;
+                margin-left: 5px;
+                &::before {
+                    content: '(';
+                }
+                &::after {
+                    content: ')';
+                }
+            }
+        }
+    }
+}

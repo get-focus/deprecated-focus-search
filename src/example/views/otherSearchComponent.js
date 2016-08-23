@@ -36,7 +36,6 @@ class Search extends Component {
       {this.renderInputToSearch()}
     </div>;
   }
-
 }
 
 const ConnectedComponentSearch = compose(

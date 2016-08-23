@@ -1,7 +1,10 @@
 // test utils
 import { mount, shallow } from 'enzyme';
 // Components
-import AdvancedSearch from '../advanced-search'
+import AdvancedSearch from '../advanced-search';
+import FacetPanel from '../facet';
+import {ResultList} from '../results';
+import {ResultGroup} from '../results';
 
 describe('Advanced Search components ', () => {
   describe('<AdvancedSearch />', ()=> {
@@ -11,23 +14,20 @@ describe('Advanced Search components ', () => {
 
     });
 
-    it("should be compose of three components when there is no group", () => {
+    it("should be compose of two components when there is no group", () => {
       const wrapper = shallow(<AdvancedSearch />);
-      expect(wrapper.find("[data-focus='action-query-advanced-search']")).to.have.length(1);
-      expect(wrapper.find("[data-focus='result-list-advanced-search']")).to.have.length(1);
-      expect(wrapper.find("[data-focus='facet-panel-advanced-search']")).to.have.length(1);
+      expect(wrapper.find(ResultList)).to.have.length(1);
+      expect(wrapper.find(FacetPanel)).to.have.length(1);
     })
 
     it("allows us to set props isGroup", () => {
       const wrapper = shallow(<AdvancedSearch isGroup={false}/>);
-      expect(wrapper.find("[data-focus='action-query-advanced-search']")).to.have.length(1);
-      expect(wrapper.find("[data-focus='result-list-advanced-search']")).to.have.length(1);
-      expect(wrapper.find("[data-focus='facet-panel-advanced-search']")).to.have.length(1);
+      expect(wrapper.find(ResultList)).to.have.length(1);
+      expect(wrapper.find(FacetPanel)).to.have.length(1);
 
       wrapper.setProps({isGroup: true})
-      expect(wrapper.find("[data-focus='action-query-advanced-search']")).to.have.length(1);
-      expect(wrapper.find("[data-focus='result-group-advanced-search']")).to.have.length(1);
-      expect(wrapper.find("[data-focus='facet-panel-advanced-search']")).to.have.length(1);
+      expect(wrapper.find(ResultGroup)).to.have.length(1);
+      expect(wrapper.find(FacetPanel)).to.have.length(1);
     })
   });
 })

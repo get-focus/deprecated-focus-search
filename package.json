@@ -20,7 +20,7 @@
                 "BABEL_ENV": "test",
                 "DEV": true,
                 "SOURCE_MAPS": false,
-                "ENTRY_FILE_PATH": "./src/example/index.js",
+                "ENTRY_FILE_PATH": "./src",
                 "PAGE_TITLE": "Focus entity dev page",
                 "MINIMIFY": false,
                 "API_PORT": 9999,
@@ -33,20 +33,20 @@
             "env": {
                 "DEV": true,
                 "SOURCE_MAPS": false,
-                "ENTRY_FILE_PATH": "./src/example/index.js",
+                "ENTRY_FILE_PATH": "./src",
                 "PAGE_TITLE": "Focus entity dev page",
                 "MINIMIFY": false,
                 "API_PORT": 9999,
-                "PACKAGE_JSON_PATH": "../",
+                "PACKAGE_JSON_PATH": "./",
                 "ANCHOR_CLASS": "focus-search-example"
             }
         },
         "watch": {
-            "command": "webpack --watch ./src/example/index.js",
+            "command": "webpack --watch ./src",
             "env": {
                 "DEV": true,
                 "SOURCE_MAPS": false,
-                "ENTRY_FILE_PATH": "./src/example/index",
+                "ENTRY_FILE_PATH": "./src",
                 "PAGE_TITLE": "Focus entity dev page",
                 "MINIMIFY": false,
                 "API_PORT": 9999,

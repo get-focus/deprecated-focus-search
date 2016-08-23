@@ -1,0 +1,12 @@
+
+
+[data-focus='toolbar'] {
+    background-color: #FFF;
+
+    & > div {
+        margin: 0 10px;
+        & > span {
+            padding: 0 5px 0 0;
+        }
+    }
+}

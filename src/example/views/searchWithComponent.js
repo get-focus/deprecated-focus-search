@@ -10,13 +10,14 @@ import {unitSearchActions, searchAction} from '../actions/search-actions'
 
 
 class SearchWithComponent extends Component {
-  render () {
-    return <div style={{color: 'orange'}}>
-      <AdvancedSearch action={searchAction.action} deleteSelectedFacets={unitSearchActions.deleteSelectedFacets} updateSelectedFacets={unitSearchActions.updateSelectedFacets}/>
-    </div>;
-  }
-
+    render () {
+        return
+            <AdvancedSearch action={searchAction.action}
+                            deleteSelectedFacets={unitSearchActions.deleteSelectedFacets}
+                            updateSelectedFacets={unitSearchActions.updateSelectedFacets}
+            />;
+    }
 }
 
-
+SearchWithComponent.displayName = 'SearchWithComponent';
 export default SearchWithComponent;

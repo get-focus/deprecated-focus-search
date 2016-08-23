@@ -4,18 +4,13 @@ import DevTools from '../containers/dev-tools'
 import {unitSearchReducers, unitOtherSearchReducers} from '../actions/search-actions';
 import {middlewareAdvancedSearch, middlewareOtherSearch} from '../actions/search-actions'
 
-const store = createStore(
-  combineReducers({advancedSearch : unitSearchReducers, otherSearch : unitOtherSearchReducers}),
-  compose(
-    applyMiddleware(
-      thunkMiddleware,
-      
-      middlewareAdvancedSearch// lets us dispatch() functions
-    ),
-    DevTools.instrument()
-  )
-
-)
-
-
-export default store;
+export default createStore(
+    combineReducers({advancedSearch : unitSearchReducers, otherSearch : unitOtherSearchReducers}),
+    compose(
+        applyMiddleware(
+            thunkMiddleware,
+            middlewareAdvancedSearch // lets us dispatch() functions
+        ),
+        DevTools.instrument()
+    )
+);
