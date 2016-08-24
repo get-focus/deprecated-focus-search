@@ -13,21 +13,25 @@ import {ResultList, ResultGroup, ListComponent} from './results';
 
 const AdvancedSearch = ({valuesForResults, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, ListComponent}) =>  {
   console.log('je me rends')
+  const toolbarProps = {
+    group: unitSearchDispatch.group,
+    sortList: valuesForResults.sortList,
+    groupList : valuesForResults.groupList,
+    sort: unitSearchDispatch.sort,
+    isGroup: isGroup
+  }
   return <div style={{color: 'orange'}} data-focus='advanced-search'>
     {isGroup ?
       <ResultGroup isGroup={isGroup}
             data-focus='result-group-advanced-search'
             data={valuesForResults}
-            sort={unitSearchDispatch.sort}
-            group={unitSearchDispatch.group}
+            toolbarProps={toolbarProps}
             /> :
       <ResultList sort={unitSearchDispatch.sort}
             data-focus='result-list-advanced-search'
-            group={unitSearchDispatch.group}
+            toolbarProps={toolbarProps}
             data={valuesForResults.values}
-            sortList={valuesForResults.sortList}
             ListComponent={ListComponent}
-            groupList={valuesForResults.groupList}
             LineComponent={valuesForResults.LineComponent}
             />
     }

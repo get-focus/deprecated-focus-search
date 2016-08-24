@@ -6,9 +6,9 @@ export function MaterialListWrapper ({children}) {
   return <ul data-focus='list-component' className='mdl-list'>{children}</ul>;
 }
 
-export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent, lineIdentifierProperty, data, sort, group, ListWrapper, sortList, isGroup, groupList, selectState}){
+export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent, lineIdentifierProperty, data,  ListWrapper, toolbarProps, selectState}){
     return <div>
-    <ToolBar data-focus='toolbar-advanced-search' listGroup={groupList} listSort={sortList} sort={sort} group={group} isGroup={isGroup} toggleAllLine={toggleAllLine} selectState={selectState}/>
+    <ToolBar data-focus='toolbar-advanced-search'  toolbarProps={toolbarProps} toggleAllLine={toggleAllLine} selectState={selectState}/>
     <ListWrapper>
     {data.map( ({isSeleted, ...lineDescriptor}) =><div data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]}> <LineComponent isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  {...lineDescriptor} /></div>)}
     </ListWrapper>
@@ -37,12 +37,12 @@ const connectToLineComponent =  Component => ({contentType, ...otherProps}) => {
 }
 */
 
-export function ResultList ({data, isSelectable, lineIdentifierProperty,  LineComponent, sort, group, ListWrapper, sortList, isGroup, groupList, ListComponent}) {
+export function ResultList ({data, lineIdentifierProperty,  LineComponent, ListComponent, toolbarProps}) {
   return(
     <div data-focus='result-list'>
       <h2>result list</h2>
         {/**Toolbar needs the toggleAllLine :-1 */}
-        <ListComponent data-focus='selectable-list-advanced-search' LineComponent={LineComponent}  data={data} groupList={groupList} sortList={sortList} sort={sort} group={group} isGroup={isGroup}/>
+        <ListComponent data-focus='selectable-list-advanced-search' LineComponent={LineComponent}  data={data} toolbarProps={toolbarProps}/>
     </div>
   );
 }

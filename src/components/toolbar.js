@@ -38,25 +38,18 @@ export function ToolbarGroup({listGroup, group}){
   </select>
 }
 export class ToolBar extends PureComponent {
-  componentWillUnmount(){
-    console.log('yo')
-  }
-  componentWillReceiveProps (props) {
-    console.log(props);
-  }
   render () {
-    console.log('je suis la toolBar')
-    const {listGroup,listSort,  sort, group,selectState, isGroup, toggleAllLine} = this.props;
-    _checkProps(listGroup, listSort);
+    const {toolbarProps : {groupList,sortList,  sort, group,isGroup} ,selectState, toggleAllLine} = this.props;
+    _checkProps(groupList, sortList);
     const label = selectState ? 'Unselect' : 'Select '
     return <div data-focus="toolbar">
         <ToolBarContainer>
           <button onClick={() => toggleAllLine()}>{label}</button>
           <span style={{margin: '5px', color: 'blue'}}>Sort</span>
-          <ToolbarSort sort={sort} listSort={listSort}/>
+          <ToolbarSort sort={sort} listSort={sortList}/>
 
           { !isGroup &&  <span style={{margin: '5px', color: 'blue'}} >Group</span>}
-          {!isGroup && <ToolbarGroup group={group} listGroup={listGroup}/>}
+          {!isGroup && <ToolbarGroup group={group} listGroup={groupList}/>}
         </ToolBarContainer>
     </div>
   }
@@ -81,8 +74,10 @@ ToolBar.defaultProps = {
 }
 
 ToolBar.propTypes = {
-  sort: PropTypes.func.isRequired,
-  group: PropTypes.func.isRequired,
-  listSort : PropTypes.array.isRequired,
-  listGroup : PropTypes.array.isRequired,
+  toolbarProps: PropTypes.shape ({
+    sort: PropTypes.func.isRequired,
+    group: PropTypes.func.isRequired,
+    sortList : PropTypes.array.isRequired,
+    groupList : PropTypes.array.isRequired,
+  })
 }
