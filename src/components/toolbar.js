@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component, PureComponent, PropTypes} from 'react';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import isArray from 'lodash/isArray';
@@ -37,22 +37,35 @@ export function ToolbarGroup({listGroup, group}){
   }
   </select>
 }
+export class ToolBar extends PureComponent {
+  componentWillUnmount(){
+    console.log('yo')
+  }
+  componentWillReceiveProps (props) {
+    console.log(props);
+  }
+  render () {
+    console.log('je suis la toolBar')
+    const {listGroup,listSort,  sort, group,selectState, isGroup, toggleAllLine} = this.props;
+    _checkProps(listGroup, listSort);
+    const label = selectState ? 'Unselect' : 'Select '
+    return <div data-focus="toolbar">
+        <ToolBarContainer>
+          <button onClick={() => toggleAllLine()}>{label}</button>
+          <span style={{margin: '5px', color: 'blue'}}>Sort</span>
+          <ToolbarSort sort={sort} listSort={listSort}/>
 
+          { !isGroup &&  <span style={{margin: '5px', color: 'blue'}} >Group</span>}
+          {!isGroup && <ToolbarGroup group={group} listGroup={listGroup}/>}
+        </ToolBarContainer>
+    </div>
+  }
 
-export function ToolBar({listSort,toggleAllLine, listGroup, sort, group, isGroup, selectState}){
-  _checkProps(listGroup, listSort);
-  const label = selectState ? 'Unselect' : 'Select '
-  return <div data-focus="toolbar">
-      <ToolBarContainer>
-        <button onClick={() => toggleAllLine()}>{label}</button>
-        <span style={{margin: '5px', color: 'blue'}}>Sort</span>
-        <ToolbarSort sort={sort} listSort={listSort}/>
-
-        { !isGroup &&  <span style={{margin: '5px', color: 'blue'}} >Group</span>}
-        {!isGroup && <ToolbarGroup group={group} listGroup={listGroup}/>}
-      </ToolBarContainer>
-  </div>
 }
+
+// export function ToolBar({listSort,toggleAllLine, listGroup, sort, group, isGroup, selectState}){
+//
+// }
 
 export function ToolBarContainer(props){
   return <div data-focus='toolbar-container'  className='mdl-grid mdl-shadow--3dp' style={{margin: '10 0 10 0'}}><span style={{margin: '5px'}}>{props.title}</span>{props.children}</div>

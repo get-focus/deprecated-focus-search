@@ -56,6 +56,7 @@ export function connect(searchOptions) {
         query: element => dispatch(updateQuery(element))
       }
       const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, contentType)
+
       return <ComponentToConnect
                 isGroup={hasGroups}
                 valuesForResults={results}

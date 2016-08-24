@@ -9,19 +9,22 @@ export function MaterialListWrapper ({children}) {
 export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent, lineIdentifierProperty, data, sort, group, ListWrapper, sortList, isGroup, groupList, selectState}){
     return <div>
     <ToolBar data-focus='toolbar-advanced-search' listGroup={groupList} listSort={sortList} sort={sort} group={group} isGroup={isGroup} toggleAllLine={toggleAllLine} selectState={selectState}/>
-    <ul data-focus='list-component'>
+    <ListWrapper>
     {data.map( ({isSeleted, ...lineDescriptor}) =><div data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]}> <LineComponent isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  {...lineDescriptor} /></div>)}
-    </ul>
+    </ListWrapper>
     </div>
   }
 
-ListComponent.displayName='Selectable List Component ';
+ListComponent.displayName='ListcomponentWithSelection';
 ListComponent.propTypes= {
   toggleLineSelection: PropTypes.func.isRequired,
   LineComponent: PropTypes.func.isRequired,
   lineIdentifierProperty: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   data: PropTypes.array.isRequired,
-
+  ListWrapper: PropTypes.func.isRequired
+}
+ListComponent.defaultProps = {
+  ListWrapper: MaterialListWrapper
 }
 
 
@@ -33,19 +36,13 @@ const connectToLineComponent =  Component => ({contentType, ...otherProps}) => {
   return <Component {...otherProps} LineComponent={LineComponent}/>;
 }
 */
-export function ResultList ({data, isSelectable, lineIdentifierProperty,  LineComponent, sort, group, ListWrapper, sortList, isGroup, groupList}) {
-  const ListWrapperSelectable = connectToSelectableList(ListComponent, LineComponent) ;
 
+export function ResultList ({data, isSelectable, lineIdentifierProperty,  LineComponent, sort, group, ListWrapper, sortList, isGroup, groupList, ListComponent}) {
   return(
     <div data-focus='result-list'>
       <h2>result list</h2>
-      {
-        isSelectable ?
-        <ListWrapperSelectable data-focus='selectable-list-advanced-search'  data={data} groupList={groupList} sortList={sortList} sort={sort} group={group} isGroup={isGroup}/> :
-        <ListWrapper data-focus='list-advanced-search'>
-          {data.map(lineDescriptor => <LineComponent  data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]} {...lineDescriptor} />)}
-        </ListWrapper>
-      }
+        {/**Toolbar needs the toggleAllLine :-1 */}
+        <ListComponent data-focus='selectable-list-advanced-search' LineComponent={LineComponent}  data={data} groupList={groupList} sortList={sortList} sort={sort} group={group} isGroup={isGroup}/>
     </div>
   );
 }
@@ -54,7 +51,7 @@ ResultList.defaultProps = {
   data: [],
   lineIdentifierProperty: 'id',
   isSelectable: false,
-  ListWrapper: MaterialListWrapper
+  ListComponent: ListComponent
 }
 
 ResultList.propTypes = {
@@ -62,7 +59,7 @@ ResultList.propTypes = {
   lineIdentifierProperty: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isSelectable: PropTypes.bool,
   /* This function is use to get the line component depending */
-  ListWrapper: PropTypes.func
+  ListComponent: PropTypes.func
 }
 export function ResultGroup  ({data, sort, group, isGroup}) {
   return <div data-focus='result-group' >

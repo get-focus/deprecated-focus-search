@@ -7,17 +7,12 @@ import connectToSelectableList from './selectable-list'
 import FacetPanel from './facet';
 import ToolBar from './toolbar';
 import ActionQuery from './searchbar';
-import {ResultList, ResultGroup} from './results';
-
-// function ListComponent({toggleLineSelection, LineComponent, lineIdentifierProperty, data,children, ...otherProps}){
-//     return <ul>
-//     {data.map( ({isSeleted, ...lineDescriptor}) => <LineComponent isSelected={isSeleted} toggleLineSelection={toggleLineSelection} key={lineDescriptor[lineIdentifierProperty]} {...lineDescriptor} />)}
-//     </ul>
-//   }
+import {ResultList, ResultGroup, ListComponent} from './results';
 
 // <ActionQuery data-focus='action-query-advanced-search' group={unitSearchDispatch.group} query={unitSearchDispatch.query}/>
 
-const AdvancedSearch = ({valuesForResults, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable}) =>  {
+const AdvancedSearch = ({valuesForResults, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, ListComponent}) =>  {
+  console.log('je me rends')
   return <div style={{color: 'orange'}} data-focus='advanced-search'>
     {isGroup ?
       <ResultGroup isGroup={isGroup}
@@ -30,8 +25,8 @@ const AdvancedSearch = ({valuesForResults, unitSearchDispatch, facetListWithsele
             data-focus='result-list-advanced-search'
             group={unitSearchDispatch.group}
             data={valuesForResults.values}
-            isSelectable={isSelectable}
             sortList={valuesForResults.sortList}
+            ListComponent={ListComponent}
             groupList={valuesForResults.groupList}
             LineComponent={valuesForResults.LineComponent}
             />
@@ -56,7 +51,8 @@ AdvancedSearch.defaultProps = {
   isGroup: false,
   unitSearchDispatch: {},
   valuesForResults: {},
-  facetListWithselectedInformation: []
+  facetListWithselectedInformation: [],
+  ListComponent: connectToSelectableList(ListComponent)
 }
 
 export default AdvancedSearch;

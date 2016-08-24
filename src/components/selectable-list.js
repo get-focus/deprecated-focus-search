@@ -64,7 +64,6 @@ const SELECTABLE_LIST_DEFAULT_PROPS = {
 };
 
 function addSelectedInformationInList(dataList = [], selectedElements = {}, lineIdentifierProperty = 'id'){
-  console.log(dataList)
   return dataList.map(
     lineData => ({
       ...lineData,
@@ -114,7 +113,7 @@ function PureSelectableListCustom({data, lineIdentifierProperty, toggleLineSelec
  }
  *
 */
-const connect = (ListToConnect = DefaultPureSelectableList, LineComponent) => {
+const connect = (ListToConnect = DefaultPureSelectableList) => {
   if(!isFunction(ListToConnect)) throw new Error(`${SELECTABLE_LIST}: You should provide a List Component to the connector.`);
   class SelectableList extends Component {
     constructor(props){
@@ -143,21 +142,21 @@ const connect = (ListToConnect = DefaultPureSelectableList, LineComponent) => {
     }
 
     render(){
-      const {data, lineIdentifierProperty, children} = this.props;
+      const {data, lineIdentifierProperty, ...otherProps} = this.props;
       const dataWithSelectedInformation = addSelectedInformationInList(
         data,
         this.state.selectedElements,
         lineIdentifierProperty
       );
+      console.log('Selectied list rerendered', this.props , 'dataWithSelectedInformation', dataWithSelectedInformation)
       return(
       <ListToConnect
-        {...this.props}
         selectState={this.state.selectState}
-        LineComponent={LineComponent}
         data={dataWithSelectedInformation}
         toggleAllLine={this.toggleAllLine}
         toggleLineSelection={this.toggleLineSelectionInState}
         lineIdentifierProperty={lineIdentifierProperty}
+        {...otherProps}
       />);
     }
   }

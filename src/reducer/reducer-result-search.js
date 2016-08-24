@@ -3,7 +3,6 @@ import {capitalize, toUpper} from 'lodash/string';
 export const parseResults = (results = {}) => {
   const hasGroups = results.groups !== undefined;
   let newResults = {totalCount: results.totalCount, hasGroups};
-  console.log(newResults)
 
   /* Populate the new results depending */
   if(hasGroups){
