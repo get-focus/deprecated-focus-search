@@ -6,10 +6,13 @@ export function MaterialListWrapper ({children}) {
   return <ul data-focus='list-component' className='mdl-list'>{children}</ul>;
 }
 
-export function ListComponent({toggleLineSelection, LineComponent, lineIdentifierProperty, data}){
-    return <ul data-focus='list-component'>
+export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent, lineIdentifierProperty, data, sort, group, ListWrapper, sortList, isGroup, groupList, selectState}){
+    return <div>
+    <ToolBar data-focus='toolbar-advanced-search' listGroup={groupList} listSort={sortList} sort={sort} group={group} isGroup={isGroup} toggleAllLine={toggleAllLine} selectState={selectState}/>
+    <ul data-focus='list-component'>
     {data.map( ({isSeleted, ...lineDescriptor}) =><div data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]}> <LineComponent isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  {...lineDescriptor} /></div>)}
     </ul>
+    </div>
   }
 
 ListComponent.displayName='Selectable List Component ';
@@ -30,15 +33,15 @@ const connectToLineComponent =  Component => ({contentType, ...otherProps}) => {
   return <Component {...otherProps} LineComponent={LineComponent}/>;
 }
 */
-export function ResultList ({data, isSelectable, lineIdentifierProperty, LineComponent, sort, group, ListWrapper, sortList, isGroup, groupList}) {
+export function ResultList ({data, isSelectable, lineIdentifierProperty,  LineComponent, sort, group, ListWrapper, sortList, isGroup, groupList}) {
   const ListWrapperSelectable = connectToSelectableList(ListComponent, LineComponent) ;
+
   return(
     <div data-focus='result-list'>
       <h2>result list</h2>
-      <ToolBar data-focus='toolbar-advanced-search' listGroup={groupList} listSort={sortList} sort={sort} group={group} isGroup={isGroup}/>
       {
         isSelectable ?
-        <ListWrapperSelectable data-focus='selectable-list-advanced-search'  data={data}/> :
+        <ListWrapperSelectable data-focus='selectable-list-advanced-search'  data={data} groupList={groupList} sortList={sortList} sort={sort} group={group} isGroup={isGroup}/> :
         <ListWrapper data-focus='list-advanced-search'>
           {data.map(lineDescriptor => <LineComponent  data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]} {...lineDescriptor} />)}
         </ListWrapper>

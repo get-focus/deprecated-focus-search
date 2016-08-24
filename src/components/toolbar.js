@@ -39,23 +39,23 @@ export function ToolbarGroup({listGroup, group}){
 }
 
 
-export function ToolBar({listSort, listGroup, sort, group, isGroup}){
-
-  _checkProps(listGroup, listSort)
+export function ToolBar({listSort,toggleAllLine, listGroup, sort, group, isGroup, selectState}){
+  _checkProps(listGroup, listSort);
+  const label = selectState ? 'Unselect' : 'Select '
   return <div data-focus="toolbar">
       <ToolBarContainer>
+        <button onClick={() => toggleAllLine()}>{label}</button>
         <span style={{margin: '5px', color: 'blue'}}>Sort</span>
         <ToolbarSort sort={sort} listSort={listSort}/>
 
         { !isGroup &&  <span style={{margin: '5px', color: 'blue'}} >Group</span>}
         {!isGroup && <ToolbarGroup group={group} listGroup={listGroup}/>}
-
       </ToolBarContainer>
   </div>
 }
 
 export function ToolBarContainer(props){
-  return <div data-focus='toolbar-container'  className='mdl-grid mdl-shadow--3dp' style={{margin: '10 0 10 0'}}><span style={{margin: '5px'}}>{props.title} Bonjour je suis une belle toolBar de la classe !</span>{props.children}</div>
+  return <div data-focus='toolbar-container'  className='mdl-grid mdl-shadow--3dp' style={{margin: '10 0 10 0'}}><span style={{margin: '5px'}}>{props.title}</span>{props.children}</div>
 }
 
 const ToolBarConnected =ToolBar;

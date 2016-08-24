@@ -6,8 +6,6 @@ import {connect as connectToState} from 'react-redux';
 import AdvancedSearch from '../../components/advanced-search';
 import SearchBar from '../../components/searchbar';
 
-
-console.log(unitSearchActions)
 const searchOptions= {
     searchName : 'advancedSearch',
     unitSearch : unitSearchActions
@@ -19,7 +17,7 @@ const SearchBarComponent = ({group, query}) => (
     <SearchBar group={group} query={query}/>
 );
 const ConnectedSearchBarComponent = compose(
-    connectToState(s=>s, d => ({
+    connectToState(undefined, d => ({
       group: element => d(unitSearchActions.updateGroup(element)),
       query: element => d(unitSearchActions.updateQuery(element))
     }))

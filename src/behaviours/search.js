@@ -21,7 +21,7 @@ export function getResultsForGroup(groups, searchMetadata){
    results = groups.map(element => {
      // TODO: searchMetadataProvider => getListMetadata in data, and get sorts and groups function from data and facets
      // getListMetadata => LineComponent , ListComponent and maybe other informations concidered usefull
-     const {LineComponent, sortList, groupList} = searchMetadata.getLineComponentFromContentTypeExample( element.contentType, element.values)
+     const {LineComponent, sortList, groupList} = searchMetadata.getListMetadata( element.contentType, element.values)
      return {
        ...element,
        LineComponent,
@@ -33,7 +33,7 @@ export function getResultsForGroup(groups, searchMetadata){
 }
 
 export function getResultsForList(list, searchMetadata, contentType){
-  const {LineComponent, sortList, groupList} = searchMetadata.getLineComponentFromContentTypeExample( list.contentType, list.values)
+  const {LineComponent, sortList, groupList} = searchMetadata.getListMetadata( list.contentType, list.values)
   return {
    values: list.values,
    groupList,
@@ -49,15 +49,12 @@ export function connect(searchOptions) {
     function SearchConnectedComponent(props, context){
       const {searchMetadata} = context;
       const {dispatch, results: {hasGroups, data, contentType}} = props;
-      //TO DO REPLACE ON EACH ACTIONS
       const unitSearchDispatch = {
         sort: element => dispatch(updateSort(element)),
         group: element => dispatch(updateGroup(element)),
         facet: (element, replace) => dispatch(updateSelectedFacets(element, replace)),
         query: element => dispatch(updateQuery(element))
       }
-      //List ! =)
-      //
       const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, contentType)
       return <ComponentToConnect
                 isGroup={hasGroups}
