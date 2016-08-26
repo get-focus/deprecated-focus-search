@@ -6,11 +6,15 @@ export function MaterialListWrapper ({children}) {
   return <ul data-focus='list-component' className='mdl-list'>{children}</ul>;
 }
 
-export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent, lineIdentifierProperty, data,  ListWrapper, toolbarProps, selectState}){
+export function MaterialLineWrapper ({children}) {
+  return <li data-focus='line-component' className='mdl-list__item'>{children}</li>;
+}
+
+export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent, lineIdentifierProperty, data,  ListWrapper, LineWrapper,toolbarProps, selectState}){
     return <div>
     <ToolBar data-focus='toolbar-advanced-search'  toolbarProps={toolbarProps} toggleAllLine={toggleAllLine} selectState={selectState}/>
     <ListWrapper>
-    {data.map( ({isSeleted, ...lineDescriptor}) =><div data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]}> <LineComponent isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  {...lineDescriptor} /></div>)}
+    {data.map( ({isSeleted, ...lineDescriptor}) =><div data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]}> <LineWrapper><LineComponent isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  {...lineDescriptor} /></LineWrapper></div>)}
     </ListWrapper>
     </div>
   }
@@ -21,10 +25,12 @@ ListComponent.propTypes= {
   LineComponent: PropTypes.func.isRequired,
   lineIdentifierProperty: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   data: PropTypes.array.isRequired,
-  ListWrapper: PropTypes.func.isRequired
+  ListWrapper: PropTypes.func.isRequired,
+  LineWrapper: PropTypes.func
 }
 ListComponent.defaultProps = {
-  ListWrapper: MaterialListWrapper
+  ListWrapper: MaterialListWrapper,
+  LineWrapper: MaterialLineWrapper
 }
 
 
@@ -40,7 +46,6 @@ const connectToLineComponent =  Component => ({contentType, ...otherProps}) => {
 export function ResultList ({data, lineIdentifierProperty,  LineComponent, ListComponent, toolbarProps}) {
   return(
     <div data-focus='result-list'>
-      <h2>result list</h2>
         {/**Toolbar needs the toggleAllLine :-1 */}
         <ListComponent data-focus='selectable-list-advanced-search' LineComponent={LineComponent}  data={data} toolbarProps={toolbarProps}/>
     </div>

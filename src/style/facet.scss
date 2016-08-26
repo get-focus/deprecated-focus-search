@@ -12,6 +12,10 @@
     }
     [data-focus="facet-block"] {
         margin: 20px 0;
+        &[data-type='true']{
+          display: flex;
+          align-items: center;
+        }
         h3 {
             color: $secondary-text-color;
             font-size: 16px;

@@ -14,7 +14,11 @@ export function facetListWithselectedInformation(state) {
   const selectedFacets = state.criteria.selectedFacets || [];
   const facets = state.results.facets || [];
   // TODO: Check the selected value presence
-  return  facets.map(facetDescriptor => (selectedFacets[facetDescriptor.code]) ? {...facetDescriptor,selectedFacets: selectedFacets[facetDescriptor.code], selected: true} : facetDescriptor);
+  return {
+    facetListWithselectedInformation : facets.map(facetDescriptor => (selectedFacets[facetDescriptor.code]) ?
+                      {...facetDescriptor,selectedFacets: selectedFacets[facetDescriptor.code], selected: true} : facetDescriptor) ,
+    selectedFacetsList :  selectedFacets
+  }
 }
 
 export function getResultsForGroup(groups, searchMetadata){
@@ -48,19 +52,21 @@ export function connect(searchOptions) {
   return function getSearchConnectedComponent(ComponentToConnect){
     function SearchConnectedComponent(props, context){
       const {searchMetadata} = context;
-      const {dispatch, results: {hasGroups, data, contentType}} = props;
+      const {dispatch, results: {hasGroups, data, contentType, totalCount}} = props;
       const unitSearchDispatch = {
         sort: element => dispatch(updateSort(element)),
         group: element => dispatch(updateGroup(element)),
         facet: (element, replace) => dispatch(updateSelectedFacets(element, replace)),
         query: element => dispatch(updateQuery(element))
       }
-      const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, contentType)
-
+      const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, contentType);
+      const facetInformations = facetListWithselectedInformation(props)
+      results.totalCount = totalCount;
       return <ComponentToConnect
                 isGroup={hasGroups}
                 valuesForResults={results}
-                facetListWithselectedInformation={facetListWithselectedInformation(props)}
+                selectedFacetsList={facetInformations.selectedFacetsList}
+                facetListWithselectedInformation={facetInformations.facetListWithselectedInformation}
                 unitSearchDispatch={unitSearchDispatch}
                 />
 

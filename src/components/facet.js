@@ -15,7 +15,6 @@ export function FacetCount(props){
 }
 
 export function Facet(props){
-
   return (<li
         data-focus='facet'
         onClick={() => props.onClick(props.code)}>
@@ -25,7 +24,25 @@ export function Facet(props){
   );
 }
 
+Facet.defaultProps ={
+  selected : false
+}
 Facet.propTypes = FACET_SHAPE_TYPE;
+
+export function FacetSelected(props){
+  return (<li
+        data-focus='facet'
+        onClick={() => props.onClick(props.code)}>
+        <FacetTitle>
+          <span>
+              <span >{props.label}</span>
+              <button type="button" className="mdl-chip__action" onClick={() => props.onClick(props.code)}><i className="material-icons">cancel</i></button>
+          </span>
+        </FacetTitle>
+      </li>
+  );
+}
+FacetSelected.propTypes = FACET_SHAPE_TYPE;
 
 // add hover style
 // connect(sFacetBlock, code => FacetComponent)
@@ -44,13 +61,13 @@ function connectToFacetDomain(FacetComponent){
 */
 
 export function FacetBlock(props){
-  return <div data-focus='facet-block' >
+  return <div data-focus='facet-block' data-type={props.selected}>
       <h3>{props.label}</h3>
 
       <ul >
           {
             props.selected ?
-            <div>{props.selectedFacets.map (value =><props.FacetComponent key={props.code} label={value} code={value} onClick={selectedValue => props.deleteFacet({code: props.code, values: selectedValue})}/>)}</div>
+            <div >{props.selectedFacets.map (value =><props.FacetSelectedComponent  key={props.code} label={(props.values.find(element => element.code === value)).label} code={value} onClick={selectedValue => props.deleteFacet({code: props.code, values: selectedValue})}/>)}</div>
             :
             props.values.map(
               facet => <props.FacetComponent key={facet.code} {...facet} onClick={selectedValue => props.selectFacet({code: props.code, values: selectedValue})}/>
@@ -63,13 +80,15 @@ export function FacetBlock(props){
 
 FacetBlock.defaultProps = {
   FacetComponent: Facet,
+  FacetSelectedComponent: FacetSelected,
   values: []
 }
 FacetBlock.propTypes = {
   ...FACET_DESCRIPTOR_SHAPE_TYPE,
   deleteFacet: PropTypes.func.isRequired,
   selectFacet: PropTypes.func.isRequired,
-  FacetComponent: PropTypes.func
+  FacetComponent: PropTypes.func,
+  FacetSelected: PropTypes.func
 };
 
 export function FacetPanel(props){

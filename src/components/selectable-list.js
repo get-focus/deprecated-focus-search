@@ -148,7 +148,6 @@ const connect = (ListToConnect = DefaultPureSelectableList) => {
         this.state.selectedElements,
         lineIdentifierProperty
       );
-      console.log('Selectied list rerendered', this.props , 'dataWithSelectedInformation', dataWithSelectedInformation)
       return(
       <ListToConnect
         selectState={this.state.selectState}

@@ -13,7 +13,7 @@ const _getListMetadata = (contentType, listData) => {
       return {
         LineComponent: props => {
           const color = props.isSelected ? 'orange' : 'blue'
-          return <div style={{color: 'tomato'}}>
+          return <div>
                 <input type='checkbox' checked={props.isSelected} onClick={() => props.toggleLineSelection(props.id)}/>
                 Line DonDiegoType {JSON.stringify(props)}
                 </div>
