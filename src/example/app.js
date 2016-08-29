@@ -5,7 +5,10 @@ import DevTools from './containers/dev-tools';
 
 // On crée le composant Application
 const App = props =>
-    <div>{props.children}</div>
+    <div>
+        {props.children}
+        <DevTools/>
+    </div>
 ;
 
 App.displayName = 'Application';
