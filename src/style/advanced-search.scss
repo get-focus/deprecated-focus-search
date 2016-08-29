@@ -1,14 +1,19 @@
-
+$advancedSearch-facet-ratio: 1;
+$advancedSearch-results-ratio: 5;
+$advancedSearch-facet-width: $advancedSearch-facet-ratio / ($advancedSearch-facet-ratio + $advancedSearch-results-ratio);
+$advancedSearch-results-width: $advancedSearch-results-ratio / ($advancedSearch-facet-ratio + $advancedSearch-results-ratio);
 
 [data-focus="advanced-search"] {
     margin: 20px 20px;
     display: flex;
     [data-focus="facet-panel"] {
         order: 1;
-        flex-grow: 1;
+        flex-grow: $advancedSearch-facet-ratio;
+        width: calc(100% * #{$advancedSearch-facet-width});
     }
     [data-focus="results-advanced-search"] {
         order: 2;
-        flex-grow: 5;
+        flex-grow: $advancedSearch-results-ratio;
+        width: calc(100% * #{$advancedSearch-results-width});
     }
 }

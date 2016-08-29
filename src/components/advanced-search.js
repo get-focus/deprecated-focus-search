@@ -20,7 +20,7 @@ const AdvancedSearch = ({valuesForResults, selectedFacetsList, unitSearchDispatc
     sort: unitSearchDispatch.sort,
     isGroup: isGroup
   }
-  return <div style={{color: 'orange'}} data-focus='advanced-search'>
+  return <div data-focus='advanced-search'>
     <div data-focus="results-advanced-search">
       <InformationBar selectedFacetsList={selectedFacetsList}
               facet={facetListWithselectedInformation}
