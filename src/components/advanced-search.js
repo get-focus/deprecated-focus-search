@@ -12,7 +12,7 @@ import {ResultList, ResultGroup, ListComponent} from './results';
 
 // <ActionQuery data-focus='action-query-advanced-search' group={unitSearchDispatch.group} query={unitSearchDispatch.query}/>
 
-const AdvancedSearch = ({valuesForResults, selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, ListComponent}) =>  {
+const AdvancedSearch = ({valuesForResults, selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, scope, ListComponent}) =>  {
     const toolbarProps = {
         group: unitSearchDispatch.group,
         sortList: valuesForResults.sortList,
@@ -24,8 +24,9 @@ const AdvancedSearch = ({valuesForResults, selectedFacetsList, unitSearchDispatc
         <div data-focus='advanced-search'>
             <div data-focus="results-advanced-search">
                 <InformationBar selectedFacetsList={selectedFacetsList}
-                    facet={facetListWithselectedInformation}
+                    facets={facetListWithselectedInformation}
                     totalCount={valuesForResults.totalCount}
+                    scope={scope}
                     deleteFacet={value => unitSearchDispatch.facet(value, true)}
                     data-focus='information-bar-advanced-search' />
                 {isGroup ?

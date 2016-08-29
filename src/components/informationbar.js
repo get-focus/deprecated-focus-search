@@ -1,34 +1,35 @@
 import React, {Component, PropTypes} from 'react';
+import Chips from '../components/chips';
+import upperCase from 'lodash/upperCase';
 
-
-
-
-
-export function InformationBar ({totalCount,selectedFacetsList, deleteFacet, facet}) {
-  return <div data-focus="information-bar">
-          <div data-focus='totalCount'>{totalCount} results</div>
-          <div data-focus='selectedFacets'>
-              {Object.keys(selectedFacetsList).map((element, index) => {
-                  const facetSelected = facet.find(lala => lala.code === element)
-                  return selectedFacetsList[element].map(facet => {
-                    const facetLabel = facetSelected.values.find(lulu => lulu.code === facet)
-
-                    return <span data-focus='chip' className='mdl-chip'>
-                        <span data-focus='chip-text' className='mdl-chip__text'>{facetSelected.label}: {facetLabel.label}</span>
-                        <button type="button" className="mdl-chip__action" onClick={()=> {const value = {code: element, values: facet};  console.log(value); return deleteFacet(value)}}><i className="material-icons">cancel</i></button>
-                        </span>
-                  })
-
-              })}
-
-          </div>
-    </div>
-}
-
-InformationBar.displayName = "Information Bar";
+export function InformationBar ({totalCount, selectedFacetsList, deleteFacet, scope, facets}) {
+    const scopeLetter = scope && scope.length > 0 ? upperCase(scope[0]) : undefined;
+    return (
+        <div data-focus="information-bar">
+            <div data-focus='totalCount'>{totalCount} results for</div>
+            {scope &&
+                <div data-focus="scope-selected">
+                    <Chips label={scope} letter={scopeLetter} />
+                </div>
+            }
+            <div data-focus='selectedFacets'>
+                {Object.keys(selectedFacetsList).map((element, index) => {
+                    const currentFacetSelected = facets.find(facet => facet.code === element)
+                    return selectedFacetsList[element].map(selectedFacet => {
+                        const theFacet = currentFacetSelected.values.find(facet => facet.code === selectedFacet)
+                        const displayedLabel = `${currentFacetSelected.label}: ${theFacet.label}`;
+                        return <Chips label={displayedLabel} onDeleteClick={() => {const value = {code: element, values: selectedFacet}; return deleteFacet(value)}} />
+                    })
+                })}
+            </div>
+        </div>
+    )
+};
+//TODO add prop types
+InformationBar.displayName = 'Information Bar';
 InformationBar.propTypes = {
-  totalCount : PropTypes.string.isRequired
-}
+    totalCount : PropTypes.string.isRequired
+};
 InformationBar.defaultProps = {
-  totalCount : "Merci de fournir le totalCount =)"
-}
+    totalCount : "Merci de fournir le totalCount =)"
+};

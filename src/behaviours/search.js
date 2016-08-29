@@ -1,9 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {connect as connectToState} from 'react-redux';
 import {compose} from 'redux';
-import {map} from 'lodash/map'
+import {map} from 'lodash/map';
 import isArray from 'lodash/isArray';
 import {loadLine} from '../actions/single-action-creator';
+import get from 'lodash/get';
 
 const SEARCH_CONTEXT_TYPE = {
   searchMetadata: PropTypes.object
@@ -52,7 +53,8 @@ export function connect(searchOptions) {
   return function getSearchConnectedComponent(ComponentToConnect){
     function SearchConnectedComponent(props, context){
       const {searchMetadata} = context;
-      const {dispatch, results: {hasGroups, data, contentType, totalCount}} = props;
+      const {dispatch, results: {hasGroups, data, contentType, totalCount}, criteria} = props;
+      const scope = get(criteria, 'query.scope');
       const unitSearchDispatch = {
         sort: element => dispatch(updateSort(element)),
         group: element => dispatch(updateGroup(element)),
@@ -64,12 +66,11 @@ export function connect(searchOptions) {
       results.totalCount = totalCount;
       return <ComponentToConnect
                 isGroup={hasGroups}
+                scope={scope}
                 valuesForResults={results}
                 selectedFacetsList={facetInformations.selectedFacetsList}
                 facetListWithselectedInformation={facetInformations.facetListWithselectedInformation}
-                unitSearchDispatch={unitSearchDispatch}
-                />
-
+                unitSearchDispatch={unitSearchDispatch} />
     }
     SearchConnectedComponent.displayName= 'SearchConnectedComponent';
     SearchConnectedComponent.contextTypes = SEARCH_CONTEXT_TYPE;

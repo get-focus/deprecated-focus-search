@@ -3,6 +3,7 @@ import 'material-design-lite/material.css';
 import 'material-design-lite/material.min';
 
 import './advanced-search.scss';
+import './chips.scss';
 import './facet.scss';
 import './list.scss';
 import './toolbar.scss';

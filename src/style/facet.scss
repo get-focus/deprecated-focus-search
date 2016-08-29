@@ -12,10 +12,10 @@
     }
     [data-focus="facet-block"] {
         margin: 20px 0;
-        &[data-type='true']{
-          display: flex;
-          align-items: center;
-        }
+        // &[data-selected='true']{
+        //   display: flex;
+        //   align-items: center;
+        // }
         h3 {
             color: $secondary-text-color;
             font-size: 16px;
@@ -31,8 +31,12 @@
 
             }
         }
+        &[data-selected='false'] {
+            [data-focus="facet"] {
+                cursor: pointer;
+            }
+        }
         [data-focus="facet"] {
-            cursor: pointer;
             [data-focus="facet-title"] {
 
             }
