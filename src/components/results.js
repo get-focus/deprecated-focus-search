@@ -12,7 +12,11 @@ export function MaterialLineWrapper ({children}) {
 
 export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent, lineIdentifierProperty, data,  ListWrapper, LineWrapper,toolbarProps, selectState}){
     return <div>
-    <ToolBar data-focus='toolbar-advanced-search'  toolbarProps={toolbarProps} toggleAllLine={toggleAllLine} selectState={selectState}/>
+    <ToolBar data-focus='toolbar-advanced-search'
+        toolbarProps={toolbarProps}
+        toggleAllLine={toggleAllLine}
+        selectState={selectState}
+        />
     <ListWrapper>
     {data.map( ({isSeleted, ...lineDescriptor}) =><div data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]}> <LineWrapper><LineComponent isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  {...lineDescriptor} /></LineWrapper></div>)}
     </ListWrapper>
@@ -47,7 +51,10 @@ export function ResultList ({data, lineIdentifierProperty,  LineComponent, ListC
   return(
     <div data-focus='result-list'>
         {/**Toolbar needs the toggleAllLine :-1 */}
-        <ListComponent data-focus='selectable-list-advanced-search' LineComponent={LineComponent}  data={data} toolbarProps={toolbarProps}/>
+        <ListComponent data-focus='selectable-list-advanced-search'
+            LineComponent={LineComponent}
+            data={data}
+            toolbarProps={toolbarProps}/>
     </div>
   );
 }
@@ -56,26 +63,26 @@ ResultList.defaultProps = {
   data: [],
   lineIdentifierProperty: 'id',
   isSelectable: false,
+  toolbarProps: {},
   ListComponent: ListComponent
 }
 
 ResultList.propTypes = {
   data: PropTypes.array,
+  toolbarProps: PropTypes.object.isRequired,
   lineIdentifierProperty: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isSelectable: PropTypes.bool,
   /* This function is use to get the line component depending */
   ListComponent: PropTypes.func
 }
-export function ResultGroup  ({data, sort, group, isGroup}) {
+export function ResultGroup  ({data, sort, group, isGroup, toolbarProps}) {
   return <div data-focus='result-group' >
     {data.map(element => {
         //TO do add ListWrapper
         return <ResultList data={element.data}
-                  sort={sort} group={group}
-                  isGroup={isGroup}
+                  toolbarProps={toolbarProps}
                   LineComponent={element.LineComponent}
-                  groupList={element.groupList}
-                  sortList={element.sortList} />
+                  />
     })}
   </div>
 }
@@ -83,12 +90,12 @@ export function ResultGroup  ({data, sort, group, isGroup}) {
 ResultGroup.displayName='Result Group'
 ResultGroup.propTypes= {
   data: PropTypes.array.isRequired,
-  sort: PropTypes.func.isRequired,
-  group: PropTypes.func.isRequired,
+  toolbarProps: PropTypes.object.isRequired
+
 
 }
 ResultGroup.defaultProps= {
   data: [],
-  sort: ()=>{},
-  group: ()=>{}
+  toolbarProps: {}
+
 }
