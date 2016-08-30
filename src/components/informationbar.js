@@ -2,14 +2,14 @@ import React, {Component, PropTypes} from 'react';
 import Chips from '../components/chips';
 import upperCase from 'lodash/upperCase';
 
-export function InformationBar ({totalCount, selectedFacetsList, deleteFacet, scope, facets}) {
+export function InformationBar ({totalCount, selectedFacetsList, deleteFacet, scope, group, facets}) {
     const scopeLetter = scope && scope.length > 0 ? upperCase(scope[0]) : undefined;
     return (
         <div data-focus="information-bar">
             <div data-focus='totalCount'>{totalCount} results for</div>
             {scope &&
                 <div data-focus="scope-selected">
-                    <Chips label={scope} letter={scopeLetter} />
+                    <Chips label={scope} letter={scopeLetter} onDeleteClick={()=>group({name: 'scope'}, false, true)}/>
                 </div>
             }
             <div data-focus='selectedFacets'>

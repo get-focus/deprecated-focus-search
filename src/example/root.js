@@ -15,10 +15,14 @@ const _getListMetadata = (contentType, listData) => {
                 const color = props.isSelected ? 'orange' : 'blue'
                 return (
                     <div>
-                        <input type='checkbox' checked={props.isSelected} onClick={() => props.toggleLineSelection(props.id)}/>
                         <div>Line DonDiegoType {JSON.stringify(props)}</div>
                     </div>)
                 },
+                actionsLine: [
+                  {label: 'Yo', icon: 'print', action: () => {console.log('action')}},
+                  {label: 'La', icon: 'print', action: () => {console.log('action')}}
+
+                ],
                 sortList : [
                     'ouuuuaaa',
                     'trrropo',
@@ -38,6 +42,7 @@ const _getListMetadata = (contentType, listData) => {
                     'lolo',
                     'lulu'
                 ],
+
                 groupList: [
                     'lala',
                     'lulu'
@@ -53,13 +58,29 @@ const _getListMetadata = (contentType, listData) => {
 
         }
     }
+    const Root = ({store, history}) => /*On place le provider de store au plus haut afin de pouvoir injecter des informations du store dans toute l'applciation.*/
+       <StoreProvider store={store}>
+       <SearchProvider store={store} searchMetadata={{getListMetadata : _getListMetadata,
+               scopes:[{value: 'scope', label: 'Scope 01', selected:true}, {value: 'scope2', label:'Scope 02', selected:false}, {value: 'all', label:'All', selected:false}]
 
-    class Root extends Component { /*On place le provider de store au plus haut afin de pouvoir injecter des informations du store dans toute l'applciation.*/
+             }}>
+           <Router history={history}>
+             <Route path='/' component={App} >
+              <IndexRoute component={Home}/>
+            </Route>
+           </Router>
+         </SearchProvider>
+       </StoreProvider>;
+
+    class RootHotLoader extends Component { /*On place le provider de store au plus haut afin de pouvoir injecter des informations du store dans toute l'applciation.*/
         render() {
             const {store, history} = this.props;
             return (
                 <StoreProvider store={store}>
-                    <SearchProvider store={store} searchMetadata={{getListMetadata : _getListMetadata, sortList: ['ouaaaaah', 'ceeeeest', 'biiiiiiiiennnnn'], groupList: ['ouaaaaah', 'ceeeeest', 'biiiiiiiiennnnn']}}>
+                    <SearchProvider store={store} searchMetadata={{getListMetadata : _getListMetadata,
+                            scopes:[{value: 'scope', label: 'Scope 01', selected:true}, {value: 'scope2', label:'Scope 02', selected:false}, {value: 'all', label:'All', selected:false}]
+
+                          }}>
                         <Router history={history}>
                             <Route path='/' component={App} >
                                 <IndexRoute component={Home}/>

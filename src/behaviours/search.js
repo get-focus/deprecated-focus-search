@@ -26,10 +26,12 @@ export function getResultsForGroup(groups, searchMetadata){
    results = groups.map(element => {
      // TODO: searchMetadataProvider => getListMetadata in data, and get sorts and groups function from data and facets
      // getListMetadata => LineComponent , ListComponent and maybe other informations concidered usefull
-     const {LineComponent, sortList, groupList} = searchMetadata.getListMetadata( element.contentType, element.values)
+     const {LineComponent, sortList, groupList,actionsLine} = searchMetadata.getListMetadata( element.contentType, element.values)
+     console.log(actionsLine)
      return {
        ...element,
        LineComponent,
+       actionsLine,
        sortList,
        groupList
      }
@@ -38,10 +40,11 @@ export function getResultsForGroup(groups, searchMetadata){
 }
 
 export function getResultsForList(list, searchMetadata, contentType){
-  const {LineComponent, sortList, groupList} = searchMetadata.getListMetadata( list.contentType, list.values)
+  const {LineComponent, sortList, groupList, actionsLine} = searchMetadata.getListMetadata( list.contentType, list.values)
   return {
    values: list.values,
    groupList,
+   actionsLine,
    sortList,
    LineComponent
  }
@@ -54,10 +57,10 @@ export function connect(searchOptions) {
     function SearchConnectedComponent(props, context){
       const {searchMetadata} = context;
       const {dispatch, results: {hasGroups, data, contentType, totalCount}, criteria} = props;
-      const scope = get(criteria, 'query.scope');
+      const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value);
       const unitSearchDispatch = {
         sort: element => dispatch(updateSort(element)),
-        group: element => dispatch(updateGroup(element)),
+        group: (element, replace, isScope) => dispatch(updateGroup(element, replace, isScope)),
         facet: (element, replace) => dispatch(updateSelectedFacets(element, replace)),
         query: element => dispatch(updateQuery(element))
       }
@@ -67,6 +70,7 @@ export function connect(searchOptions) {
       return <ComponentToConnect
                 isGroup={hasGroups}
                 scope={scope}
+                scopes={searchMetadata.scopes}
                 valuesForResults={results}
                 selectedFacetsList={facetInformations.selectedFacetsList}
                 facetListWithselectedInformation={facetInformations.facetListWithselectedInformation}

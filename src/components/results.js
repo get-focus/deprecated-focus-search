@@ -6,11 +6,16 @@ export function MaterialListWrapper ({children}) {
     return <ul data-focus='list-component' className='mdl-list'>{children}</ul>
 };
 
-export function MaterialLineWrapper({children}) {
-    return <li data-focus='line-component' className='mdl-list__item'>{children}</li>
+export function MaterialLineWrapper({children, actionsLine, ...props}) {
+    return <li data-focus='line-component' className='mdl-list__item'>
+            <input type='checkbox' checked={props.isSelected} onClick={() => props.toggleLineSelection(props.id)}/>
+            {children}
+            <button onClick={actionsLine[0].action}>{actionsLine[0].label}</button>
+            <button onClick={actionsLine[1].action}>{actionsLine[1].label}</button>
+    </li>
 };
 
-export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent, lineIdentifierProperty, data,  ListWrapper, LineWrapper,toolbarProps, selectState}){
+export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent, lineIdentifierProperty, data,  ListWrapper,actionsLine,LineWrapper,toolbarProps, selectState}){
     return <div>
         <ToolBar data-focus='toolbar-advanced-search'
             toolbarProps={toolbarProps}
@@ -18,7 +23,9 @@ export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent
             selectState={selectState}
             />
         <ListWrapper>
-            {data.map( ({isSeleted, ...lineDescriptor}) =><div data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]}> <LineWrapper><LineComponent isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  {...lineDescriptor} /></LineWrapper></div>)}
+            {data.map( ({isSeleted, ...lineDescriptor}) =><div data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]}>
+                <LineWrapper  isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  actionsLine={actionsLine} {...lineDescriptor} ><LineComponent{...lineDescriptor} />
+                </LineWrapper></div>)}
         </ListWrapper>
     </div>
 };
@@ -47,13 +54,14 @@ return <Component {...otherProps} LineComponent={LineComponent}/>;
 }
 */
 
-export function ResultList({data, lineIdentifierProperty,  LineComponent, ListComponent, toolbarProps}) {
+export function ResultList({data, lineIdentifierProperty,  actionsLine, LineComponent, ListComponent, toolbarProps}) {
     return(
         <div data-focus='result-list'>
             {/**Toolbar needs the toggleAllLine :-1 */}
             <ListComponent data-focus='selectable-list-advanced-search'
                 LineComponent={LineComponent}
                 data={data}
+                actionsLine={actionsLine}
                 toolbarProps={toolbarProps}/>
         </div>
     );
@@ -75,12 +83,13 @@ ResultList.propTypes = {
 };
 
 
-export function ResultGroup  ({data, sort, group, isGroup, toolbarProps}) {
+export function ResultGroup  ({data, sort, group, isGroup, toolbarProps, actionsLine}) {
     return <div data-focus='result-group' >
         {data.map(element => {
             //TO do add ListWrapper
             return <ResultList data={element.data}
                 toolbarProps={toolbarProps}
+                actionsLine={actionsLine}
                 LineComponent={element.LineComponent}
                 />
         })}

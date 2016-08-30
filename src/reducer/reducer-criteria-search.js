@@ -34,13 +34,19 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
      case UPDATE_GROUP_SEARCH:
        let newGroup = [action.group]
        if(state.group) newGroup = [ action.group]
-     return action.replace ? {
+       console.log(action.isScope)
+     return action.replace ? (action.isScope ?  {...state, group: differenceWith(state.group, [action.group], isEqual), query: {...query, scope: null}} : {
        ...state,
        group: differenceWith(state.group, [action.group], isEqual)
-     } : {
+     }) : (action.isScope ? {
+       ...state,
+       group : newGroup, query: {...state.query, scope: null}
+     }: {
        ...state,
        group : newGroup
      }
+
+     )
     case UPDATE_SORT_SEARCH :
       let newSort = [action.sort]
       if(state.sort) newSort.sort = [...state.sort, action.sort]

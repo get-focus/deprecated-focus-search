@@ -2,17 +2,18 @@ import './style';  //import demo styles
 //----------------
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {AppContainer} from 'react-hot-loader';
-import {hashHistory} from 'react-router'
+import {AppContainer } from 'react-hot-loader';
+import {hashHistory } from 'react-router'
+ import {createStore} from 'redux';
 import Root from './root';
 import store from './store';
 
 console.log('Launching the app...');
 const rootEl = document.querySelector('.focus-search-example')
 ReactDOM.render(
-    <AppContainer>
+    <div>
         <Root store={store} history={hashHistory} />
-    </AppContainer>,
+    </div>,
     rootEl
 );
 
@@ -25,9 +26,8 @@ if (module.hot) {
         // use <App /> here rather than require() a <NextApp />.
         const NextApp = require('./root').default;
         ReactDOM.render(
-            <AppContainer>
-                <Root store={store} history={hashHistory} />
-            </AppContainer>,
+
+                <Root store={store} history={hashHistory} />,
             rootEl
         );
     });

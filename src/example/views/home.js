@@ -14,14 +14,11 @@ const searchOptions= {
 const ConnectedComponentAdvancedSearch = compose (
     connectToSearch(searchOptions)
 )(AdvancedSearch);
-const SearchBarComponent = ({group, query}) => (
-    <SearchBar group={group} query={query}/>
+const SearchBarComponent = ({unitSearchDispatch: { group, query},scope, scopes}) => (
+    <SearchBar group={group} query={query} scopes={scopes} scope={scope}/>
 );
 const ConnectedSearchBarComponent = compose(
-    connectToState(undefined, d => ({
-      group: element => d(unitSearchActions.updateGroup(element)),
-      query: element => d(unitSearchActions.updateQuery(element))
-    }))
+  connectToSearch(searchOptions)
 )(SearchBarComponent);
 
 

@@ -27,18 +27,21 @@ const AdvancedSearch = ({valuesForResults, selectedFacetsList, unitSearchDispatc
                     facets={facetListWithselectedInformation}
                     totalCount={valuesForResults.totalCount}
                     scope={scope}
+                    group={unitSearchDispatch.group}
                     deleteFacet={value => unitSearchDispatch.facet(value, true)}
                     data-focus='information-bar-advanced-search' />
                 {isGroup ?
                     <ResultGroup isGroup={isGroup}
                         data-focus='result-group-advanced-search'
                         data={valuesForResults}
+                        actionsLine={valuesForResults.actionsLine}
                         toolbarProps={toolbarProps}
                         />
                     :
                     <ResultList data={valuesForResults.values}
                         data-focus='result-list-advanced-search'
                         ListComponent={ListComponent}
+                        actionsLine={valuesForResults.actionsLine}
                         LineComponent={valuesForResults.LineComponent}
                         toolbarProps={toolbarProps}
                         />
