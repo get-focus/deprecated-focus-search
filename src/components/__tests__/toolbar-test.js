@@ -4,12 +4,6 @@ import { mount, shallow } from 'enzyme';
 import {ToolBarContainer, ToolbarGroup, ToolbarSort,ToolBar} from '../toolbar';
 
 describe('ToolBar components ', () => {
-  describe('<ToolBarContainer />', ()=> {
-    it('should be a div with a data-focus=toolbar-container', () => {
-      const wrapper = shallow(<ToolBarContainer />);
-      expect(wrapper.find("[data-focus='toolbar-container']")).to.have.length(1);
-    });
-  });
   describe('<ToolBar />', ()=> {
     it('should be a div with a data-focus=toolbar', () => {
       const toolbarProps = {
