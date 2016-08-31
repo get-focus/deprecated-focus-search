@@ -78,7 +78,9 @@
   },
   "homepage": "https://github.com/pierr/data-behaviours#readme",
   "dependencies": {
-    "lodash": "^4.6.1",
+    "focus-components": "^0.17.0-beta4",
+    "focus-core": "^0.17.0-beta0",
+    "lodash": "^4.15.0",
     "moment": "^2.12.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",

@@ -61,7 +61,7 @@ const _getListMetadata = (contentType, listData) => {
     const Root = ({store, history}) => /*On place le provider de store au plus haut afin de pouvoir injecter des informations du store dans toute l'applciation.*/
        <StoreProvider store={store}>
        <SearchProvider store={store} searchMetadata={{getListMetadata : _getListMetadata,
-               scopes:[{value: 'scope', label: 'Scope 01', selected:true}, {value: 'scope2', label:'Scope 02', selected:false}, {value: 'all', label:'All', selected:false}]
+               scopes:[{value: 'all', label:'All', selected:false}, {value: 'scope', label: 'Scope 01', selected:true}, {value: 'scope2', label:'Scope 02', selected:false}]
 
              }}>
            <Router history={history}>

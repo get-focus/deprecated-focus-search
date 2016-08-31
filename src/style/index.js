@@ -8,3 +8,5 @@ import './facet.scss';
 import './list.scss';
 import './toolbar.scss';
 import './informationbar.scss';
+import './search-bar.scss';
+import './select.scss';

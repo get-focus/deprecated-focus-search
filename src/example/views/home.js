@@ -26,6 +26,7 @@ const ConnectedSearchBarComponent = compose(
 const Home = () => (
     <div data-demo='home'>
         <div data-demo='header' className='mdl-shadow--3dp'>
+            <h2>Que recherchez-vous ?</h2>
             <ConnectedSearchBarComponent />
         </div>
         <div data-demo='content'>
