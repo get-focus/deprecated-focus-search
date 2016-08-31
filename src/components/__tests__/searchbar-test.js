@@ -18,7 +18,7 @@ describe('SearchBar components ', () => {
       const spy = sinon.spy();
       const wrapper = shallow(<SearchBarScopeSelection group={spy} query={spy}/>);
       expect(wrapper.find("[data-focus='scope-selection']")).to.have.length(1);
-      wrapper.find("[data-focus='scope-selection']").simulate('change',{target: {value: 'My new value'}} )
+      wrapper.find("[data-focus='search-bar-scope-selection']").simulate('change',{target: {value: 'My new value'}} )
       expect(spy).to.have.property('callCount', 1);
       expect(spy).to.have.been.calledWith()
 

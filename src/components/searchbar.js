@@ -18,7 +18,7 @@ const SearchBarInputConnected =SearchBarInput;
 
 
 export function SearchBarScopeSelection({group, query, scope, scopes}) {
-    return <InputSelect data-focus='scope-selection' hasUndefined={false} values={scopes} valueKey='value' value={scope || 'all'} name='search-scope' onChange= {(value)=> value==='all' ? group({name:value}, false, true) : query({scope: value}) } />
+    return <InputSelect data-focus='search-bar-scope-selection' hasUndefined={false} values={scopes} valueKey='value' value={scope || 'all'} name='search-scope' onChange= {(value)=> value==='all' ? group({name:value}, false, true) : query({scope: value}) } />
 }
 SearchBarScopeSelection.defaultProps = {
     scopes: []
