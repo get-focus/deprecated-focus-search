@@ -6,12 +6,22 @@ export function MaterialListWrapper ({children}) {
     return <ul data-focus='list-component' className='mdl-list'>{children}</ul>
 };
 
-export function MaterialLineWrapper({children, actionsLine, ...props}) {
+export function FocusAction({actions, ActionsComponent, ...otherProps}){
+  return <div data-focus='focus-actions'>{actions ?
+    actions.map(action => <button onClick={action.action}>{action.label}</button>) :
+    <ActionsComponent {...otherProps}/>
+
+  }</div>
+}
+
+export function MaterialLineWrapper({children, actionsLine,ActionsComponent, ...props}) {
     return <li data-focus='line-component' className='mdl-list__item'>
             <input type='checkbox' checked={props.isSelected} onClick={() => props.toggleLineSelection(props.id)}/>
             {children}
-            <button onClick={actionsLine[0].action}>{actionsLine[0].label}</button>
-            <button onClick={actionsLine[1].action}>{actionsLine[1].label}</button>
+            {
+              (actionsLine || actionsComponent) && <div data-focus='line-component-actions'><FocusAction actions={actionsLine} ActionsComponent={ActionsComponent} {...props}/></div>
+            }
+
     </li>
 };
 

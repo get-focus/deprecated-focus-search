@@ -26,8 +26,10 @@ const AdvancedSearch = ({valuesForResults, selectedFacetsList, unitSearchDispatc
                 <InformationBar selectedFacetsList={selectedFacetsList}
                     facets={facetListWithselectedInformation}
                     totalCount={valuesForResults.totalCount}
+                    scopeFunction={unitSearchDispatch.scopeFunction}
                     scope={scope}
                     group={unitSearchDispatch.group}
+                    query={unitSearchDispatch.query}
                     deleteFacet={value => unitSearchDispatch.facet(value, true)}
                     data-focus='information-bar-advanced-search' />
                 {isGroup ?

@@ -23,20 +23,23 @@ export function SearchBarScopeSelection({group, query, scope, scopes}) {
 SearchBarScopeSelection.defaultProps = {
     scopes: []
 }
-SearchBarScopeSelection.propTypes = {
-    scopes: PropTypes.array,
-    query: PropTypes.func,
-    group: PropTypes.func
+
+export function ScopeSelection({group, query, scope, scopes, scopeFunction}) {
+    return <select data-focus='scope-selection' value={scope || 'all'} onChange= {({target : {value}})=> value==='all' ? scopeFunction({group: {name:value}, query:{scope: null}}) : query({scope: value}) }>
+          {scopes.map(element =>  <option value={element.value}>{element.label}</option>)}
+    </select>
 }
 const SearchBarScopeSelectionConnected = SearchBarScopeSelection
 
 
 
-export function SearchBar({query, group, title,scopes, scope}) {
+export function ActionBar({query, group, title,scopes, scope,scopeFunction}) {
     return (
-        <div data-focus='search-bar'>
-            <SearchBarScopeSelectionConnected group={group} query={query} scopes={scopes} scope={scope}/>
-            <SearchBarInputConnected query={query}/>
+        <div data-focus='action-bar'>
+            <ActionQueryContainer title={title}>
+                <ScopeSelectionConnected group={group} query={query} scopeFunction={scopeFunction} scopes={scopes} scope={scope}/>
+                <SearchBarConnected query={query}/>
+            </ActionQueryContainer>
         </div>
     );
 };

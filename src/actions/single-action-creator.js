@@ -54,10 +54,9 @@ const updateSort = type => (sort, replace = false) => ({
 	sort: sort,
   replace
 });
-const updateGroup = type => (group, replace = false, isScope= false) => ({
+const updateGroup = type => (group, replace = false) => ({
 	type: type,
 	group: group,
-  isScope,
   replace
 });
 

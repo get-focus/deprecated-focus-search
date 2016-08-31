@@ -14,8 +14,8 @@ const searchOptions= {
 const ConnectedComponentAdvancedSearch = compose (
     connectToSearch(searchOptions)
 )(AdvancedSearch);
-const SearchBarComponent = ({unitSearchDispatch: { group, query},scope, scopes}) => (
-    <SearchBar group={group} query={query} scopes={scopes} scope={scope}/>
+const SearchBarComponent = ({unitSearchDispatch: { group, query, scopeFunction},scope, scopes}) => (
+    <SearchBar group={group} query={query} scopes={scopes} scope={scope} scopeFunction={scopeFunction}/>
 );
 const ConnectedSearchBarComponent = compose(
   connectToSearch(searchOptions)

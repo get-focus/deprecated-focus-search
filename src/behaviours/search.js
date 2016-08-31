@@ -60,9 +60,10 @@ export function connect(searchOptions) {
       const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value);
       const unitSearchDispatch = {
         sort: element => dispatch(updateSort(element)),
-        group: (element, replace, isScope) => dispatch(updateGroup(element, replace, isScope)),
+        group: (element, replace) => dispatch(updateGroup(element, replace)),
         facet: (element, replace) => dispatch(updateSelectedFacets(element, replace)),
-        query: element => dispatch(updateQuery(element))
+        query: element => dispatch(updateQuery(element)),
+        scopeFunction: (element, replace) => { dispatch(updateQuery(element.query, replace)); dispatch(updateGroup(element.group, replace))} 
       }
       const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, contentType);
       const facetInformations = facetListWithselectedInformation(props)
