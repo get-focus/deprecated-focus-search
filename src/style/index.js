@@ -3,10 +3,11 @@ import 'material-design-lite/material.css';
 import 'material-design-lite/material.min';
 
 import './advanced-search.scss';
-import './chips.scss';
+import './temporary/chips.scss';
+import './temporary/dropdown.css';
 import './facet.scss';
 import './list.scss';
 import './toolbar.scss';
 import './informationbar.scss';
 import './search-bar.scss';
-import './select.scss';
+import './temporary/select.scss';

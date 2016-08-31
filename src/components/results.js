@@ -1,28 +1,50 @@
 import React, {PropTypes} from 'react';
 import ToolBar from './toolbar';
 import connectToSelectableList from './selectable-list';
+import InputCheckbox from 'focus-components/components/input/checkbox';
 
 export function MaterialListWrapper ({children}) {
     return <ul data-focus='list-component' className='mdl-list'>{children}</ul>
 };
 
+// <<<<<<< Updated upstream
 export function FocusAction({actions, ActionsComponent, ...otherProps}){
-  return <div data-focus='focus-actions'>{actions ?
-    actions.map(action => <button onClick={action.action}>{action.label}</button>) :
-    <ActionsComponent {...otherProps}/>
-
-  }</div>
+    return (
+        <div data-focus='focus-actions'>
+            {actions ? actions.map(action => <button onClick={action.action}>{action.label}</button>) : <ActionsComponent {...otherProps}/>}
+        </div>
+    );
 }
 
 export function MaterialLineWrapper({children, actionsLine,ActionsComponent, ...props}) {
-    return <li data-focus='line-component' className='mdl-list__item'>
-            <input type='checkbox' checked={props.isSelected} onClick={() => props.toggleLineSelection(props.id)}/>
-            {children}
-            {
-              (actionsLine || actionsComponent) && <div data-focus='line-component-actions'><FocusAction actions={actionsLine} ActionsComponent={ActionsComponent} {...props}/></div>
+    return (
+        <li data-focus='line-component' className='mdl-list__item'>
+            {props.toggleLineSelection &&
+                <div data-focus='line-component-selection'>
+                    <InputCheckbox value={props.isSelected} onChange={() => props.toggleLineSelection(props.id)} />
+                </div>
             }
-
-    </li>
+            {children}
+            {(actionsLine || actionsComponent) && <div data-focus='line-component-actions'><FocusAction actions={actionsLine} ActionsComponent={ActionsComponent} {...props}/></div>}
+        </li>
+    );
+    // =======
+    // export function MaterialLineWrapper({children, actionsLine, ...props}) {
+    //     return (
+    //         <li data-focus='line-component' data-selected={props.isSelected} className='mdl-list__item'>
+    //             {props.toggleLineSelection &&
+    //                 <div data-focus='line-component-selection'>
+    //                     <InputCheckbox value={props.isSelected} onChange={() => props.toggleLineSelection(props.id)} />
+    //                 </div>
+    //             }
+    //             {children}
+    //             <div data-focus='line-component-actions'>
+    //                 <button onClick={actionsLine[0].action}>{actionsLine[0].label}</button>
+    //                 <button onClick={actionsLine[1].action}>{actionsLine[1].label}</button>
+    //             </div>
+    //         </li>
+    //     )
+    //     >>>>>>> Stashed changes
 };
 
 export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent, lineIdentifierProperty, data,  ListWrapper,actionsLine,LineWrapper,toolbarProps, selectState}){
@@ -33,13 +55,16 @@ export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent
             selectState={selectState}
             />
         <ListWrapper>
-            {data.map( ({isSeleted, ...lineDescriptor}) =><div data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]}>
-                <LineWrapper  isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  actionsLine={actionsLine} {...lineDescriptor} ><LineComponent{...lineDescriptor} />
-                </LineWrapper></div>)}
+            {data.map(({isSeleted, ...lineDescriptor}) => (
+                <div data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]}>
+                    <LineWrapper isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  actionsLine={actionsLine} {...lineDescriptor}>
+                        <LineComponent{...lineDescriptor} />
+                    </LineWrapper>
+                </div>
+            ))}
         </ListWrapper>
     </div>
 };
-
 ListComponent.displayName ='ListcomponentWithSelection';
 ListComponent.propTypes = {
     toggleLineSelection: PropTypes.func.isRequired,

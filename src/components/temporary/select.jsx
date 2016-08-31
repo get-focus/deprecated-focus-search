@@ -118,7 +118,7 @@ class Select extends PureComponent {
                 <label htmlFor={name}>
                     <i className='mdl-icon-toggle__label material-icons'>keyboard_arrow_down</i>
                 </label>
-                <ul className='mdl-menu mdl-js-menu' htmlFor={name}>
+                <ul className='mdl-menu mdl-js-menu' htmlFor={name} ref='select'>
                     {this._renderOptions(this.props)}
                 </ul>
                 {error && <div className='label-error' ref='error'>{error}</div>}
