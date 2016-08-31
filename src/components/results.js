@@ -7,11 +7,11 @@ export function MaterialListWrapper ({children}) {
     return <ul data-focus='list-component' className='mdl-list'>{children}</ul>
 };
 
-// <<<<<<< Updated upstream
+//TODO Ephrame : replace idx
 export function FocusAction({actions, ActionsComponent, ...otherProps}){
     return (
         <div data-focus='focus-actions'>
-            {actions ? actions.map(action => <button onClick={action.action}>{action.label}</button>) : <ActionsComponent {...otherProps}/>}
+            {actions ? actions.map((action, idx) => <button key={idx} onClick={action.action}>{action.label}</button>) : <ActionsComponent {...otherProps}/>}
         </div>
     );
 }
@@ -28,23 +28,6 @@ export function MaterialLineWrapper({children, actionsLine,ActionsComponent, ...
             {(actionsLine || actionsComponent) && <div data-focus='line-component-actions'><FocusAction actions={actionsLine} ActionsComponent={ActionsComponent} {...props}/></div>}
         </li>
     );
-    // =======
-    // export function MaterialLineWrapper({children, actionsLine, ...props}) {
-    //     return (
-    //         <li data-focus='line-component' data-selected={props.isSelected} className='mdl-list__item'>
-    //             {props.toggleLineSelection &&
-    //                 <div data-focus='line-component-selection'>
-    //                     <InputCheckbox value={props.isSelected} onChange={() => props.toggleLineSelection(props.id)} />
-    //                 </div>
-    //             }
-    //             {children}
-    //             <div data-focus='line-component-actions'>
-    //                 <button onClick={actionsLine[0].action}>{actionsLine[0].label}</button>
-    //                 <button onClick={actionsLine[1].action}>{actionsLine[1].label}</button>
-    //             </div>
-    //         </li>
-    //     )
-    //     >>>>>>> Stashed changes
 };
 
 export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent, lineIdentifierProperty, data,  ListWrapper,actionsLine,LineWrapper,toolbarProps, selectState}){

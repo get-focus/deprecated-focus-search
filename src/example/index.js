@@ -1,19 +1,4 @@
 import './style';  //import demo styles
-import {translate, init} from 'focus-core/translation';
-
-//----------------
-// Initialize translations configuration.
-const i18nConfig = {
-    resStore: {},
-    lng: 'fr-FR'///langOpts.i18nCulture
-};
-
-// Plugin initialization.
-init(i18nConfig, () => {
-    return console.info('Traduction Initialized !');
-});
-
-
 //----------------
 import React from 'react';
 import ReactDOM from 'react-dom';
