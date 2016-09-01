@@ -27,7 +27,6 @@ export function getResultsForGroup(groups, searchMetadata){
      // TODO: searchMetadataProvider => getListMetadata in data, and get sorts and groups function from data and facets
      // getListMetadata => LineComponent , ListComponent and maybe other informations concidered usefull
      const {LineComponent, sortList, groupList,actionsLine} = searchMetadata.getListMetadata( element.contentType, element.values)
-     console.log(actionsLine)
      return {
        ...element,
        LineComponent,
@@ -63,7 +62,7 @@ export function connect(searchOptions) {
         group: (element, replace) => dispatch(updateGroup(element, replace)),
         facet: (element, replace) => dispatch(updateSelectedFacets(element, replace)),
         query: element => dispatch(updateQuery(element)),
-        scopeFunction: (element, replace) => { dispatch(updateQuery(element.query, replace)); dispatch(updateGroup(element.group, replace))} 
+        scopeFunction: (element, replace) => { console.log(element); dispatch(updateQuery(element.query.value, element.query.replace)); dispatch(updateGroup(element.group.value, element.group.replace)); dispatch(updateSelectedFacets(null, true))} 
       }
       const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, contentType);
       const facetInformations = facetListWithselectedInformation(props)

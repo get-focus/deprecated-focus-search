@@ -55,7 +55,10 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
     case UPDATE_SELECTED_FACETS_SEARCH:
     //facetBlockCode + selectedValue => merge into selectedValue
     let newSelectedFacets = {...state.selectedFacets}
-    if(action.replace){
+    if(!action.selectedFacets && action.replace){
+      newSelectedFacets= null;
+    }
+    else if(action.replace){
         const dif = difference(state.selectedFacets[action.selectedFacets.code], [action.selectedFacets.values])
         dif.length > 0 ?
         newSelectedFacets[action.selectedFacets.code] = dif :

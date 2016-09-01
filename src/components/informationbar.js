@@ -9,7 +9,7 @@ export function InformationBar ({totalCount, selectedFacetsList, deleteFacet, sc
             <div data-focus='totalCount'>{totalCount} results for</div>
             {scope &&
                 <div data-focus="scope-selected">
-                    <Chips label={scope} letter={scopeLetter} onDeleteClick={()=>scopeFunction({query: {scope: null}, group: {name: 'all'}})}/>
+                    <Chips label={scope} letter={scopeLetter} onDeleteClick={()=>scopeFunction({query:{value :{scope: null}, replace: false}, group: {value: {name: 'all'}, replace: false}})}/>
                 </div>
             }
             <div data-focus='selectedFacets'>
