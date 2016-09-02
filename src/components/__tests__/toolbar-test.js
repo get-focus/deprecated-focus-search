@@ -25,7 +25,7 @@ describe('ToolBar components ', () => {
         it('should call the props group on the change event', ()=> {
             const groupSpy = sinon.spy();
             const wrapper = mount(<ToolbarGroup group={groupSpy} groupList={['truc', 'machin', 'bidule']}/>)
-            wrapper.find("[data-focus='dropdown'] ul li").at(0).simulate('click');
+            wrapper.find("[data-focus='dropdown'] ul li").at(0).simulate('click'); 
             expect(groupSpy).to.have.property('callCount', 1);
             expect(groupSpy).to.have.been.calledWith()
         });
