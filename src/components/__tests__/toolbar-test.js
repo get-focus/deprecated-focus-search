@@ -38,8 +38,8 @@ describe('ToolBar components ', () => {
             expect(sortSpy).to.have.property('callCount', 1);
             expect(sortSpy).to.have.been.calledWith()
         });
-        it('should have 6 options if the listeGroup have a length equal to 3', ()=> {
-            const wrapper = render(<ToolbarSort sortList={['truc', 'machin', 'bidule']}/>)
+        it('should have 6 options if the listGroup have a length equal to 3', ()=> {
+            const wrapper = mount(<ToolbarSort sortList={['truc', 'machin', 'bidule']}/>)
             expect(wrapper.find("[data-focus='dropdown'] ul li")).to.have.length(6);
         });
     });
