@@ -16,7 +16,7 @@ export function FocusAction({actions, ActionsComponent, ...otherProps}){
     );
 }
 
-export function MaterialLineWrapper({children, actionsLine,ActionsComponent, ...props}) {
+export function MaterialLineWrapper({children, actionsLine, ActionsComponent, ...props}) {
     return (
         <li data-focus='line-component' className='mdl-list__item'>
             {props.toggleLineSelection &&
@@ -25,7 +25,7 @@ export function MaterialLineWrapper({children, actionsLine,ActionsComponent, ...
                 </div>
             }
             {children}
-            {(actionsLine || actionsComponent) && <div data-focus='line-component-actions'><FocusAction actions={actionsLine} ActionsComponent={ActionsComponent} {...props}/></div>}
+            {(actionsLine || ActionsComponent) && <div data-focus='line-component-actions'><FocusAction actions={actionsLine} ActionsComponent={ActionsComponent} {...props}/></div>}
         </li>
     );
 };
@@ -72,7 +72,7 @@ return <Component {...otherProps} LineComponent={LineComponent}/>;
 }
 */
 
-export function ResultList({data, lineIdentifierProperty,  actionsLine, LineComponent, ListComponent, toolbarProps}) {
+export function ResultList({data, lineIdentifierProperty, actionsLine, LineComponent, ListComponent, toolbarProps}) {
     return(
         <div data-focus='result-list'>
             {/**Toolbar needs the toggleAllLine :-1 */}
@@ -101,15 +101,17 @@ ResultList.propTypes = {
 };
 
 
-export function ResultGroup  ({data, sort, group, isGroup, toolbarProps, actionsLine}) {
+export function ResultGroup({data, sort, group, isGroup, toolbarProps, actionsLine}) {
     return <div data-focus='result-group' >
         {data.map(element => {
             //TO do add ListWrapper
-            return <ResultList data={element.data}
-                toolbarProps={toolbarProps}
-                actionsLine={actionsLine}
-                LineComponent={element.LineComponent}
-                />
+            return (
+                <ResultList data={element.data}
+                    toolbarProps={toolbarProps}
+                    actionsLine={actionsLine}
+                    LineComponent={element.LineComponent}
+                    />
+            );
         })}
     </div>
 };
