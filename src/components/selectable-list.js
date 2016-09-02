@@ -76,6 +76,22 @@ function toggleLineSelection(selectedElements, elementId){
   return {...selectedElements, ...{[elementId] : !selectedElements[elementId]}};
 }
 
+function toggleAllLine(selectedElements, dataList, lineIdentifierProperty = 'id', selectState){
+    return dataList.reduce((previous, dataLine) => {
+      return {...previous, [dataLine[lineIdentifierProperty]] : !selectState }
+    }, {});
+  }
+
+  function ckeckIfAllElementSelected(selectedElements, dataLength){
+    const selectedElementsKeys = Object.keys(selectedElements);
+    if(selectedElementsKeys.length < dataLength){
+      return false;
+    } return selectedElementsKeys.reduce((selectedState, elementKey) => {
+        if(selectedState) return selectedState;
+        return selectedElements[elementKey];
+      }, false)
+
+  }
 /**
  * Convert a list into a selectable list.
  * It does two things =>
@@ -97,25 +113,36 @@ function PureSelectableListCustom({data, lineIdentifierProperty, toggleLineSelec
  }
  *
 */
-const connect = (ListToConnect = DefaultPureSelectableList, LineComponent) => {
+const connect = (ListToConnect = DefaultPureSelectableList) => {
   if(!isFunction(ListToConnect)) throw new Error(`${SELECTABLE_LIST}: You should provide a List Component to the connector.`);
   class SelectableList extends Component {
     constructor(props){
         super(props);
         this.state = {
-          selectedElements: {}
+          selectedElements: {},
+          selectState: false
         };
+        this.toggleLineSelectionInState = this.toggleLineSelectionInState.bind(this);
+        this.toggleAllLine = this.toggleAllLine.bind(this);
+
     }
     toggleLineSelectionInState(action){
       //console.log('action', this.state, action)
+      //To add when all the element is checked :
+      const selectedElements = toggleLineSelection(this.state.selectedElements, action);
       this.setState({
-          selectedElements: toggleLineSelection(this.state.selectedElements, action)
+          selectedElements,
+          selectState: ckeckIfAllElementSelected(selectedElements, this.props.data.length)
         },
         this.props.afterSelection.bind(this)
       );
     }
+    toggleAllLine() {
+      this.setState({selectedElements: toggleAllLine(this.state.selectedElements, this.props.data, this.props.lineIdentifierProperty, this.state.selectState), selectState: !this.state.selectState})
+    }
+
     render(){
-      const {data, lineIdentifierProperty, children} = this.props;
+      const {data, lineIdentifierProperty, ...otherProps} = this.props;
       const dataWithSelectedInformation = addSelectedInformationInList(
         data,
         this.state.selectedElements,
@@ -123,10 +150,12 @@ const connect = (ListToConnect = DefaultPureSelectableList, LineComponent) => {
       );
       return(
       <ListToConnect
-        LineComponent={LineComponent}
+        selectState={this.state.selectState}
         data={dataWithSelectedInformation}
-        toggleLineSelection={this.toggleLineSelectionInState.bind(this)}
+        toggleAllLine={this.toggleAllLine}
+        toggleLineSelection={this.toggleLineSelectionInState}
         lineIdentifierProperty={lineIdentifierProperty}
+        {...otherProps}
       />);
     }
   }

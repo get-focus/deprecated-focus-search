@@ -1,51 +1,46 @@
 // test utils
-import { mount, shallow } from 'enzyme';
+import { mount, shallow, render } from 'enzyme';
 // Components
-import {ToolBarContainer, ToolbarGroup, ToolbarSort,ToolBar} from '../toolbar';
+import ToolBar, {ToolbarGroup, ToolbarSort} from '../toolbar';
 
 describe('ToolBar components ', () => {
-  describe('<ToolBarContainer />', ()=> {
-    it('should be a div with a data-focus=toolbar-container', () => {
-      const wrapper = shallow(<ToolBarContainer />);
-      expect(wrapper.find("[data-focus='toolbar-container']")).to.have.length(1);
+    describe('<ToolBar />', ()=> {
+        it('should be a div with a data-focus=toolbar', () => {
+            const values = ['truc', 'machin', 'bidule'];
+            const toolbarProps = {
+                sort: sinon.spy(),
+                group: sinon.spy(),
+                sortList: values,
+                groupList: values
+            };
+            const wrapper = render(<ToolBar toolbarProps={toolbarProps} selectState={false} toggleAllLine={() => sinon.spy()} />);
+            expect(wrapper.find("div[data-focus='toolbar']")).to.exist;
+        });
     });
-  });
-  describe('<ToolBar />', ()=> {
-    it('should be a div with a data-focus=toolbar', () => {
-      const wrapper = shallow(<ToolBar listGroup={['truc', 'machin', 'bidule']} listSort={['truc', 'machin', 'bidule']}/>);
-      expect(wrapper.find("[data-focus='toolbar']")).to.have.length(1);
+    describe('<ToolbarGroup/>', () => {
+        it("should have three options if the listeGroup have a length equal to 3 ", ()=> {
+            const wrapper = mount(<ToolbarGroup groupList={['truc', 'machin', 'bidule']}/>)
+            expect(wrapper.find("[data-focus='dropdown'] ul li")).to.have.length(3);
+        });
+        it('should call the props group on the change event', ()=> {
+            const groupSpy = sinon.spy();
+            const wrapper = mount(<ToolbarGroup group={groupSpy} groupList={['truc', 'machin', 'bidule']}/>)
+            wrapper.find("[data-focus='dropdown'] ul li").at(0).simulate('click');
+            expect(groupSpy).to.have.property('callCount', 1);
+            expect(groupSpy).to.have.been.calledWith()
+        });
     });
-
-  });
-  describe('<ToolbarGroup/>', () => {
-    it("should have three options if the listeGroup have a length equal to 3 ", ()=> {
-      const wrapper = shallow(<ToolbarGroup listGroup={['truc', 'machin', 'bidule']}/>)
-      expect(wrapper.find("[data-focus='option-group']")).to.have.length(3);
-    })
-
-    it('should call the props group on the change event', ()=> {
-      const groupSpy = sinon.spy();
-      const wrapper = shallow(<ToolbarGroup group={groupSpy} listGroup={['truc', 'machin', 'bidule']}/>)
-      wrapper.find("[data-focus='select-group']").simulate('change', {target: {value: 'My new value'}})
-      expect(groupSpy).to.have.property('callCount', 1);
-      expect(groupSpy).to.have.been.calledWith()
-    })
-  })
-  describe('<ToolbarSort/>', () => {
-    it('should call the props sort on the change event', ()=> {
-      const sortSpy = sinon.spy();
-      const wrapper = shallow(<ToolbarSort sort={sortSpy} listSort={['truc', 'machin', 'bidule']}/>)
-      wrapper.find("[data-focus='select-sort']").simulate('change', {target: {value: 'My new value'}})
-      expect(sortSpy).to.have.property('callCount', 1);
-      expect(sortSpy).to.have.been.calledWith()
-    })
-
-    it('should have 6 options if the listeGroup have a length equal to 3', ()=> {
-      const wrapper = shallow(<ToolbarSort listSort={['truc', 'machin', 'bidule']}/>)
-      expect(wrapper.find("[data-focus='option-sort']")).to.have.length(6);
-    })
-  })
-
-
-
-})
+    describe('<ToolbarSort/>', () => {
+        it('should call the props sort on the change event', ()=> {
+            const sortSpy = sinon.spy();
+            const wrapper = mount(<ToolbarSort sort={sortSpy} sortList={['truc', 'machin', 'bidule']} />)
+            wrapper.find("[data-focus='dropdown'] ul li").at(0).simulate('click');
+            expect(sortSpy).to.have.property('callCount', 1);
+            expect(sortSpy).to.have.been.calledWith()
+        });
+        it('should have 6 options if the listGroup have a length equal to 3', ()=> {
+            const wrapper = mount(<ToolbarSort sortList={['truc', 'machin', 'bidule']}/>)
+            expect(wrapper.find("[data-focus='dropdown'] ul li")).to.have.length(6);
+        });
+    });
+});

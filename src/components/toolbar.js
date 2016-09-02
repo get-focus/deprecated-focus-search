@@ -1,75 +1,107 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component, PureComponent, PropTypes} from 'react';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import isArray from 'lodash/isArray';
+import reduce from 'lodash/reduce';
+import concat from 'lodash/concat';
 import {selectSearch} from '../reducer';
-
-export function ToolbarSort({listSort, sort}){
-  return <select data-focus='select-sort' onChange={({target:{value}}) =>{
-      sort({name:value.split('-')[0] , order: value.split('-')[1]})
-      }}>
-        {
-          listSort.map((element, idx) => {
-            return <optgroup label={element} key={idx}>
-                      <option data-focus='option-sort' value={element+"-asc"}>{element} Croissant</option>
-                      <option data-focus='option-sort' value={element+"-desc"}>{element} Décroissant</option>
-                   </optgroup>
-          })
-        }
-  </select>
-}
-
-function _checkProps(listSort, listGroup){
-  if(!isArray(listSort) || listSort.length < 1){
-     throw new Error("You must provide a array for the listGroup not empty in the SearchProvider")
-  }
-  if(!isArray(listGroup) || listGroup.length < 1){
-     throw new Error("You must provide a array fort the listSort in not empty in the SearchProvider")
-  }
-}
-
-export function ToolbarGroup({listGroup, group}){
-  return <select data-focus='select-group' onChange={({target:{value}}) => group({name:value})}>
-  {
-    listGroup.map((element, idx) => {
-      return <option key={idx} data-focus='option-group' value={element}>{element}</option>
-    })
-  }
-  </select>
-}
+import Button from 'focus-components/components/button';
+import Dropdown from './temporary/dropdown';
 
 
-export function ToolBar({listSort, listGroup, sort, group, isGroup}){
+function _buildSortAction(item, order, sortAction) {
+    return {
+        label: `${item} ${order}`,
+        action: () => sortAction({name: item, order: order})
+    };
+};
 
-  _checkProps(listGroup, listSort)
-  return <div data-focus="toolbar">
-      <ToolBarContainer>
-        <span style={{margin: '5px', color: 'blue'}}>Sort</span>
-        <ToolbarSort sort={sort} listSort={listSort}/>
+function _buildGroupAction(item, groupAction) {
+    return {
+        label: `${item}`,
+        action: () => groupAction({name: item})
+    };
+};
 
-        { !isGroup &&  <span style={{margin: '5px', color: 'blue'}} >Group</span>}
-        {!isGroup && <ToolbarGroup group={group} listGroup={listGroup}/>}
+function _checkProps(sortList, groupList){
+    if(!isArray(sortList) || sortList.length < 1) {
+        throw new Error("You must provide a array for the groupList not empty in the SearchProvider")
+    }
+    if(!isArray(groupList) || groupList.length < 1) {
+        throw new Error("You must provide a array fort the sortList in not empty in the SearchProvider")
+    }
+};
 
-      </ToolBarContainer>
-  </div>
-}
+export function ToolbarSort({sortList, sort}) {
+    const operationList = reduce(sortList, (result, item) => concat(result, _buildSortAction(item, 'asc', sort), _buildSortAction(item, 'desc', sort)), []);
+    const buttonProps = {icon: undefined, label: 'Trier', shape: null};
+    return <Dropdown data-focus='toolbar-sort' operationList={operationList} buttonProps={buttonProps} />;
+};
+ToolbarSort.displayName = 'ToolbarSort';
+ToolbarSort.propTypes = {
+    sort: PropTypes.func.isRequired,
+    sortList : PropTypes.array.isRequired
+};
 
-export function ToolBarContainer(props){
-  return <div data-focus='toolbar-container'  className='mdl-grid mdl-shadow--3dp' style={{margin: '10 0 10 0'}}><span style={{margin: '5px'}}>{props.title} Bonjour je suis une belle toolBar de la classe !</span>{props.children}</div>
-}
 
-const ToolBarConnected =ToolBar;
 
-export default ToolBarConnected;
+export function ToolbarGroup({groupList, group}) {
+    const operationList = reduce(groupList, (result, item) => concat(result, _buildGroupAction(item, group)), []);
+    const buttonProps = {icon: undefined, label: 'Grouper', shape: null};
+    return <Dropdown data-focus='toolbar-group' operationList={operationList} buttonProps={buttonProps} />;
+};
+ToolbarGroup.displayName = 'ToolbarGroup';
+ToolbarGroup.propTypes = {
+    group: PropTypes.func.isRequired,
+    groupList : PropTypes.array.isRequired
+};
 
+const ToolbarSelection = ({selectState, toggleAllLine}) => {
+    //<i class="material-icons">indeterminate_check_box</i>
+    return (
+        <span>
+            {selectState && <Button onClick={toggleAllLine} icon='check_box' shape='icon' />}
+            {!selectState && <Button onClick={toggleAllLine} icon='check_box_outline_blank' shape='icon' /> }
+        </span>
+    );
+};
+ToolbarSelection.displayName = 'ToolbarSelection';
+ToolbarSelection.propTypes = {
+    selectState: PropTypes.bool,
+    toggleAllLine: PropTypes.func
+};
+
+
+const ToolBar = ({toolbarProps : {groupList, sortList, sort, group, isGroup}, selectState, toggleAllLine}) => {
+    _checkProps(groupList, sortList);
+    return (
+        <div data-focus='toolbar' className='mdl-grid mdl-shadow--3dp'>
+            <ToolbarSelection selectState={selectState} toggleAllLine={toggleAllLine} />
+            <ToolbarSort sort={sort} sortList={sortList} />
+            {!isGroup && <ToolbarGroup group={group} groupList={groupList} />}
+        </div>
+    );
+};
+ToolBar.displayName = 'ToolBar';
 ToolBar.defaultProps = {
-  listSort: [],
-  listGroup: []
-}
-
+    toolbarProps: {
+        sort: () => console.warn('please define a sort function...'),
+        group: () => console.warn('please define a grou function...'),
+        sortList: [],
+        groupList: []
+    },
+    selectState: false,
+    toggleAllLine: undefined
+};
 ToolBar.propTypes = {
-  sort: PropTypes.func.isRequired,
-  group: PropTypes.func.isRequired,
-  listSort : PropTypes.array.isRequired,
-  listGroup : PropTypes.array.isRequired,
-}
+    toolbarProps: PropTypes.shape({
+        sort: PropTypes.func.isRequired,
+        group: PropTypes.func.isRequired,
+        sortList: PropTypes.array.isRequired,
+        groupList: PropTypes.array.isRequired,
+    }),
+    selectState: PropTypes.bool,
+    toggleAllLine: PropTypes.func
+};
+const ToolBarConnected = ToolBar;
+export default ToolBarConnected;

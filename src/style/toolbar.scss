@@ -1,0 +1,8 @@
+
+
+[data-focus='toolbar'] {
+    background-color: #FFF;
+    & > span:first-child {
+        margin: 0 10px;
+    }
+}

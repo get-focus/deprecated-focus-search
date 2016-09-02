@@ -1,0 +1,43 @@
+@import "variables";
+
+@mixin lineSelected {
+    background-color: $primary-color-light;
+}
+
+[data-focus='list-component'] {
+    padding: 0;
+    [data-focus="line-component"] {
+        background-color: #FFF;
+        margin: 8px 0;
+        padding:5px 10px;
+        position: relative;
+        [data-focus="line-component-selection"] {
+            width: 20px;
+            padding: 10px 17px;
+            display: flex;
+            align-items: center;
+            justify-content:center;
+        }
+        [data-focus="line-component-actions"] {
+            display: none;
+            position: absolute;
+            right:0;
+            padding:10px 20px;
+            & > * {
+                margin: 0 5px;
+                cursor: pointer;
+            }
+        }
+        &:hover {
+            [data-focus="line-component-actions"] {
+                display: block;
+            }
+        }
+        &[data-selected="true"] {
+            @include lineSelected;
+            [data-focus="line-component-actions"] {
+                @include lineSelected;
+            }
+        }
+    }
+}

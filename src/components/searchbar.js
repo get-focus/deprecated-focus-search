@@ -1,46 +1,60 @@
 import React, {Component, PropTypes} from 'react';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
+import InputText from 'focus-components/components/input/text';
+import InputSelect from './temporary/select';
 
 import {selectSearch} from '../reducer';
 
-export function SearchBar ({query}) {
-  return <input data-focus='searchbar' onChange={({target : {value}}) => query({term : value})}></input>
-}
+export function SearchBarInput({query}) {
+    return <InputText data-focus='search-bar-input' name='search-bar-input' onChange={(value) => query({term : value})} />
+};
+SearchBarInput.propTypes= {
+    query: PropTypes.func
+};
+const SearchBarInputConnected =SearchBarInput;
 
 
-const SearchBarConnected =SearchBar;
 
-//TO PAS DE PROPS
 
-export function ActionQueryContainer (props) {
-  return <div data-focus='action-query-container' className='mdl-grid mdl-shadow--3dp' style={{padding : '50 0 50 0', display : 'flex', alignItems:'center', flexDirection: 'column'}} >
-  <div style={{color: 'green'}}><span>Que recherchez-vous ?</span></div>
-  <div style={{display : 'flex', justifyContent:'center'}}>{props.children}</div>
+export function SearchBarScopeSelection({scope, scopes, scopeFunction}) {
+    return (
+        <InputSelect data-focus='search-bar-scope-selection'
+            hasUndefined={false} values={scopes}
+            valueKey='value'
+            value={scope || 'all'}
+            name='search-scope'
+            onChange={
+                (value) => value === 'all' ?
+                scopeFunction({group: {value: {name: value}, replace: false}, query:{value: {scope: null}, replace: false}})
+                :
+                scopeFunction({query: {value :{scope: value}, replace: false}, group: {value: {name: 'all'}, replace: true}})
+            }
+            />
+    );
+};
+SearchBarScopeSelection.propTypes = {
+    scope: PropTypes.string,
+    scopes: PropTypes.array.isRequired,
+    scopeFunction: PropTypes.func
+};
+SearchBarScopeSelection.defaultProps = {
+    scopes: []
+};
+const SearchBarScopeSelectionConnected = SearchBarScopeSelection;
 
-  </div>
-}
 
-export function ScopeSelection ({group, query}) {
-  return <select data-focus='scope-selection' onChange= {({target : {value}})=> value==='all' ? group({name:value}) : query({scope: value}) }>
-    <option value='scope 1'>Scope 2</option>
-    <option value='scope 2'>Scope 1</option>
-    <option value='all'>All</option>
-  </select>
-}
 
-const ScopeSelectionConnected = ScopeSelection
-
-export function ActionBar ({query, group}) {
-  return(
-    <div data-focus='action-bar'>
-    <ActionQueryContainer>
-      <ScopeSelectionConnected group={group} query={query}/>
-      <SearchBarConnected query={query}/>
-    </ActionQueryContainer>
-    </div>
-  )
-
-}
-
-export default ActionBar
+export function SearchBar({query, group, scopes, scope, scopeFunction}) {
+    return (
+        <div data-focus='search-bar'>
+            <SearchBarScopeSelectionConnected scopeFunction={scopeFunction} scopes={scopes} scope={scope} />
+            <SearchBarInputConnected query={query}/>
+        </div>
+    );
+};
+SearchBar.PropTypes ={
+    query: PropTypes.func,
+    group: PropTypes.func
+};
+export default SearchBar;

@@ -1,0 +1,20 @@
+
+
+
+[data-focus="information-bar"] {
+    display: flex;
+    align-items: center;
+    min-height: 46px;
+    [data-focus='totalCount'] {
+        margin: 0 5px 0 0;
+    }
+    [data-focus='selectedFacets'] {
+        display: flex;
+        align-items:center;
+        [data-focus='chip']{
+            [data-focus='chip-text']{
+                color: blue;
+            }
+        }
+    }
+}
