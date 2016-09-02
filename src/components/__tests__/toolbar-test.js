@@ -4,7 +4,7 @@ import { mount, shallow, render } from 'enzyme';
 import ToolBar, {ToolbarGroup, ToolbarSort} from '../toolbar';
 
 describe('ToolBar components ', () => {
-    describe('<ToolBar />', ()=> {
+    describe.only('<ToolBar />', ()=> {
         it('should be a div with a data-focus=toolbar', () => {
             const values = ['truc', 'machin', 'bidule'];
             const toolbarProps = {
@@ -14,9 +14,7 @@ describe('ToolBar components ', () => {
                 groupList: values
             };
             const wrapper = render(<ToolBar toolbarProps={toolbarProps} selectState={false} toggleAllLine={() => sinon.spy()} />);
-            // console.log(wrapper);
-            // const div = wrapper.find("div[data-focus='toolbar']");
-            // expect(div).to.exist;
+            expect(wrapper.find("div[data-focus='toolbar']")).to.exist;
         });
     });
     describe('<ToolbarGroup/>', () => {
