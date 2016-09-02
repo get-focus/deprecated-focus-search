@@ -25,7 +25,7 @@ describe('ToolBar components ', () => {
         it('should call the props group on the change event', ()=> {
             const groupSpy = sinon.spy();
             const wrapper = mount(<ToolbarGroup group={groupSpy} groupList={['truc', 'machin', 'bidule']}/>)
-            wrapper.find("[data-focus='dropdown'] ul li").at(0).simulate('click'); 
+            wrapper.find("[data-focus='dropdown'] ul li").at(0).simulate('click');
             expect(groupSpy).to.have.property('callCount', 1);
             expect(groupSpy).to.have.been.calledWith()
         });
@@ -39,7 +39,7 @@ describe('ToolBar components ', () => {
             expect(sortSpy).to.have.been.calledWith()
         });
         it('should have 6 options if the listeGroup have a length equal to 3', ()=> {
-            const wrapper = mount(<ToolbarSort sortList={['truc', 'machin', 'bidule']}/>)
+            const wrapper = render(<ToolbarSort sortList={['truc', 'machin', 'bidule']}/>)
             expect(wrapper.find("[data-focus='dropdown'] ul li")).to.have.length(6);
         });
     });
