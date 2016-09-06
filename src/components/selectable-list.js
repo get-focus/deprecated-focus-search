@@ -84,10 +84,8 @@ function toggleAllLine(selectedElements, dataList, lineIdentifierProperty = 'id'
 
   function ckeckIfAllElementSelected(selectedElements, dataLength){
     const selectedElementsKeys = Object.keys(selectedElements);
-    if(selectedElementsKeys.length < dataLength){
-      return false;
-    } return selectedElementsKeys.reduce((selectedState, elementKey) => {
-        if(selectedState) return selectedState;
+    return selectedElementsKeys.reduce((selectedState, elementKey) => {
+        if(selectedState !== false) return selectedState;
         return selectedElements[elementKey];
       }, false)
 

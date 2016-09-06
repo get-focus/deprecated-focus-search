@@ -30,7 +30,8 @@ const _getListMetadata = (contentType, listData) => {
                 ],
                 groupList: [
                     'lala',
-                    'lulu'
+                    'lulu',
+                    'lolo'
                 ]
             }
             break;
