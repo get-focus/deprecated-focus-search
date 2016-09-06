@@ -62,7 +62,9 @@ export function connect(searchOptions) {
         group: (element, replace) => dispatch(updateGroup(element, replace)),
         facet: (element, replace) => dispatch(updateSelectedFacets(element, replace)),
         query: element => dispatch(updateQuery(element)),
-        scopeFunction: (element, replace) => { console.log(element); dispatch(updateQuery(element.query.value, element.query.replace)); dispatch(updateGroup(element.group.value, element.group.replace)); dispatch(updateSelectedFacets(null, true))} 
+        scopeFunction: (element, replace) => { dispatch(updateQuery(element.query.value, element.query.replace));
+                      dispatch(updateGroup(element.group.value, element.group.replace));
+                      dispatch(updateSelectedFacets(null, true))} 
       }
       const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, contentType);
       const facetInformations = facetListWithselectedInformation(props)
