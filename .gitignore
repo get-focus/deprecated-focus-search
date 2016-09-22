@@ -1,3 +1,15 @@
 dist
 node_modules
 npm-debug.log
+
+/actions
+/behaviours
+/components
+/containers
+/example
+/i18n
+/index.js
+/middleware
+/reducer
+/store
+/style
