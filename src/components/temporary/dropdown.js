@@ -1,7 +1,7 @@
 import React, {Component, PureComponent, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import MDBehaviour from 'focus-components/behaviours/material';
-import Button from 'focus-components/components/button';
+import Button from 'focus-components/button';
 import {translate} from 'focus-core/translation';
 import uniqueId from 'lodash/uniqueId';
 import map from 'lodash/map';

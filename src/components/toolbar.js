@@ -5,7 +5,7 @@ import isArray from 'lodash/isArray';
 import reduce from 'lodash/reduce';
 import concat from 'lodash/concat';
 import {selectSearch} from '../reducer';
-import Button from 'focus-components/components/button';
+import Button from 'focus-components/button';
 import Dropdown from './temporary/dropdown';
 
 
