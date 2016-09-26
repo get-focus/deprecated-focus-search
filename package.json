@@ -1,6 +1,6 @@
 {
   "name": "focus-search",
-  "version": "3.0.0-rc10",
+  "version": "3.0.0-rc11",
   "description": "Serach FOCUS",
   "main": "src/index.js",
   "scripts": {
@@ -27,12 +27,12 @@
         "PACKAGE_JSON_PATH": "../",
         "ANCHOR_CLASS": "focus-search-example"
       },
-        "babelify": {
-            "env": {
-                "BABEL_ENV": "production"
-            },
-            "command": "node scripts/babelify.js"
-        }
+      "babelify": {
+        "env": {
+          "BABEL_ENV": "production"
+        },
+        "command": "node scripts/babelify.js"
+      }
     },
     "dev-server": {
       "command": "node ./server.js",
@@ -124,12 +124,12 @@
     "material-design-lite": "^1.2.0",
     "mocha": "^2.4.5",
     "node-sass": "^3.4.2",
+    "react": "^15.3.0",
     "react-addons-test-utils": "^15.3.0",
     "react-hot-loader": "^3.0.0-beta.1",
-    "react": "^15.3.0",
-    "react-redux": "^4.3.0",
+    "react-redux": "^4.4.5",
     "react-router": "^2.4.1",
-    "redux": "^3.2.1",
+    "redux": "^3.6.0",
     "redux-devtools": "^3.1.1",
     "redux-devtools-dispatch": "^2.0.1",
     "redux-devtools-dock-monitor": "^1.1.0",
@@ -137,7 +137,7 @@
     "redux-devtools-multiple-monitors": "^1.0.0",
     "redux-logger": "^2.5.0",
     "redux-slider-monitor": "^1.0.2",
-    "redux-thunk": "^1.0.3",
+    "redux-thunk": "^2.1.0",
     "remarkable": "^1.6.2",
     "sass-loader": "^3.1.2",
     "sinon": "^1.17.3",
