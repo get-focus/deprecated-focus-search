@@ -31,5 +31,6 @@ InformationBar.propTypes = {
     totalCount : PropTypes.string.isRequired
 };
 InformationBar.defaultProps = {
-    totalCount : "Merci de fournir le totalCount =)"
+    totalCount : "Merci de fournir le totalCount =)",
+    selectedFacetsList : []
 };
