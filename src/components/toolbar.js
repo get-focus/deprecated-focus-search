@@ -6,7 +6,7 @@ import reduce from 'lodash/reduce';
 import concat from 'lodash/concat';
 import {selectSearch} from '../reducer';
 import Button from 'focus-components/button';
-import Dropdown from './temporary/dropdown';
+import Dropdown from 'focus-components/dropdown';
 
 
 function _buildSortAction(item, order, sortAction) {
@@ -35,7 +35,7 @@ function _checkProps(sortList, groupList){
 export function ToolbarSort({sortList, sort}) {
     const operationList = reduce(sortList, (result, item) => concat(result, _buildSortAction(item, 'asc', sort), _buildSortAction(item, 'desc', sort)), []);
     const buttonProps = {icon: undefined, label: 'Trier', shape: null};
-    return <Dropdown data-focus='toolbar-sort' operationList={operationList} buttonProps={buttonProps} />;
+    return <Dropdown data-focus='toolbar-sort' operations={operationList} button={buttonProps} />;
 };
 ToolbarSort.displayName = 'ToolbarSort';
 ToolbarSort.propTypes = {
@@ -48,7 +48,7 @@ ToolbarSort.propTypes = {
 export function ToolbarGroup({groupList, group}) {
     const operationList = reduce(groupList, (result, item) => concat(result, _buildGroupAction(item, group)), []);
     const buttonProps = {icon: undefined, label: 'Grouper', shape: null};
-    return <Dropdown data-focus='toolbar-group' operationList={operationList} buttonProps={buttonProps} />;
+    return <Dropdown data-focus='toolbar-group' operations={operationList} button={buttonProps} />;
 };
 ToolbarGroup.displayName = 'ToolbarGroup';
 ToolbarGroup.propTypes = {

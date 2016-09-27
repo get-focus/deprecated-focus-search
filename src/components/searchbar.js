@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import InputText from 'focus-components/input-text';
-import InputSelect from './temporary/select';
+import InputSelect from 'focus-components/select-mdl';
 
 import {selectSearch} from '../reducer';
 

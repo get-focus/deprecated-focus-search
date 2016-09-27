@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import Chips from './temporary/chips';
+import Chips from 'focus-components/chips';
 import upperCase from 'lodash/upperCase';
 
 export function InformationBar ({totalCount, selectedFacetsList, deleteFacet, scopeFunction,scope, group, facets}) {
