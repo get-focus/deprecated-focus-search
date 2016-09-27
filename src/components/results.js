@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import ToolBar from './toolbar';
 import connectToSelectableList from './selectable-list';
-import InputCheckbox from 'focus-components/components/input/checkbox';
+import InputCheckbox from 'focus-components/input-checkbox';
 
 export function MaterialListWrapper ({children}) {
     return <ul data-focus='list-component' className='mdl-list'>{children}</ul>

@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {compose} from 'redux';
 import {facetListWithselectedInformation, selectSearch} from '../reducer';
-import Chips from './temporary/chips';
+import Chips from 'focus-components/chips';
 
 import {
     FACET_SHAPE_TYPE,
