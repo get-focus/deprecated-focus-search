@@ -23,10 +23,10 @@ export function facetListWithselectedInformation(state) {
 }
 
 export function getResultsForGroup(groups, searchMetadata){
-   results = groups.map(element => {
+   return groups.map(element => {
      // TODO: searchMetadataProvider => getListMetadata in data, and get sorts and groups function from data and facets
      // getListMetadata => LineComponent , ListComponent and maybe other informations concidered usefull
-     const {LineComponent, sortList, groupList,actionsLine} = searchMetadata.getListMetadata( element.contentType, element.values)
+     const {LineComponent, sortList, groupList,actionsLine} = searchMetadata.getListMetadata( element.listType, element.values)
      return {
        ...element,
        LineComponent,
@@ -35,11 +35,10 @@ export function getResultsForGroup(groups, searchMetadata){
        groupList
      }
   })
-  return results;
 }
 
-export function getResultsForList(list, searchMetadata, contentType){
-  const {LineComponent, sortList, groupList, actionsLine} = searchMetadata.getListMetadata( list.contentType, list.values)
+export function getResultsForList(list, searchMetadata, listType){
+  const {LineComponent, sortList, groupList, actionsLine} = searchMetadata.getListMetadata( list.listType, list.values)
   return {
    values: list.values,
    groupList,
@@ -55,7 +54,7 @@ export function connect(searchOptions) {
   return function getSearchConnectedComponent(ComponentToConnect){
     function SearchConnectedComponent(props, context){
       const {searchMetadata} = context;
-      const {dispatch, results: {hasGroups, data, contentType, totalCount}, criteria} = props;
+      const {dispatch, results: {hasGroups, data, listType, totalCount}, criteria} = props;
       const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value);
       const unitSearchDispatch = {
         sort: element => dispatch(updateSort(element)),
@@ -64,9 +63,9 @@ export function connect(searchOptions) {
         query: element => dispatch(updateQuery(element)),
         scopeFunction: (element, replace) => { dispatch(updateQuery(element.query.value, element.query.replace));
                       dispatch(updateGroup(element.group.value, element.group.replace));
-                      dispatch(updateSelectedFacets(null, true))} 
+                      dispatch(updateSelectedFacets(null, true))}
       }
-      const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, contentType);
+      const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, listType);
       const facetInformations = facetListWithselectedInformation(props)
       results.totalCount = totalCount;
       return <ComponentToConnect

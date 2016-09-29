@@ -55,11 +55,11 @@ export const SEARCH_STATE_TYPE = {
         label: PropTypes.string,
         totalCount: PropTypes.number,
         values: PropTypes.arrayOf(PropTypes.object),
-        contentType: PropTypes.string.isRequired
+        listType: PropTypes.string.isRequired
       })),
       PropTypes.shape({
         totalCount: PropTypes.number,
-        contentType: PropTypes.string.isRequired,
+        listType: PropTypes.string.isRequired,
         values: PropTypes.arrayOf(PropTypes.object)
       })
     ])

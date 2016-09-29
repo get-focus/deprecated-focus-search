@@ -4,7 +4,7 @@ import {unitSearchActions, searchAction as search} from '../actions/search-actio
 import {connect as connectToSearch} from '../../behaviours/search';
 import {connect as connectToState} from 'react-redux';
 import AdvancedSearch from '../../components/advanced-search';
-import SearchBar from '../../components/searchbar';
+import {SearchBar} from '../../components/searchbar';
 import ToolBar from '../../components/toolbar';
 
 const searchOptions= {

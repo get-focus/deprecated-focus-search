@@ -7,8 +7,8 @@ import 'babel-polyfill';
 import {Provider as SearchProvider} from '../behaviours/search';
 
 /* Components */
-const _getListMetadata = (contentType, listData) => {
-    switch (contentType) {
+const _getListMetadata = (listType, listData) => {
+    switch (listType) {
         case 'DonDiegoType':
         return {
             LineComponent: props => {
@@ -53,8 +53,16 @@ const _getListMetadata = (contentType, listData) => {
             default:
             return {
                 LineComponent: props => <div>Bien le bonsoir</div>,
-                sortList : [],
-                groupList: []
+                sortList : [
+                    'ouuuuaaa',
+                    'trrropo',
+                    'lalal'
+                ],
+                groupList: [
+                    'lala',
+                    'lulu',
+                    'lolo'
+                ]
             }
 
         }

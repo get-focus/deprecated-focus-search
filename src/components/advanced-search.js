@@ -4,9 +4,8 @@ import React, {Component, PropTypes} from 'react';
 import {selectSearch} from '../reducer'
 
 import connectToSelectableList from './selectable-list'
-import FacetPanel from './facet';
+import {FacetPanel} from './facet';
 import ToolBar from './toolbar';
-import ActionQuery from './searchbar';
 import {InformationBar} from './informationbar';
 import {ResultList, ResultGroup, ListComponent} from './results';
 
@@ -15,8 +14,8 @@ import {ResultList, ResultGroup, ListComponent} from './results';
 const AdvancedSearch = ({valuesForResults, selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, scope, ListComponent}) =>  {
     const toolbarProps = {
         group: unitSearchDispatch.group,
-        sortList: valuesForResults.sortList,
-        groupList : valuesForResults.groupList,
+        sortList: ['test'],
+        groupList : ['test'],
         sort: unitSearchDispatch.sort,
         isGroup: isGroup
     }
