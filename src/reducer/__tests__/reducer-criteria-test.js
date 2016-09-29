@@ -33,7 +33,7 @@ describe('The search criteria reducer', () => {
         const newState = reducerCriteria(state, actionCreate)
         expect(newState).to.be.an.object;
         expect(newState.selectedFacets).to.deep.equal(
-          {"R1": ["lala"]}
+          {"R1": "lala"}
         )
       })
       it("when it's to delete", () => {
