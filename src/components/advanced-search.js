@@ -11,7 +11,13 @@ import {ResultList, ResultGroup, ListComponent} from './results';
 
 // <ActionQuery data-focus='action-query-advanced-search' group={unitSearchDispatch.group} query={unitSearchDispatch.query}/>
 
-const AdvancedSearch = ({valuesForResults, selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, scope, ListComponent}) =>  {
+export class AdvancedSearch extends Component{
+  componentWillMount(){
+    const {unitSearchDispatch} = this.props;
+    unitSearchDispatch.start();
+  }
+  render () {
+    const {valuesForResults, selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, scope, ListComponent} = this.props;
     const toolbarProps = {
         group: unitSearchDispatch.group,
         sortList: ['test'],
@@ -54,6 +60,8 @@ const AdvancedSearch = ({valuesForResults, selectedFacetsList, unitSearchDispatc
                 title='My awesome facets'/>
         </div>
     )
+  }
+
 }
 
 AdvancedSearch.displayName = 'Advanced Search'
@@ -72,4 +80,3 @@ AdvancedSearch.defaultProps = {
     facetListWithselectedInformation: [],
     ListComponent: connectToSelectableList(ListComponent)
 };
-export default AdvancedSearch;

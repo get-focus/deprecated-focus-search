@@ -3,7 +3,7 @@ import React, {Component, PropTypes} from 'react';
 import {unitSearchActions, searchAction as search} from '../actions/search-actions';
 import {connect as connectToSearch} from '../../behaviours/search';
 import {connect as connectToState} from 'react-redux';
-import AdvancedSearch from '../../components/advanced-search';
+import {AdvancedSearch} from '../../components/advanced-search';
 import {SearchBar} from '../../components/searchbar';
 import ToolBar from '../../components/toolbar';
 

@@ -37,8 +37,8 @@ export function getResultsForGroup(groups, searchMetadata){
   })
 }
 
-export function getResultsForList(list, searchMetadata, listType){
-  const {LineComponent, sortList, groupList, actionsLine} = searchMetadata.getListMetadata( list.listType, list.values)
+export function getResultsForList(list = { list: [], listType: "" }, searchMetadata, listType){
+  const {LineComponent, sortList, groupList, actionsLine} = searchMetadata.getListMetadata( list ? list.listType : '', list.list)
   return {
    values: list.values,
    groupList,
@@ -50,13 +50,14 @@ export function getResultsForList(list, searchMetadata, listType){
 }
 
 export function connect(searchOptions) {
-  const {unitSearch: {updateSort, updateGroup, updateSelectedFacets, updateQuery}} = searchOptions;
+  const {unitSearch: {updateSort, updateGroup, updateSelectedFacets, updateQuery, startSearch}} = searchOptions;
   return function getSearchConnectedComponent(ComponentToConnect){
     function SearchConnectedComponent(props, context){
       const {searchMetadata} = context;
       const {dispatch, results: {hasGroups, data, listType, totalCount}, criteria} = props;
       const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value);
       const unitSearchDispatch = {
+        start: element => dispatch(startSearch()),
         sort: element => dispatch(updateSort(element)),
         group: (element, replace) => dispatch(updateGroup(element, replace)),
         facet: (element, replace) => dispatch(updateSelectedFacets(element, replace)),
@@ -80,7 +81,14 @@ export function connect(searchOptions) {
     SearchConnectedComponent.displayName= 'SearchConnectedComponent';
     SearchConnectedComponent.contextTypes = SEARCH_CONTEXT_TYPE;
     SearchConnectedComponent.PropTypes = {
-      results : PropTypes.object.isRequired
+      results : PropTypes.shape({
+        data: PropTypes.object,
+        listType: PropTypes.string
+      }).isRequired,
+
+    }
+    SearchConnectedComponent.defaultProps = {
+      results : "test"
     }
     return compose (
       connectToState(s=> s[searchOptions.searchName])

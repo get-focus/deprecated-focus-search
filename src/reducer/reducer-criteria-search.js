@@ -67,7 +67,7 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
         if(state.selectedFacets && state.selectedFacets[action.selectedFacets.code]){
             newSelectedFacets[action.selectedFacets.code] = [...state.selectedFacets[action.selectedFacets.code], action.selectedFacets.values]
         }else {
-            newSelectedFacets[action.selectedFacets.code] = [action.selectedFacets.values]
+            newSelectedFacets[action.selectedFacets.code] = action.selectedFacets.values
         }
     }
     return {
