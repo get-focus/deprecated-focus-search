@@ -58,7 +58,7 @@ const FAKE_DATA_LIST = [
 ];
 
 
-export const unitResultsSearchReducerBuilder = (name, resultParser = parseResults) => (state = {facets:FAKE_DATA, totalCount: "6",data:{ contentType: 'DonDiegoType', values : FAKE_DATA_LIST}}, action = {}) => {
+export const unitResultsSearchReducerBuilder = (name, resultParser = parseResults) => (state = {facets:FAKE_DATA, totalCount: "6",data:{ listType: 'DonDiegoType', values : FAKE_DATA_LIST}}, action = {}) => {
   const _UPPER_NAME = toUpper(name);
   const REQUEST_SEARCH = `REQUEST_${_UPPER_NAME}`;
   const RESPONSE_SEARCH = `RESPONSE_${_UPPER_NAME}`;

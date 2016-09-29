@@ -114,7 +114,7 @@ export function ResultGroup({data, sort, group, isGroup, toolbarProps, actionsLi
           {data.map(element => {
               //TO do add ListWrapper
               return (
-                  <ResultList data={element.data}
+                  <ResultList data={element.list}
                       toolbarProps={toolbarProps}
                       actionsLine={actionsLine}
                       LineComponent={element.LineComponent}
