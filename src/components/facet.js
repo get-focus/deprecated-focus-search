@@ -124,4 +124,3 @@ export const facetSelector =   compose(
     facetListWithselectedInformation,
     selectSearch('advancedSearch')
 );
-export default FacetPanel

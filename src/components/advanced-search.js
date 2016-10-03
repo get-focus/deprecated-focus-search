@@ -4,19 +4,24 @@ import React, {Component, PropTypes} from 'react';
 import {selectSearch} from '../reducer'
 
 import connectToSelectableList from './selectable-list'
-import FacetPanel from './facet';
+import {FacetPanel} from './facet';
 import ToolBar from './toolbar';
-import ActionQuery from './searchbar';
 import {InformationBar} from './informationbar';
 import {ResultList, ResultGroup, ListComponent} from './results';
 
 // <ActionQuery data-focus='action-query-advanced-search' group={unitSearchDispatch.group} query={unitSearchDispatch.query}/>
 
-const AdvancedSearch = ({valuesForResults, selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, scope, ListComponent}) =>  {
+export class AdvancedSearch extends Component{
+  componentWillMount(){
+    const {unitSearchDispatch} = this.props;
+    unitSearchDispatch.start();
+  }
+  render () {
+    const {valuesForResults, selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, scope, ListComponent} = this.props;
     const toolbarProps = {
         group: unitSearchDispatch.group,
-        sortList: valuesForResults.sortList,
-        groupList : valuesForResults.groupList,
+        sortList: ['test'],
+        groupList : ['test'],
         sort: unitSearchDispatch.sort,
         isGroup: isGroup
     }
@@ -55,6 +60,8 @@ const AdvancedSearch = ({valuesForResults, selectedFacetsList, unitSearchDispatc
                 title='My awesome facets'/>
         </div>
     )
+  }
+
 }
 
 AdvancedSearch.displayName = 'Advanced Search'
@@ -73,4 +80,3 @@ AdvancedSearch.defaultProps = {
     facetListWithselectedInformation: [],
     ListComponent: connectToSelectableList(ListComponent)
 };
-export default AdvancedSearch;

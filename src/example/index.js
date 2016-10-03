@@ -1,4 +1,5 @@
 import './style';  //import demo styles
+import '../style'; //import lib styles
 //----------------
 import React from 'react';
 import ReactDOM from 'react-dom';

@@ -57,4 +57,3 @@ SearchBar.PropTypes ={
     query: PropTypes.func,
     group: PropTypes.func
 };
-export default SearchBar;

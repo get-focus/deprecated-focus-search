@@ -23,10 +23,10 @@ export function facetListWithselectedInformation(state) {
 }
 
 export function getResultsForGroup(groups, searchMetadata){
-   results = groups.map(element => {
+   return groups.map(element => {
      // TODO: searchMetadataProvider => getListMetadata in data, and get sorts and groups function from data and facets
      // getListMetadata => LineComponent , ListComponent and maybe other informations concidered usefull
-     const {LineComponent, sortList, groupList,actionsLine} = searchMetadata.getListMetadata( element.contentType, element.values)
+     const {LineComponent, sortList, groupList,actionsLine} = searchMetadata.getListMetadata( element.listType, element.values)
      return {
        ...element,
        LineComponent,
@@ -35,11 +35,10 @@ export function getResultsForGroup(groups, searchMetadata){
        groupList
      }
   })
-  return results;
 }
 
-export function getResultsForList(list, searchMetadata, contentType){
-  const {LineComponent, sortList, groupList, actionsLine} = searchMetadata.getListMetadata( list.contentType, list.values)
+export function getResultsForList(list = { list: [], listType: "" }, searchMetadata, listType){
+  const {LineComponent, sortList, groupList, actionsLine} = searchMetadata.getListMetadata( list ? list.listType : '', list.list)
   return {
    values: list.values,
    groupList,
@@ -51,22 +50,23 @@ export function getResultsForList(list, searchMetadata, contentType){
 }
 
 export function connect(searchOptions) {
-  const {unitSearch: {updateSort, updateGroup, updateSelectedFacets, updateQuery}} = searchOptions;
+  const {unitSearch: {updateSort, updateGroup, updateSelectedFacets, updateQuery, startSearch}} = searchOptions;
   return function getSearchConnectedComponent(ComponentToConnect){
     function SearchConnectedComponent(props, context){
       const {searchMetadata} = context;
-      const {dispatch, results: {hasGroups, data, contentType, totalCount}, criteria} = props;
+      const {dispatch, results: {hasGroups, data, listType, totalCount}, criteria} = props;
       const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value);
       const unitSearchDispatch = {
+        start: element => dispatch(startSearch()),
         sort: element => dispatch(updateSort(element)),
         group: (element, replace) => dispatch(updateGroup(element, replace)),
         facet: (element, replace) => dispatch(updateSelectedFacets(element, replace)),
         query: element => dispatch(updateQuery(element)),
         scopeFunction: (element, replace) => { dispatch(updateQuery(element.query.value, element.query.replace));
                       dispatch(updateGroup(element.group.value, element.group.replace));
-                      dispatch(updateSelectedFacets(null, true))} 
+                      dispatch(updateSelectedFacets(null, true))}
       }
-      const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, contentType);
+      const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, listType);
       const facetInformations = facetListWithselectedInformation(props)
       results.totalCount = totalCount;
       return <ComponentToConnect
@@ -81,7 +81,14 @@ export function connect(searchOptions) {
     SearchConnectedComponent.displayName= 'SearchConnectedComponent';
     SearchConnectedComponent.contextTypes = SEARCH_CONTEXT_TYPE;
     SearchConnectedComponent.PropTypes = {
-      results : PropTypes.object.isRequired
+      results : PropTypes.shape({
+        data: PropTypes.object,
+        listType: PropTypes.string
+      }).isRequired,
+
+    }
+    SearchConnectedComponent.defaultProps = {
+      results : "test"
     }
     return compose (
       connectToState(s=> s[searchOptions.searchName])
