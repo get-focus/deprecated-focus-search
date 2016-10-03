@@ -14,16 +14,16 @@ import {ResultList, ResultGroup, ListComponent} from './results';
 export class AdvancedSearch extends Component{
   componentWillMount(){
     const {unitSearchDispatch} = this.props;
-    unitSearchDispatch.start();
+    //unitSearchDispatch.start();
   }
   render () {
     const {valuesForResults, selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, scope, ListComponent} = this.props;
     const toolbarProps = {
-        group: unitSearchDispatch.group,
-        sortList: ['test'],
-        groupList : ['test'],
-        sort: unitSearchDispatch.sort,
-        isGroup: isGroup
+      group: unitSearchDispatch.group,
+      sortList: valuesForResults.sortList,
+      groupList : valuesForResults.groupList,
+      sort: unitSearchDispatch.sort,
+      isGroup: isGroup
     }
     return (
         <div data-focus='advanced-search'>
@@ -75,8 +75,11 @@ AdvancedSearch.propTypes ={
 AdvancedSearch.defaultProps = {
     isSelectable:  true,
     isGroup: false,
-    unitSearchDispatch: {},
-    valuesForResults: {},
+    unitSearchDispatch: {
+    },
+    valuesForResults: {
+      values: []
+    },
     facetListWithselectedInformation: [],
     ListComponent: connectToSelectableList(ListComponent)
 };

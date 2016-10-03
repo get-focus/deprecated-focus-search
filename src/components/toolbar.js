@@ -73,7 +73,6 @@ ToolbarSelection.propTypes = {
 
 
 const ToolBar = ({toolbarProps : {groupList, sortList, sort, group, isGroup}, selectState, toggleAllLine}) => {
-    _checkProps(groupList, sortList);
     return (
         <div data-focus='toolbar' className='mdl-grid mdl-shadow--3dp'>
             <ToolbarSelection selectState={selectState} toggleAllLine={toggleAllLine} />

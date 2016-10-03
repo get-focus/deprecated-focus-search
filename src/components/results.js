@@ -31,7 +31,7 @@ export function MaterialLineWrapper({children, actionsLine, ActionsComponent, ..
 };
 
 export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent, lineIdentifierProperty, data,  ListWrapper,actionsLine,LineWrapper,toolbarProps, selectState}){
-    console.log('ListComponent')
+    //to do check the values
     return (
       <div>
           <ToolBar data-focus='toolbar-advanced-search'
@@ -40,7 +40,7 @@ export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent
               selectState={selectState}
               />
           <ListWrapper>
-              {data.map(({isSeleted, ...lineDescriptor}) => (
+              {data && data.map(({isSeleted, ...lineDescriptor}) => (
                   <div data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]}>
                       <LineWrapper isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  actionsLine={actionsLine} {...lineDescriptor}>
                           <LineComponent{...lineDescriptor} />
@@ -76,8 +76,6 @@ return <Component {...otherProps} LineComponent={LineComponent}/>;
 */
 
 export function ResultList({data, lineIdentifierProperty, actionsLine, LineComponent, ListComponent, toolbarProps}) {
-  console.log('ResultList')
-
     return(
         <div data-focus='result-list'>
             {/**Toolbar needs the toggleAllLine :-1 */}

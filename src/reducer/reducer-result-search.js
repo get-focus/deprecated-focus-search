@@ -28,43 +28,42 @@ export const parseResults = (results = {}) => {
 //
 //
 //
-// const FAKE_DATA = [
-//   {
-//     code: 'GENS_LEVEL',
-//     label: 'Niveau des gens',
-//     values: [
-//       {code: 'FAIBLE', label: 'faible', count: 22},
-//       {code: 'MOYEN', label: 'moyen', count: 54},
-//       {code: 'FORT', label: 'fort', count: 7}
-//     ]
-//   },
-//   {
-//     code: 'SALAIRE',
-//     label: 'Salaire des gens',
-//     values: [
-//       {code: 'PAS_CHER', label: 'pas cher', count: 45},
-//       {code: 'DANS_LA_FOURCHETTE', label: 'dans la moyennt', count: 4},
-//       {code: 'CHER', label: 'très cher', count: 2}
-//     ]
-//   },
-//
-// ];
-//
-// const FAKE_DATA_LIST = [
-//   {id: 1, firstName: 'Don Rodrigo', age: 12},
-//   {id: 2, firstName: 'Don Stefano', age: 87},
-//   {id: 3, firstName: 'Don Roberto', age: 46},
-//   {id: 4, firstName: 'Don Michello', age: 22}
-// ];
+const FAKE_DATA = [
+  {
+    code: 'GENS_LEVEL',
+    label: 'Niveau des gens',
+    values: [
+      {code: 'FAIBLE', label: 'faible', count: 22},
+      {code: 'MOYEN', label: 'moyen', count: 54},
+      {code: 'FORT', label: 'fort', count: 7}
+    ]
+  },
+  {
+    code: 'SALAIRE',
+    label: 'Salaire des gens',
+    values: [
+      {code: 'PAS_CHER', label: 'pas cher', count: 45},
+      {code: 'DANS_LA_FOURCHETTE', label: 'dans la moyennt', count: 4},
+      {code: 'CHER', label: 'très cher', count: 2}
+    ]
+  },
+
+];
+
+const FAKE_DATA_LIST = [
+  {id: 1, firstName: 'Don Rodrigo', age: 12},
+  {id: 2, firstName: 'Don Stefano', age: 87},
+  {id: 3, firstName: 'Don Roberto', age: 46},
+  {id: 4, firstName: 'Don Michello', age: 22}
+];
 
 
-export const unitResultsSearchReducerBuilder = (name, resultParser = parseResults) => (state = {}, action = {}) => {
+export const unitResultsSearchReducerBuilder = (name, resultParser = parseResults) => (state = {facets:FAKE_DATA, totalCount: "6",hasGroups: true, data:[{ listType: 'DonDiegoType', values : FAKE_DATA_LIST},{ listType: 'DonDiegoType', values : FAKE_DATA_LIST}]}, action = {}) => {
   const _UPPER_NAME = toUpper(name);
   const REQUEST_SEARCH = `REQUEST_${_UPPER_NAME}`;
   const RESPONSE_SEARCH = `RESPONSE_${_UPPER_NAME}`;
   const ERROR_SEARCH = `ERROR_${_UPPER_NAME}`;
   const {error, ...otherStatePart} = state;
-
   switch(action.type) {
     case REQUEST_SEARCH:
          return {
@@ -87,8 +86,6 @@ export const unitResultsSearchReducerBuilder = (name, resultParser = parseResult
     default:
       return state;
   }
-
-
 
 }
 

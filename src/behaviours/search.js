@@ -28,7 +28,8 @@ export function getResultsForGroup(groups, searchMetadata){
      // getListMetadata => LineComponent , ListComponent and maybe other informations concidered usefull
      const {LineComponent, sortList, groupList,actionsLine} = searchMetadata.getListMetadata( element.listType, element.values)
      return {
-       ...element,
+       listType: element.listType,
+       values: element.values.map(machin => {return { fields: Object.keys(machin).map(truc => {return {entityPath: element.listType, label: truc, formattedValue: machin[truc]}})}} ),
        LineComponent,
        actionsLine,
        sortList,
@@ -38,9 +39,10 @@ export function getResultsForGroup(groups, searchMetadata){
 }
 
 export function getResultsForList(list = { list: [], listType: "" }, searchMetadata, listType){
+  const test = listType
   const {LineComponent, sortList, groupList, actionsLine} = searchMetadata.getListMetadata( list ? list.listType : '', list.list)
   return {
-   values: list.values,
+    values: list.values.map(element => {return { fields: Object.keys(element).map(truc => {return {entityPath: test, label: truc, formattedValue: element[truc]}})}} ),
    groupList,
    actionsLine,
    sortList,
