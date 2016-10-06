@@ -26,10 +26,14 @@ export function getResultsForGroup(groups, searchMetadata){
    return groups.map(element => {
      // TODO: searchMetadataProvider => getListMetadata in data, and get sorts and groups function from data and facets
      // getListMetadata => LineComponent , ListComponent and maybe other informations concidered usefull
+     const {scopeEntityDefintion} = searchMetadata;
+     //TO Do scopeEntityDefintion existing
      const {LineComponent, sortList, groupList,actionsLine} = searchMetadata.getListMetadata( element.listType, element.values)
+     const formators = (scopeEntityDefintion && scopeEntityDefintion[element.listType]) ? scopeEntityDefintion[element.listType] : props => props
+     console.log(element.list)
      return {
        listType: element.listType,
-       values: element.values.map(machin => {return { fields: Object.keys(machin).map(truc => {return {entityPath: element.listType, label: truc, formattedValue: machin[truc]}})}} ),
+       values: element.list,
        LineComponent,
        actionsLine,
        sortList,
@@ -41,8 +45,9 @@ export function getResultsForGroup(groups, searchMetadata){
 export function getResultsForList(list = { list: [], listType: "" }, searchMetadata, listType){
   const test = listType
   const {LineComponent, sortList, groupList, actionsLine} = searchMetadata.getListMetadata( list ? list.listType : '', list.list)
+console.log(list)
   return {
-    values: list.values.map(element => {return { fields: Object.keys(element).map(truc => {return {entityPath: test, label: truc, formattedValue: element[truc]}})}} ),
+   values: list.values,
    groupList,
    actionsLine,
    sortList,
@@ -69,6 +74,7 @@ export function connect(searchOptions) {
                       dispatch(updateSelectedFacets(null, true))}
       }
       const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, listType);
+      console.log(results)
       const facetInformations = facetListWithselectedInformation(props)
       results.totalCount = totalCount;
       return <ComponentToConnect

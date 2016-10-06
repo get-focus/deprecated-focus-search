@@ -40,8 +40,9 @@ export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent
               selectState={selectState}
               />
           <ListWrapper>
-              {data && data.map(({isSeleted, ...lineDescriptor}) => (
-                  <div data-focus='line-advanced-search' key={lineDescriptor[lineIdentifierProperty]}>
+            //TODO find in fields the id =) for the key map !
+              {data && data.map(({isSeleted, ...lineDescriptor}, idx) => (
+                  <div data-focus='line-advanced-search' key={idx}>
                       <LineWrapper isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  actionsLine={actionsLine} {...lineDescriptor}>
                           <LineComponent{...lineDescriptor} />
                       </LineWrapper>
@@ -53,7 +54,7 @@ export function ListComponent({toggleLineSelection, toggleAllLine, LineComponent
 };
 ListComponent.displayName ='ListcomponentWithSelection';
 ListComponent.propTypes = {
-    toggleLineSelection: PropTypes.func.isRequired,
+    toggleLineSelection: PropTypes.func,
     LineComponent: PropTypes.func.isRequired,
     lineIdentifierProperty: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     data: PropTypes.array.isRequired,
@@ -61,6 +62,7 @@ ListComponent.propTypes = {
     LineWrapper: PropTypes.func
 };
 ListComponent.defaultProps = {
+    lineIdentifierProperty: 'id',
     ListWrapper: MaterialListWrapper,
     LineWrapper: MaterialLineWrapper
 };
@@ -105,15 +107,16 @@ ResultList.propTypes = {
 
 
 export function ResultGroup({data, sort, group, isGroup, toolbarProps, actionsLine}) {
-  console.log('ResultGroup')
+  console.log('ResultGroup', data)
 
     return (
       <div data-focus='result-group' >
-          {data.map(element => {
+          {data.map((element, idx) => {
               //TO do add ListWrapper
               return (
-                  <ResultList data={element.list}
+                <ResultList data={element.values}
                       toolbarProps={toolbarProps}
+                      key={idx}
                       actionsLine={actionsLine}
                       LineComponent={element.LineComponent}
                       />

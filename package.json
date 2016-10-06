@@ -1,6 +1,6 @@
 {
   "name": "focus-search",
-  "version": "3.0.0-rc57",
+  "version": "3.0.0-rc62",
   "description": "Serach FOCUS",
   "main": "src/index.js",
   "scripts": {

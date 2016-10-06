@@ -40,7 +40,7 @@ export function InformationBar ({totalCount, selectedFacetsList, deleteFacet, sc
 //TODO add prop types
 InformationBar.displayName = 'Information Bar';
 InformationBar.propTypes = {
-    totalCount : PropTypes.string.isRequired
+    totalCount : PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired  
 };
 InformationBar.defaultProps = {
     totalCount : "Merci de fournir le totalCount =)",

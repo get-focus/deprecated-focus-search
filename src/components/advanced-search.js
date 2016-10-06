@@ -14,7 +14,7 @@ import {ResultList, ResultGroup, ListComponent} from './results';
 export class AdvancedSearch extends Component{
   componentWillMount(){
     const {unitSearchDispatch} = this.props;
-    //unitSearchDispatch.start();
+    unitSearchDispatch.start();
   }
   render () {
     const {valuesForResults, selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, scope, ListComponent} = this.props;
@@ -68,7 +68,8 @@ AdvancedSearch.displayName = 'Advanced Search'
 AdvancedSearch.propTypes ={
     isSelectable: PropTypes.bool,
     isGroup: PropTypes.bool,
-    valuesForResults: PropTypes.object.isRequired,
+    valuesForResults: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+
     unitSearchDispatch: PropTypes.object.isRequired,
     facetListWithselectedInformation: PropTypes.array.isRequired
 };
