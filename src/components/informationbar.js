@@ -3,15 +3,18 @@ import Chips from 'focus-components/chips';
 import upperCase from 'lodash/upperCase';
 import isArray from 'lodash/isArray';
 
-export function InformationBar ({totalCount, selectedFacetsList, deleteFacet, scopeFunction,scope, group, facets}) {
-    const scopeLetter = scope && scope.length > 0 ? upperCase(scope[0]) : undefined;
-    console.log(selectedFacetsList)
+export function InformationBar (props) {
+    const {totalCount, selectedFacetsList, deleteFacet, scopeFunction,scopeList, group, facets, unitSearchDispatch : {scopeAction}} = props;
+    const scopeLetter = scopeList && scopeList.length > 0 ? upperCase(scopeList[0]) : undefined;
+
     return (
         <div data-focus="information-bar">
             <div data-focus='totalCount'>{totalCount} results for</div>
-            {scope &&
+            {scopeList &&
                 <div data-focus="scope-selected">
-                    <Chips label={scope} letter={scopeLetter} onDeleteClick={()=>scopeFunction({query:{value :{scope: null}, replace: false}, group: {value: {name: 'all'}, replace: false}})}/>
+                    <Chips label={scopeList}
+                      letter={scopeLetter}
+                      onDeleteClick={()=>scopeAction({query:{value :{scope: null}, replace: false}, group: {value: {}, replace: false}})}/>
                 </div>
             }
             <div data-focus='selectedFacets'>
@@ -40,7 +43,7 @@ export function InformationBar ({totalCount, selectedFacetsList, deleteFacet, sc
 //TODO add prop types
 InformationBar.displayName = 'Information Bar';
 InformationBar.propTypes = {
-    totalCount : PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired  
+    totalCount : PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 };
 InformationBar.defaultProps = {
     totalCount : "Merci de fournir le totalCount =)",

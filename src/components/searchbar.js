@@ -6,8 +6,8 @@ import InputSelect from 'focus-components/select-mdl';
 
 import {selectSearch} from '../reducer';
 
-export function SearchBarInput({query}) {
-    return <InputText data-focus='search-bar-input' name='search-bar-input' onChange={(value) => query({term : value})} />
+export function SearchBarInput({queryAction}) {
+    return <InputText data-focus='search-bar-input' name='search-bar-input' onChange={(value) => queryAction({term : value})} />
 };
 SearchBarInput.propTypes= {
     query: PropTypes.func
@@ -17,18 +17,18 @@ const SearchBarInputConnected =SearchBarInput;
 
 
 
-export function SearchBarScopeSelection({scope, scopes, scopeFunction}) {
+export function SearchBarScopeSelection({scope, scopes, scopeAction}) {
     return (
         <InputSelect data-focus='search-bar-scope-selection'
             hasUndefined={false} values={scopes}
             valueKey='value'
-            value={scope || 'all'}
+            value={scope || 'ALL'}
             name='search-scope'
             onChange={
-                (value) => value === 'all' ?
-                scopeFunction({group: {value: {name: value}, replace: false}, query:{value: {scope: null}, replace: false}})
+                (value) => value === 'ALL' ?
+                scopeAction({group: {value: {name: value}, replace: false}, query:{value: {scope: null}, replace: false}})
                 :
-                scopeFunction({query: {value :{scope: value}, replace: false}, group: {value: {name: 'all'}, replace: true}})
+                scopeAction({query: {value :{scope: value}, replace: false}, group: {value: {}, replace: true}})
             }
             />
     );
@@ -45,11 +45,12 @@ const SearchBarScopeSelectionConnected = SearchBarScopeSelection;
 
 
 
-export function SearchBar({query, group, scopes, scope, scopeFunction}) {
+export function SearchBar({queryAction, scopes, scope, scopeAction}) {
     return (
         <div data-focus='search-bar'>
-            <SearchBarScopeSelectionConnected scopeFunction={scopeFunction} scopes={scopes} scope={scope} />
-            <SearchBarInputConnected query={query}/>
+            <SearchBarScopeSelectionConnected
+                scopeAction={scopeAction} scopes={scopes} scope={scope} />
+            <SearchBarInputConnected queryAction={queryAction}/>
         </div>
     );
 };

@@ -7,7 +7,7 @@ describe('SearchBar components ', () => {
     describe('<SearchBarInput />', ()=> {
         it('should call the query props on the change event ', () => {
             const searchbarSpy = sinon.spy();
-            const wrapper = shallow(<SearchBarInput query={searchbarSpy}/>);
+            const wrapper = shallow(<SearchBarInput queryAction={searchbarSpy}/>);
             wrapper.find("[data-focus='search-bar-input']").simulate('change', {target: {value: 'My new value'}})
             expect(searchbarSpy).to.have.property('callCount', 1);
             expect(searchbarSpy).to.have.been.calledWith()
@@ -16,7 +16,7 @@ describe('SearchBar components ', () => {
     describe('<SearchBarScopeSelection />', ()=> {
         const spy = sinon.spy();
         const scopes = [{value: 'TOTO', label: 'Toto'}, {value: 'TITI', label: 'Titi'}, {value: 'TATA', label: 'Tata'}];
-        const component = <SearchBarScopeSelection scope='TOTO' scopes={scopes} scopeFunction={spy} />;
+        const component = <SearchBarScopeSelection scope='TOTO' scopes={scopes} scopeAction={spy} />;
         it('should shallow [data-focus=\'search-bar-scope-selection\']', () => {
             const shallowWrapper = shallow(component);
             expect(shallowWrapper.find("[data-focus='search-bar-scope-selection']")).to.have.length(1);

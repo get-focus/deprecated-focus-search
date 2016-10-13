@@ -59,9 +59,9 @@ const _getListMetadata = (listType, listData) => {
                     'lalal'
                 ],
                 groupList: [
-                    'lala',
-                    'lulu',
-                    'lolo'
+                    {code: 'FCT_MOVIE_TYPE', label: 'Movie Type'},
+                    {code: 'FCT_MOVIE_Truc', label: 'Movie Truc'},
+                    {code: 'FCT_MOVIE_Machin', label: 'Movie Machin'}
                 ]
             }
 

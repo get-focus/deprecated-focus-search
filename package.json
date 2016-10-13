@@ -1,6 +1,6 @@
 {
   "name": "focus-search",
-  "version": "3.0.0-rc62",
+  "version": "3.0.0-rc66",
   "description": "Serach FOCUS",
   "main": "src/index.js",
   "scripts": {
@@ -72,7 +72,6 @@
   "author": "FOCUS <focus@kleegroup.com>",
   "license": "MIT",
   "dependencies": {
-    "focus-components": "^3.0.0-rc14",
     "lodash": "^4.15.0"
   },
   "peerDependencies": {
@@ -106,7 +105,6 @@
     "faker": "^3.0.1",
     "file-loader": "^0.8.5",
     "focus-application": "^3.0.0-rc8",
-    "focus-components": "3.0.0-rc14",
     "html-webpack-plugin": "^2.8.1",
     "i18next": "^3.4.3",
     "isomorphic-fetch": "^2.2.1",
@@ -117,9 +115,7 @@
     "mocha": "^2.4.5",
     "moment": "^2.15.1",
     "node-sass": "^3.4.2",
-    "react": "^15.3.2",
     "react-addons-test-utils": "^15.3.2",
-    "react-dom": "^15.3.2",
     "react-hot-loader": "^3.0.0-beta.1",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",

@@ -39,7 +39,8 @@ describe('The search result reducer', () => {
         const EXISTING_STATE = {lol: 'lol'};
         const RESPONSE_CONTENT = {
           facets: 'Yolo',
-          groups: {gp1: 'lol', gp2: 'lool'},
+          groups: {gp1: 'lol'},
+          listType: 'YoloType',
           totalCount: 3156
         };
         expect(reducerResults(EXISTING_STATE, {type: SEARCH_TYPES.response, payload: RESPONSE_CONTENT})).to.deep.equal({
@@ -47,6 +48,7 @@ describe('The search result reducer', () => {
           data: RESPONSE_CONTENT.groups,
           totalCount: RESPONSE_CONTENT.totalCount,
           facets: RESPONSE_CONTENT.facets,
+          listType: RESPONSE_CONTENT.listType,
           hasGroups: true
         })
       });

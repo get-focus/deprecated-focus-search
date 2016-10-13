@@ -2,7 +2,7 @@ import {capitalize, toUpper} from 'lodash/string';
 
 export const parseResults = (results = {}) => {
   const hasGroups = results.groups !== undefined;
-  let newResults = {totalCount: results.totalCount, hasGroups};
+  let newResults = {totalCount: results.totalCount, hasGroups, listType: results.listType};
 
   /* Populate the new results depending */
   if(hasGroups){

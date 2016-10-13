@@ -32,25 +32,17 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
 
 
      case UPDATE_GROUP_SEARCH:
-       let newGroup = [action.group]
-       if(state.group) newGroup = [ action.group]
-     return action.replace ? {
+     console.log(action)
+     return {
        ...state,
-       group: differenceWith(state.group, [action.group], isEqual)
-     } :  {
-       ...state,
-       group : newGroup
+       group : action.group
      }
 
     case UPDATE_SORT_SEARCH :
-    let newSort = [action.sort]
-    if(state.sort) newSort.sort = [...state.sort, action.sort]
-    return action.replace ? {
+    console.log(action)
+    return  {
         ...state,
-        sort: differenceWith(state.sort, [action.sort], isEqual)
-    } : {
-        ...state,
-        sort: newSort
+        sort: action.sort
     }
     case UPDATE_SELECTED_FACETS_SEARCH:
     //facetBlockCode + selectedValue => merge into selectedValue
