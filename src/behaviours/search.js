@@ -28,13 +28,14 @@ export function getResultsForGroup(groups, searchMetadata){
      // getListMetadata => LineComponent , ListComponent and maybe other informations concidered usefull
      const {scopeEntityDefintion} = searchMetadata;
      //TO Do scopeEntityDefintion existing
-     const {LineComponent, sortList, groupList,actionsLine} = searchMetadata.getListMetadata( element.listType, element.values)
+     const {LineComponent, sortList, groupList,actionsLine, lineIdentifierProperty} = searchMetadata.getListMetadata( element.listType, element.values)
      const formators = (scopeEntityDefintion && scopeEntityDefintion[element.listType]) ? scopeEntityDefintion[element.listType] : props => props
      return {
        ...element,
        code: element.code,
        label : element.label,
        listType: element.listType,
+       lineIdentifierProperty: lineIdentifierProperty,
        values: element.list,
        LineComponent,
        actionsLine,
@@ -46,9 +47,10 @@ export function getResultsForGroup(groups, searchMetadata){
 
 export function getResultsForList(list = [], searchMetadata, listType){
   const test = listType
-  const {LineComponent, sortList, groupList, actionsLine} = searchMetadata.getListMetadata( listType, list)
+  const {LineComponent, sortList, groupList, actionsLine, lineIdentifierProperty} = searchMetadata.getListMetadata( listType, list)
   return {
    values: list,
+   lineIdentifierProperty,
    groupList,
    actionsLine,
    sortList,
@@ -107,6 +109,7 @@ export function connect(searchOptions) {
 
 
       const ResultGroup = {
+        scope: scope,
         valuesForResults: results,
         unitSearchDispatch: unitSearchDispatch
       }

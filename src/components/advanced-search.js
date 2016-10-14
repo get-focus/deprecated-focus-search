@@ -7,7 +7,7 @@ import connectToSelectableList from './selectable-list'
 import {FacetPanel} from './facet';
 import ToolBar from './toolbar';
 import {InformationBar} from './informationbar';
-import {ResultList, ResultGroup, ListComponent} from './results';
+import {ResultList, ResultGroup, ListComponentWithToolBar} from './results';
 
 // <ActionQuery data-focus='action-query-advanced-search' group={unitSearchDispatch.group} query={unitSearchDispatch.query}/>
 
@@ -18,7 +18,7 @@ export class AdvancedSearch extends Component{
   }
   render () {
     //const {valuesForResults, groupSelect,selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, scope, ListComponent} = this.props;
-    const {isGroup,InformationBarProps,ResultGroupProps, ResultListProps, FacetPanelProps }= this.props;
+    const {isGroup,InformationBarProps,ResultGroupProps, ResultListProps, FacetPanelProps, ListComponent }= this.props;
 
     return (
         <div data-focus='advanced-search'>
@@ -28,13 +28,14 @@ export class AdvancedSearch extends Component{
                     data-focus='information-bar-advanced-search' />
                 {isGroup ?
                   <ResultGroup isGroup={isGroup}
+                      ListComponent={ListComponent}
                       data-focus='result-group-advanced-search'
                       {...ResultGroupProps}
                       />
                     :
                     <ResultList
                         data-focus='result-list-advanced-search'
-                        ListComponent={ListComponent}
+                        ListComponentWithToolBar={ListComponent}
                         isGroup={isGroup}
                         {...ResultListProps}
                         />
@@ -68,5 +69,5 @@ AdvancedSearch.defaultProps = {
       values: []
     },
     facetListWithselectedInformation: [],
-    ListComponent: connectToSelectableList(ListComponent)
+    ListComponent: connectToSelectableList(ListComponentWithToolBar)
 };

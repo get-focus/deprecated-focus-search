@@ -125,7 +125,6 @@ const connect = (ListToConnect = DefaultPureSelectableList) => {
 
     }
     toggleLineSelectionInState(action){
-      //console.log('action', this.state, action)
       //To add when all the element is checked :
       const selectedElements = toggleLineSelection(this.state.selectedElements, action);
       this.setState({
@@ -148,7 +147,7 @@ const connect = (ListToConnect = DefaultPureSelectableList) => {
       );
       return(
       <ListToConnect
-        selectState={this.state.selectState}
+        stateOfTheSelectionList={this.state.selectState}
         data={dataWithSelectedInformation}
         toggleAllLine={this.toggleAllLine}
         toggleLineSelection={this.toggleLineSelectionInState}

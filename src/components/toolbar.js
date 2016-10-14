@@ -41,7 +41,7 @@ export function ToolbarSort({sortList, sortAction}) {
 };
 ToolbarSort.displayName = 'ToolbarSort';
 ToolbarSort.propTypes = {
-    sort: PropTypes.func.isRequired,
+    sortAction: PropTypes.func.isRequired,
     sortList : PropTypes.array
 };
 
@@ -54,16 +54,17 @@ export function ToolbarGroup({groupList, groupAction}) {
 };
 ToolbarGroup.displayName = 'ToolbarGroup';
 ToolbarGroup.propTypes = {
-    group: PropTypes.func.isRequired,
+    groupAction: PropTypes.func.isRequired,
     groupList : PropTypes.array
 };
 
-const ToolbarSelection = ({selectState, toggleAllLine}) => {
+const ToolbarSelection = ({selectState, toggleAllLine, label}) => {
     //<i class="material-icons">indeterminate_check_box</i>
     return (
         <span>
             {selectState && <Button onClick={toggleAllLine} icon='check_box' shape='icon' />}
             {!selectState && <Button onClick={toggleAllLine} icon='check_box_outline_blank' shape='icon' /> }
+            <span>{label}</span>
         </span>
     );
 };
@@ -74,7 +75,7 @@ ToolbarSelection.propTypes = {
 };
 
 
-const ToolBar = ({groupList, sortList,groupSelect, sortAction, groupAction, isGroup, selectState, toggleAllLine}) => {
+const ToolBar = ({groupList = [],scope, sortList,groupSelect, sortAction, groupAction, isGroup, stateOfTheSelectionList, label, toggleAllLine}) => {
     const toolBarGroup = groupList.reduce((array, item)=> {
       if(groupSelect &&  groupSelect.name !== item.code) array.push(item);
       else array.push({code: 'ungroup', label:'ungroup'})
@@ -82,7 +83,7 @@ const ToolBar = ({groupList, sortList,groupSelect, sortAction, groupAction, isGr
     }, [])
     return (
         <div data-focus='toolbar' className='mdl-grid mdl-shadow--3dp'>
-            <ToolbarSelection selectState={selectState} toggleAllLine={toggleAllLine} />
+            {<ToolbarSelection label={label} selectState={stateOfTheSelectionList} toggleAllLine={toggleAllLine} />}
             {sortList && <ToolbarSort sortAction={sortAction} sortList={sortList} />}
             {!isGroup && groupList && <ToolbarGroup groupAction={groupAction} groupList={groupList} />}
             {isGroup && groupList && <ToolbarGroup groupAction={groupAction} groupList={toolBarGroup} />}
@@ -93,8 +94,8 @@ const ToolBar = ({groupList, sortList,groupSelect, sortAction, groupAction, isGr
 ToolBar.displayName = 'ToolBar';
 ToolBar.defaultProps = {
     toolbarProps: {
-        sort: () => console.warn('please define a sort function...'),
-        group: () => console.warn('please define a group function...'),
+        sortAction: () => console.warn('please define a sort function...'),
+        groupAction: () => console.warn('please define a group function...'),
         sortList: [],
         groupList: []
     },
@@ -103,8 +104,8 @@ ToolBar.defaultProps = {
 };
 ToolBar.propTypes = {
     toolbarProps: PropTypes.shape({
-        sort: PropTypes.func.isRequired,
-        group: PropTypes.func.isRequired,
+        sortAction: PropTypes.func.isRequired,
+        groupAction: PropTypes.func.isRequired,
         sortList: PropTypes.array,
         groupList: PropTypes.array,
     }),

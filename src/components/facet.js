@@ -105,8 +105,18 @@ export function FacetPanel(props){
     return <div data-focus='facet-panel' >
         <h2>{props.title}</h2>
         {props.data.map(
-            facetDescriptor => <FacetBlock key={facetDescriptor.code} {...facetDescriptor} selected={facetDescriptor.selected} selectFacet={(value) => props.facetAction(value, false)} deleteFacet={value => props.facetAction(value, true)}/>)
-        }
+            facetDescriptor => {
+              if(facetDescriptor.values.length > 1 || facetDescriptor.selected) {
+                return <FacetBlock key={facetDescriptor.code}
+                  {...facetDescriptor}
+                  selected={facetDescriptor.selected}
+                  selectFacet={(value) => props.facetAction(value, false)}
+                  deleteFacet={value => props.facetAction(value, true)}/>
+              } else {
+                  return <div></div>
+              }
+              }
+      )}
     </div>
 }
 FacetPanel.defaultProps = {
