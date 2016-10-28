@@ -49,7 +49,7 @@ export const searchTriggerMiddlewareBuilder = (
   // Creates a middleware given a redux store, the next action and the current action.
   return  store => next => action => {
 
-    if(_actionWhichTriggerTheSearch.includes(action.type)){
+    if(_actionWhichTriggerTheSearch.includes(action.type) && action.isSearchAction){
       // search selector
         next(action);
         const stateSearch = stateSearchSelector(store.getState());

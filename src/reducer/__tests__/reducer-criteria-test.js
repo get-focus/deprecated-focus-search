@@ -73,16 +73,16 @@ describe('The search criteria reducer', () => {
         const state = {};
         const newState = reducerCriteria(state, actionCreate)
         expect(newState).to.be.an.object;
-        expect(newState.sort).to.deep.equal([
+        expect(newState.sort).to.deep.equal(
           {name: 'colum', order: 'desc'}
-        ])
+        )
       })
       it("when it's to delete", () => {
-        const actionDelete = updateSort({name: 'colum', order: 'desc'}, true)
-        const state = {sort: [{name: 'colum', order: 'desc'}]};
+        const actionDelete = updateSort({})
+        const state = {sort: {name: 'colum', order: 'desc'}};
         const newState = reducerCriteria(state, actionDelete)
         expect(newState).to.be.an.object;
-        expect(newState.sort).to.deep.equal([])
+        expect(newState.sort).to.deep.equal({})
       })
 
     })
@@ -94,16 +94,16 @@ describe('The search criteria reducer', () => {
         const state = {};
         const newState = reducerCriteria(state, actionCreate)
         expect(newState).to.be.an.object;
-        expect(newState.group).to.deep.equal([
+        expect(newState.group).to.deep.equal(
           {name: 'grougroup'}
-        ])
+        )
       })
       it("when it's to delete", () => {
-        const actionDelete = updateGroup({name: 'grougroup'}, true)
+        const actionDelete = updateGroup({})
         const state = {group : [{name: 'grougroup'}]};
         const newState = reducerCriteria(state, actionDelete)
         expect(newState).to.be.an.object;
-        expect(newState.group).to.deep.equal([])
+        expect(newState.group).to.deep.equal({})
       })
 
 

@@ -46,22 +46,25 @@ export const singleActionCreatorBuilder = name => {
  * @return {object} the action itself
  */
 
-const updateQuery = type => (query, replace = false) => ({
+const updateQuery = type => (query, replace = false, isSearchAction = true) => ({
 	type: type,
 	query: query,
-  replace
+  replace,
+  isSearchAction
 });
 
 
-const updateSort = type => (sort, replace = false) => ({
+const updateSort = type => (sort, replace = false, isSearchAction = true) => ({
 	type: type,
 	sort: sort,
-  replace
+  replace,
+  isSearchAction
 });
-const updateGroup = type => (group, replace = false) => ({
+const updateGroup = type => (group, replace = false, isSearchAction = true) => ({
 	type: type,
 	group: group,
-  replace
+  replace,
+  isSearchAction
 });
 
 /**
@@ -69,15 +72,17 @@ const updateGroup = type => (group, replace = false) => ({
  * @param  {selectedFacets} search selectedFacets
  * @return {object} the action itself
  */
-const updateSelectedFacets = type => (selectedFacets, replace = false) => ({
+const updateSelectedFacets = type => (selectedFacets, replace = false, isSearchAction = true) => ({
 	type: type,
 	selectedFacets: selectedFacets,
-  replace
+  replace,
+  isSearchAction
 });
 
 
 const startSearch = type => () => ({
-  type : type
+  type : type,
+  isSearchAction: true
 })
 /*
 

@@ -59,9 +59,9 @@ const _getListMetadata = (listType, listData) => {
                     'lalal'
                 ],
                 groupList: [
-                    'lala',
-                    'lulu',
-                    'lolo'
+                    {code: 'FCT_MOVIE_TYPE', label: 'Movie Type'},
+                    {code: 'FCT_MOVIE_Truc', label: 'Movie Truc'},
+                    {code: 'FCT_MOVIE_Machin', label: 'Movie Machin'}
                 ]
             }
 
@@ -70,8 +70,14 @@ const _getListMetadata = (listType, listData) => {
     const Root = ({store, history}) => /*On place le provider de store au plus haut afin de pouvoir injecter des informations du store dans toute l'applciation.*/
        <StoreProvider store={store}>
        <SearchProvider store={store} searchMetadata={{getListMetadata : _getListMetadata,
-               scopes:[{value: 'all', label:'All', selected:false}, {value: 'scope', label: 'Scope 01', selected:true}, {value: 'scope2', label:'Scope 02', selected:false}]
-
+               scopes:[{value: 'all', label:'All', selected:false}, {value: 'scope', label: 'Scope 01', selected:true}, {value: 'scope2', label:'Scope 02', selected:false}],
+               scopeEntityDefintion : {
+                 DonDiegoType : {
+                   firstName: {
+                     formator : props => props + 'YO'
+                   }
+                 }
+               }
              }}>
            <Router history={history}>
              <Route path='/' component={App} >

@@ -81,11 +81,11 @@ describe('Facets components ', () => {
     });
     it('should add the title given as props', () => {
       const wrapper = shallow(<FacetPanel title='Great title'/>);
-      expect(wrapper.contains(<h2>{'Great title'}</h2>)).to.be.true;
+      expect(wrapper.contains(<h4>{'Great title'}</h4>)).to.be.true;
     });
-    it('should add the title given as props', () => {
-      const wrapper = mount(<FacetPanel title='Great title' data={[1,2,3,4,5]}/>);
-      expect(wrapper.find('[data-focus="facet-block"]')).to.have.length(5);
+    it('should add the facet-block given as data in the props', () => {
+      const wrapper = mount(<FacetPanel title='Great title' data={[{values: ['1'], selected: true}, {values: ['2'], selected: true}, {values: ['3'], selected: true}]}/>);
+      expect(wrapper.find('[data-focus="facet-block"]')).to.have.length(3);
     });
   });
 })

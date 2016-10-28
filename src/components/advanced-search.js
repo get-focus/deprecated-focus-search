@@ -7,57 +7,44 @@ import connectToSelectableList from './selectable-list'
 import {FacetPanel} from './facet';
 import ToolBar from './toolbar';
 import {InformationBar} from './informationbar';
-import {ResultList, ResultGroup, ListComponent} from './results';
+import {ResultList, ResultGroup, ListComponentWithToolBar} from './results';
 
 // <ActionQuery data-focus='action-query-advanced-search' group={unitSearchDispatch.group} query={unitSearchDispatch.query}/>
 
 export class AdvancedSearch extends Component{
   componentWillMount(){
-    const {unitSearchDispatch} = this.props;
-    unitSearchDispatch.start();
+    const {start} = this.props;
+    start();
   }
   render () {
-    const {valuesForResults, selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, scope, ListComponent} = this.props;
-    const toolbarProps = {
-        group: unitSearchDispatch.group,
-        sortList: ['test'],
-        groupList : ['test'],
-        sort: unitSearchDispatch.sort,
-        isGroup: isGroup
-    }
+    //const {valuesForResults, groupSelect,selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, scope, ListComponent} = this.props;
+    const {isGroup,InformationBarProps,ResultGroupProps, ResultListProps, FacetPanelProps, ListComponent }= this.props;
+
     return (
         <div data-focus='advanced-search'>
             <div data-focus="results-advanced-search">
-                <InformationBar selectedFacetsList={selectedFacetsList}
-                    facets={facetListWithselectedInformation}
-                    totalCount={valuesForResults.totalCount}
-                    scopeFunction={unitSearchDispatch.scopeFunction}
-                    scope={scope}
-                    group={unitSearchDispatch.group}
-                    query={unitSearchDispatch.query}
-                    deleteFacet={value => unitSearchDispatch.facet(value, true)}
+                <InformationBar
+                    {...InformationBarProps}
                     data-focus='information-bar-advanced-search' />
                 {isGroup ?
-                    <ResultGroup isGroup={isGroup}
-                        data-focus='result-group-advanced-search'
-                        data={valuesForResults}
-                        actionsLine={valuesForResults.actionsLine}
-                        toolbarProps={toolbarProps}
-                        />
+                  <ResultGroup isGroup={isGroup}
+                      ListComponent={ListComponent}
+                      data-focus='result-group-advanced-search'
+                      {...ResultGroupProps}
+                      />
                     :
-                    <ResultList data={valuesForResults.values}
+                    <ResultList
                         data-focus='result-list-advanced-search'
-                        ListComponent={ListComponent}
-                        actionsLine={valuesForResults.actionsLine}
-                        LineComponent={valuesForResults.LineComponent}
-                        toolbarProps={toolbarProps}
+                        ListComponentWithToolBar={ListComponent}
+                        isGroup={isGroup}
+                        {...ResultListProps}
                         />
                 }
             </div>
-            <FacetPanel data={facetListWithselectedInformation}
+            <FacetPanel
                 data-focus="facet-panel-advanced-search"
-                facet={unitSearchDispatch.facet}
-                title='My awesome facets'/>
+                title='Facets'
+                {...FacetPanelProps}/>
         </div>
     )
   }
@@ -68,15 +55,19 @@ AdvancedSearch.displayName = 'Advanced Search'
 AdvancedSearch.propTypes ={
     isSelectable: PropTypes.bool,
     isGroup: PropTypes.bool,
-    valuesForResults: PropTypes.object.isRequired,
+    valuesForResults: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+
     unitSearchDispatch: PropTypes.object.isRequired,
     facetListWithselectedInformation: PropTypes.array.isRequired
 };
 AdvancedSearch.defaultProps = {
     isSelectable:  true,
     isGroup: false,
-    unitSearchDispatch: {},
-    valuesForResults: {},
+    unitSearchDispatch: {
+    },
+    valuesForResults: {
+      values: []
+    },
     facetListWithselectedInformation: [],
-    ListComponent: connectToSelectableList(ListComponent)
+    ListComponent: connectToSelectableList(ListComponentWithToolBar)
 };

@@ -1,19 +1,19 @@
 // test utils
 import { mount, shallow, render } from 'enzyme';
 // Components
-import ToolBar, {ToolbarGroup, ToolbarSort} from '../toolbar';
+import { ToolBar, ToolbarGroup, ToolbarSort} from '../toolbar';
 
 describe('ToolBar components ', () => {
     describe('<ToolBar />', ()=> {
         it('should be a div with a data-focus=toolbar', () => {
             const values = ['truc', 'machin', 'bidule'];
             const toolbarProps = {
-                sort: sinon.spy(),
-                group: sinon.spy(),
+                sortAction: sinon.spy(),
+                groupAction: sinon.spy(),
                 sortList: values,
                 groupList: values
             };
-            const wrapper = render(<ToolBar toolbarProps={toolbarProps} selectState={false} toggleAllLine={() => sinon.spy()} />);
+            const wrapper = render(<ToolBar {...toolbarProps} selectState={false} toggleAllLine={() => sinon.spy()} />);
             expect(wrapper.find("div[data-focus='toolbar']")).to.exist;
         });
     });
@@ -24,7 +24,7 @@ describe('ToolBar components ', () => {
         });
         it('should call the props group on the change event', ()=> {
             const groupSpy = sinon.spy();
-            const wrapper = mount(<ToolbarGroup group={groupSpy} groupList={['truc', 'machin', 'bidule']}/>)
+            const wrapper = mount(<ToolbarGroup groupAction={groupSpy} groupList={['truc', 'machin', 'bidule']}/>)
             wrapper.find("[data-focus='dropdown'] ul li").at(0).simulate('click');
             expect(groupSpy).to.have.property('callCount', 1);
             expect(groupSpy).to.have.been.calledWith()
@@ -33,7 +33,7 @@ describe('ToolBar components ', () => {
     describe('<ToolbarSort/>', () => {
         it('should call the props sort on the change event', ()=> {
             const sortSpy = sinon.spy();
-            const wrapper = mount(<ToolbarSort sort={sortSpy} sortList={['truc', 'machin', 'bidule']} />)
+            const wrapper = mount(<ToolbarSort sortAction={sortSpy} sortList={['truc', 'machin', 'bidule']} />)
             wrapper.find("[data-focus='dropdown'] ul li").at(0).simulate('click');
             expect(sortSpy).to.have.property('callCount', 1);
             expect(sortSpy).to.have.been.calledWith()

@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {compose} from 'redux';
 import {facetListWithselectedInformation, selectSearch} from '../reducer';
 import Chips from 'focus-components/chips';
-
+import isArray from 'lodash/isArray'
 import {
     FACET_SHAPE_TYPE,
     FACET_DESCRIPTOR_SHAPE_TYPE
@@ -53,7 +53,6 @@ const facetComponentsMap = {
 function DomainConnectedFacetComponent(props){
 return <FacetComponent {...props} FacetComponent={facetComponentsMap[props.code]}/>
 };
-
 return DomainConnectedFacetComponent;
 }
 */
@@ -63,7 +62,22 @@ export function FacetBlock(props){
         <h3>{props.label}</h3>
         <ul>
             {props.selected ?
-                <div >{props.selectedFacets.map (value =><props.FacetSelectedComponent  key={props.code} label={(props.values.find(element => element.code === value)).label} code={value} onClick={selectedValue => props.deleteFacet({code: props.code, values: selectedValue})}/>)}</div>
+                <div >{
+                      isArray(props.selectedFacets) ?
+                      props.selectedFacets.map (value =><props.FacetSelectedComponent
+                                  key={props.code}
+                                  label={(props.values.find(element => element.code === value)).label}
+                                  code={value}
+                                  onClick={selectedValue => props.deleteFacet({code: props.code, values: selectedValue})}
+                                  />
+                              )
+                    : <props.FacetSelectedComponent
+                          key={props.code}
+                          label={(props.values.find(element => element.code === props.selectedFacets)).label}
+                          code={props.selectedFacets}
+                          onClick={selectedValue => props.deleteFacet({code: props.code, values: selectedValue})}
+                            />}
+                        </div>
                 :
                 props.values.map(
                     facet => <props.FacetComponent key={facet.code} {...facet} onClick={selectedValue => props.selectFacet({code: props.code, values: selectedValue})}/>
@@ -88,10 +102,20 @@ FacetBlock.propTypes = {
 
 export function FacetPanel(props){
     return <div data-focus='facet-panel' >
-        <h2>{props.title}</h2>
+        <h4>{props.title}</h4>
         {props.data.map(
-            facetDescriptor => <FacetBlock key={facetDescriptor.code} {...facetDescriptor} selected={facetDescriptor.selected} selectFacet={(value) => props.facet(value, false)} deleteFacet={value => props.facet(value, true)}/>)
-        }
+            facetDescriptor => {
+              if(facetDescriptor.values.length > 1 || facetDescriptor.selected) {
+                return <FacetBlock key={facetDescriptor.code}
+                  {...facetDescriptor}
+                  selected={facetDescriptor.selected}
+                  selectFacet={(value) => props.facetAction(value, false)}
+                  deleteFacet={value => props.facetAction(value, true)}/>
+              } else {
+                  return <div></div>
+              }
+              }
+      )}
     </div>
 }
 FacetPanel.defaultProps = {
@@ -117,7 +141,6 @@ Facet
 ...
 ...
 --------------
-
 /* Default Export is a connected component */
 
 export const facetSelector =   compose(
