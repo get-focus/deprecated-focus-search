@@ -75,7 +75,7 @@ ToolbarSelection.propTypes = {
 };
 
 
-export const ToolBar = ({groupList = [], scope, sortList,groupSelect, sortAction, groupAction, isGroup, stateOfTheSelectionList, label, toggleAllLine}) => {
+export const ToolBar = ({groupList = [], scope, sortList,groupSelect, sortAction, groupAction, isGroup, stateOfTheSelectionList, label, toggleAllLine, GlobalActions}) => {
     const toolBarGroup = groupList.reduce((array, item)=> {
       if(groupSelect &&  groupSelect.name !== item.code) array.push(item);
       else array.push({code: 'ungroup', label:'ungroup'})
@@ -86,6 +86,7 @@ export const ToolBar = ({groupList = [], scope, sortList,groupSelect, sortAction
             {toggleAllLine && <ToolbarSelection label={label} selectState={stateOfTheSelectionList} toggleAllLine={toggleAllLine} />}
             {sortList && <ToolbarSort sortAction={sortAction} sortList={sortList} />}
             {!isGroup && groupList && <ToolbarGroup groupAction={groupAction} groupList={groupList} />}
+            {GlobalActions && <div data-focus='toolbar-global-actions'><GlobalActions/></div>}
 
         </div>
     );

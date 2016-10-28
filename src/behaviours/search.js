@@ -132,6 +132,7 @@ export function connect(searchOptions) {
 
       return <ComponentToConnect
                 isGroup={hasGroups}
+                GlobalActions={searchMetadata.GlobalActions}
                 start={unitSearchDispatch.startAction}
                 InformationBarProps={InformationBarProps}
                 ResultGroupProps={ResultGroup}
