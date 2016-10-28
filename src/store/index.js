@@ -5,7 +5,8 @@ export const buildFieldForLineSearch = ({searchName, codeId, entityPath, code} )
   const {definitions, domains, index} = props;
   const entityDefintion = definitions[entityPath];
   const results = state[searchName].results;
-  const list = (index !== undefined && results.data[index].list) ? results.data[index].list  : results.data || []
+  const findlist = get(results.data.find(element => element.code === code), 'list', get(results.data[index], 'list'));
+  const list = findlist ? findlist  : results.data || []
   return {fields: Object.keys(list.find(element => element[codeId] ===props[codeId])).map(element => {
     const propertyDefinition = entityDefintion[element]
     const domain = get(domains, propertyDefinition ? propertyDefinition.domain : "", {})

@@ -42,7 +42,7 @@ describe('The searchTriggerMiddlewareBuilder', ()=> {
       const _state = {searchNimp: {criteria: 'Yooooo'}};
       const store = {
           dispatch: d => dispatchSpy(d),
-         getState: () => {
+          getState: () => {
            getStateSpy(_state);
           return _state;
          }
@@ -57,7 +57,7 @@ describe('The searchTriggerMiddlewareBuilder', ()=> {
       });
       describe('when the middleware sees an action which it does not know', () => {
         it('should do nothing about it', () => {
-          searchMiddleWare(store)(nextSpy)({type: 'INPUT_BLUR', entityPath: 'user', fieldName: 'firstName'});
+          searchMiddleWare(store)(nextSpy)({type: 'INPUT_BLUR', entityPath: 'user', fieldName: 'firstName', isSearchAction: true});
            expect(getStateSpy).to.not.have.been.called;
            expect(dispatchSpy).to.not.have.been.called;
            expect(searchActionSpy).to.not.have.been.called;
@@ -66,7 +66,7 @@ describe('The searchTriggerMiddlewareBuilder', ()=> {
       })
       describe('when the middleware sees an action which it listens to', () => {
         it('should dispatch a search action', () => {
-          searchMiddleWare(store)(nextSpy)({type: 'YUP', entityPath: 'user', fieldName: 'firstName'});
+          searchMiddleWare(store)(nextSpy)({type: 'YUP', entityPath: 'user', fieldName: 'firstName', isSearchAction: true});
           expect(getStateSpy).to.have.been.called.once;
           expect(dispatchSpy).to.have.been.called.once;
           expect(searchActionSpy).to.have.been.called.once;
@@ -84,7 +84,7 @@ describe('The searchTriggerMiddlewareBuilder', ()=> {
            }
         }
         it('should warn something to the user and call the search with an undefined criteria', () => {
-          searchMiddleWare(wrongStore)(nextSpy)({type: 'YUP', entityPath: 'user', fieldName: 'firstName'});
+          searchMiddleWare(wrongStore)(nextSpy)({type: 'YUP', entityPath: 'user', fieldName: 'firstName', isSearchAction: true});
           expect(getStateSpy).to.have.been.called.once;
           expect(dispatchSpy).to.have.been.called.once;
           expect(searchActionSpy).to.have.been.called.once;

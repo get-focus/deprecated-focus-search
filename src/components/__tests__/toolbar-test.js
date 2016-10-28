@@ -1,7 +1,7 @@
 // test utils
 import { mount, shallow, render } from 'enzyme';
 // Components
-import ToolBar, {ToolbarGroup, ToolbarSort} from '../toolbar';
+import { ToolBar, ToolbarGroup, ToolbarSort} from '../toolbar';
 
 describe('ToolBar components ', () => {
     describe('<ToolBar />', ()=> {

@@ -53,7 +53,6 @@ const facetComponentsMap = {
 function DomainConnectedFacetComponent(props){
 return <FacetComponent {...props} FacetComponent={facetComponentsMap[props.code]}/>
 };
-
 return DomainConnectedFacetComponent;
 }
 */
@@ -142,7 +141,6 @@ Facet
 ...
 ...
 --------------
-
 /* Default Export is a connected component */
 
 export const facetSelector =   compose(

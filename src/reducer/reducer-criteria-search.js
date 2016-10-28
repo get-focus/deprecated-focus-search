@@ -32,14 +32,12 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
 
 
      case UPDATE_GROUP_SEARCH:
-     console.log(action)
      return {
        ...state,
        group : action.group
      }
 
     case UPDATE_SORT_SEARCH :
-    console.log(action)
     return  {
         ...state,
         sort: action.sort

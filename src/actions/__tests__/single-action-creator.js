@@ -43,26 +43,26 @@ describe('The singleActionCreatorBuilder', ()=> {
       it('and updateQuery function should call with the right parameters', () => {
           const UPDATEQUERYCall = updateQuery('rodrigo', false)
           expect(UPDATEQUERYCall).to.be.an.object;
-          expect(UPDATEQUERYCall).to.be.deep.equal({type: UPDATE_QUERY_SEARCH, query: 'rodrigo', replace: false})
+          expect(UPDATEQUERYCall).to.be.deep.equal({type: UPDATE_QUERY_SEARCH, query: 'rodrigo', replace: false, isSearchAction: true})
       })
 
       it('and updateSort function should call with the right parameters', () => {
           const UPDATESORTCALL = updateSort('rodrigo', false)
           expect(UPDATESORTCALL).to.be.an.object;
-          expect(UPDATESORTCALL).to.be.deep.equal({type: UPDATE_SORT_SEARCH, sort: 'rodrigo', replace: false})
+          expect(UPDATESORTCALL).to.be.deep.equal({type: UPDATE_SORT_SEARCH, sort: 'rodrigo', replace: false, isSearchAction: true})
       })
 
 
       it('and updateGroup function should call with the right parameters', () => {
           const UPDTATEGROUPCALL = updateGroup('dondiego', false)
           expect(UPDTATEGROUPCALL).to.be.an.object;
-          expect(UPDTATEGROUPCALL).to.be.deep.equal({type: UPDATE_GROUP_SEARCH, group: 'dondiego', replace: false})
+          expect(UPDTATEGROUPCALL).to.be.deep.equal({type: UPDATE_GROUP_SEARCH, group: 'dondiego', replace: false, isSearchAction: true})
       })
 
       it('and updateSelectedFacets function should call with the right parameters', () => {
         const UPDATESELECTEDFACETS = updateSelectedFacets('rodrigo', false)
         expect(UPDATESELECTEDFACETS).to.be.an.object;
-        expect(UPDATESELECTEDFACETS).to.be.deep.equal({type: UPDATE_SELECTED_FACETS_SEARCH, selectedFacets: 'rodrigo', replace: false})
+        expect(UPDATESELECTEDFACETS).to.be.deep.equal({type: UPDATE_SELECTED_FACETS_SEARCH, selectedFacets: 'rodrigo', replace: false, isSearchAction: true})
       })
     })
     describe('and the all parts of the result', () => {
