@@ -133,14 +133,14 @@ ResultList.propTypes = {
 
 export class ResultGroup extends PureComponent {
   render(){
-    const {valuesForResults, isGroup,unitSearchDispatch, ListComponent, scope , GlobalActions} = this.props
+    const {valuesForResults, isGroup,unitSearchDispatch, ListComponent, scope , GlobalActions, hasScope} = this.props
     return (
       <div data-focus='result-group' >
-      <ToolBar data-focus='toolbar-ungroup'
+{!hasScope &&      <ToolBar data-focus='toolbar-ungroup'
                   groupAction={unitSearchDispatch.groupAction}
                   groupList={[{code: 'ungroup', label:'ungroup'}]}
                   GlobalActions={GlobalActions}
-                  />
+                  />}
           {valuesForResults.map((element, idx) => {
               //TO do add ListWrapper
               const valuesForResult = {

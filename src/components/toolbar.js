@@ -84,7 +84,7 @@ export const ToolBar = ({groupList = [], scope, sortList,groupSelect, sortAction
     return (
         <div data-focus='toolbar' className='mdl-grid mdl-shadow--3dp'>
             {toggleAllLine && <ToolbarSelection label={label} selectState={stateOfTheSelectionList} toggleAllLine={toggleAllLine} />}
-            {sortList && <ToolbarSort sortAction={sortAction} sortList={sortList} />}
+            {!isGroup && sortList && <ToolbarSort sortAction={sortAction} sortList={sortList} />}
             {!isGroup && groupList && <ToolbarGroup groupAction={groupAction} groupList={groupList} />}
             {GlobalActions && <div data-focus='toolbar-global-actions'><GlobalActions/></div>}
 

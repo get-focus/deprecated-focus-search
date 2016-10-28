@@ -18,7 +18,7 @@ export class AdvancedSearch extends Component{
   }
   render () {
     //const {valuesForResults, groupSelect,selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, scope, ListComponent} = this.props;
-    const {isGroup,InformationBarProps,ResultGroupProps, ResultListProps, FacetPanelProps, ListComponent,GlobalActions }= this.props;
+    const {isGroup,InformationBarProps,ResultGroupProps, ResultListProps, FacetPanelProps, ListComponent,GlobalActions, hasScope }= this.props;
 
     return (
         <div data-focus='advanced-search'>
@@ -30,6 +30,7 @@ export class AdvancedSearch extends Component{
                   <ResultGroup isGroup={isGroup}
                       ListComponent={ListComponent}
                       GlobalActions={GlobalActions}
+                      hasScope={hasScope}
                       data-focus='result-group-advanced-search'
                       {...ResultGroupProps}
                       />
