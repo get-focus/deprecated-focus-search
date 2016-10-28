@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import ToolBar from './toolbar';
-import connectToSelectableList from './selectable-list';
+import {ToolBar} from './toolbar';
 import InputCheckbox from 'focus-components/input-checkbox';
 
 export function MaterialListWrapper ({children}) {
@@ -11,7 +10,7 @@ export function MaterialListWrapper ({children}) {
 export function FocusAction({actions, ActionsComponent, ...otherProps}){
     return (
         <div data-focus='focus-actions'>
-            {actions ? actions.map((action, idx) => <button key={idx} onClick={action.action}>{action.label}</button>) : <ActionsComponent {...otherProps}/>}
+            {(actions) ? actions.map((action, idx) => <button key={idx} onClick={action.action}>{action.label}</button>) : <ActionsComponent {...otherProps}/>}
         </div>
     );
 }
@@ -33,7 +32,6 @@ export function MaterialLineWrapper({children, actionsLine, ActionsComponent, ..
 export class ListComponentWithToolBar extends Component {
   componentWillReceiveProps(newProps){
     if(this.props.youHaveToChange !== newProps.youHaveToChange){
-      console.log('lalkalallallalallalallalalalalla')
       this.props.toggleAllLine();
     }
   }
@@ -42,7 +40,7 @@ export class ListComponentWithToolBar extends Component {
     const {numberOfList,
       data,
       stateOfTheSelectionList,
-      valuesForResult: {values ,label, groupSelect,groupList, sortList, isSelected, LineComponent, numberList, actionsLine},
+      valuesForResult: {values ,label, groupSelect,groupList, sortList, isSelected, LineComponent, numberList, actionsLine, ...otherProps},
       toggleLineSelection,
       unitSearchDispatch,
       toggleAllLine,
@@ -53,21 +51,22 @@ export class ListComponentWithToolBar extends Component {
     } = this.props;
     return (
       <div>
-        <ToolBar data-focus='toolbar-advanced-search'
-            groupAction={unitSearchDispatch.groupAction}
-            sortAction={unitSearchDispatch.sortAction}
-            groupList={groupList}
-            label={label}
-            sortList={sortList}
-            isGroup={isGroup}
-            stateOfTheSelectionList={stateOfTheSelectionList}
-            groupSelect={groupSelect}
-            toggleAllLine={toggleAllLine}
-            />
+        <ToolBar data-focus='toolbar-advanced-search-by-list'
+                    groupAction={unitSearchDispatch.groupAction}
+                    sortAction={unitSearchDispatch.sortAction}
+                    groupList={groupList}
+                    label={label}
+                    isListToolBar
+                    sortList={sortList}
+                    isGroup={isGroup}
+                    stateOfTheSelectionList={stateOfTheSelectionList}
+                    groupSelect={groupSelect}
+                    toggleAllLine={toggleAllLine}
+                    />
           <ListWrapper >
               {data && data.map(({isSeleted, ...lineDescriptor}, idx) => (
                   <div data-focus='line-advanced-search' key={idx}>
-                      <LineWrapper isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  id={lineDescriptor[this.props.lineIdentifierProperty]}  actionsLine={actionsLine} {...lineDescriptor}>
+                      <LineWrapper isSelected={isSeleted} toggleLineSelection={toggleLineSelection}  id={lineDescriptor[this.props.lineIdentifierProperty]}  actionsLine={actionsLine} {...lineDescriptor} {...otherProps}>
                           <LineComponent index={numberOfList}   {...lineDescriptor} />
                       </LineWrapper>
                   </div>
@@ -146,15 +145,16 @@ export class ResultGroup extends Component {
     const {valuesForResults, isGroup,unitSearchDispatch, ListComponent, scope } = this.props
     return (
       <div data-focus='result-group' >
-      <ToolBar data-focus='toolbar-advanced-search'
+      {(valuesForResults[0].groupList) && <ToolBar data-focus='toolbar-advanced-search'
           isGroup={true}
           scope={scope}
+          isGeneral
           groupAction={unitSearchDispatch.groupAction}
           groupList={valuesForResults[0].groupList}
           groupSelect={valuesForResults.groupSelect}
           stateOfTheSelectionList={this.state.test}
           toggleAllLine={()=> this.setState({test: !this.state.test})}
-          />
+          />}
           {valuesForResults.map((element, idx) => {
               //TO do add ListWrapper
               const valuesForResult = {

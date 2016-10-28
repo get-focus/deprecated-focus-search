@@ -43,8 +43,8 @@ export class AdvancedSearch extends Component{
             </div>
             <FacetPanel
                 data-focus="facet-panel-advanced-search"
-                {...FacetPanelProps}
-                title='My awesome facets'/>
+                title='Facets'
+                {...FacetPanelProps}/>
         </div>
     )
   }

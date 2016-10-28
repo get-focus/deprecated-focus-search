@@ -75,7 +75,7 @@ ToolbarSelection.propTypes = {
 };
 
 
-const ToolBar = ({groupList = [],scope, sortList,groupSelect, sortAction, groupAction, isGroup, stateOfTheSelectionList, label, toggleAllLine}) => {
+export const ToolBar = ({groupList = [], scope, sortList,groupSelect, sortAction, groupAction, isGroup, stateOfTheSelectionList, label, toggleAllLine, isGeneral, isListToolBar}) => {
     const toolBarGroup = groupList.reduce((array, item)=> {
       if(groupSelect &&  groupSelect.name !== item.code) array.push(item);
       else array.push({code: 'ungroup', label:'ungroup'})
@@ -85,8 +85,8 @@ const ToolBar = ({groupList = [],scope, sortList,groupSelect, sortAction, groupA
         <div data-focus='toolbar' className='mdl-grid mdl-shadow--3dp'>
             {<ToolbarSelection label={label} selectState={stateOfTheSelectionList} toggleAllLine={toggleAllLine} />}
             {sortList && <ToolbarSort sortAction={sortAction} sortList={sortList} />}
-            {!isGroup && groupList && <ToolbarGroup groupAction={groupAction} groupList={groupList} />}
-            {isGroup && groupList && <ToolbarGroup groupAction={groupAction} groupList={toolBarGroup} />}
+            {!isGroup && groupList && isListToolBar && <ToolbarGroup groupAction={groupAction} groupList={groupList} />}
+            {isGroup && groupList && isGeneral && <ToolbarGroup groupAction={groupAction} groupList={toolBarGroup} />}
 
         </div>
     );
@@ -112,5 +112,3 @@ ToolBar.propTypes = {
     selectState: PropTypes.bool,
     toggleAllLine: PropTypes.func
 };
-const ToolBarConnected = ToolBar;
-export default ToolBarConnected;

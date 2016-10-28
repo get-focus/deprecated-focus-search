@@ -1,4 +1,4 @@
-#La recherche Focus. 
+#La recherche Focus.
 
 ##Etat des lieux
 
@@ -24,9 +24,9 @@ Le composant de recherche avancée gère automatiquement:
  - Le store des données de recherche
  - Les actions liés à la recherche
 
-Peu de choses sont à déclarer pour créer une recherche. Tout au long des étapes vous devrez rester cohérent sur le nom de la recherche avancée dans notre exemple ce sera advancedSearch. Ainsi si vous voulez créer un autre recherche dans la même application il vous suffira de refaire ses étapes avec un autre nom. 
+Peu de choses sont à déclarer pour créer une recherche. Tout au long des étapes vous devrez rester cohérent sur le nom de la recherche avancée dans notre exemple ce sera advancedSearch. Ainsi si vous voulez créer un autre recherche dans la même application il vous suffira de refaire ses étapes avec un autre nom.
 
-A la suite de ses étapes, vous aurez dans votre state redux un noeud du nom de votre recherche composé de deux noeuds : 
+A la suite de ses étapes, vous aurez dans votre state redux un noeud du nom de votre recherche composé de deux noeuds :
  - criteria correspondant au critère permettant une recherche et envoyé au serveur
  - result correspondant aux résultats renvoyé par votre serveur
 
@@ -53,10 +53,10 @@ const ConnectedSearch = compose(
 export default ConnectedSearch;
 
 ```
-Il suffit pour de connecter le composant en lui indiquant le nom de la recherche avancée et en lui donnant les actions unitaires de votre recherche. 
+Il suffit pour de connecter le composant en lui indiquant le nom de la recherche avancée et en lui donnant les actions unitaires de votre recherche.
 
 ##L'action, le reducer et le middleware
- 
+
 ```javascript
  import {actionSearchBuilder} from 'focus-search/actions/action-search-builder'
 import {singleActionCreatorBuilder} from 'focus-search/actions/single-action-creator'
@@ -72,20 +72,20 @@ export const unitSearchReducers = unitSearchReducerBuilder('advancedSearch')
 export const middlewareAdvancedSearch = searchTriggerMiddlewareBuilder(['ADVANCEDSEARCH_UPDATE_QUERY', 'ADVANCEDSEARCH_UPDATE_SELECTED_FACETS', 'ADVANCEDSEARCH_START_SEARCH', 'ADVANCEDSEARCH_UPDATE_GROUP', 'ADVANCEDSEARCH_UPDATE_SORT'], state => state.advancedSearch, searchAction.action);
 ```
 
-Afin de paramètrer une recherche nous vous conseillons de regrouper la déclaration des reducers des actions et le middleware dans le même fichier. Vous pouvez également les séprarer dans les différents dossiers que vous avez définis pour les autres actions ou reducers de votre application. 
+Afin de paramètrer une recherche nous vous conseillons de regrouper la déclaration des reducers des actions et le middleware dans le même fichier. Vous pouvez également les séprarer dans les différents dossiers que vous avez définis pour les autres actions ou reducers de votre application.
 
 ###Les actions
 
-L'actionSearchBuilder permet permet de créer l'action de search qui déclanchera une action serveur. 
-Il suffit de lui donner le nom de la recherche que vous voulez créer (ici : advancedsearch ), de lui indiquer le type d'action que cela réaliser : 'search' et enfin le service permettant de communiquer avec le serveur. 
- 
-Le singleActionCreatorBuilder permet de construire les différentes actions relatives à une recherche à savoir : 
+L'actionSearchBuilder permet permet de créer l'action de search qui déclanchera une action serveur.
+Il suffit de lui donner le nom de la recherche que vous voulez créer (ici : advancedsearch ), de lui indiquer le type d'action que cela réaliser : 'search' et enfin le service permettant de communiquer avec le serveur.
 
- - la selection de facets 
- - le sort 
- - le grouping 
- - l'action de start d'une recherche 
- - le changement de query 
+Le singleActionCreatorBuilder permet de construire les différentes actions relatives à une recherche à savoir :
+
+ - la selection de facets
+ - le sort
+ - le grouping
+ - l'action de start d'une recherche
+ - le changement de query
  ```
 const updateQuery =  (query, replace = false, isSearchAction = true) => ({
 	type: UPDATE_QUERY_ADVANCEDSEARCH,
@@ -97,19 +97,19 @@ const updateQuery =  (query, replace = false, isSearchAction = true) => ({
  ```
  Il retourne les différentes actions ainsi créées ainsi que les types.
 
-###Les reducers 
+###Les reducers
 
 Le unitSearchReducerBuilder permet de construire les différents reducers des actions que nous venons de créer. Il suffit pour cela de lui donner à nouveau le nom de la recherche que vous voulez créer.
 
-###Le middleware 
+###Le middleware
 
 le searchTriggerMiddlewareBuilder sert de déclencheur pour la rechercher. Ainsi il prend en premier argument un tableau des différentes actions qui déclenchent une recherche. Dans notre exemple nous avons le changement de query, de sort, de groupe, et de facets. Puis une fonction qui permet de sélectionner le noeud correspondant à votre recherche dans le state redux et enfin l'action de search que vous avez créé avec le actionSearchBuilder.
 
 ## Le service
 
-Le service est une promesse permettant d'appeler le serveur. En fonction du scope, il est possible d'appeler différents services comme de la manière suivante : 
+Le service est une promesse permettant d'appeler le serveur. En fonction du scope, il est possible d'appeler différents services comme de la manière suivante :
 
-```javascript 
+```javascript
 
 import {parseForVertigo, getScope} from 'focus-search/store';
 
@@ -131,9 +131,9 @@ import {parseForVertigo, getScope} from 'focus-search/store';
         }
     }
 ```
- Deux fonctions sont à appeler pour cela : 
- 
- - Le getScope permettant de récuper le scope dans l'object config, 
+ Deux fonctions sont à appeler pour cela :
+
+ - Le getScope permettant de récuper le scope dans l'object config,
  - le parseForVertigo qui permet de créer l'objet attendu par le serveur
 
 
@@ -161,7 +161,7 @@ class Application extends Component {
 }
 ```
 
-Vous devez également renseigner le nœud du nom de la rercherche que vous avez choisi lors de la création du store ainsi que le middleware: 
+Vous devez également renseigner le nœud du nom de la rercherche que vous avez choisi lors de la création du store ainsi que le middleware:
 ```javascript
 
 import {unitSearchReducers} from '../action/search';
@@ -181,7 +181,7 @@ export default createStore(
 );
 
 ```
-##Les metadonnées 
+##Les metadonnées
 
 Il est conseillé pour cette partie de créer un dossier métadonnées dans  votre dossier search.
 
@@ -212,9 +212,9 @@ export default {
 };
 ```
 
-Il défini deux concepts celui de scopes et la fonction getListMetada. 
+Il défini deux concepts celui de scopes et la fonction getListMetada.
 
-####Les scopes : 
+####Les scopes :
 
 ```
 
@@ -253,8 +253,8 @@ const listMetadata = (listType) => {
 };
 
 ```
-Cette fonction doit retourner en fonction du listType les différentes données nécessaire. Il y a autant de listType que de scope. 
- Par exemple pour le MovieIndex voici les données à fournir : 
+Cette fonction doit retourner en fonction du listType les différentes données nécessaire. Il y a autant de listType que de scope.
+ Par exemple pour le MovieIndex voici les données à fournir :
 
 ```
 import React, {PropTypes} from 'react';
@@ -312,14 +312,14 @@ export default {
 
 ```
 
-Il n'y a que le LineComponent d'obligatoire. Le lineIdentifier vaut "id" par default. L'ActionsComponent defini le composant que vous pouvez ajouter et apparaitra au survol d'une ligne, il est également possible de lui donner un tableau d'actionsLine de la façon suivante : 
+Il n'y a que le LineComponent d'obligatoire. Le lineIdentifier vaut "id" par default. L'ActionsComponent defini le composant que vous pouvez ajouter et apparaitra au survol d'une ligne, il est également possible de lui donner un tableau d'actionsLine de la façon suivante :
 ```
     actionsLine: [
         {label: 'Yo', icon: 'print', action: () => {console.log('action')}},
         {label: 'La', icon: 'print', action: () => {console.log('action')}}
     ]
 ```
-Permettant ainsi de créer autant de boutons que d'éléments présents dans le tableau. 
-Le sortList et le groupList permet d'ajouter la liste des sort disponible ou des groupes. 
+Permettant ainsi de créer autant de boutons que d'éléments présents dans le tableau.
+Le sortList et le groupList permet d'ajouter la liste des sort disponible ou des groupes.
 
 Pour les lignes, il est possible d'utiliser les connect de focus-graph pour afficher vos données et avoir accès ainsi aux formatteurs. Pour cela il est nécessaire d'utiliser le buildFieldForLineSearch pour formatter les données pour les helpers de field comme textFor.
