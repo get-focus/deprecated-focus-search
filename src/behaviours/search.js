@@ -69,7 +69,6 @@ export function connect(searchOptions) {
       const groupSelect = get(criteria, 'group')
       const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value) || 'ALL';
       const hasScope = isUndefined(get(criteria, 'query.scope'));
-      console.log(criteria, scope, hasScope);
       const unitSearchDispatch = {
         startAction: element => dispatch(startSearch()),
         sortAction: element => dispatch(updateSort(element)),

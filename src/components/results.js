@@ -53,7 +53,6 @@ export class ListComponentWithToolBar extends PureComponent {
                     sortAction={unitSearchDispatch.sortAction}
                     groupList={groupList}
                     label={label}
-                    totalCount={data.length}
                     sortList={sortList}
                     isGroup={isGroup}
                     unGroup={false}
