@@ -14,7 +14,7 @@ export function InformationBar (props) {
                 <div data-focus="scope-selected">
                     <Chips label={scopeList}
                       letter={scopeLetter}
-                      onDeleteClick={()=>scopeAction({query:{value :{scope: null}, replace: false}, group: {value: {}, replace: false}})}/>
+                      onDeleteClick={()=>scopeAction({query:{value :{scope: undefined}, replace: false}, group: {value: {}, replace: false}})}/>
                 </div>
             }
             <div data-focus='selectedFacets'>
