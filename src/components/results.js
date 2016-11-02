@@ -42,7 +42,9 @@ export class ListComponentWithToolBar extends PureComponent {
       isGroup,
       lineIdentifierProperty,
       ListWrapper,
-      LineWrapper
+      isAlreadyRenderGlobalActions,
+      LineWrapper,
+      GlobalActions
     } = this.props;
     return (
       <div>
@@ -53,6 +55,7 @@ export class ListComponentWithToolBar extends PureComponent {
                     label={label}
                     sortList={sortList}
                     isGroup={isGroup}
+                    GlobalActions={isAlreadyRenderGlobalActions ? null : GlobalActions}
                     stateOfTheSelectionList={stateOfTheSelectionList}
                     groupSelect={groupSelect}
                     toggleAllLine={toggleAllLine}
@@ -93,7 +96,7 @@ return <Component {...otherProps} LineComponent={LineComponent}/>;
 }
 */
 
-export function ResultList({valuesForResult,isGroup, unitSearchDispatch,numberOfList,youHaveToChange, ListComponentWithToolBar}) {
+export function ResultList({valuesForResult,isGroup, unitSearchDispatch,numberOfList,youHaveToChange, ListComponentWithToolBar, GlobalActions}) {
     return(
         <div data-focus='result-list'>
             {/**Toolbar needs the toggleAllLine :-1 */}
@@ -106,6 +109,7 @@ export function ResultList({valuesForResult,isGroup, unitSearchDispatch,numberOf
                 youHaveToChange={youHaveToChange}
                 valuesForResult={valuesForResult}
                 numberOfList={numberOfList}
+                GlobalActions={GlobalActions}
                 />
         </div>
     );
@@ -129,13 +133,14 @@ ResultList.propTypes = {
 
 export class ResultGroup extends PureComponent {
   render(){
-    const {valuesForResults, isGroup,unitSearchDispatch, ListComponent, scope } = this.props
+    const {valuesForResults, isGroup,unitSearchDispatch, ListComponent, scope , GlobalActions, hasScope} = this.props
     return (
       <div data-focus='result-group' >
-      <ToolBar data-focus='toolbar-ungroup'
+{!hasScope &&      <ToolBar data-focus='toolbar-ungroup'
                   groupAction={unitSearchDispatch.groupAction}
                   groupList={[{code: 'ungroup', label:'ungroup'}]}
-                  />
+                  GlobalActions={GlobalActions}
+                  />}
           {valuesForResults.map((element, idx) => {
               //TO do add ListWrapper
               const valuesForResult = {
@@ -144,6 +149,7 @@ export class ResultGroup extends PureComponent {
               return (
                 <ResultList
                       isGroup={isGroup}
+                      isAlreadyRenderGlobalActions
                       ListComponentWithToolBar={ListComponent}
                       valuesForResult={valuesForResult}
                       unitSearchDispatch={unitSearchDispatch}

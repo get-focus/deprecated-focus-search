@@ -1,8 +1,13 @@
 
 [data-focus='toolbar'] {
     margin: 10px 0;
+
     background-color: #FFF;
     & > span:first-child {
         margin: 0 10px;
     }
-}
+    [data-focus='toolbar-global-actions']{
+      display: flex;
+      justify-content: flex-end;
+    }
+ }

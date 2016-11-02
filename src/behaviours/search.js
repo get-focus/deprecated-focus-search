@@ -67,6 +67,7 @@ export function connect(searchOptions) {
       const {dispatch, results: {hasGroups, data, listType, totalCount}, criteria} = props;
       const groupSelect = get(criteria, 'group')
       const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value) || 'ALL';
+      const hasScope =  get(criteria, 'query.scope', 'ALL') === 'ALL' ;
       const unitSearchDispatch = {
         startAction: element => dispatch(startSearch()),
         sortAction: element => dispatch(updateSort(element)),
@@ -132,6 +133,8 @@ export function connect(searchOptions) {
 
       return <ComponentToConnect
                 isGroup={hasGroups}
+                GlobalActions={searchMetadata.GlobalActions}
+                hasScope={hasScope}
                 start={unitSearchDispatch.startAction}
                 InformationBarProps={InformationBarProps}
                 ResultGroupProps={ResultGroup}
