@@ -49,9 +49,8 @@ ToolbarSort.propTypes = {
 
 export function ToolbarGroup({groupList, groupAction, unGroup}) {
     const label = unGroup ? 'Ungroup': 'Grouper';
-    console.log(label)
     const operationList = reduce(groupList, (result, item) => concat(result, _buildGroupAction(item, groupAction)), []);
-    const buttonProps = {icon: undefined, label: unGroup ? 'Ungroup' : 'Grouper', shape: null};
+    const buttonProps = {icon: undefined, label:label, shape: null};
     return ( <Dropdown data-focus='toolbar-group' operations={operationList} button={buttonProps} />);
 };
 ToolbarGroup.displayName = 'ToolbarGroup';

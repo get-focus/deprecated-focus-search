@@ -57,7 +57,6 @@ export class ListComponentWithToolBar extends PureComponent {
                     sortList={sortList}
                     isGroup={isGroup}
                     unGroup={false}
-                    douJeViens='lala'
                     GlobalActions={isAlreadyRenderGlobalActions ? null : GlobalActions}
                     stateOfTheSelectionList={stateOfTheSelectionList}
                     groupSelect={groupSelect}
