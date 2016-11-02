@@ -3,6 +3,7 @@ import {connect as connectToState} from 'react-redux';
 import {compose} from 'redux';
 import {map} from 'lodash/map';
 import isArray from 'lodash/isArray';
+import isUndefined from 'lodash/isUndefined';
 import {loadLine} from '../actions/single-action-creator';
 import get from 'lodash/get';
 
@@ -67,7 +68,8 @@ export function connect(searchOptions) {
       const {dispatch, results: {hasGroups, data, listType, totalCount}, criteria} = props;
       const groupSelect = get(criteria, 'group')
       const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value) || 'ALL';
-      const hasScope =  get(criteria, 'query.scope', 'ALL') === 'ALL' ;
+      const hasScope = isUndefined(get(criteria, 'query.scope'));
+      console.log(criteria, scope, hasScope);
       const unitSearchDispatch = {
         startAction: element => dispatch(startSearch()),
         sortAction: element => dispatch(updateSort(element)),

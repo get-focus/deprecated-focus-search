@@ -26,7 +26,7 @@ export function SearchBarScopeSelection({scope, scopes, scopeAction}) {
             name='search-scope'
             onChange={
                 (value) => value === 'ALL' ?
-                scopeAction({group: {value: {name: value}, replace: false}, query:{value: {scope: null}, replace: false}})
+                scopeAction({group: {value: null, replace: false}, query:{value: {scope: undefined}, replace: false}})
                 :
                 scopeAction({query: {value :{scope: value}, replace: false}, group: {value: {}, replace: true}})
             }
