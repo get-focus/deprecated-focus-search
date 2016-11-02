@@ -53,8 +53,11 @@ export class ListComponentWithToolBar extends PureComponent {
                     sortAction={unitSearchDispatch.sortAction}
                     groupList={groupList}
                     label={label}
+                    totalCount={data.length}
                     sortList={sortList}
                     isGroup={isGroup}
+                    unGroup={false}
+                    douJeViens='lala'
                     GlobalActions={isAlreadyRenderGlobalActions ? null : GlobalActions}
                     stateOfTheSelectionList={stateOfTheSelectionList}
                     groupSelect={groupSelect}
@@ -136,11 +139,12 @@ export class ResultGroup extends PureComponent {
     const {valuesForResults, isGroup,unitSearchDispatch, ListComponent, scope , GlobalActions, hasScope} = this.props
     return (
       <div data-focus='result-group' >
-{!hasScope &&      <ToolBar data-focus='toolbar-ungroup'
-                  groupAction={unitSearchDispatch.groupAction}
-                  groupList={[{code: 'ungroup', label:'ungroup'}]}
-                  GlobalActions={GlobalActions}
-                  />}
+      {!hasScope && <ToolBar data-focus='toolbar-ungroup'
+                        groupAction={unitSearchDispatch.groupAction}
+                        unGroup={true}
+                        groupList={[{code: 'ungroup', label:'ungroup'}]}
+                        GlobalActions={GlobalActions}
+                        />}
           {valuesForResults.map((element, idx) => {
               //TO do add ListWrapper
               const valuesForResult = {

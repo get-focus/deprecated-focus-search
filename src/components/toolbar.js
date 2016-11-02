@@ -47,9 +47,11 @@ ToolbarSort.propTypes = {
 
 
 
-export function ToolbarGroup({groupList, groupAction}) {
+export function ToolbarGroup({groupList, groupAction, unGroup}) {
+    const label = unGroup ? 'Ungroup': 'Grouper';
+    console.log(label)
     const operationList = reduce(groupList, (result, item) => concat(result, _buildGroupAction(item, groupAction)), []);
-    const buttonProps = {icon: undefined, label: 'Grouper', shape: null};
+    const buttonProps = {icon: undefined, label: unGroup ? 'Ungroup' : 'Grouper', shape: null};
     return ( <Dropdown data-focus='toolbar-group' operations={operationList} button={buttonProps} />);
 };
 ToolbarGroup.displayName = 'ToolbarGroup';
@@ -58,13 +60,14 @@ ToolbarGroup.propTypes = {
     groupList : PropTypes.array
 };
 
-const ToolbarSelection = ({selectState, toggleAllLine, label}) => {
+const ToolbarSelection = ({selectState, toggleAllLine, label, totalCount}) => {
     //<i class="material-icons">indeterminate_check_box</i>
     return (
         <span>
             {selectState && <Button onClick={toggleAllLine} icon='check_box' shape='icon' />}
             {!selectState && <Button onClick={toggleAllLine} icon='check_box_outline_blank' shape='icon' /> }
             <span>{label}</span>
+            {totalCount && <span> ({totalCount})</span>}
         </span>
     );
 };
@@ -75,17 +78,17 @@ ToolbarSelection.propTypes = {
 };
 
 
-export const ToolBar = ({groupList = [], scope, sortList,groupSelect, sortAction, groupAction, isGroup, stateOfTheSelectionList, label, toggleAllLine, GlobalActions}) => {
-    const toolBarGroup = groupList.reduce((array, item)=> {
-      if(groupSelect &&  groupSelect.name !== item.code) array.push(item);
-      else array.push({code: 'ungroup', label:'ungroup'})
-      return array;
-    }, [])
+export const ToolBar = ({groupList = [], scope, totalCount, sortList,groupSelect,unGroup, sortAction, groupAction, isGroup, stateOfTheSelectionList, label, toggleAllLine, GlobalActions}) => {
+    // const toolBarGroup = groupList.reduce((array, item)=> {
+    //   if(groupSelect &&  groupSelect.name !== item.code) array.push(item);
+    //   else array.push({code: 'ungroup', label:'ungroup'})
+    //   return array;
+    // }, [])
     return (
         <div data-focus='toolbar' className='mdl-grid mdl-shadow--3dp'>
-            {toggleAllLine && <ToolbarSelection label={label} selectState={stateOfTheSelectionList} toggleAllLine={toggleAllLine} />}
+            {toggleAllLine && <ToolbarSelection label={label} totalCount={totalCount} selectState={stateOfTheSelectionList} toggleAllLine={toggleAllLine} />}
             {!isGroup && sortList && <ToolbarSort sortAction={sortAction} sortList={sortList} />}
-            {!isGroup && groupList && <ToolbarGroup groupAction={groupAction} groupList={groupList} />}
+            {!isGroup && groupList && <ToolbarGroup unGroup groupAction={groupAction} groupList={groupList} />}
             {GlobalActions && <div data-focus='toolbar-global-actions'><GlobalActions/></div>}
 
         </div>
