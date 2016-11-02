@@ -18,17 +18,19 @@ export class AdvancedSearch extends Component{
   }
   render () {
     //const {valuesForResults, groupSelect,selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, scope, ListComponent} = this.props;
-    const {isGroup,InformationBarProps,ResultGroupProps, ResultListProps, FacetPanelProps, ListComponent,GlobalActions, hasScope }= this.props;
+    const {isGroup,InformationBarProps,ResultGroupProps, ResultListProps, FacetPanelProps, i18n, ListComponent,GlobalActions, hasScope }= this.props;
 
     return (
         <div data-focus='advanced-search'>
             <div data-focus="results-advanced-search">
                 <InformationBar
                     {...InformationBarProps}
+                    i18n={i18n}
                     data-focus='information-bar-advanced-search' />
                 {isGroup ?
                   <ResultGroup isGroup={isGroup}
                       ListComponent={ListComponent}
+                      i18n={i18n}
                       GlobalActions={GlobalActions}
                       hasScope={hasScope}
                       data-focus='result-group-advanced-search'
@@ -39,6 +41,7 @@ export class AdvancedSearch extends Component{
                         data-focus='result-list-advanced-search'
                         ListComponentWithToolBar={ListComponent}
                         isGroup={isGroup}
+                        i18n={i18n}
                         GlobalActions={GlobalActions}
                         {...ResultListProps}
                         />
@@ -59,13 +62,14 @@ AdvancedSearch.propTypes ={
     isSelectable: PropTypes.bool,
     isGroup: PropTypes.bool,
     valuesForResults: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
-
+    i18n: PropTypes.func,
     unitSearchDispatch: PropTypes.object.isRequired,
     facetListWithselectedInformation: PropTypes.array.isRequired
 };
 AdvancedSearch.defaultProps = {
     isSelectable:  true,
     isGroup: false,
+    i18n: elm => elm,
     unitSearchDispatch: {
     },
     valuesForResults: {

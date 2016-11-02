@@ -51,7 +51,7 @@ export function ToolbarGroup({groupList, groupAction, unGroup}) {
     const label = unGroup ? 'Ungroup': 'Grouper';
     const operationList = reduce(groupList, (result, item) => concat(result, _buildGroupAction(item, groupAction)), []);
     const buttonProps = {icon: undefined, label:label, shape: null};
-    return ( <Dropdown data-focus='toolbar-group' operations={operationList} button={buttonProps} />);
+    return ( unGroup ? <button onClick={operationList[0].action}>{operationList[0].label}</button> : <Dropdown data-focus='toolbar-group' operations={operationList} button={buttonProps} />);
 };
 ToolbarGroup.displayName = 'ToolbarGroup';
 ToolbarGroup.propTypes = {
@@ -77,7 +77,21 @@ ToolbarSelection.propTypes = {
 };
 
 
-export const ToolBar = ({groupList = [], scope, totalCount, sortList,groupSelect,unGroup, sortAction, groupAction, isGroup, stateOfTheSelectionList, label, toggleAllLine, GlobalActions}) => {
+export const ToolBar = ({groupList = [],
+  scope,
+  totalCount,
+  sortList,
+  groupSelect,
+  unGroup,
+  sortAction,
+  groupAction,
+  numberOfSelectedElement,
+  isGroup,
+  stateOfTheSelectionList,
+  label,
+  toggleAllLine,
+  GlobalActions,
+  GlobalGroupActionsComponent}) => {
     // const toolBarGroup = groupList.reduce((array, item)=> {
     //   if(groupSelect &&  groupSelect.name !== item.code) array.push(item);
     //   else array.push({code: 'ungroup', label:'ungroup'})
@@ -87,9 +101,10 @@ export const ToolBar = ({groupList = [], scope, totalCount, sortList,groupSelect
         <div data-focus='toolbar' className='mdl-grid mdl-shadow--3dp'>
             {toggleAllLine && <ToolbarSelection label={label} totalCount={totalCount} selectState={stateOfTheSelectionList} toggleAllLine={toggleAllLine} />}
             {!isGroup && sortList && <ToolbarSort sortAction={sortAction} sortList={sortList} />}
-            {!isGroup && groupList && <ToolbarGroup unGroup groupAction={groupAction} groupList={groupList} />}
+            {!isGroup && groupList && <ToolbarGroup unGroup={unGroup} groupAction={groupAction} groupList={groupList} />}
             {GlobalActions && <div data-focus='toolbar-global-actions'><GlobalActions/></div>}
-
+            {GlobalGroupActionsComponent && <div data-focus='toolbar-group-actions'><GlobalGroupActionsComponent/></div>}
+            <span> Search Elements : {numberOfSelectedElement}</span>
         </div>
     );
 };

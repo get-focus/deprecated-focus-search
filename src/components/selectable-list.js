@@ -1,5 +1,6 @@
 import React, {PropTypes, Component} from 'react';
 import isFunction from 'lodash/isFunction'
+import filter from 'lodash/filter';
 const DATA_TEST = [
   {id: 1,name: 'Amelie', age: 25},
   {id: 2, name: 'Pierre', age: 28}
@@ -149,6 +150,7 @@ const connect = (ListToConnect = DefaultPureSelectableList) => {
       <ListToConnect
         stateOfTheSelectionList={this.state.selectState}
         data={dataWithSelectedInformation}
+        numberOfSelectedElement={filter(this.state.selectedElements, element => element).length}
         toggleAllLine={this.toggleAllLine}
         toggleLineSelection={this.toggleLineSelectionInState}
         lineIdentifierProperty={lineIdentifierProperty}

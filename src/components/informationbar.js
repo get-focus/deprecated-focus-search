@@ -9,7 +9,7 @@ export function InformationBar (props) {
 
     return (
         <div data-focus="information-bar">
-            <div data-focus='totalCount'>{totalCount} results for</div>
+            <div data-focus='totalCount'>{totalCount}  {props.i18n('search.results.for')}</div>
             {scopeList &&
                 <div data-focus="scope-selected">
                     <Chips label={scopeList}
