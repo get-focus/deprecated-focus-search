@@ -25,12 +25,10 @@ export class AdvancedSearch extends Component{
             <div data-focus="results-advanced-search">
                 <InformationBar
                     {...InformationBarProps}
-                    i18n={i18n}
                     data-focus='information-bar-advanced-search' />
                 {isGroup ?
                   <ResultGroup isGroup={isGroup}
                       ListComponent={ListComponent}
-                      i18n={i18n}
                       GlobalActions={GlobalActions}
                       hasScope={hasScope}
                       data-focus='result-group-advanced-search'
@@ -41,7 +39,6 @@ export class AdvancedSearch extends Component{
                         data-focus='result-list-advanced-search'
                         ListComponentWithToolBar={ListComponent}
                         isGroup={isGroup}
-                        i18n={i18n}
                         GlobalActions={GlobalActions}
                         {...ResultListProps}
                         />
@@ -50,7 +47,6 @@ export class AdvancedSearch extends Component{
             <FacetPanel
                 data-focus="facet-panel-advanced-search"
                 title='Facets'
-                i18n={i18n}
                 {...FacetPanelProps}/>
         </div>
     )

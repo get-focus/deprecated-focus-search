@@ -7,6 +7,7 @@ import {
     FACET_SHAPE_TYPE,
     FACET_DESCRIPTOR_SHAPE_TYPE
 } from '../reducer';
+import i18n from 'i18next';
 
 
 
@@ -102,7 +103,7 @@ FacetBlock.propTypes = {
 
 export function FacetPanel(props){
     return <div data-focus='facet-panel' >
-        <h4>{props.i18n('search.facets')}</h4>
+        <h4>{i18n.t('search.facets')}</h4>
         {props.data.map(
             facetDescriptor => {
               if(facetDescriptor.values.length > 1 || facetDescriptor.selected) {

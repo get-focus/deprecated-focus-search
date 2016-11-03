@@ -139,7 +139,6 @@ export function connect(searchOptions) {
                 GlobalActions={searchMetadata.GlobalActions}
                 hasScope={hasScope}
                 start={unitSearchDispatch.startAction}
-                i18n={searchMetadata.i18n}
                 InformationBarProps={InformationBarProps}
                 ResultGroupProps={ResultGroup}
                 ResultListProps={ResultList}

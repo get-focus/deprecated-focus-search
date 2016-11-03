@@ -2,17 +2,17 @@ import React, {Component, PropTypes} from 'react';
 import Chips from 'focus-components/chips';
 import upperCase from 'lodash/upperCase';
 import isArray from 'lodash/isArray';
-
+import i18next from 'i18next';
 export function InformationBar (props) {
     const {totalCount, selectedFacetsList, deleteFacet, scopeFunction,scopeList, group, facets, unitSearchDispatch : {scopeAction}} = props;
     const scopeLetter = scopeList && scopeList.length > 0 ? scopeList[0] : undefined;
 
     return (
         <div data-focus="information-bar">
-            <div data-focus='totalCount'>{totalCount}  {props.i18n('search.results.for')}</div>
+            <div data-focus='totalCount'>{totalCount}  {i18next.t('search.results.for')}</div>
             {scopeList &&
                 <div data-focus="scope-selected">
-                    <Chips label={props.i18n('search.scope.'+scopeList)}
+                    <Chips label={i18next.t('search.scope.'+scopeList)}
                       letter={scopeLetter}
                       onDeleteClick={()=>scopeAction({query:{value :{scope: undefined}, replace: false}, group: {value: {}, replace: false}})}/>
                 </div>
