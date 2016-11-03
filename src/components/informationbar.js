@@ -5,14 +5,14 @@ import isArray from 'lodash/isArray';
 
 export function InformationBar (props) {
     const {totalCount, selectedFacetsList, deleteFacet, scopeFunction,scopeList, group, facets, unitSearchDispatch : {scopeAction}} = props;
-    const scopeLetter = scopeList && scopeList.length > 0 ? upperCase(scopeList[0]) : undefined;
+    const scopeLetter = scopeList && scopeList.length > 0 ? scopeList[0] : undefined;
 
     return (
         <div data-focus="information-bar">
             <div data-focus='totalCount'>{totalCount}  {props.i18n('search.results.for')}</div>
             {scopeList &&
                 <div data-focus="scope-selected">
-                    <Chips label={scopeList}
+                    <Chips label={props.i18n('search.scope.'+scopeList)}
                       letter={scopeLetter}
                       onDeleteClick={()=>scopeAction({query:{value :{scope: undefined}, replace: false}, group: {value: {}, replace: false}})}/>
                 </div>

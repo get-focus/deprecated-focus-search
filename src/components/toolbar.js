@@ -47,11 +47,11 @@ ToolbarSort.propTypes = {
 
 
 
-export function ToolbarGroup({groupList, groupAction, unGroup}) {
-    const label = unGroup ? 'Ungroup': 'Grouper';
+export function ToolbarGroup({groupList, groupAction, unGroup,i18n}) {
+    const label = unGroup ? 'ungroup': 'group';
     const operationList = reduce(groupList, (result, item) => concat(result, _buildGroupAction(item, groupAction)), []);
     const buttonProps = {icon: undefined, label:label, shape: null};
-    return ( unGroup ? <button onClick={operationList[0].action}>{operationList[0].label}</button> : <Dropdown data-focus='toolbar-group' operations={operationList} button={buttonProps} />);
+    return ( unGroup ? <button onClick={operationList[0].action}>{i18n('search.ungroup')}</button> : <Dropdown data-focus='toolbar-group' operations={operationList} button={buttonProps} />);
 };
 ToolbarGroup.displayName = 'ToolbarGroup';
 ToolbarGroup.propTypes = {
@@ -89,6 +89,7 @@ export const ToolBar = ({groupList = [],
   isGroup,
   stateOfTheSelectionList,
   label,
+  i18n,
   toggleAllLine,
   GlobalActions,
   GlobalGroupActionsComponent}) => {
@@ -101,10 +102,10 @@ export const ToolBar = ({groupList = [],
         <div data-focus='toolbar' className='mdl-grid mdl-shadow--3dp'>
             {toggleAllLine && <ToolbarSelection label={label} totalCount={totalCount} selectState={stateOfTheSelectionList} toggleAllLine={toggleAllLine} />}
             {!isGroup && sortList && <ToolbarSort sortAction={sortAction} sortList={sortList} />}
-            {!isGroup && groupList && <ToolbarGroup unGroup={unGroup} groupAction={groupAction} groupList={groupList} />}
+            {!isGroup && groupList && <ToolbarGroup i18n={i18n} unGroup={unGroup} groupAction={groupAction} groupList={groupList} />}
             {GlobalActions && <div data-focus='toolbar-global-actions'><GlobalActions/></div>}
             {GlobalGroupActionsComponent && <div data-focus='toolbar-group-actions'><GlobalGroupActionsComponent/></div>}
-            <span> Search Elements : {numberOfSelectedElement}</span>
+            {(numberOfSelectedElement == 0 || numberOfSelectedElement) && <span> {i18n('search.elements.selected')} {numberOfSelectedElement}</span>}
         </div>
     );
 };

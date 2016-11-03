@@ -44,6 +44,7 @@ export class ListComponentWithToolBar extends PureComponent {
       lineIdentifierProperty,
       ListWrapper,
       LineWrapper,
+      i18n,
       GlobalGroupActionsComponent,
     } = this.props;
     return (
@@ -54,6 +55,7 @@ export class ListComponentWithToolBar extends PureComponent {
                     groupList={groupList}
                     label={label}
                     sortList={sortList}
+                    i18n={i18n}
                     isGroup={isGroup}
                     unGroup={false}
                     numberOfSelectedElement={numberOfSelectedElement}
@@ -98,12 +100,13 @@ return <Component {...otherProps} LineComponent={LineComponent}/>;
 }
 */
 
-export function ResultList({valuesForResult,isGroup, unitSearchDispatch,numberOfList,youHaveToChange, ListComponentWithToolBar, GlobalActions}) {
+export function ResultList({valuesForResult,isGroup, unitSearchDispatch,numberOfList,youHaveToChange, ListComponentWithToolBar, i18n,GlobalActions}) {
     return(
         <div data-focus='result-list'>
             {/**Toolbar needs the toggleAllLine :-1 */}
             <ListComponentWithToolBar data-focus='selectable-list-advanced-search'
                 isGroup={isGroup}
+                i18n={i18n}
                 data={valuesForResult.values}
                 lineIdentifierProperty={valuesForResult.lineIdentifierProperty}
                 LineComponent={valuesForResult.LineComponent}
@@ -135,12 +138,13 @@ ResultList.propTypes = {
 
 export class ResultGroup extends PureComponent {
   render(){
-    const {valuesForResults, isGroup,unitSearchDispatch, ListComponent, scope , hasScope} = this.props
+    const {valuesForResults, isGroup,unitSearchDispatch, ListComponent, scope ,i18n, hasScope} = this.props
     return (
       <div data-focus='result-group' >
       {!hasScope && <ToolBar data-focus='toolbar-ungroup'
                         groupAction={unitSearchDispatch.groupAction}
                         unGroup={true}
+                        i18n={i18n}
                         groupList={[{code: 'ungroup', label:'ungroup'}]}
                         />}
           {valuesForResults.map((element, idx) => {
@@ -151,6 +155,7 @@ export class ResultGroup extends PureComponent {
               return (
                 <ResultList
                       isGroup={isGroup}
+                      i18n={i18n}
                       ListComponentWithToolBar={ListComponent}
                       valuesForResult={valuesForResult}
                       unitSearchDispatch={unitSearchDispatch}

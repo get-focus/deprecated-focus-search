@@ -102,7 +102,7 @@ FacetBlock.propTypes = {
 
 export function FacetPanel(props){
     return <div data-focus='facet-panel' >
-        <h4>{props.title}</h4>
+        <h4>{props.i18n('search.facets')}</h4>
         {props.data.map(
             facetDescriptor => {
               if(facetDescriptor.values.length > 1 || facetDescriptor.selected) {

@@ -11,6 +11,12 @@ export default {
       results: {
         for: 'results for'
 
+      },
+      scope: {
+        MOVIE: 'Films',
+        PERSON: 'Acteurs',
+        ALL: 'Tous'
       }
+
     }
 }
