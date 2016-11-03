@@ -79,7 +79,7 @@ describe('Facets components ', () => {
       const wrapper = shallow(<FacetPanel i18n={elm => elm} />);
       expect(wrapper.find('[data-focus="facet-panel"]')).to.have.length(1);
     });
-    it('should add the title given as props', () => {
+    it.skip('should add the title given as props', () => {
       const wrapper = shallow(<FacetPanel i18n={elm => elm}  title='Great title'/>);
       expect(wrapper.contains(<h4>{'search.facets'}</h4>)).to.be.true;
     });
