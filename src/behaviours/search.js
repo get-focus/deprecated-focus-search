@@ -29,7 +29,7 @@ export function getResultsForGroup(groups, searchMetadata){
      // getListMetadata => LineComponent , ListComponent and maybe other informations concidered usefull
      const {scopeEntityDefintion} = searchMetadata;
      //TO Do scopeEntityDefintion existing
-     const {LineComponent, sortList, groupList,actionsLine, lineIdentifierProperty} = searchMetadata.getListMetadata( element.listType, element.values)
+     const {LineComponent, sortList, groupList,actionsLine, lineIdentifierProperty, GlobalGroupActionsComponent} = searchMetadata.getListMetadata( element.listType, element.values)
      const formators = (scopeEntityDefintion && scopeEntityDefintion[element.listType]) ? scopeEntityDefintion[element.listType] : props => props
      return {
        ...element,
@@ -41,6 +41,7 @@ export function getResultsForGroup(groups, searchMetadata){
        LineComponent,
        actionsLine,
        sortList,
+       GlobalGroupActionsComponent,
        groupList
      }
   })
@@ -48,13 +49,14 @@ export function getResultsForGroup(groups, searchMetadata){
 
 export function getResultsForList(list = [], searchMetadata, listType){
   const test = listType
-  const {LineComponent, sortList, groupList, actionsLine, lineIdentifierProperty} = searchMetadata.getListMetadata( listType, list)
+  const {LineComponent, sortList, groupList, actionsLine, lineIdentifierProperty, GlobalGroupActionsComponent} = searchMetadata.getListMetadata( listType, list)
   return {
    values: list,
    lineIdentifierProperty,
    groupList,
    actionsLine,
    sortList,
+   GlobalGroupActionsComponent,
    LineComponent
  }
 
@@ -69,7 +71,6 @@ export function connect(searchOptions) {
       const groupSelect = get(criteria, 'group')
       const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value) || 'ALL';
       const hasScope = isUndefined(get(criteria, 'query.scope'));
-      console.log(criteria, scope, hasScope);
       const unitSearchDispatch = {
         startAction: element => dispatch(startSearch()),
         sortAction: element => dispatch(updateSort(element)),

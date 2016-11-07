@@ -39,12 +39,12 @@ export class ListComponentWithToolBar extends PureComponent {
       toggleLineSelection,
       unitSearchDispatch,
       toggleAllLine,
+      numberOfSelectedElement,
       isGroup,
       lineIdentifierProperty,
       ListWrapper,
-      isAlreadyRenderGlobalActions,
       LineWrapper,
-      GlobalActions
+      GlobalGroupActionsComponent,
     } = this.props;
     return (
       <div>
@@ -55,7 +55,9 @@ export class ListComponentWithToolBar extends PureComponent {
                     label={label}
                     sortList={sortList}
                     isGroup={isGroup}
-                    GlobalActions={isAlreadyRenderGlobalActions ? null : GlobalActions}
+                    unGroup={false}
+                    numberOfSelectedElement={numberOfSelectedElement}
+                    GlobalGroupActionsComponent={GlobalGroupActionsComponent}
                     stateOfTheSelectionList={stateOfTheSelectionList}
                     groupSelect={groupSelect}
                     toggleAllLine={toggleAllLine}
@@ -109,7 +111,7 @@ export function ResultList({valuesForResult,isGroup, unitSearchDispatch,numberOf
                 youHaveToChange={youHaveToChange}
                 valuesForResult={valuesForResult}
                 numberOfList={numberOfList}
-                GlobalActions={GlobalActions}
+                GlobalGroupActionsComponent={valuesForResult.GlobalGroupActionsComponent}
                 />
         </div>
     );
@@ -133,14 +135,14 @@ ResultList.propTypes = {
 
 export class ResultGroup extends PureComponent {
   render(){
-    const {valuesForResults, isGroup,unitSearchDispatch, ListComponent, scope , GlobalActions, hasScope} = this.props
+    const {valuesForResults, isGroup,unitSearchDispatch, ListComponent, scope , hasScope} = this.props
     return (
       <div data-focus='result-group' >
-{!hasScope &&      <ToolBar data-focus='toolbar-ungroup'
-                  groupAction={unitSearchDispatch.groupAction}
-                  groupList={[{code: 'ungroup', label:'ungroup'}]}
-                  GlobalActions={GlobalActions}
-                  />}
+      {!hasScope && <ToolBar data-focus='toolbar-ungroup'
+                        groupAction={unitSearchDispatch.groupAction}
+                        unGroup={true}
+                        groupList={[{code: 'ungroup', label:'ungroup'}]}
+                        />}
           {valuesForResults.map((element, idx) => {
               //TO do add ListWrapper
               const valuesForResult = {
@@ -149,7 +151,6 @@ export class ResultGroup extends PureComponent {
               return (
                 <ResultList
                       isGroup={isGroup}
-                      isAlreadyRenderGlobalActions
                       ListComponentWithToolBar={ListComponent}
                       valuesForResult={valuesForResult}
                       unitSearchDispatch={unitSearchDispatch}
