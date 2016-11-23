@@ -22,7 +22,7 @@ export function SearchBarScopeSelection({scope, scopes, scopeAction}) {
         <InputSelect data-focus='search-bar-scope-selection'
             hasUndefined={false} values={scopes}
             valueKey='value'
-            value={scope || 'ALL'}
+            rawInputValue={scope || 'ALL'}
             name='search-scope'
             onChange={
                 (value) => value === 'ALL' ?

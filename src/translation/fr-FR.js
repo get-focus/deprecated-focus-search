@@ -1,22 +1,15 @@
 
 export default {
-    search : {
-      ungroup: 'Ungroup',
-      group: 'Group',
-      sort: 'Sort',
-      facets: 'facets',
-      elements: {
-        selected: 'Selected Elments',
-      },
-      results: {
-        for: 'results for'
-
-      },
-      scope: {
-        MOVIE: 'Films',
-        PERSON: 'Acteurs',
-        ALL: 'Tous'
-      }
-
+    search: {
+        ungroup: 'Dégrouper',
+        group: 'Grouper',
+        sort: 'Trier',
+        facets: 'Filtres',
+        elements: {
+            selected: 'élément(s) sélectionné(s)'
+        },
+        results: {
+            for: 'résultat(s) pour'
+        }
     }
 }
