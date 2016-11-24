@@ -1,36 +1,40 @@
 import React, {PureComponent, PropTypes} from 'react';
 import {ToolBar} from './toolbar';
 import InputCheckbox from 'focus-components/input-checkbox';
+import Button from 'focus-components/button';
 
 export function MaterialListWrapper ({children}) {
     return (<ul data-focus='list-component' className='mdl-list'>{children}</ul>)
 };
 
 //TODO Ephrame : replace idx
-export function FocusAction({actions, ActionsComponent, ...otherProps}){
+export function LineActions({actions, ActionsComponent, ...otherProps}) {
     return (
         <div data-focus='focus-actions'>
-            {(actions) ?
-                actions.map((action, idx) => <button key={idx} onClick={action.action}>{action.label}</button>)
-                :
+            {(actions) ? (
+                ActionsComponent ?
                 <ActionsComponent {...otherProps} />
-            }
+                :
+                actions.map((action, idx) => <Button key={idx} label={action.label} onClick={action.action} />)
+            )
+            :
+            null}
         </div>
     );
 }
 
-export function MaterialLineWrapper({children, actionsLine, ActionsComponent, ...props}) {
+export function MaterialLineWrapper({children, actionsLine, ActionsComponent, isSelected, stateOfTheSelectionList, ...props}) {
     return (
-        <li data-focus='line-component' className='mdl-list__item'>
+        <li data-focus='line-component' data-selected={isSelected} className='mdl-list__item'>
             {props.toggleLineSelection &&
                 <div data-focus='line-component-selection'>
-                    <InputCheckbox rawInputValue={props.isSelected} onChange={() => props.toggleLineSelection(props.id)} />
+                    <InputCheckbox rawInputValue={isSelected} onChange={() => props.toggleLineSelection(props.id)} />
                 </div>
             }
             {children}
-            {(actionsLine || ActionsComponent) &&
+            {!stateOfTheSelectionList && (actionsLine || ActionsComponent) &&
                 <div data-focus='line-component-actions'>
-                    <FocusAction actions={actionsLine} ActionsComponent={ActionsComponent} {...props}/>
+                    <LineActions actions={actionsLine} ActionsComponent={ActionsComponent} {...props} />
                 </div>
             }
         </li>
@@ -39,7 +43,6 @@ export function MaterialLineWrapper({children, actionsLine, ActionsComponent, ..
 
 export class ListComponentWithToolBar extends PureComponent {
     render () {  //to do check the values
-        //{groupList, sortList, LineComponent, values, actionsLine, label, code}
         const {
             data,
             GlobalGroupActionsComponent,
@@ -49,32 +52,34 @@ export class ListComponentWithToolBar extends PureComponent {
             ListWrapper,
             numberOfList,
             numberOfSelectedElement,
+            selectedElements,
             stateOfTheSelectionList,
             toggleAllLine,
             toggleLineSelection,
             unitSearchDispatch,
-            valuesForResult: {values, label, groupSelect, groupList, sortList, isSelected, LineComponent, numberList, actionsLine, ...otherProps},
+            valuesForResult: {values, label, groupSelect, groupList, sortList, isSelected, LineComponent, numberList, actionsLine, ActionsComponent, ...otherProps},
         } = this.props;
         return (
             <div>
                 <ToolBar
                     data-focus='toolbar-advanced-search'
-                    groupAction={unitSearchDispatch.groupAction}
-                    sortAction={unitSearchDispatch.sortAction}
-                    groupList={groupList}
-                    label={label}
-                    sortList={sortList}
-                    isGroup={isGroup}
-                    unGroup={false}
-                    numberOfSelectedElement={numberOfSelectedElement}
                     GlobalGroupActionsComponent={GlobalGroupActionsComponent}
-                    stateOfTheSelectionList={stateOfTheSelectionList}
+                    groupAction={unitSearchDispatch.groupAction}
+                    groupList={groupList}
                     groupSelect={groupSelect}
-                    toggleAllLine={toggleAllLine} />
+                    isGroup={isGroup}
+                    label={label}
+                    numberOfSelectedElement={numberOfSelectedElement}
+                    selectedElements={selectedElements}
+                    sortAction={unitSearchDispatch.sortAction}
+                    sortList={sortList}
+                    stateOfTheSelectionList={stateOfTheSelectionList}
+                    toggleAllLine={toggleAllLine}
+                    unGroup={false} />
                 <ListWrapper>
                     {data && data.map(({isSeleted, ...lineDescriptor}, idx) => (
                         <div data-focus='line-advanced-search' key={idx}>
-                            <LineWrapper isSelected={isSeleted} toggleLineSelection={toggleLineSelection} id={lineDescriptor[this.props.lineIdentifierProperty]} actionsLine={actionsLine} {...lineDescriptor} {...otherProps}>
+                            <LineWrapper ActionsComponent={ActionsComponent} actionsLine={actionsLine} isSelected={isSeleted} toggleLineSelection={toggleLineSelection} stateOfTheSelectionList={stateOfTheSelectionList} id={lineDescriptor[this.props.lineIdentifierProperty]} {...lineDescriptor} {...otherProps}>
                                 <LineComponent index={numberOfList} {...lineDescriptor} />
                             </LineWrapper>
                         </div>
@@ -139,7 +144,7 @@ ResultList.propTypes = {
     lineIdentifierProperty: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     isSelectable: PropTypes.bool,
     /* This function is use to get the line component depending */
-    ListComponent: PropTypes.func
+    ListComponentWithToolBar: PropTypes.func
 };
 
 

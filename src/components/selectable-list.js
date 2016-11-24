@@ -1,11 +1,10 @@
 import React, {PropTypes, Component} from 'react';
 import isFunction from 'lodash/isFunction'
 import filter from 'lodash/filter';
-const DATA_TEST = [
-    {id: 1,name: 'Amelie', age: 25},
-    {id: 2, name: 'Pierre', age: 28}
-]
+
 const SELECTABLE_LIST = 'SELECTABLE_LIST';
+
+
 // Default component which explains how the connect works.
 function DefaultPureSelectableList(props) {
     return (
@@ -59,7 +58,7 @@ const SELECTABLE_LIST_PROPTYPES = {
     afterSelection: PropTypes.func
 };
 const SELECTABLE_LIST_DEFAULT_PROPS = {
-    data: DATA_TEST, //[]
+    data: [],
     lineIdentifierProperty: 'id',
     afterSelection: () => {}
 };
@@ -145,20 +144,22 @@ const connect = (ListToConnect = DefaultPureSelectableList) => {
 
         render() {
             const {data, lineIdentifierProperty, ...otherProps} = this.props;
+            const {selectedElements, selectState} = this.state;
             const dataWithSelectedInformation = addSelectedInformationInList(
                 data,
-                this.state.selectedElements,
+                selectedElements,
                 lineIdentifierProperty
             );
-
+            const selectedDatas = filter(dataWithSelectedInformation, {'isSelected': true});
             return (
                 <ListToConnect
-                    stateOfTheSelectionList={this.state.selectState}
                     data={dataWithSelectedInformation}
-                    numberOfSelectedElement={filter(this.state.selectedElements, element => element).length}
+                    lineIdentifierProperty={lineIdentifierProperty}
+                    numberOfSelectedElement={selectedDatas.length}
+                    selectedElements={selectedDatas}
+                    stateOfTheSelectionList={selectState}
                     toggleAllLine={this.toggleAllLine}
                     toggleLineSelection={this.toggleLineSelectionInState}
-                    lineIdentifierProperty={lineIdentifierProperty}
                     {...otherProps} />
             );
         };

@@ -1,13 +1,24 @@
 
 [data-focus='toolbar'] {
     margin: 10px 0;
-
+    position: relative;
     background-color: #FFF;
     & > span:first-child {
         margin: 0 10px;
     }
-    [data-focus='toolbar-global-actions']{
-      display: flex;
-      justify-content: flex-end;
+    [data-focus='toolbar-selected-elements'] {
+        line-height: 18px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
     }
- }
+    [data-focus='toolbar-global-actions'], [data-focus='toolbar-group-actions'] {
+        position: absolute;
+        right: 10px;
+        top: 0;
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+}

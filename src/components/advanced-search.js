@@ -5,7 +5,6 @@ import compose from 'lodash/flowRight';
 import {selectSearch} from '../reducer'
 import connectToSelectableList from './selectable-list'
 import {FacetPanel} from './facet';
-import ToolBar from './toolbar';
 import {InformationBar} from './informationbar';
 import {ResultList, ResultGroup, ListComponentWithToolBar} from './results';
 

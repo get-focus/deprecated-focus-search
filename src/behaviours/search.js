@@ -29,7 +29,7 @@ export function getResultsForGroup(groups, searchMetadata){
         // getListMetadata => LineComponent , ListComponent and maybe other informations concidered usefull
         const {scopeEntityDefintion} = searchMetadata;
         //TO Do scopeEntityDefintion existing
-        const {LineComponent, sortList, groupList,actionsLine, lineIdentifierProperty, GlobalGroupActionsComponent} = searchMetadata.getListMetadata(element.listType, element.values)
+        const {ActionsComponent, actionsLine, LineComponent, sortList, groupList, lineIdentifierProperty, GlobalGroupActionsComponent} = searchMetadata.getListMetadata(element.listType, element.values)
         const formators = (scopeEntityDefintion && scopeEntityDefintion[element.listType]) ? scopeEntityDefintion[element.listType] : props => props
         return {
             ...element,
@@ -39,6 +39,7 @@ export function getResultsForGroup(groups, searchMetadata){
             lineIdentifierProperty: lineIdentifierProperty,
             values: element.list,
             LineComponent,
+            ActionsComponent,
             actionsLine,
             sortList,
             GlobalGroupActionsComponent,
@@ -48,11 +49,12 @@ export function getResultsForGroup(groups, searchMetadata){
 };
 
 export function getResultsForList(list = [], searchMetadata, listType){
-    const {LineComponent, sortList, groupList, actionsLine, lineIdentifierProperty, GlobalGroupActionsComponent} = searchMetadata.getListMetadata(listType, list)
+    const {ActionsComponent, actionsLine, LineComponent, sortList, groupList, lineIdentifierProperty, GlobalGroupActionsComponent} = searchMetadata.getListMetadata(listType, list)
     return {
         values: list,
         lineIdentifierProperty,
         groupList,
+        ActionsComponent,
         actionsLine,
         sortList,
         GlobalGroupActionsComponent,
@@ -156,9 +158,6 @@ export function connect(searchOptions) {
                 listType: PropTypes.string
             }).isRequired,
         };
-        //SearchConnectedComponent.defaultProps = {
-        //    results : "test"
-        // };
         return compose (
             connectToState(s=> s[searchOptions.searchName])
         )(SearchConnectedComponent);
