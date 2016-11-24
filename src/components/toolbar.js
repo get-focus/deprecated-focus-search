@@ -115,22 +115,18 @@ export const ToolBar = ({
 };
 ToolBar.displayName = 'ToolBar';
 ToolBar.defaultProps = {
-    toolbarProps: {
-        sortAction: () => console.warn('please define a sort function...'),
-        groupAction: () => console.warn('please define a group function...'),
-        sortList: [],
-        groupList: []
-    },
+    sortAction: () => console.warn('please define a sort function...'),
+    groupAction: () => console.warn('please define a group function...'),
+    sortList: [],
+    groupList: [],
     selectState: false,
     toggleAllLine: undefined
 };
 ToolBar.propTypes = {
-    toolbarProps: PropTypes.shape({
-        sortAction: PropTypes.func.isRequired,
-        groupAction: PropTypes.func.isRequired,
-        sortList: PropTypes.array,
-        groupList: PropTypes.array,
-    }),
+    sortAction: PropTypes.func.isRequired,
+    groupAction: PropTypes.func.isRequired,
+    sortList: PropTypes.array,
+    groupList: PropTypes.array,
     selectState: PropTypes.bool,
     toggleAllLine: PropTypes.func
 };

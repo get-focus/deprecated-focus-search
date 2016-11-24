@@ -44,6 +44,6 @@ InformationBar.propTypes = {
     totalCount : PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 };
 InformationBar.defaultProps = {
-    totalCount : 'Merci de fournir le totalCount =)',
+    totalCount : 0,
     selectedFacetsList : []
 };
