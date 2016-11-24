@@ -6,16 +6,16 @@ import i18next from 'i18next';
 
 export function InformationBar (props) {
     const {totalCount, selectedFacetsList, deleteFacet, scopeFunction, scopeList, group, facets, unitSearchDispatch : {scopeAction}} = props;
-    const scopeLetter = scopeList && scopeList.length > 0 ? scopeList[0] : undefined;
-
+    const scopeLabel = scopeList && scopeList.length > 0 ? i18next.t(`search.scope.${lowerCase(scopeList)}`) : 'Not defined';
+    const scopeLetter = scopeLabel && scopeLabel.length > 0 ? scopeLabel[0] : 'N';
     return (
         <div data-focus='information-bar'>
-            <div data-focus='totalCount'>{totalCount}  {i18next.t('search.results.for')}</div>
+            <div data-focus='totalCount'>{totalCount}  {i18next.t('focus.search.results.for')}</div>
             {scopeList &&
                 <div data-focus='scope-selected'>
-                    <Chips label={i18next.t(`search.scope.${lowerCase(scopeList)}`)}
+                    <Chips label={scopeLabel}
                         letter={scopeLetter}
-                        onDeleteClick={()=>scopeAction({query:{value :{scope: undefined}, replace: false}, group: {value: {}, replace: false}})}/>
+                        onDeleteClick={scopeList === 'all' ? undefined : () => scopeAction({query:{value :{scope: undefined}, replace: false}, group: {value: {}, replace: false}})}/>
                 </div>
             }
             <div data-focus='selectedFacets'>
