@@ -13,7 +13,7 @@ import Dropdown from 'focus-components/dropdown';
 
 function _buildSortAction(item, order, sortAction) {
     return {
-        label: `${item.label} ${order}`,
+        label: `${item} ${order}`,
         action: () => sortAction({name: item.code, order: order})
     };
 };
@@ -21,7 +21,7 @@ function _buildSortAction(item, order, sortAction) {
 function _buildGroupAction(item, groupAction) {
     const groupCreate = item.code === "ungroup" ? {} : {name: item.code}
     return {
-        label: `${item.label}`,
+        label: `${item}`,
         action: () => groupAction(groupCreate)
     };
 };
@@ -52,7 +52,7 @@ export function ToolbarGroup({groupList, groupAction, unGroup}) {
     const label = unGroup ? 'ungroup': 'group';
     const operationList = reduce(groupList, (result, item) => concat(result, _buildGroupAction(item, groupAction)), []);
     const buttonProps = {icon: undefined, label:label, shape: null};
-    return ( unGroup ? <button onClick={operationList[0].action}>{i18n.t('focus.search.ungroup')}</button> : <Dropdown data-focus='toolbar-group' operations={operationList} button={buttonProps} />);
+    return (unGroup ? <button onClick={operationList[0].action}>{i18n.t('focus.search.ungroup')}</button> : <Dropdown data-focus='toolbar-group' operations={operationList} button={buttonProps} />);
 };
 ToolbarGroup.displayName = 'ToolbarGroup';
 ToolbarGroup.propTypes = {
