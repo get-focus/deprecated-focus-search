@@ -4,7 +4,7 @@ import 'material-design-lite/material.min';
 
 import './advanced-search.scss';
 import './facet.scss';
-import './list.scss';
-import './toolbar.scss';
 import './informationbar.scss';
+import './list.scss';
 import './search-bar.scss';
+import './toolbar.scss';

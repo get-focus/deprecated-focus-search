@@ -81,7 +81,7 @@ describe('Facets components ', () => {
     });
     it.skip('should add the title given as props', () => {
       const wrapper = shallow(<FacetPanel i18n={elm => elm}  title='Great title'/>);
-      expect(wrapper.contains(<h4>{'search.facets'}</h4>)).to.be.true;
+      expect(wrapper.contains(<h4>{'focus.search.facets'}</h4>)).to.be.true;
     });
     it('should add the facet-block given as data in the props', () => {
       const wrapper = mount(<FacetPanel i18n={elm => elm}  title='Great title' data={[{values: ['1'], selected: true}, {values: ['2'], selected: true}, {values: ['3'], selected: true}]}/>);

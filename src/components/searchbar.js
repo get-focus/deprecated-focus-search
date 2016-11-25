@@ -12,8 +12,7 @@ export function SearchBarInput({queryAction}) {
 SearchBarInput.propTypes= {
     query: PropTypes.func
 };
-const SearchBarInputConnected =SearchBarInput;
-
+const SearchBarInputConnected = SearchBarInput;
 
 
 
@@ -22,15 +21,14 @@ export function SearchBarScopeSelection({scope, scopes, scopeAction}) {
         <InputSelect data-focus='search-bar-scope-selection'
             hasUndefined={false} values={scopes}
             valueKey='value'
-            value={scope || 'ALL'}
+            rawInputValue={scope || 'ALL'}
             name='search-scope'
             onChange={
                 (value) => value === 'ALL' ?
-                scopeAction({group: {value:  {}, replace: false}, query:{value: {scope: undefined}, replace: false}})
+                scopeAction({group: {value: {}, replace: false}, query: {value: {scope: undefined}, replace: false}})
                 :
-                scopeAction({query: {value :{scope: value}, replace: false}, group: {value: {}, replace: true}})
-            }
-            />
+                scopeAction({query: {value: {scope: value}, replace: false}, group: {value: {}, replace: true}})
+            } />
     );
 };
 SearchBarScopeSelection.propTypes = {
@@ -49,12 +47,14 @@ export function SearchBar({queryAction, scopes, scope, scopeAction}) {
     return (
         <div data-focus='search-bar'>
             <SearchBarScopeSelectionConnected
-                scopeAction={scopeAction} scopes={scopes} scope={scope} />
-            <SearchBarInputConnected queryAction={queryAction}/>
+                scopeAction={scopeAction}
+                scopes={scopes}
+                scope={scope} />
+            <SearchBarInputConnected queryAction={queryAction} />
         </div>
     );
 };
-SearchBar.PropTypes ={
+SearchBar.PropTypes = {
     query: PropTypes.func,
     group: PropTypes.func
 };
