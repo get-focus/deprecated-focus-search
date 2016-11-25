@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import isArray from 'lodash/isArray';
 import reduce from 'lodash/reduce';
 import concat from 'lodash/concat';
-import i18n from 'i18next';
+import i18next from 'i18next';
 
 import {selectSearch} from '../reducer';
 import Button from 'focus-components/button';
@@ -37,7 +37,7 @@ function _checkProps(sortList, groupList){
 
 export function ToolbarSort({sortList, sortAction}) {
     const operationList = reduce(sortList, (result, item) => concat(result, _buildSortAction(item, 'asc', sortAction), _buildSortAction(item, 'desc', sortAction)), []);
-    const buttonProps = {icon: undefined, label: 'Trier', shape: null};
+    const buttonProps = {icon: undefined, label: i18next.t('focus.search.sort'), shape: null};
     return <Dropdown data-focus='toolbar-sort' operations={operationList} button={buttonProps} />
 };
 ToolbarSort.displayName = 'ToolbarSort';
@@ -49,10 +49,10 @@ ToolbarSort.propTypes = {
 
 
 export function ToolbarGroup({groupList, groupAction, unGroup}) {
-    const label = unGroup ? 'ungroup': 'group';
+    const label = i18next.t(unGroup ? 'focus.search.ungroup': 'focus.search.group');
     const operationList = reduce(groupList, (result, item) => concat(result, _buildGroupAction(item, groupAction)), []);
-    const buttonProps = {icon: undefined, label:label, shape: null};
-    return (unGroup ? <button onClick={operationList[0].action}>{i18n.t('focus.search.ungroup')}</button> : <Dropdown data-focus='toolbar-group' operations={operationList} button={buttonProps} />);
+    const buttonProps = {icon: undefined, label: label, shape: null};
+    return (unGroup ? <button onClick={operationList[0].action}>{i18next.t('focus.search.ungroup')}</button> : <Dropdown data-focus='toolbar-group' operations={operationList} button={buttonProps} />);
 };
 ToolbarGroup.displayName = 'ToolbarGroup';
 ToolbarGroup.propTypes = {
@@ -105,7 +105,7 @@ export const ToolBar = ({
     return (
         <div data-focus='toolbar' className='mdl-grid mdl-shadow--3dp'>
             {toggleAllLine && <ToolbarSelection label={label} totalCount={totalCount} selectState={stateOfTheSelectionList} toggleAllLine={toggleAllLine} />}
-            {(numberOfSelectedElement > 0) && <div data-focus='toolbar-selected-elements'>{i18n.t('focus.search.selected', {count: numberOfSelectedElement})}</div>}
+            {(numberOfSelectedElement > 0) && <div data-focus='toolbar-selected-elements'>{i18next.t('focus.search.selected', {count: numberOfSelectedElement})}</div>}
             {!isGroup && sortList && <ToolbarSort sortAction={sortAction} sortList={sortList} />}
             {!isGroup && groupList && <ToolbarGroup unGroup={unGroup} groupAction={groupAction} groupList={groupList} />}
             {GlobalActions && stateOfTheSelectionList && <div data-focus='toolbar-global-actions'><GlobalActions selectedElements={selectedElements} /></div>}
