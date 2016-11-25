@@ -6,12 +6,10 @@ export default {
             group: 'Grouper',
             sort: 'Trier',
             facets: 'Filtres',
-            elements: {
-                selected: 'élément(s) sélectionné(s)'
-            },
-            results: {
-                for: 'résultat(s) pour'
-            }
+            selected: '{{count}} élément sélectionné',
+            selected_plural: '{{count}} éléments sélectionnés',
+            nbResultsFor: '{{count}} résultat pour',
+            nbResultsFor_plural: '{{count}} résultats pour'
         }
     }
 }

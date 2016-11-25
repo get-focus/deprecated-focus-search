@@ -10,7 +10,7 @@ export function InformationBar (props) {
     const scopeLetter = scopeLabel && scopeLabel.length > 0 ? scopeLabel[0] : 'N';
     return (
         <div data-focus='information-bar'>
-            <div data-focus='totalCount'>{totalCount}  {i18next.t('focus.search.results.for')}</div>
+            <div data-focus='totalCount'>{i18next.t('focus.search.nbResultsFor', {count: totalCount})}</div>
             {scopeList &&
                 <div data-focus='scope-selected'>
                     <Chips label={scopeLabel}

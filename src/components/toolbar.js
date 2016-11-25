@@ -105,7 +105,7 @@ export const ToolBar = ({
     return (
         <div data-focus='toolbar' className='mdl-grid mdl-shadow--3dp'>
             {toggleAllLine && <ToolbarSelection label={label} totalCount={totalCount} selectState={stateOfTheSelectionList} toggleAllLine={toggleAllLine} />}
-            {(numberOfSelectedElement == 0 || numberOfSelectedElement) && <div data-focus='toolbar-selected-elements'>{numberOfSelectedElement} {i18n.t('focus.search.elements.selected')}</div>}
+            {(numberOfSelectedElement > 0) && <div data-focus='toolbar-selected-elements'>{i18n.t('focus.search.selected', {count: numberOfSelectedElement})}</div>}
             {!isGroup && sortList && <ToolbarSort sortAction={sortAction} sortList={sortList} />}
             {!isGroup && groupList && <ToolbarGroup unGroup={unGroup} groupAction={groupAction} groupList={groupList} />}
             {GlobalActions && stateOfTheSelectionList && <div data-focus='toolbar-global-actions'><GlobalActions selectedElements={selectedElements} /></div>}
