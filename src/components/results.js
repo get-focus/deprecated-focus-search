@@ -35,7 +35,8 @@ export class LineActions extends PureComponent {
 }
 LineActions.displayName = 'LineActions';
 
-export function MaterialLineWrapper({actionsLine, ActionsComponent, children, isSelected, lineDescriptor, stateOfTheSelectionList, ...props}) {
+export function MaterialLineWrapper({actionsLine, ActionsComponent, children, lineDescriptor, stateOfTheSelectionList, ...props}) {
+    const {isSelected} = lineDescriptor;
     return (
         <li data-focus='line-component' data-selected={isSelected} className='mdl-list__item'>
             {props.toggleLineSelection &&
