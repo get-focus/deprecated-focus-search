@@ -14,16 +14,28 @@ export class AdvancedSearch extends Component {
     componentWillMount(){
         const {start} = this.props;
         start();
-    }
+    };
     render() {
         //const {valuesForResults, groupSelect,selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, scope, ListComponent} = this.props;
-        const {isGroup, InformationBarProps, ResultGroupProps, ResultListProps, FacetPanelProps, i18n, ListComponent, GlobalActions, hasScope} = this.props;
+        const {
+            customLineProps,
+            FacetPanelProps,
+            GlobalActions,
+            hasScope,
+            i18n,
+            InformationBarProps,
+            isGroup,
+            ListComponent,
+            ResultGroupProps,
+            ResultListProps
+        } = this.props;
         return (
             <div data-focus='advanced-search'>
                 <div data-focus="results-advanced-search">
                     <InformationBar {...InformationBarProps} data-focus='information-bar-advanced-search' />
                     {isGroup ?
                         <ResultGroup
+                            customLineProps={customLineProps}
                             data-focus='result-group-advanced-search'
                             ListComponent={ListComponent}
                             isGroup={isGroup}
@@ -32,6 +44,7 @@ export class AdvancedSearch extends Component {
                             {...ResultGroupProps} />
                         :
                         <ResultList
+                            customLineProps={customLineProps}
                             data-focus='result-list-advanced-search'
                             ListComponentWithToolBar={ListComponent}
                             isGroup={isGroup}
@@ -44,10 +57,9 @@ export class AdvancedSearch extends Component {
                     title='Facets'
                     {...FacetPanelProps} />
             </div>
-        )
-    }
-
-}
+        );
+    };
+};
 
 AdvancedSearch.displayName = 'Advanced Search';
 AdvancedSearch.propTypes = {

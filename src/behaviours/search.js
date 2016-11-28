@@ -51,14 +51,15 @@ export function getResultsForGroup(groups, searchMetadata){
 export function getResultsForList(list = [], searchMetadata, listType){
     const {ActionsComponent, actionsLine, LineComponent, sortList, groupList, lineIdentifierProperty, GlobalGroupActionsComponent} = searchMetadata.getListMetadata(listType, list)
     return {
-        values: list,
-        lineIdentifierProperty,
-        groupList,
         ActionsComponent,
         actionsLine,
-        sortList,
+        LineComponent,
+        lineIdentifierProperty,
+        listType,
         GlobalGroupActionsComponent,
-        LineComponent
+        groupList,
+        sortList,
+        values: list
     };
 };
 
@@ -69,7 +70,7 @@ export function connect(searchOptions) {
 
         function SearchConnectedComponent(props, context) {
             const {searchMetadata} = context;
-            const {dispatch, results: {hasGroups, data, listType, totalCount}, criteria} = props;
+            const {customLineProps, dispatch, results: {hasGroups, data, listType, totalCount}, criteria} = props;
             const groupSelect = get(criteria, 'group');
             const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value) || 'ALL';
             const hasScope = isUndefined(get(criteria, 'query.scope'));
@@ -97,14 +98,6 @@ export function connect(searchOptions) {
             const facetInformations = facetListWithselectedInformation(props);
             results.totalCount = totalCount;
             results.groupSelect = groupSelect;
-
-            // scope={scope}
-            // groupSelect={groupSelect}
-            // scopes={searchMetadata.scopes}
-            // valuesForResults={results}
-            // selectedFacetsList={facetInformations.selectedFacetsList}
-            // facetListWithselectedInformation={facetInformations.facetListWithselectedInformation}
-            // unitSearchDispatch={unitSearchDispatch}
 
             const InformationBarProps = {
                 selectedFacetsList: facetInformations.selectedFacetsList,
@@ -139,6 +132,7 @@ export function connect(searchOptions) {
 
             return (
                 <ComponentToConnect
+                    customLineProps={customLineProps}
                     isGroup={hasGroups}
                     GlobalActions={searchMetadata.GlobalActions}
                     hasScope={hasScope}
