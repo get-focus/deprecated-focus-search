@@ -14,12 +14,12 @@ import Dropdown from 'focus-components/dropdown';
 function _buildSortAction(item, order, sortAction) {
     return {
         label: `${item} ${order}`,
-        action: () => sortAction({name: item.code, order: order})
+        action: () => sortAction({name: item, order: order})
     };
 };
 
 function _buildGroupAction(item, groupAction) {
-    const groupCreate = item.code === "ungroup" ? {} : {name: item.code}
+    const groupCreate = item === "ungroup" ? {} : {name: item}
     return {
         label: `${item}`,
         action: () => groupAction(groupCreate)
