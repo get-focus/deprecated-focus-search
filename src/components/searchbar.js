@@ -1,60 +1,86 @@
-import React, {Component, PropTypes} from 'react';
-import {compose} from 'redux';
-import {connect} from 'react-redux';
+import React, {PropTypes, PureComponent} from 'react';
 import InputText from 'focus-components/input-text';
 import InputSelect from 'focus-components/select-mdl';
+import debounce from 'lodash/debounce';
 
-import {selectSearch} from '../reducer';
-
-export function SearchBarInput({queryAction}) {
-    return <InputText data-focus='search-bar-input' name='search-bar-input' onChange={(value) => queryAction({term : value})} />
+export class SearchBarInput extends PureComponent {
+    render() {
+        const {queryAction, queryActionWait} = this.props;
+        const debouncedQueryAction = debounce(queryAction, queryActionWait);
+        return <InputText data-focus='search-bar-input' name='search-bar-input' onChange={(value) => debouncedQueryAction({term: value})} />
+    }
 };
-SearchBarInput.propTypes= {
-    query: PropTypes.func
+SearchBarInput.displayName = 'SearchBarInput';
+SearchBarInput.propTypes = {
+    queryAction: PropTypes.func.isRequired,
+    queryActionWait: PropTypes.number
 };
-const SearchBarInputConnected = SearchBarInput;
-
-
-
-export function SearchBarScopeSelection({scope, scopes, scopeAction}) {
-    return (
-        <InputSelect data-focus='search-bar-scope-selection'
-            hasUndefined={false} values={scopes}
-            valueKey='value'
-            rawInputValue={scope || 'ALL'}
-            name='search-scope'
-            onChange={
-                (value) => value === 'ALL' ?
-                scopeAction({group: {value: {}, replace: false}, query: {value: {scope: undefined}, replace: false}})
-                :
-                scopeAction({query: {value: {scope: value}, replace: false}, group: {value: {}, replace: true}})
-            } />
-    );
+SearchBarInput.defaultProps = {
+    queryActionWait: 500
 };
+
+
+
+export class SearchBarScopeSelection extends PureComponent {
+    constructor(props) {
+        super(props);
+        this._onScopeChange = this._onScopeChange.bind(this);
+    }
+    _onScopeChange(value) {
+        const {scopeAction} = this.props;
+        if(value === 'ALL') {
+            scopeAction({group: {value: {}, replace: false}, query: {value: {scope: undefined}, replace: false}})
+            return;
+        }
+        scopeAction({query: {value: {scope: value}, replace: false}, group: {value: {}, replace: true}})
+    }
+    render() {
+        const {scope, scopes} = this.props;
+        return (
+            <InputSelect
+                data-focus='search-bar-scope-selection'
+                hasUndefined={false} values={scopes}
+                name='search-scope'
+                onChange={this._onScopeChange}
+                rawInputValue={scope || 'ALL'}
+                valueKey='value' />
+        );
+    }
+};
+SearchBarScopeSelection.displayName = 'SearchBarScopeSelection';
 SearchBarScopeSelection.propTypes = {
     scope: PropTypes.string,
-    scopes: PropTypes.array.isRequired,
-    scopeFunction: PropTypes.func
+    scopes: PropTypes.arrayOf(PropTypes.object),
+    scopeAction: PropTypes.func
 };
 SearchBarScopeSelection.defaultProps = {
     scopes: []
 };
-const SearchBarScopeSelectionConnected = SearchBarScopeSelection;
 
 
 
-export function SearchBar({queryAction, scopes, scope, scopeAction}) {
-    return (
-        <div data-focus='search-bar'>
-            <SearchBarScopeSelectionConnected
-                scopeAction={scopeAction}
-                scopes={scopes}
-                scope={scope} />
-            <SearchBarInputConnected queryAction={queryAction} />
-        </div>
-    );
+export default class SearchBar extends PureComponent {
+    render() {
+        const {queryAction, queryActionWait, scope, scopeAction, scopes} = this.props;
+        return (
+            <div data-focus='search-bar'>
+                <SearchBarScopeSelection
+                    scopeAction={scopeAction}
+                    scopes={scopes}
+                    scope={scope} />
+                <SearchBarInput queryAction={queryAction} queryActionWait={queryActionWait} />
+            </div>
+        );
+    }
 };
+SearchBar.displayName = 'SearchBar';
 SearchBar.PropTypes = {
-    query: PropTypes.func,
-    group: PropTypes.func
+    queryAction: PropTypes.func.isRequired,
+    queryActionWait: PropTypes.number,
+    scope: PropTypes.string,
+    scopes: PropTypes.arrayOf(PropTypes.object),
+    scopeAction: PropTypes.func
+};
+SearchBar.defaultProps = {
+    queryActionWait: 500
 };

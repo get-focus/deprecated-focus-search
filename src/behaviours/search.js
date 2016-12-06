@@ -73,6 +73,7 @@ export function connect(searchOptions) {
             const {customLineProps, dispatch, results: {hasGroups, data, listType, totalCount}, criteria} = props;
             const groupSelect = get(criteria, 'group');
             const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value) || 'ALL';
+            const term = get(criteria, 'query.term');
             const hasScope = isUndefined(get(criteria, 'query.scope'));
             const unitSearchDispatch = {
                 startAction: element => dispatch(startSearch()),
@@ -100,23 +101,24 @@ export function connect(searchOptions) {
             results.groupSelect = groupSelect;
 
             const InformationBarProps = {
-                selectedFacetsList: facetInformations.selectedFacetsList,
+                deleteFacet: value => unitSearchDispatch.facetAction(value, true),
                 facets: facetInformations.facetListWithselectedInformation,
-                scopeList: scope,
+                scope,
+                selectedFacetsList: facetInformations.selectedFacetsList,
+                term,
                 totalCount: totalCount,
-                unitSearchDispatch: unitSearchDispatch,
-                deleteFacet: value => unitSearchDispatch.facetAction(value, true)
+                unitSearchDispatch: unitSearchDispatch
             }
 
             const ResultGroup = {
-                scope: scope,
-                valuesForResults: results,
-                unitSearchDispatch: unitSearchDispatch
+                scope,
+                unitSearchDispatch: unitSearchDispatch,
+                valuesForResults: results
             }
 
             const ResultList = {
-                valuesForResult: results,
-                unitSearchDispatch: unitSearchDispatch
+                unitSearchDispatch: unitSearchDispatch,
+                valuesForResult: results
             }
 
             const FacetPanel = {
@@ -125,9 +127,9 @@ export function connect(searchOptions) {
             }
 
             const SearchBarProps = {
-                scopeList: scope,
-                unitSearchDispatch:unitSearchDispatch,
-                scopes: searchMetadata.scopes
+                scope,
+                scopes: searchMetadata.scopes,
+                unitSearchDispatch:unitSearchDispatch
             }
 
             return (

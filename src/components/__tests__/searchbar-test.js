@@ -1,16 +1,19 @@
 // test utils
 import { mount, shallow } from 'enzyme';
 // Components
-import {SearchBar,SearchBarScopeSelection, SearchBarInput} from '../searchbar';
+import SearchBar, {SearchBarScopeSelection, SearchBarInput} from '../searchbar';
 
 describe('SearchBar components ', () => {
     describe('<SearchBarInput />', ()=> {
         it('should call the query props on the change event ', () => {
             const searchbarSpy = sinon.spy();
-            const wrapper = shallow(<SearchBarInput queryAction={searchbarSpy}/>);
-            wrapper.find("[data-focus='search-bar-input']").simulate('change', {target: {value: 'My new value'}})
-            expect(searchbarSpy).to.have.property('callCount', 1);
-            expect(searchbarSpy).to.have.been.calledWith()
+            const wait = 200;
+            const wrapper = shallow(<SearchBarInput queryAction={searchbarSpy} queryActionWait={wait} />);
+            wrapper.find("[data-focus='search-bar-input']").simulate('change', {target: {value: 'My new value'}});
+            setTimeout(() => {
+                expect(searchbarSpy).to.have.property('callCount', 1);
+                expect(searchbarSpy).to.have.been.calledWith()
+            }, wait);
         });
     });
     describe('<SearchBarScopeSelection />', ()=> {
@@ -38,7 +41,8 @@ describe('SearchBar components ', () => {
     });
     describe('<SearchBar />', ()=> {
         it('should be a div with a data-focus="action-bar"', () => {
-            const wrapper = shallow(<SearchBar/>);
+            const spy = sinon.spy();
+            const wrapper = mount(<SearchBar queryAction={spy} />);
             expect(wrapper.find("[data-focus='search-bar']")).to.have.length(1);
         });
     });

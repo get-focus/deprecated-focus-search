@@ -7,6 +7,9 @@
     min-height: 46px;
     [data-focus='totalCount'] {
         margin: 0 5px 0 0;
+        span {
+            margin: 0 5px;
+        }
     }
     [data-focus='selectedFacets'] {
         display: flex;

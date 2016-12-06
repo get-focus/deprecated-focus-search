@@ -8,8 +8,11 @@ export default {
             facets: 'Filtres',
             selected: '{{count}} élément sélectionné',
             selected_plural: '{{count}} éléments sélectionnés',
-            nbResultsFor: '{{count}} résultat pour',
-            nbResultsFor_plural: '{{count}} résultats pour'
+            results: {
+                number: '{{count}} résultat',
+                number_plural: '{{count}} résultats',
+                for: 'pour'
+            }
         }
     }
 }
