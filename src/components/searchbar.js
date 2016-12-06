@@ -1,17 +1,22 @@
 import React, {PropTypes, PureComponent} from 'react';
 import InputText from 'focus-components/input-text';
 import InputSelect from 'focus-components/select-mdl';
-
+import debounce from 'lodash/debounce';
 
 export class SearchBarInput extends PureComponent {
     render() {
-        const {queryAction} = this.props;
-        return <InputText data-focus='search-bar-input' name='search-bar-input' onChange={(value) => queryAction({term: value})} />
+        const {queryAction, queryActionWait} = this.props;
+        const debouncedQueryAction = debounce(queryAction, queryActionWait);
+        return <InputText data-focus='search-bar-input' name='search-bar-input' onChange={(value) => debouncedQueryAction({term: value})} />
     }
 };
 SearchBarInput.displayName = 'SearchBarInput';
 SearchBarInput.propTypes = {
-    queryAction: PropTypes.func.isRequired
+    queryAction: PropTypes.func.isRequired,
+    queryActionWait: PropTypes.number
+};
+SearchBarInput.defaultProps = {
+    queryActionWait: 500
 };
 
 
@@ -56,14 +61,14 @@ SearchBarScopeSelection.defaultProps = {
 
 export default class SearchBar extends PureComponent {
     render() {
-        const {queryAction, scope, scopeAction, scopes} = this.props;
+        const {queryAction, queryActionWait, scope, scopeAction, scopes} = this.props;
         return (
             <div data-focus='search-bar'>
                 <SearchBarScopeSelection
                     scopeAction={scopeAction}
                     scopes={scopes}
                     scope={scope} />
-                <SearchBarInput queryAction={queryAction} />
+                <SearchBarInput queryAction={queryAction} queryActionWait={queryActionWait} />
             </div>
         );
     }
@@ -71,7 +76,11 @@ export default class SearchBar extends PureComponent {
 SearchBar.displayName = 'SearchBar';
 SearchBar.PropTypes = {
     queryAction: PropTypes.func.isRequired,
+    queryActionWait: PropTypes.number,
     scope: PropTypes.string,
     scopes: PropTypes.arrayOf(PropTypes.object),
     scopeAction: PropTypes.func
+};
+SearchBar.defaultProps = {
+    queryActionWait: 500
 };
