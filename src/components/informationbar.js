@@ -5,17 +5,21 @@ import isArray from 'lodash/isArray';
 import i18next from 'i18next';
 
 export function InformationBar (props) {
-    const {totalCount, selectedFacetsList, deleteFacet, scopeFunction, scopeList, group, facets, unitSearchDispatch : {scopeAction}} = props;
-    const scopeLabel = scopeList && scopeList.length > 0 ? i18next.t(`search.scope.${lowerCase(scopeList)}`) : 'Not defined';
+    const {deleteFacet, facets, group, scopeFunction, scope, selectedFacetsList, term, totalCount, unitSearchDispatch : {scopeAction}} = props;
+    const scopeLabel = scope && scope.length > 0 ? i18next.t(`search.scope.${lowerCase(scope)}`) : 'Not defined';
     const scopeLetter = scopeLabel && scopeLabel.length > 0 ? scopeLabel[0] : 'N';
     return (
         <div data-focus='information-bar'>
-            <div data-focus='totalCount'>{i18next.t('focus.search.nbResultsFor', {count: totalCount})}</div>
-            {scopeList &&
+            <div data-focus='totalCount'>
+                <span>{i18next.t('focus.search.results.number', {count: totalCount})}</span>
+                <span>{i18next.t('focus.search.results.for')}</span>
+                {term && <span>&laquo;&nbsp;{term}&nbsp;&raquo;</span>}
+            </div>
+            {scope &&
                 <div data-focus='scope-selected'>
                     <Chips label={scopeLabel}
                         letter={scopeLetter}
-                        onDeleteClick={scopeList === 'all' ? undefined : () => scopeAction({query:{value :{scope: undefined}, replace: false}, group: {value: {}, replace: false}})}/>
+                        onDeleteClick={scope === 'all' ? undefined : () => scopeAction({query:{value :{scope: undefined}, replace: false}, group: {value: {}, replace: false}})}/>
                 </div>
             }
             <div data-focus='selectedFacets'>
@@ -38,10 +42,15 @@ export function InformationBar (props) {
         </div>
     )
 };
-//TODO add prop types
 InformationBar.displayName = 'Information Bar';
 InformationBar.propTypes = {
-    totalCount : PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+    deleteFacet: PropTypes.func,
+    facets: PropTypes.arrayOf(PropTypes.object),
+    scope: PropTypes.string,
+    selectedFacetsList: PropTypes.arrayOf(PropTypes.string),
+    term: PropTypes.string,
+    totalCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    unitSearchDispatch: PropTypes.object
 };
 InformationBar.defaultProps = {
     totalCount : 0,
