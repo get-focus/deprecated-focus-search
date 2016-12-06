@@ -44,7 +44,9 @@ export function MaterialLineWrapper({actionsLine, ActionsComponent, children, li
                     <InputCheckbox rawInputValue={isSelected} onChange={() => props.toggleLineSelection(props.id)} />
                 </div>
             }
+            <div data-focus='line-component-data'>
             {children}
+            </div>
             {!stateOfTheSelectionList && (actionsLine || ActionsComponent) &&
                 <div data-focus='line-component-actions'>
                     <LineActions actions={actionsLine} ActionsComponent={ActionsComponent} {...lineDescriptor} />

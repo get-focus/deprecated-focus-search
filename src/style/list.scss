@@ -11,14 +11,17 @@
         margin: 8px 0;
         padding:5px 10px;
         position: relative;
+        display: flex;
+        align-content: stretch;
+        [data-focus="line-component-data"] {
+            flex-grow: 1;
+        }
         [data-focus="line-component-selection"] {
-            width: 20px;
-            padding: 10px 17px;
-            display: flex;
-            align-items: center;
-            justify-content:center;
+            padding: 10px 15px;
+            flex-grow: 0;
         }
         [data-focus="line-component-actions"] {
+            background-color: #FFF;
             display: none;
             position: absolute;
             right:0;
