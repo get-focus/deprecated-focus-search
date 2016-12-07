@@ -70,7 +70,7 @@ const _getListMetadata = (listType, listData) => {
     const Root = ({store, history}) => /*On place le provider de store au plus haut afin de pouvoir injecter des informations du store dans toute l'applciation.*/
        <StoreProvider store={store}>
        <SearchProvider store={store} searchMetadata={{getListMetadata : _getListMetadata,
-               scopes:[{value: 'all', label:'All', selected:false}, {value: 'scope', label: 'Scope 01', selected:true}, {value: 'scope2', label:'Scope 02', selected:false}],
+               scopes:[{value: 'all', label:'all', selected:false}, {value: 'scope', label: 'Scope 01', selected:true}, {value: 'scope2', label:'Scope 02', selected:false}],
                scopeEntityDefintion : {
                  DonDiegoType : {
                    firstName: {
@@ -93,7 +93,7 @@ const _getListMetadata = (listType, listData) => {
             return (
                 <StoreProvider store={store}>
                     <SearchProvider store={store} searchMetadata={{getListMetadata : _getListMetadata,
-                            scopes:[{value: 'scope', label: 'Scope 01', selected:true}, {value: 'scope2', label:'Scope 02', selected:false}, {value: 'all', label:'All', selected:false}]
+                            scopes:[{value: 'scope', label: 'Scope 01', selected:true}, {value: 'scope2', label:'Scope 02', selected:false}, {value: 'all', label:'all', selected:false}]
 
                           }}>
                         <Router history={history}>

@@ -28,7 +28,7 @@ export class SearchBarScopeSelection extends PureComponent {
     }
     _onScopeChange(value) {
         const {scopeAction} = this.props;
-        if(value === 'ALL') {
+        if(value === 'all') {
             scopeAction({group: {value: {}, replace: false}, query: {value: {scope: undefined}, replace: false}})
             return;
         }
@@ -42,7 +42,7 @@ export class SearchBarScopeSelection extends PureComponent {
                 hasUndefined={false} values={scopes}
                 name='search-scope'
                 onChange={this._onScopeChange}
-                rawInputValue={scope || 'ALL'}
+                rawInputValue={scope || 'all'}
                 valueKey='value' />
         );
     }

@@ -72,7 +72,7 @@ export function connect(searchOptions) {
             const {searchMetadata} = context;
             const {customLineProps, dispatch, results: {hasGroups, data, listType, totalCount}, criteria} = props;
             const groupSelect = get(criteria, 'group');
-            const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value) || 'ALL';
+            const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value) || 'all';
             const term = get(criteria, 'query.term');
             const hasScope = isUndefined(get(criteria, 'query.scope'));
             const unitSearchDispatch = {

@@ -3,6 +3,7 @@ import isEqual from 'lodash/isEqual';
 import differenceWith from 'lodash/differenceWith';
 import difference from 'lodash/difference';
 import omit from 'lodash/omit';
+import toLower from 'lodash/lowerCase';
 
 
 export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = {}, action = {}) => {
@@ -14,60 +15,59 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
     const UPDATE_SELECTED_FACETS_SEARCH =  `${toUpper(name)}_UPDATE_SELECTED_FACETS`;
     switch(action.type) {
         case UPDATE_QUERY_SEARCH:
-        if(reduceQuery) {
-            return reduceQuery(state, action);
-        }else {
-            if(action.replace) return {
+            if(reduceQuery) {
+                return reduceQuery(state, action);
+            } else {
+                if(action.replace) return {
+                    ...state,
+                    query: {}
+                }
+                const {query} = action;
+                query.scope = query.scope ? toLower(query.scope) : undefined;
+                return {
+                    ...state,
+                    query : {
+                        ...state.query,
+                        ...query
+                    }
+                }
+            }
+        case UPDATE_GROUP_SEARCH:
+            return {
                 ...state,
-                query: {}
+                group : action.group
+            }
+
+        case UPDATE_SORT_SEARCH :
+            return  {
+                ...state,
+                sort: action.sort
+            }
+        case UPDATE_SELECTED_FACETS_SEARCH:
+            //facetBlockCode + selectedValue => merge into selectedValue
+            let newSelectedFacets = {...state.selectedFacets}
+            if(!action.selectedFacets && action.replace){
+                newSelectedFacets= null;
+            }
+            else if(action.replace) {
+                const dif = difference(state.selectedFacets[action.selectedFacets.code], [action.selectedFacets.values])
+                dif.length > 0 ?
+                newSelectedFacets[action.selectedFacets.code] = dif :
+                newSelectedFacets = omit(newSelectedFacets, [action.selectedFacets.code])
+            }else {
+                if(state.selectedFacets && state.selectedFacets[action.selectedFacets.code]){
+                    newSelectedFacets[action.selectedFacets.code] = [...state.selectedFacets[action.selectedFacets.code], action.selectedFacets.values]
+                } else {
+                    newSelectedFacets[action.selectedFacets.code] = action.selectedFacets.values
+                }
             }
             return {
                 ...state,
-                query : {
-                    ...state.query,
-                    ...action.query
-                }
+                selectedFacets: newSelectedFacets
             }
-        }
-
-
-     case UPDATE_GROUP_SEARCH:
-     return {
-       ...state,
-       group : action.group
-     }
-
-    case UPDATE_SORT_SEARCH :
-    return  {
-        ...state,
-        sort: action.sort
+        default:
+        return state;
     }
-    case UPDATE_SELECTED_FACETS_SEARCH:
-    //facetBlockCode + selectedValue => merge into selectedValue
-    let newSelectedFacets = {...state.selectedFacets}
-    if(!action.selectedFacets && action.replace){
-      newSelectedFacets= null;
-    }
-    else if(action.replace){
-        const dif = difference(state.selectedFacets[action.selectedFacets.code], [action.selectedFacets.values])
-        dif.length > 0 ?
-        newSelectedFacets[action.selectedFacets.code] = dif :
-        newSelectedFacets = omit(newSelectedFacets, [action.selectedFacets.code])
-    }else {
-        if(state.selectedFacets && state.selectedFacets[action.selectedFacets.code]){
-            newSelectedFacets[action.selectedFacets.code] = [...state.selectedFacets[action.selectedFacets.code], action.selectedFacets.values]
-        }else {
-            newSelectedFacets[action.selectedFacets.code] = action.selectedFacets.values
-        }
-    }
-    return {
-        ...state,
-        selectedFacets: newSelectedFacets
-    }
-    default:
-    return state;
-}
-
 }
 
 
