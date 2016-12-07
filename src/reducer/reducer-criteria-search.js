@@ -9,9 +9,9 @@ import toLower from 'lodash/lowerCase';
 export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = {}, action = {}) => {
 
     const UPPER_NAME = toUpper(name);
-    const UPDATE_QUERY_SEARCH =  `${toUpper(name)}_UPDATE_QUERY`;
-    const UPDATE_SORT_SEARCH =  `${toUpper(name)}_UPDATE_SORT`;
-    const UPDATE_GROUP_SEARCH =  `${toUpper(name)}_UPDATE_GROUP`;
+    const UPDATE_QUERY_SEARCH = `${toUpper(name)}_UPDATE_QUERY`;
+    const UPDATE_SORT_SEARCH = `${toUpper(name)}_UPDATE_SORT`;
+    const UPDATE_GROUP_SEARCH = `${toUpper(name)}_UPDATE_GROUP`;
     const UPDATE_SELECTED_FACETS_SEARCH =  `${toUpper(name)}_UPDATE_SELECTED_FACETS`;
     switch(action.type) {
         case UPDATE_QUERY_SEARCH:
@@ -23,7 +23,7 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
                     query: {}
                 }
                 const {query} = action;
-                if(query.scope !== undefined) {
+                if(query !== undefined && query.scope !== undefined) {
                     query.scope = query.scope ? toLower(query.scope) : undefined;
                 }
                 return {
@@ -39,7 +39,6 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
                 ...state,
                 group : action.group
             }
-
         case UPDATE_SORT_SEARCH :
             return  {
                 ...state,

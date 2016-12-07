@@ -59,6 +59,7 @@ const updateSort = type => (sort, replace = false, isSearchAction = true) => ({
     replace,
     isSearchAction
 });
+
 const updateGroup = type => (group, replace = false, isSearchAction = true) => ({
     type: type,
     group: group,
@@ -79,7 +80,7 @@ const updateSelectedFacets = type => (selectedFacets, replace = false, isSearchA
 });
 
 
-const startSearch = type => () => ({
+const startSearch = type => (sort) => ({
     type : type,
     isSearchAction: true
 })

@@ -73,8 +73,8 @@ export function connect(searchOptions) {
             const {customLineProps, dispatch, results: {hasGroups, data, listType, totalCount}, criteria} = props;
             const groupSelect = get(criteria, 'group');
             const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value) || 'all';
+            const hasScope = !isUndefined(get(criteria, 'query.scope'));
             const term = get(criteria, 'query.term');
-            const hasScope = isUndefined(get(criteria, 'query.scope'));
             const unitSearchDispatch = {
                 startAction: element => dispatch(startSearch()),
                 sortAction: element => dispatch(updateSort(element)),
@@ -91,6 +91,7 @@ export function connect(searchOptions) {
                 queryAction: element => dispatch(updateQuery(element)),
                 scopeAction: (element, replace) => {
                     dispatch(updateQuery(element.query.value, element.query.replace, false));
+                    dispatch(updateSort({}));
                     dispatch(updateGroup(element.group.value, element.group.replace, false));
                     dispatch(updateSelectedFacets(null, true))
                 }
