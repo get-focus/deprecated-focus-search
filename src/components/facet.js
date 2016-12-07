@@ -148,7 +148,7 @@ export class FacetPanel extends PureComponent {
                                 selectFacet={(value) => facetAction(value, false)}
                                 deleteFacet={value => facetAction(value, true)} />
                         } else {
-                            return <div>aucune</div>
+                            return null;
                         }
                     }
                 )}
