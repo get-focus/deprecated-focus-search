@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import {connect as connectToState} from 'react-redux';
 import compose from 'lodash/flowRight';
 
@@ -10,7 +10,7 @@ import {ResultList, ResultGroup, ListComponentWithToolBar} from './results';
 
 // <ActionQuery data-focus='action-query-advanced-search' group={unitSearchDispatch.group} query={unitSearchDispatch.query}/>
 
-export class AdvancedSearch extends Component {
+export class AdvancedSearch extends PureComponent {
     componentWillMount(){
         const {start} = this.props;
         start();

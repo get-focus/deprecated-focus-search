@@ -1,46 +1,48 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import Chips from 'focus-components/chips';
 import lowerCase from 'lodash/lowerCase';
 import isArray from 'lodash/isArray';
 import i18next from 'i18next';
 
-export function InformationBar (props) {
-    const {deleteFacet, facets, group, scopeFunction, scope, selectedFacetsList, term, totalCount, unitSearchDispatch : {scopeAction}} = props;
-    const scopeLabel = scope && scope.length > 0 ? i18next.t(`search.scope.${lowerCase(scope)}`) : 'Not defined';
-    const scopeLetter = scopeLabel && scopeLabel.length > 0 ? scopeLabel[0] : 'N';
-    return (
-        <div data-focus='information-bar'>
-            <div data-focus='totalCount'>
-                <span>{i18next.t('focus.search.results.number', {count: totalCount})}</span>
-                <span>{i18next.t('focus.search.results.for')}</span>
-                {term && <span>&laquo;&nbsp;{term}&nbsp;&raquo;</span>}
-            </div>
-            {scope &&
-                <div data-focus='scope-selected'>
-                    <Chips label={scopeLabel}
-                        letter={scopeLetter}
-                        onDeleteClick={scope === 'all' ? undefined : () => scopeAction({query:{value :{scope: undefined}, replace: false}, group: {value: {}, replace: false}})}/>
+export class InformationBar extends PureComponent {
+    render() {
+        const {deleteFacet, facets, group, scopeFunction, scope, selectedFacetsList, term, totalCount, unitSearchDispatch : {scopeAction}} = this.props;
+        const scopeLabel = scope && scope.length > 0 ? i18next.t(`search.scope.${lowerCase(scope)}`) : 'Not defined';
+        const scopeLetter = scopeLabel && scopeLabel.length > 0 ? scopeLabel[0] : 'N';
+        return (
+            <div data-focus='information-bar'>
+                <div data-focus='totalCount'>
+                    <span>{i18next.t('focus.search.results.number', {count: totalCount})}</span>
+                    <span>{i18next.t('focus.search.results.for')}</span>
+                    {term && <span>&laquo;&nbsp;{term}&nbsp;&raquo;</span>}
                 </div>
-            }
-            <div data-focus='selectedFacets'>
-                {Object.keys(selectedFacetsList).map((element, index) => {
-                    const currentFacetSelected = facets.find(facet => facet.code === element)
-                    if(isArray(selectedFacetsList[element])) {
-                        return selectedFacetsList[element].map(selectedFacet => {
+                {scope &&
+                    <div data-focus='scope-selected'>
+                        <Chips label={scopeLabel}
+                            letter={scopeLetter}
+                            onDeleteClick={scope === 'all' ? undefined : () => scopeAction({query:{value :{scope: undefined}, replace: false}, group: {value: {}, replace: false}})}/>
+                    </div>
+                }
+                <div data-focus='selectedFacets'>
+                    {Object.keys(selectedFacetsList).map((element, index) => {
+                        const currentFacetSelected = facets.find(facet => facet.code === element)
+                        if(isArray(selectedFacetsList[element])) {
+                            return selectedFacetsList[element].map(selectedFacet => {
+                                const theFacet = currentFacetSelected.values.find(facet => facet.code === selectedFacet)
+                                const displayedLabel = `${currentFacetSelected.label}: ${theFacet.label}`;
+                                return <Chips label={displayedLabel} onDeleteClick={() => {const value = {code: element, values: selectedFacet}; return deleteFacet(value)}} />
+                            })
+                        } else {
+                            const selectedFacet = selectedFacetsList[element];
                             const theFacet = currentFacetSelected.values.find(facet => facet.code === selectedFacet)
                             const displayedLabel = `${currentFacetSelected.label}: ${theFacet.label}`;
                             return <Chips label={displayedLabel} onDeleteClick={() => {const value = {code: element, values: selectedFacet}; return deleteFacet(value)}} />
-                        })
-                    } else {
-                        const selectedFacet = selectedFacetsList[element];
-                        const theFacet = currentFacetSelected.values.find(facet => facet.code === selectedFacet)
-                        const displayedLabel = `${currentFacetSelected.label}: ${theFacet.label}`;
-                        return <Chips label={displayedLabel} onDeleteClick={() => {const value = {code: element, values: selectedFacet}; return deleteFacet(value)}} />
-                    }
-                })}
+                        }
+                    })}
+                </div>
             </div>
-        </div>
-    )
+        );
+    };
 };
 InformationBar.displayName = 'Information Bar';
 InformationBar.propTypes = {

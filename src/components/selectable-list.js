@@ -1,4 +1,4 @@
-import React, {PropTypes, Component} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import isFunction from 'lodash/isFunction'
 import filter from 'lodash/filter';
 
@@ -114,7 +114,7 @@ data.map(
 const connect = (ListToConnect = DefaultPureSelectableList) => {
     if(!isFunction(ListToConnect)) throw new Error(`${SELECTABLE_LIST}: You should provide a List Component to the connector.`);
 
-    class SelectableList extends Component {
+    class SelectableList extends PureComponent {
         constructor(props) {
             super(props);
             this.state = {

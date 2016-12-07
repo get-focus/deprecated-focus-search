@@ -1,103 +1,132 @@
-import React, {PropTypes} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import {compose} from 'redux';
-import {facetListWithselectedInformation, selectSearch} from '../reducer';
+import i18next from 'i18next';
 import Chips from 'focus-components/chips';
-import isArray from 'lodash/isArray'
-import {
-    FACET_SHAPE_TYPE,
-    FACET_DESCRIPTOR_SHAPE_TYPE
-} from '../reducer';
-import i18n from 'i18next';
+import isArray from 'lodash/isArray';
+
+import {facetListWithselectedInformation, selectSearch} from '../reducer';
+import {FACET_SHAPE_TYPE, FACET_DESCRIPTOR_SHAPE_TYPE} from '../reducer';
+
+
+export class FacetTitle extends PureComponent {
+    render() {
+        const {children} = this.props;
+        console.log('FacetTitle', this.props);
+        return <span data-focus='facet-title' >{children}</span>
+    };
+};
+FacetTitle.displayName = 'FacetTitle';
+
+
+export class FacetCount extends PureComponent {
+    render() {
+        const {children} = this.props;
+        return <span data-focus='facet-count'>{children}</span>
+    };
+};
+FacetCount.displayName = 'FacetCount';
 
 
 
-export function FacetTitle(props){
-    return <span data-focus='facet-title' >{props.children}</span>
-}
-
-
-export function FacetCount(props){
-    return <span data-focus='facet-count'>{props.children}</span>
-}
-
-
-export function Facet(props){
-    return (
-        <li data-focus='facet' onClick={() => props.onClick(props.code)}>
-            <FacetTitle>{props.label}</FacetTitle>
-            <FacetCount>{props.count}</FacetCount>
-        </li>
-    );
-}
+export class Facet extends PureComponent {
+    constructor(props) {
+        super(props);
+        this._onFacetClick = this._onFacetClick.bind(this);
+    };
+    _onFacetClick() {
+        const {code, onClick} = this.props;
+        onClick(code);
+    };
+    render() {
+        const {count, label} = this.props;
+        console.log('Facet',this.props);
+        return (
+            <li data-focus='facet' onClick={this._onFacetClick}>
+                <FacetTitle>{label}</FacetTitle>
+                <FacetCount>{count}</FacetCount>
+            </li>
+        );
+    };
+};
+Facet.displayName = 'Facet';
 Facet.defaultProps ={
     selected : false
 }
 Facet.propTypes = FACET_SHAPE_TYPE;
 
-export function FacetSelected(props){
-    return (
-        <li data-focus='facet'>
-            <Chips label={props.label} onDeleteClick={() => props.onClick(props.code)} />
-        </li>
-    );
+
+
+
+export class FacetSelected extends PureComponent {
+    constructor(props) {
+        super(props);
+        this._onFacetClick = this._onFacetClick.bind(this);
+    };
+    _onFacetClick() {
+        const {code, onClick} = this.props;
+        onClick(code);
+    };
+    render() {
+        const {label} = this.props;
+        console.log('FacetSelected', this.props);
+        return (
+            <li data-focus='facet'>
+                <Chips label={label} onDeleteClick={this._onFacetClick} />
+            </li>
+        );
+    }
 }
+FacetSelected.displayName = 'FacetSelected';
 FacetSelected.propTypes = FACET_SHAPE_TYPE;
 
-// add hover style
-// connect(sFacetBlock, code => FacetComponent)
-/*
-function connectToFacetDomain(FacetComponent){
-// context property
-const facetComponentsMap = {
-'PAYS': (props) => <div>Pays</div>
-}
-function DomainConnectedFacetComponent(props){
-return <FacetComponent {...props} FacetComponent={facetComponentsMap[props.code]}/>
+
+export class FacetBlock extends PureComponent {
+    render() {
+        const {code, deleteFacet, FacetComponent, FacetSelectedComponent, label, selected, selectFacet, selectedFacets, values} = this.props;
+        return (
+            <div data-focus='facet-block' data-selected={selected}>
+                <h3>{label}</h3>
+                {selected ?
+                    <ul>
+                        {
+                            isArray(selectedFacets) ?
+                            selectedFacets.map(value => (
+                                <FacetSelectedComponent
+                                    key={code}
+                                    label={(values.find(element => element.code === value)).label}
+                                    code={value}
+                                    onClick={selectedValue => deleteFacet({code: code, values: selectedValue})} />
+                            ))
+                            :
+                            <FacetSelectedComponent
+                                key={code}
+                                label={(values.find(element => element.code === selectedFacets)).label}
+                                code={selectedFacets}
+                                onClick={selectedValue => deleteFacet({code: code, values: selectedValue})} />
+                        }
+                    </ul>
+                    :
+                    <ul>
+                        {
+                            values.map(facet => (
+                                <FacetComponent
+                                    key={facet.code}
+                                    {...facet}
+                                    onClick={selectedValue => selectFacet({code: code, values: selectedValue})} />
+                            ))
+                        }
+                    </ul>
+                }
+            </div>
+        );
+    }
 };
-return DomainConnectedFacetComponent;
-}
-*/
-
-export function FacetBlock(props){
-    return <div data-focus='facet-block' data-selected={props.selected || false}>
-        <h3>{props.label}</h3>
-        <ul>
-            {props.selected ?
-                <div>
-                    {
-                        isArray(props.selectedFacets) ?
-                        props.selectedFacets.map(value => (
-                            <props.FacetSelectedComponent
-                                key={props.code}
-                                label={(props.values.find(element => element.code === value)).label}
-                                code={value}
-                                onClick={selectedValue => props.deleteFacet({code: props.code, values: selectedValue})} />
-                        ))
-                        :
-                        <props.FacetSelectedComponent
-                            key={props.code}
-                            label={(props.values.find(element => element.code === props.selectedFacets)).label}
-                            code={props.selectedFacets}
-                            onClick={selectedValue => props.deleteFacet({code: props.code, values: selectedValue})} />
-                    }
-                </div>
-                :
-                props.values.map(facet => (
-                    <props.FacetComponent
-                        key={facet.code}
-                        {...facet}
-                        onClick={selectedValue => props.selectFacet({code: props.code, values: selectedValue})} />
-                )
-            )}
-        </ul>
-    </div>
-}
-
-
+FacetBlock.displayName = 'FacetBlock';
 FacetBlock.defaultProps = {
     FacetComponent: Facet,
     FacetSelectedComponent: FacetSelected,
-    values: []
+    selected: false,
+    values: [],
 }
 FacetBlock.propTypes = {
     ...FACET_DESCRIPTOR_SHAPE_TYPE,
@@ -107,24 +136,31 @@ FacetBlock.propTypes = {
     FacetSelected: PropTypes.func
 };
 
-export function FacetPanel(props){
-    return <div data-focus='facet-panel' >
-        <h4>{i18n.t('focus.search.facets')}</h4>
-        {props.data.map(
-            facetDescriptor => {
-                if(facetDescriptor.values.length > 1 || facetDescriptor.selected) {
-                    return <FacetBlock key={facetDescriptor.code}
-                        {...facetDescriptor}
-                        selected={facetDescriptor.selected}
-                        selectFacet={(value) => props.facetAction(value, false)}
-                        deleteFacet={value => props.facetAction(value, true)}/>
-                } else {
-                    return <div></div>
-                }
-            }
-        )}
-    </div>
+export class FacetPanel extends PureComponent {
+    render() {
+        const {data, facetAction} = this.props;
+        console.log('FacetPanel', this.props);
+        return  (
+            <div data-focus='facet-panel'>
+                <h4>{i18next.t('focus.search.facets')}</h4>
+                {data.map(
+                    facetDescriptor => {
+                        if(facetDescriptor.values.length > 1 || facetDescriptor.selected) {
+                            return <FacetBlock key={facetDescriptor.code}
+                                {...facetDescriptor}
+                                selected={facetDescriptor.selected}
+                                selectFacet={(value) => facetAction(value, false)}
+                                deleteFacet={value => facetAction(value, true)} />
+                        } else {
+                            return <div>aucune</div>
+                        }
+                    }
+                )}
+            </div>
+        );
+    }
 }
+FacetPanel.displayName = 'FacetPanel';
 FacetPanel.defaultProps = {
     data: []
 }
@@ -150,7 +186,7 @@ Facet
 --------------
 /* Default Export is a connected component */
 
-export const facetSelector =   compose(
+export const facetSelector = compose(
     facetListWithselectedInformation,
     selectSearch('advancedSearch')
 );
