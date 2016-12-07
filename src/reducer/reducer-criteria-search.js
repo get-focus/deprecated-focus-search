@@ -23,7 +23,9 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
                     query: {}
                 }
                 const {query} = action;
-                query.scope = query.scope ? toLower(query.scope) : undefined;
+                if(query.scope !== undefined) {
+                    query.scope = query.scope ? toLower(query.scope) : undefined;
+                }
                 return {
                     ...state,
                     query : {

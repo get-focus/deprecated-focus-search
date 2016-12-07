@@ -11,7 +11,6 @@ import {FACET_SHAPE_TYPE, FACET_DESCRIPTOR_SHAPE_TYPE} from '../reducer';
 export class FacetTitle extends PureComponent {
     render() {
         const {children} = this.props;
-        console.log('FacetTitle', this.props);
         return <span data-focus='facet-title' >{children}</span>
     };
 };
@@ -39,7 +38,6 @@ export class Facet extends PureComponent {
     };
     render() {
         const {count, label} = this.props;
-        console.log('Facet',this.props);
         return (
             <li data-focus='facet' onClick={this._onFacetClick}>
                 <FacetTitle>{label}</FacetTitle>
@@ -68,7 +66,6 @@ export class FacetSelected extends PureComponent {
     };
     render() {
         const {label} = this.props;
-        console.log('FacetSelected', this.props);
         return (
             <li data-focus='facet'>
                 <Chips label={label} onDeleteClick={this._onFacetClick} />
@@ -139,7 +136,6 @@ FacetBlock.propTypes = {
 export class FacetPanel extends PureComponent {
     render() {
         const {data, facetAction} = this.props;
-        console.log('FacetPanel', this.props);
         return  (
             <div data-focus='facet-panel'>
                 <h4>{i18next.t('focus.search.facets')}</h4>
