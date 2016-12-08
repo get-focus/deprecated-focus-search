@@ -65,18 +65,5 @@ export const searchTriggerMiddlewareBuilder = (
         else {
             next(action);
         }
-        // }else if (action.group && action.group.name == 'all') {
-        //    console.log('kdfksdj')
-        // } else {
-        //   const UPDATE_GROUP_SEARCH =  `${toUpper(name)}_UPDATE_GROUP`;
-        //   switch(action.type) {
-        //       case UPDATE_GROUP_SEARCH:
-        //         console.log('test')
-        //         next(action);
-        //       default:
-        //         next(action);
-        //         break;
-        //     }
-        // }
     }
 }
