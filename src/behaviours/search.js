@@ -135,6 +135,7 @@ export function connect(searchOptions) {
                 const SearchBarProps = {
                     scope,
                     scopes: searchMetadata.scopes,
+                    term,
                     unitSearchDispatch: this.unitSearchDispatch
                 }
 
