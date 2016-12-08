@@ -96,7 +96,7 @@ export function connect(searchOptions) {
             }
             render() {
                 const {searchMetadata} = this.context;
-                const {customLineProps, dispatch, results: {hasGroups, data, listType, totalCount}, criteria} = this.props;
+                const {customLineProps, results: {hasGroups, data, listType, totalCount}, criteria} = this.props;
                 const groupSelect = get(criteria, 'group');
                 const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value) || 'all';
                 const hasScope = !isUndefined(get(criteria, 'query.scope'));
