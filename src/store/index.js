@@ -1,5 +1,6 @@
 import {get} from 'lodash';
-import identity from 'lodash/identity'
+import identity from 'lodash/identity';
+import keys from 'lodash/keys';
 
 export const buildFieldForLineSearch = ({searchName, codeId, entityPath, code}) => (state = {}, props) => {
     const {definitions, domains, index} = props;
@@ -8,7 +9,7 @@ export const buildFieldForLineSearch = ({searchName, codeId, entityPath, code}) 
     const findList = get(results.data.find(element => element.code === code), 'list', get(results.data[index], 'list'));
     const list = findList ? findList : results.data || [];
     const dataForLine = list.find(element => element[codeId] === props[codeId]);
-    const propertyKeys = Object.keys(dataForLine);
+    const propertyKeys = keys(dataForLine);
     const fields = propertyKeys.map(element => {
         const propertyDefinition = entityDefinition[element];
         const domain = get(domains, propertyDefinition ? propertyDefinition.domain : "", {});
