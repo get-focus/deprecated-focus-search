@@ -13,8 +13,9 @@ import Dropdown from 'focus-components/dropdown';
 
 
 function _buildSortAction(scope, item, order, sortAction) {
+    const classification = scope ? scope : 'all';
     return {
-        label: `search.sort.${scope}.entry.${toLower(item)}.${order}`,
+        label: `search.sort.${classification}.entry.${toLower(item)}.${order}`,
         action: () => sortAction({name: item, order: order})
     };
 };
@@ -22,8 +23,9 @@ function _buildSortAction(scope, item, order, sortAction) {
 function _buildGroupAction(scope, item, groupAction) {
     const isUngroup = item === 'ungroup';
     const groupCreate = isUngroup ? {} : {name: item}
+    const classification = scope ? scope : 'all';
     return {
-        label: isUngroup ? 'focus.search.group.ungroup' : `search.group.${scope}.entry.${toLower(item)}`,
+        label: isUngroup ? 'focus.search.group.ungroup' : `search.group.${classification}.entry.${toLower(item)}`,
         action: () => groupAction(groupCreate)
     };
 };
@@ -47,7 +49,7 @@ export class ToolbarSort extends PureComponent {
 };
 ToolbarSort.displayName = 'ToolbarSort';
 ToolbarSort.propTypes = {
-    scope: PropTypes.string.isRequired,
+    scope: PropTypes.string,
     sortAction: PropTypes.func.isRequired,
     sortList : PropTypes.array
 };
@@ -68,7 +70,7 @@ export class ToolbarGroup extends PureComponent {
 };
 ToolbarGroup.displayName = 'ToolbarGroup';
 ToolbarGroup.propTypes = {
-    scope: PropTypes.string.isRequired,
+    scope: PropTypes.string,
     groupAction: PropTypes.func.isRequired,
     groupList : PropTypes.array
 };

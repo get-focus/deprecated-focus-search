@@ -1,11 +1,11 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import {connect as connectToState} from 'react-redux';
 import {compose} from 'redux';
 import {map} from 'lodash/map';
 import isArray from 'lodash/isArray';
 import isUndefined from 'lodash/isUndefined';
 import {loadLine} from '../actions/single-action-creator';
-import {get} from 'lodash';
+import {get, set} from 'lodash';
 
 const SEARCH_CONTEXT_TYPE = {
     searchMetadata: PropTypes.object
@@ -68,84 +68,90 @@ export function connect(searchOptions) {
 
     return function getSearchConnectedComponent(ComponentToConnect) {
 
-        function SearchConnectedComponent(props, context) {
-            const {searchMetadata} = context;
-            const {customLineProps, dispatch, results: {hasGroups, data, listType, totalCount}, criteria} = props;
-            const groupSelect = get(criteria, 'group');
-            const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value) || 'all';
-            const hasScope = !isUndefined(get(criteria, 'query.scope'));
-            const term = get(criteria, 'query.term');
-            const unitSearchDispatch = {
-                startAction: element => dispatch(startSearch()),
-                sortAction: element => dispatch(updateSort(element)),
-                groupAction: (element, replace) => dispatch(updateGroup(element, replace)),
-                facetAction: function facet(element, replace) {
-                    if(element.code === 'FCT_SCOPE') {
-                        dispatch(updateQuery({scope: element.values}, false, false));
-                        dispatch(updateGroup({}, true, false));
-                        dispatch(updateSelectedFacets(null, true));
-                        return;
+        class SearchConnectedComponent extends PureComponent {
+            constructor(props){
+                super(props);
+                const {dispatch} = this.props;
+                this.unitSearchDispatch = {
+                    startAction: element => dispatch(startSearch()),
+                    sortAction: element => dispatch(updateSort(element)),
+                    groupAction: (element, replace) => dispatch(updateGroup(element, replace)),
+                    facetAction: function facet(element, replace) {
+                        if(element.code === 'FCT_SCOPE') {
+                            dispatch(updateQuery({scope: element.values}, false, false));
+                            dispatch(updateGroup({}, true, false));
+                            dispatch(updateSelectedFacets(null, true));
+                            return;
+                        }
+                        return dispatch(updateSelectedFacets(element, replace));
+                    },
+                    queryAction: element => dispatch(updateQuery(element)),
+                    scopeAction: (element, replace) => {
+                        dispatch(updateQuery(element.query.value, element.query.replace, false));
+                        dispatch(updateSort({}));
+                        dispatch(updateGroup(element.group.value, element.group.replace, false));
+                        dispatch(updateSelectedFacets(null, true))
                     }
-                    return dispatch(updateSelectedFacets(element, replace));
-                },
-                queryAction: element => dispatch(updateQuery(element)),
-                scopeAction: (element, replace) => {
-                    dispatch(updateQuery(element.query.value, element.query.replace, false));
-                    dispatch(updateSort({}));
-                    dispatch(updateGroup(element.group.value, element.group.replace, false));
-                    dispatch(updateSelectedFacets(null, true))
+                };
+            }
+            render() {
+                const {searchMetadata} = this.context;
+                const {customLineProps, dispatch, results: {hasGroups, data, listType, totalCount}, criteria} = this.props;
+                const groupSelect = get(criteria, 'group');
+                const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value) || 'all';
+                const hasScope = !isUndefined(get(criteria, 'query.scope'));
+                const term = get(criteria, 'query.term');
+                const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, listType);
+                const facetInformations = facetListWithselectedInformation(this.props);
+                set(results, 'totalCount', totalCount);
+                set(results, 'groupSelect', groupSelect);
+
+                const InformationBarProps = {
+                    deleteFacet: value => this.unitSearchDispatch.facetAction(value, true),
+                    facets: facetInformations.facetListWithselectedInformation,
+                    scope,
+                    selectedFacetsList: facetInformations.selectedFacetsList,
+                    term,
+                    totalCount: totalCount,
+                    unitSearchDispatch: this.unitSearchDispatch
                 }
+
+                const ResultGroup = {
+                    scope,
+                    unitSearchDispatch: this.unitSearchDispatch,
+                    valuesForResults: results
+                }
+
+                const ResultList = {
+                    unitSearchDispatch: this.unitSearchDispatch,
+                    valuesForResult: results
+                }
+
+                const FacetPanel = {
+                    data: facetInformations.facetListWithselectedInformation,
+                    facetAction: this.unitSearchDispatch.facetAction
+                }
+
+                const SearchBarProps = {
+                    scope,
+                    scopes: searchMetadata.scopes,
+                    unitSearchDispatch: this.unitSearchDispatch
+                }
+
+                return (
+                    <ComponentToConnect
+                        customLineProps={customLineProps}
+                        FacetPanelProps={FacetPanel}
+                        GlobalActions={searchMetadata.GlobalActions}
+                        hasScope={hasScope}
+                        InformationBarProps={InformationBarProps}
+                        isGroup={hasGroups}
+                        ResultGroupProps={ResultGroup}
+                        ResultListProps={ResultList}
+                        SearchBarProps={SearchBarProps}
+                        start={this.unitSearchDispatch.startAction} />
+                );
             };
-            const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, listType);
-            const facetInformations = facetListWithselectedInformation(props);
-            results.totalCount = totalCount;
-            results.groupSelect = groupSelect;
-
-            const InformationBarProps = {
-                deleteFacet: value => unitSearchDispatch.facetAction(value, true),
-                facets: facetInformations.facetListWithselectedInformation,
-                scope,
-                selectedFacetsList: facetInformations.selectedFacetsList,
-                term,
-                totalCount: totalCount,
-                unitSearchDispatch: unitSearchDispatch
-            }
-
-            const ResultGroup = {
-                scope,
-                unitSearchDispatch: unitSearchDispatch,
-                valuesForResults: results
-            }
-
-            const ResultList = {
-                unitSearchDispatch: unitSearchDispatch,
-                valuesForResult: results
-            }
-
-            const FacetPanel = {
-                data: facetInformations.facetListWithselectedInformation,
-                facetAction: unitSearchDispatch.facetAction
-            }
-
-            const SearchBarProps = {
-                scope,
-                scopes: searchMetadata.scopes,
-                unitSearchDispatch:unitSearchDispatch
-            }
-
-            return (
-                <ComponentToConnect
-                    customLineProps={customLineProps}
-                    isGroup={hasGroups}
-                    GlobalActions={searchMetadata.GlobalActions}
-                    hasScope={hasScope}
-                    start={unitSearchDispatch.startAction}
-                    InformationBarProps={InformationBarProps}
-                    ResultGroupProps={ResultGroup}
-                    ResultListProps={ResultList}
-                    SearchBarProps={SearchBarProps}
-                    FacetPanelProps={FacetPanel} />
-            );
         };
         SearchConnectedComponent.displayName= 'SearchConnectedComponent';
         SearchConnectedComponent.contextTypes = SEARCH_CONTEXT_TYPE;
@@ -162,7 +168,7 @@ export function connect(searchOptions) {
 };
 
 // Usage and example
-class SearchProvider extends Component {
+class SearchProvider extends PureComponent {
     getChildContext() {
         return {
             searchMetadata : this.props.searchMetadata
