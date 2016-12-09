@@ -1,6 +1,6 @@
 {
     "name": "focus-search",
-    "version": "3.0.0-beta32",
+    "version": "3.0.0-beta36",
     "description": "Serach FOCUS",
     "main": "src/index.js",
     "scripts": {
@@ -77,7 +77,7 @@
     },
     "peerDependencies": {
         "i18next": ">= 4.1.0",
-        "lodash": ">= 4.15.0",
+        "lodash": ">= 4.17.2",
         "material-design-lite": "1.2.1",
         "material-design-icons-iconfont": ">= 2.0.4",
         "moment": ">= 2.14.1",
@@ -111,7 +111,7 @@
         "isomorphic-fetch": "^2.2.1",
         "jsdom": "^8.3.1",
         "json-loader": "^0.5.4",
-        "lodash": "^4.15.0",
+        "lodash": "^4.17.2",
         "material-design-icons-iconfont": "^2.0.5",
         "material-design-lite": "1.2.1",
         "mocha": "^2.4.5",

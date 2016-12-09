@@ -12,7 +12,7 @@ export const buildFieldForLineSearch = ({searchName, codeId, entityPath, code}) 
     const propertyKeys = keys(dataForLine);
     const fields = propertyKeys.map(element => {
         const propertyDefinition = entityDefinition[element];
-        const domain = get(domains, propertyDefinition ? propertyDefinition.domain : "", {});
+        const domain = get(domains, propertyDefinition ? propertyDefinition.domain : '', {});
         const value = list.find(element => element[codeId] ===props[codeId])[element];
         const formator = domain.formator || identity;
         return {
@@ -30,7 +30,7 @@ export const buildFieldForLineSearch = ({searchName, codeId, entityPath, code}) 
 
 export const parseForVertigo = (searchParam) => {
     const config = {};
-    const scope =( searchParam.query && searchParam.query.scope) ? searchParam.query.scope : 'all';
+    const scope = (searchParam.query && searchParam.query.scope) ? searchParam.query.scope : 'all';
     config.urlData = {
         skip: 0,
         sortFieldName: get(searchParam, 'sort.name'), //(searchParam.sort) ? searchParam.sort.name : "",

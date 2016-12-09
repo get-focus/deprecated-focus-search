@@ -16,7 +16,6 @@ export class SearchBarInput extends PureComponent {
         return false; //no need to rerender as props only init the component. and it avoid to rerender input at each keypress ! it freeze the rendering
     }
     componentDidMount() {
-        debugger;
         const {hasFocus, term} = this.props;
         this.refs.searchBarInputText.refs.htmlInput.value = term; //if i use rawInputValue it block the component
         if(hasFocus) ReactDOM.findDOMNode(this.refs.searchBarInputText.refs.htmlInput).focus();

@@ -6,7 +6,7 @@ import i18next from 'i18next';
 
 export class InformationBar extends PureComponent {
     render() {
-        const {deleteFacet, facets, group, scopeFunction, scope, selectedFacetsList, term, totalCount, unitSearchDispatch : {scopeAction}} = this.props;
+        const {deleteFacet, facets, scope, selectedFacetsList, term, totalCount, unitSearchDispatch : {scopeAction}} = this.props;
         const scopeLabel = scope && scope.length > 0 ? i18next.t(`search.scope.${lowerCase(scope)}`) : 'Not defined';
         const scopeLetter = scopeLabel && scopeLabel.length > 0 ? scopeLabel[0] : 'N';
         return (

@@ -11,6 +11,12 @@ const SEARCH_CONTEXT_TYPE = {
     searchMetadata: PropTypes.object
 };
 
+// extract exact metadatas
+function extractMedatadas(metadatas) {
+    const { ActionsComponent, actionsLine, LineComponent, sortList, groupList, lineIdentifierProperty, GlobalGroupActionsComponent } = metadatas;
+    return { ActionsComponent, actionsLine, LineComponent, sortList, groupList, lineIdentifierProperty, GlobalGroupActionsComponent };
+}
+
 // Maybe this function should take the facets and the selectedFacets only.
 export function facetListWithselectedInformation(state) {
     const selectedFacets = state.criteria.selectedFacets || [];
@@ -29,37 +35,24 @@ export function getResultsForGroup(groups, searchMetadata){
         // getListMetadata => LineComponent , ListComponent and maybe other informations concidered usefull
         const {scopeEntityDefintion} = searchMetadata;
         //TO Do scopeEntityDefintion existing
-        const {ActionsComponent, actionsLine, LineComponent, sortList, groupList, lineIdentifierProperty, GlobalGroupActionsComponent} = searchMetadata.getListMetadata(element.listType, element.values)
-        const formators = (scopeEntityDefintion && scopeEntityDefintion[element.listType]) ? scopeEntityDefintion[element.listType] : props => props
+        const metadatas = extractMedatadas(searchMetadata.getListMetadata(element.listType, element.values));
         return {
             ...element,
+            ...metadatas,
             code: element.code,
+            data: element.list,
             label : element.label,
-            listType: element.listType,
-            lineIdentifierProperty: lineIdentifierProperty,
-            values: element.list,
-            LineComponent,
-            ActionsComponent,
-            actionsLine,
-            sortList,
-            GlobalGroupActionsComponent,
-            groupList
+            listType: element.listType
         };
     });
 };
 
-export function getResultsForList(list = [], searchMetadata, listType){
-    const {ActionsComponent, actionsLine, LineComponent, sortList, groupList, lineIdentifierProperty, GlobalGroupActionsComponent} = searchMetadata.getListMetadata(listType, list)
+export function getResultsForList(list = [], searchMetadata, listType) {
+    const metadatas = extractMedatadas(searchMetadata.getListMetadata(listType, list));
     return {
-        ActionsComponent,
-        actionsLine,
-        LineComponent,
-        lineIdentifierProperty,
-        listType,
-        GlobalGroupActionsComponent,
-        groupList,
-        sortList,
-        values: list
+        ...metadatas,
+        data: list,
+        listType
     };
 };
 
@@ -96,10 +89,14 @@ export function connect(searchOptions) {
             }
             render() {
                 const {searchMetadata} = this.context;
+                const {scopes} = searchMetadata;
                 const {customLineProps, results: {hasGroups, data, listType, totalCount}, criteria} = this.props;
-                const groupSelect = get(criteria, 'group');
-                const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value) || 'all';
+
+                const hasDefinedScopes = scopes !== undefined && scopes.length > 0;
+                const criteriaScope = get(criteria, 'query.scope', scopes.find(scope => scope.selected === true).value);
+                const scope = criteriaScope || 'all';
                 const hasScope = !isUndefined(get(criteria, 'query.scope'));
+                const groupSelect = get(criteria, 'group');
                 const term = get(criteria, 'query.term');
                 const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, listType);
                 const facetInformations = facetListWithselectedInformation(this.props);
@@ -117,12 +114,16 @@ export function connect(searchOptions) {
                 }
 
                 const ResultGroup = {
+                    isAllScopeResults: hasDefinedScopes && !hasScope,
+                    isGroup: hasGroups,
                     scope,
                     unitSearchDispatch: this.unitSearchDispatch,
                     valuesForResults: results
                 }
 
                 const ResultList = {
+                    isGroup: hasGroups,
+                    scope,
                     unitSearchDispatch: this.unitSearchDispatch,
                     valuesForResult: results
                 }
@@ -134,7 +135,7 @@ export function connect(searchOptions) {
 
                 const SearchBarProps = {
                     scope,
-                    scopes: searchMetadata.scopes,
+                    scopes: scopes,
                     term,
                     unitSearchDispatch: this.unitSearchDispatch
                 }
@@ -143,8 +144,6 @@ export function connect(searchOptions) {
                     <ComponentToConnect
                         customLineProps={customLineProps}
                         FacetPanelProps={FacetPanel}
-                        GlobalActions={searchMetadata.GlobalActions}
-                        hasScope={hasScope}
                         InformationBarProps={InformationBarProps}
                         isGroup={hasGroups}
                         ResultGroupProps={ResultGroup}
