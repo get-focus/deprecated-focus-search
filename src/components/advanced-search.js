@@ -20,7 +20,6 @@ export class AdvancedSearch extends PureComponent {
         const {
             customLineProps,
             FacetPanelProps,
-            GlobalActions,
             InformationBarProps,
             isGroup,
             ListComponent,
@@ -36,14 +35,12 @@ export class AdvancedSearch extends PureComponent {
                             customLineProps={customLineProps}
                             data-focus='result-group-advanced-search'
                             ListComponent={ListComponent}
-                            GlobalActions={GlobalActions}
                             {...ResultGroupProps} />
                         :
                         <ResultList
                             customLineProps={customLineProps}
                             data-focus='result-list-advanced-search'
-                            ListComponentWithToolBar={ListComponent}
-                            GlobalActions={GlobalActions}
+                            ListComponent={ListComponent}
                             {...ResultListProps} />
                     }
                 </div>

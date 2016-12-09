@@ -70,18 +70,21 @@ MaterialLineWrapper.PropTypes = {
     stateOfTheSelectionList: PropTypes.bool
 };
 
+
+
 export class ListComponentWithToolBar extends PureComponent {
     render () {  //to do check the values
         const {
-            lineProps,
             data,
             GlobalGroupActionsComponent,
             isGroup,
             lineIdentifierProperty,
+            lineProps,
             LineWrapper,
             ListWrapper,
             numberOfList,
             numberOfSelectedElement,
+            scope,
             selectedElements,
             stateOfTheSelectionList,
             toggleAllLine,
@@ -90,7 +93,7 @@ export class ListComponentWithToolBar extends PureComponent {
             valuesForResult: {ActionsComponent, actionsLine, groupList, groupSelect, isSelected, label, listType, LineComponent, numberList, values, sortList, ...otherProps},
         } = this.props;
         return (
-            <div>
+            <div data-focus='list-with-toolbar'>
                 <ToolBar
                     data-focus='toolbar-advanced-search'
                     GlobalGroupActionsComponent={GlobalGroupActionsComponent}
@@ -100,6 +103,7 @@ export class ListComponentWithToolBar extends PureComponent {
                     isGroup={isGroup}
                     label={label}
                     numberOfSelectedElement={numberOfSelectedElement}
+                    scope={scope}
                     selectedElements={selectedElements}
                     sortAction={unitSearchDispatch.sortAction}
                     sortList={sortList}
@@ -132,15 +136,24 @@ export class ListComponentWithToolBar extends PureComponent {
 };
 ListComponentWithToolBar.displayName ='ListcomponentWithSelection';
 ListComponentWithToolBar.propTypes = {
+    GlobalGroupActionsComponent: PropTypes.func,
+    isGroup: PropTypes.bool,
     lineProps: PropTypes.object,
-    data: PropTypes.array.isRequired,
-    LineComponent: PropTypes.func.isRequired,
     lineIdentifierProperty: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     LineWrapper: PropTypes.func,
-    ListWrapper: PropTypes.func.isRequired,
-    toggleLineSelection: PropTypes.func
+    ListWrapper: PropTypes.func,
+    numberOfList: PropTypes.number,
+    numberOfSelectedElement: PropTypes.number,
+    scope: PropTypes.string,
+    selectedElements: PropTypes.arrayOf(PropTypes.object),
+    stateOfTheSelectionList: PropTypes.bool,
+    toggleAllLine: PropTypes.func,
+    toggleLineSelection: PropTypes.func,
+    unitSearchDispatch: PropTypes.object.isRequired,
+    valuesForResult: PropTypes.object.isRequired
 };
 ListComponentWithToolBar.defaultProps = {
+    isGroup: false,
     lineProps: {},
     lineIdentifierProperty: 'id',
     ListWrapper: MaterialListWrapper,
@@ -152,59 +165,69 @@ ListComponentWithToolBar.defaultProps = {
 
 export class ResultList extends PureComponent {
     render() {
-        const {customLineProps, valuesForResult, isGroup, lineIdentifierProperty, unitSearchDispatch, numberOfList, youHaveToChange, ListComponentWithToolBar, GlobalActions} = this.props;            const {listType} = valuesForResult;
+        const {
+            customLineProps,
+            isGroup,
+            lineIdentifierProperty,
+            ListComponent,
+            numberOfList,
+            scope,
+            unitSearchDispatch,
+            valuesForResult
+        } = this.props;
+        const {listType} = valuesForResult;
         const lineProps = customLineProps && listType ? customLineProps[listType] : {};
         return (
             <div data-focus='result-list'>
                 {/**Toolbar needs the toggleAllLine :-1 */}
-                <ListComponentWithToolBar
-                    lineProps={lineProps}
+                <ListComponent
                     data-focus='selectable-list-advanced-search'
-                    data={valuesForResult.values}
+                    data={valuesForResult.data}
                     GlobalGroupActionsComponent={valuesForResult.GlobalGroupActionsComponent}
                     isGroup={isGroup}
                     LineComponent={valuesForResult.LineComponent}
                     lineIdentifierProperty={valuesForResult.lineIdentifierProperty}
+                    lineProps={lineProps}
                     numberOfList={numberOfList}
+                    scope={scope}
                     unitSearchDispatch={unitSearchDispatch}
-                    valuesForResult={valuesForResult}
-                    youHaveToChange={youHaveToChange} />
+                    valuesForResult={valuesForResult} />
             </div>
         );
     }
 }
 ResultList.displayName = 'ResultList';
-ResultList.defaultProps = {
-    customLineProps: {},
-    data: [],
-    isSelectable: false,
-    ListComponentWithToolBar: ListComponentWithToolBar,
-    lineIdentifierProperty: 'id',
-    valuesForResult: {}
-};
 ResultList.propTypes = {
     customLineProps: PropTypes.object,
-    data: PropTypes.array,
-    isSelectable: PropTypes.bool,
-    /* This function is use to get the line component depending */
-    ListComponentWithToolBar: PropTypes.func,
+    isGroup: PropTypes.bool,
+    ListComponent: PropTypes.func,
     lineIdentifierProperty: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    numberOfList: PropTypes.number,
+    scope: PropTypes.string,
+    unitSearchDispatch: PropTypes.object,
     valuesForResult: PropTypes.object
+};
+ResultList.defaultProps = {
+    customLineProps: {},
+    isGroup: false,
+    lineIdentifierProperty: 'id',
+    unitSearchDispatch: {},
+    valuesForResult: {}
 };
 
 
 export class ResultGroup extends PureComponent {
     render() {
-        const {customLineProps, isAllScopeResults, isGroup, ListComponent, valuesForResults, unitSearchDispatch} = this.props;
-        console.log('isAllScopeResults', isAllScopeResults, 'isGroup', isGroup)
+        const {customLineProps, isAllScopeResults, isGroup, ListComponent, scope, valuesForResults, unitSearchDispatch} = this.props;
         return (
             <div data-focus='result-group'>
                 {!isAllScopeResults &&
                     <ToolBar
                         data-focus='toolbar-ungroup'
                         groupAction={unitSearchDispatch.groupAction}
-                        unGroup={true}
-                        groupList={[{code: 'ungroup', label:'ungroup'}]} />
+                        groupList={[{code: 'ungroup', label:'ungroup'}]}
+                        scope={scope}
+                        unGroup={true} />
                 }
                 {valuesForResults.map((element, idx) => {
                     //Todo add ListWrapper
@@ -214,7 +237,7 @@ export class ResultGroup extends PureComponent {
                             customLineProps={customLineProps}
                             isGroup={isGroup}
                             key={idx}
-                            ListComponentWithToolBar={ListComponent}
+                            ListComponent={ListComponent}
                             numberOfList={idx}
                             valuesForResult={valuesForResult}
                             unitSearchDispatch={unitSearchDispatch} />
@@ -224,12 +247,17 @@ export class ResultGroup extends PureComponent {
         );
     };
 };
-ResultGroup.displayName = 'Result Group';
+ResultGroup.displayName = 'ResultGroup';
 ResultGroup.propTypes = {
     customLineProps: PropTypes.object,
-    data: PropTypes.array.isRequired
+    isAllScopeResults: PropTypes.bool,
+    isGroup: PropTypes.bool,
+    ListComponent: PropTypes.func,
+    scope: PropTypes.string,
+    valuesForResults: PropTypes.array,
+    unitSearchDispatch: PropTypes.object
 };
 ResultGroup.defaultProps = {
     customLineProps: {},
-    data: []
+    isGroup: false
 };
