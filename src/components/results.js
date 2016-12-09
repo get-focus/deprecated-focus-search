@@ -134,7 +134,7 @@ export class ListComponentWithToolBar extends PureComponent {
         );
     };
 };
-ListComponentWithToolBar.displayName ='ListcomponentWithSelection';
+ListComponentWithToolBar.displayName ='ListComponentWithToolBar';
 ListComponentWithToolBar.propTypes = {
     GlobalGroupActionsComponent: PropTypes.func,
     isGroup: PropTypes.bool,

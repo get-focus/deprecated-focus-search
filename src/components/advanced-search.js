@@ -1,14 +1,9 @@
 import React, {PropTypes, PureComponent} from 'react';
-import {connect as connectToState} from 'react-redux';
-import compose from 'lodash/flowRight';
-
-import {selectSearch} from '../reducer'
 import connectToSelectableList from './selectable-list'
 import {FacetPanel} from './facet';
 import {InformationBar} from './informationbar';
 import {ResultList, ResultGroup, ListComponentWithToolBar} from './results';
 
-// <ActionQuery data-focus='action-query-advanced-search' group={unitSearchDispatch.group} query={unitSearchDispatch.query}/>
 
 export class AdvancedSearch extends PureComponent {
     componentWillMount(){
@@ -16,7 +11,6 @@ export class AdvancedSearch extends PureComponent {
         start();
     };
     render() {
-        //const {valuesForResults, groupSelect,selectedFacetsList, unitSearchDispatch, facetListWithselectedInformation, isGroup, isSelectable, scope, ListComponent} = this.props;
         const {
             customLineProps,
             FacetPanelProps,
@@ -53,21 +47,17 @@ export class AdvancedSearch extends PureComponent {
     };
 };
 
-AdvancedSearch.displayName = 'Advanced Search';
+AdvancedSearch.displayName = 'AdvancedSearch';
 AdvancedSearch.propTypes = {
-    isSelectable: PropTypes.bool,
+    customLineProps: PropTypes.object,
+    FacetPanelProps: PropTypes.object,
+    InformationBarProps: PropTypes.object,
     isGroup: PropTypes.bool,
-    valuesForResults: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
-    unitSearchDispatch: PropTypes.object.isRequired,
-    facetListWithselectedInformation: PropTypes.array.isRequired
+    ListComponent: PropTypes.func,
+    ResultGroupProps: PropTypes.object,
+    ResultListProps: PropTypes.object
 };
 AdvancedSearch.defaultProps = {
-    isSelectable:  true,
     isGroup: false,
-    unitSearchDispatch: {},
-    valuesForResults: {
-        values: []
-    },
-    facetListWithselectedInformation: [],
     ListComponent: connectToSelectableList(ListComponentWithToolBar)
 };
