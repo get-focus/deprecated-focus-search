@@ -98,13 +98,12 @@ ToolbarSelection.propTypes = {
 export class ToolBar extends PureComponent {
     render() {
         const {
-            GlobalActions,
+            GlobalActions, //do not seems to be used, duplicate with GlobalGroupActionsComponent ?
             GlobalGroupActionsComponent,
             groupAction,
-            groupList=[],
-            groupSelect,
+            groupList,
             isGroup,
-            label,
+            label, //not enough explicit, choose another name
             numberOfSelectedElement,
             scope,
             selectedElements,
@@ -128,19 +127,31 @@ export class ToolBar extends PureComponent {
     };
 };
 ToolBar.displayName = 'ToolBar';
-ToolBar.defaultProps = {
-    sortAction: () => console.warn('please define a sort function...'),
-    groupAction: () => console.warn('please define a group function...'),
-    sortList: [],
-    groupList: [],
-    selectState: false,
-    toggleAllLine: undefined
-};
 ToolBar.propTypes = {
-    sortAction: PropTypes.func.isRequired,
+    GlobalActions: PropTypes.func, // to remove ?
+    GlobalGroupActionsComponent: PropTypes.func,
     groupAction: PropTypes.func.isRequired,
-    sortList: PropTypes.array,
     groupList: PropTypes.array,
+    isGroup: PropTypes.bool,
+    label: PropTypes.string,
+    numberOfSelectedElement: PropTypes.number,
+    scope: PropTypes.string,
+    selectedElements: PropTypes.arrayOf(PropTypes.object),
     selectState: PropTypes.bool,
-    toggleAllLine: PropTypes.func
+    sortAction: PropTypes.func.isRequired,
+    sortList: PropTypes.array,
+    stateOfTheSelectionList: PropTypes.bool,
+    toggleAllLine: PropTypes.func,
+    totalCount: PropTypes.number,
+    unGroup: PropTypes.func
+};
+ToolBar.defaultProps = {
+    groupAction: () => console.warn('please define a group function...'),
+    groupList: [],
+    isGroup: false,
+    numberOfSelectedElement: 0,
+    selectState: false,
+    sortAction: () => console.warn('please define a sort function...'),
+    sortList: [],
+    totalCount: 0
 };

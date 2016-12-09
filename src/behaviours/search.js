@@ -96,10 +96,12 @@ export function connect(searchOptions) {
             }
             render() {
                 const {searchMetadata} = this.context;
+                const {GlobalActions, scopes} = searchMetadata;
+                const hasDefinedScopes = scopes !== undefined && scopes.length > 0;
+                const hasScope = !isUndefined(get(criteria, 'query.scope'));
                 const {customLineProps, results: {hasGroups, data, listType, totalCount}, criteria} = this.props;
                 const groupSelect = get(criteria, 'group');
-                const scope = get(criteria, 'query.scope', searchMetadata.scopes.find(scope => scope.selected === true).value) || 'all';
-                const hasScope = !isUndefined(get(criteria, 'query.scope'));
+                const scope = get(criteria, 'query.scope', scopes.find(scope => scope.selected === true).value) || 'all';
                 const term = get(criteria, 'query.term');
                 const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, listType);
                 const facetInformations = facetListWithselectedInformation(this.props);
@@ -117,12 +119,14 @@ export function connect(searchOptions) {
                 }
 
                 const ResultGroup = {
-                    scope,
+                    isAllScopeResults: hasDefinedScopes && !hasScope,
+                    isGroup: hasGroups,
                     unitSearchDispatch: this.unitSearchDispatch,
                     valuesForResults: results
                 }
 
                 const ResultList = {
+                    isGroup: hasGroups,
                     unitSearchDispatch: this.unitSearchDispatch,
                     valuesForResult: results
                 }
@@ -134,7 +138,7 @@ export function connect(searchOptions) {
 
                 const SearchBarProps = {
                     scope,
-                    scopes: searchMetadata.scopes,
+                    scopes: scopes,
                     term,
                     unitSearchDispatch: this.unitSearchDispatch
                 }
@@ -143,8 +147,7 @@ export function connect(searchOptions) {
                     <ComponentToConnect
                         customLineProps={customLineProps}
                         FacetPanelProps={FacetPanel}
-                        GlobalActions={searchMetadata.GlobalActions}
-                        hasScope={hasScope}
+                        GlobalActions={GlobalActions}
                         InformationBarProps={InformationBarProps}
                         isGroup={hasGroups}
                         ResultGroupProps={ResultGroup}

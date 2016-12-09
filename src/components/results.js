@@ -195,10 +195,10 @@ ResultList.propTypes = {
 
 export class ResultGroup extends PureComponent {
     render() {
-        const {customLineProps, hasScope, isGroup, ListComponent, scope, valuesForResults, unitSearchDispatch} = this.props
+        const {customLineProps, isAllScopeResults, isGroup, ListComponent, valuesForResults, unitSearchDispatch} = this.props
         return (
             <div data-focus='result-group'>
-                {!hasScope &&
+                {!isAllScopeResults &&
                     <ToolBar
                         data-focus='toolbar-ungroup'
                         groupAction={unitSearchDispatch.groupAction}

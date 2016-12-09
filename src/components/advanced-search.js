@@ -21,8 +21,6 @@ export class AdvancedSearch extends PureComponent {
             customLineProps,
             FacetPanelProps,
             GlobalActions,
-            hasScope,
-            i18n,
             InformationBarProps,
             isGroup,
             ListComponent,
@@ -38,16 +36,13 @@ export class AdvancedSearch extends PureComponent {
                             customLineProps={customLineProps}
                             data-focus='result-group-advanced-search'
                             ListComponent={ListComponent}
-                            isGroup={isGroup}
                             GlobalActions={GlobalActions}
-                            hasScope={hasScope}
                             {...ResultGroupProps} />
                         :
                         <ResultList
                             customLineProps={customLineProps}
                             data-focus='result-list-advanced-search'
                             ListComponentWithToolBar={ListComponent}
-                            isGroup={isGroup}
                             GlobalActions={GlobalActions}
                             {...ResultListProps} />
                     }
@@ -66,14 +61,12 @@ AdvancedSearch.propTypes = {
     isSelectable: PropTypes.bool,
     isGroup: PropTypes.bool,
     valuesForResults: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
-    i18n: PropTypes.func,
     unitSearchDispatch: PropTypes.object.isRequired,
     facetListWithselectedInformation: PropTypes.array.isRequired
 };
 AdvancedSearch.defaultProps = {
     isSelectable:  true,
     isGroup: false,
-    i18n: elm => elm,
     unitSearchDispatch: {},
     valuesForResults: {
         values: []
