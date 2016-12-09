@@ -51,18 +51,18 @@ ToolbarSort.displayName = 'ToolbarSort';
 ToolbarSort.propTypes = {
     scope: PropTypes.string,
     sortAction: PropTypes.func.isRequired,
-    sortList : PropTypes.array
+    sortList : PropTypes.array.isRequired
 };
 
 export class ToolbarGroup extends PureComponent {
     render() {
         const {scope, groupList, groupAction, unGroup} = this.props;
-        const label = i18next.t(unGroup ? 'focus.search.ungroup': 'focus.search.group');
+        const label = i18next.t(`focus.search.${unGroup ? 'ungroup' : 'group'}`);
         const operationList = reduce(groupList, (result, item) => concat(result, _buildGroupAction(scope, item, groupAction)), []);
         const buttonProps = {icon: undefined, label: label, shape: null};
         return (
             unGroup ?
-            <Button onClick={operationList[0].action} label={i18next.t('focus.search.ungroup')} />
+            <Button onClick={operationList[0].action} label={i18next.t('focus.search.ungroup')} shape={null} />
             :
             <Dropdown data-focus='toolbar-group' operations={operationList} button={buttonProps} />
         );
@@ -72,7 +72,7 @@ ToolbarGroup.displayName = 'ToolbarGroup';
 ToolbarGroup.propTypes = {
     scope: PropTypes.string,
     groupAction: PropTypes.func.isRequired,
-    groupList : PropTypes.array
+    groupList : PropTypes.array.isRequired
 };
 
 
@@ -114,12 +114,14 @@ export class ToolBar extends PureComponent {
             totalCount,
             unGroup
         } = this.props;
+        const displaySort = !isGroup && sortList && sortList.length > 0;
+        const displayGroup = !isGroup && groupList && groupList.length > 0;
         return (
             <div data-focus='toolbar' className='mdl-grid mdl-shadow--3dp'>
                 {toggleAllLine && <ToolbarSelection label={label} totalCount={totalCount} selectState={stateOfTheSelectionList} toggleAllLine={toggleAllLine} />}
                 {(numberOfSelectedElement > 0) && <div data-focus='toolbar-selected-elements'>{i18next.t('focus.search.selected', {count: numberOfSelectedElement})}</div>}
-                {!isGroup && sortList && <ToolbarSort scope={scope} sortAction={sortAction} sortList={sortList} />}
-                {!isGroup && groupList && <ToolbarGroup scope={scope} unGroup={unGroup} groupAction={groupAction} groupList={groupList} />}
+                {displaySort && <ToolbarSort scope={scope} sortAction={sortAction} sortList={sortList} />}
+                {displayGroup && <ToolbarGroup scope={scope} unGroup={unGroup} groupAction={groupAction} groupList={groupList} />}
                 {GlobalActions && stateOfTheSelectionList && <div data-focus='toolbar-global-actions'><GlobalActions selectedElements={selectedElements} /></div>}
                 {GlobalGroupActionsComponent && stateOfTheSelectionList && <div data-focus='toolbar-group-actions'><GlobalGroupActionsComponent selectedElements={selectedElements} /></div>}
             </div>
@@ -143,7 +145,7 @@ ToolBar.propTypes = {
     stateOfTheSelectionList: PropTypes.bool,
     toggleAllLine: PropTypes.func,
     totalCount: PropTypes.number,
-    unGroup: PropTypes.func
+    unGroup: PropTypes.bool
 };
 ToolBar.defaultProps = {
     groupAction: () => console.warn('please define a group function...'),
@@ -152,6 +154,5 @@ ToolBar.defaultProps = {
     numberOfSelectedElement: 0,
     selectState: false,
     sortAction: () => console.warn('please define a sort function...'),
-    sortList: [],
-    totalCount: 0
+    sortList: []
 };

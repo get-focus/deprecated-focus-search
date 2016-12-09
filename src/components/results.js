@@ -195,7 +195,8 @@ ResultList.propTypes = {
 
 export class ResultGroup extends PureComponent {
     render() {
-        const {customLineProps, isAllScopeResults, isGroup, ListComponent, valuesForResults, unitSearchDispatch} = this.props
+        const {customLineProps, isAllScopeResults, isGroup, ListComponent, valuesForResults, unitSearchDispatch} = this.props;
+        console.log('isAllScopeResults', isAllScopeResults, 'isGroup', isGroup)
         return (
             <div data-focus='result-group'>
                 {!isAllScopeResults &&
@@ -206,7 +207,7 @@ export class ResultGroup extends PureComponent {
                         groupList={[{code: 'ungroup', label:'ungroup'}]} />
                 }
                 {valuesForResults.map((element, idx) => {
-                    //TO do add ListWrapper
+                    //Todo add ListWrapper
                     const valuesForResult = {...element};
                     return (
                         <ResultList
@@ -216,7 +217,7 @@ export class ResultGroup extends PureComponent {
                             ListComponentWithToolBar={ListComponent}
                             numberOfList={idx}
                             valuesForResult={valuesForResult}
-                            unitSearchDispatch={unitSearchDispatch}  />
+                            unitSearchDispatch={unitSearchDispatch} />
                     );
                 })}
             </div>

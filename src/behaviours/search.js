@@ -97,11 +97,13 @@ export function connect(searchOptions) {
             render() {
                 const {searchMetadata} = this.context;
                 const {GlobalActions, scopes} = searchMetadata;
-                const hasDefinedScopes = scopes !== undefined && scopes.length > 0;
-                const hasScope = !isUndefined(get(criteria, 'query.scope'));
                 const {customLineProps, results: {hasGroups, data, listType, totalCount}, criteria} = this.props;
+
+                const hasDefinedScopes = scopes !== undefined && scopes.length > 0;
+                const criteriaScope = get(criteria, 'query.scope', scopes.find(scope => scope.selected === true).value);
+                const scope = criteriaScope || 'all';
+                const hasScope = !isUndefined(get(criteria, 'query.scope'));
                 const groupSelect = get(criteria, 'group');
-                const scope = get(criteria, 'query.scope', scopes.find(scope => scope.selected === true).value) || 'all';
                 const term = get(criteria, 'query.term');
                 const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, listType);
                 const facetInformations = facetListWithselectedInformation(this.props);
