@@ -21,8 +21,9 @@ export class SearchBarInput extends PureComponent {
         if(hasFocus) ReactDOM.findDOMNode(this.refs.searchBarInputText.refs.htmlInput).focus();
     }
     _onSearchBarInputChange(value) {
-        const {queryAction} = this.props;
+        const {onChange, queryAction} = this.props;
         queryAction({term: value});
+        onChange({term: value});
     }
     render() {
         return (
@@ -37,6 +38,7 @@ export class SearchBarInput extends PureComponent {
 SearchBarInput.displayName = 'SearchBarInput';
 SearchBarInput.propTypes = {
     hasFocus: PropTypes.bool,
+    onChange: PropTypes.func,
     queryAction: PropTypes.func.isRequired,
     queryActionWait: PropTypes.number,
     term: PropTypes.string
@@ -53,7 +55,8 @@ export class SearchBarScopeSelection extends PureComponent {
         this._onScopeChange = this._onScopeChange.bind(this);
     }
     _onScopeChange(value) {
-        const {scopeAction} = this.props;
+        const {onChange, scopeAction} = this.props;
+        onChange({scope: value});
         if(value === 'all') {
             scopeAction({group: {value: {}, replace: false}, query: {value: {scope: undefined}, replace: false}})
             return;
@@ -65,16 +68,18 @@ export class SearchBarScopeSelection extends PureComponent {
         return (
             <InputSelect
                 data-focus='search-bar-scope-selection'
-                hasUndefined={false} values={scopes}
+                hasUndefined={false}
                 name='search-scope'
                 onChange={this._onScopeChange}
                 rawInputValue={scope || 'all'}
+                values={scopes}
                 valueKey='value' />
         );
     }
 };
 SearchBarScopeSelection.displayName = 'SearchBarScopeSelection';
 SearchBarScopeSelection.propTypes = {
+    onChange: PropTypes.func,
     scope: PropTypes.string,
     scopes: PropTypes.arrayOf(PropTypes.object),
     scopeAction: PropTypes.func
@@ -87,14 +92,15 @@ SearchBarScopeSelection.defaultProps = {
 
 export default class SearchBar extends PureComponent {
     render() {
-        const {hasFocus, queryAction, queryActionWait, scope, scopeAction, scopes, term} = this.props;
+        const {hasFocus, onChange, queryAction, queryActionWait, scope, scopeAction, scopes, term} = this.props;
         return (
             <div data-focus='search-bar'>
                 <SearchBarScopeSelection
+                    onChange={onChange}
                     scopeAction={scopeAction}
                     scopes={scopes}
                     scope={scope} />
-                <SearchBarInput hasFocus={hasFocus} queryAction={queryAction} queryActionWait={queryActionWait} term={term} />
+                <SearchBarInput hasFocus={hasFocus} onChange={onChange} queryAction={queryAction} queryActionWait={queryActionWait} term={term} />
             </div>
         );
     }
@@ -102,6 +108,7 @@ export default class SearchBar extends PureComponent {
 SearchBar.displayName = 'SearchBar';
 SearchBar.PropTypes = {
     hasFocus: PropTypes.bool,
+    onChange: PropTypes.func,
     queryAction: PropTypes.func.isRequired,
     queryActionWait: PropTypes.number,
     scope: PropTypes.string,
