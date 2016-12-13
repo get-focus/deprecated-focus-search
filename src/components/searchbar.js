@@ -23,7 +23,7 @@ export class SearchBarInput extends PureComponent {
     _onSearchBarInputChange(value) {
         const {onChange, queryAction} = this.props;
         queryAction({term: value});
-        onChange({term: value});
+        if(onChange) onChange({term: value});
     }
     render() {
         return (
@@ -56,7 +56,7 @@ export class SearchBarScopeSelection extends PureComponent {
     }
     _onScopeChange(value) {
         const {onChange, scopeAction} = this.props;
-        onChange({scope: value});
+        if(onChange) onChange({scope: value});
         if(value === 'all') {
             scopeAction({group: {value: {}, replace: false}, query: {value: {scope: undefined}, replace: false}})
             return;
