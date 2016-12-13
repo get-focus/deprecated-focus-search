@@ -90,7 +90,7 @@ export function connect(searchOptions) {
             render() {
                 const {searchMetadata} = this.context;
                 const {scopes} = searchMetadata;
-                const {customLineProps, results: {hasGroups, data, listType, totalCount}, criteria} = this.props;
+                const {customLineProps, results: {hasGroups, data, listType, totalCount}, criteria, ...otherProps} = this.props;
 
                 const hasDefinedScopes = scopes !== undefined && scopes.length > 0;
                 const criteriaScope = get(criteria, 'query.scope', scopes.find(scope => scope.selected === true).value);
@@ -142,6 +142,7 @@ export function connect(searchOptions) {
 
                 return (
                     <ComponentToConnect
+                        {...otherProps}
                         customLineProps={customLineProps}
                         FacetPanelProps={FacetPanel}
                         InformationBarProps={InformationBarProps}
