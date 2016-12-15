@@ -6,7 +6,7 @@ export default {
             group: 'Grouper',
             sort: 'Trier',
             facets: 'Filtres',
-            selected: '{{count}} élément sélectionné',
+            selected: 'aucun élément sélectionné',
             selected_plural: '{{count}} éléments sélectionnés',
             results: {
                 number: '{{count}} résultat',

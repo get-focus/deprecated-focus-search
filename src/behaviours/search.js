@@ -93,9 +93,9 @@ export function connect(searchOptions) {
                 const {customLineProps, results: {hasGroups, data, listType, totalCount}, criteria, ...otherProps} = this.props;
 
                 const hasDefinedScopes = scopes !== undefined && scopes.length > 0;
-                const criteriaScope = get(criteria, 'query.scope', scopes.find(scope => scope.selected === true).value);
-                const scope = criteriaScope || 'all';
-                const hasScope = !isUndefined(get(criteria, 'query.scope'));
+                const criteriaScope = hasDefinedScopes ? get(criteria, 'query.scope', scopes.find(scope => scope.selected === true).value) : undefined;
+                const scope = hasDefinedScopes ? criteriaScope || 'all' : undefined;
+                const hasScope = hasDefinedScopes ? !isUndefined(get(criteria, 'query.scope')) : false;
                 const groupSelect = get(criteria, 'group');
                 const term = get(criteria, 'query.term');
                 const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, listType);
@@ -106,6 +106,7 @@ export function connect(searchOptions) {
                 const InformationBarProps = {
                     deleteFacet: value => this.unitSearchDispatch.facetAction(value, true),
                     facets: facetInformations.facetListWithselectedInformation,
+                    hasDefinedScopes,
                     scope,
                     selectedFacetsList: facetInformations.selectedFacetsList,
                     term,
