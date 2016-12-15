@@ -7,8 +7,8 @@ import {ResultList, ResultGroup, ListComponentWithToolBar} from './results';
 
 export class AdvancedSearch extends PureComponent {
     componentWillMount(){
-        const {start} = this.props;
-        start();
+        const {start, triggerStart} = this.props;
+        if(triggerStart) start();
     };
     render() {
         const {
@@ -55,9 +55,11 @@ AdvancedSearch.propTypes = {
     isGroup: PropTypes.bool,
     ListComponent: PropTypes.func,
     ResultGroupProps: PropTypes.object,
-    ResultListProps: PropTypes.object
+    ResultListProps: PropTypes.object,
+    triggerStart: PropTypes.bool
 };
 AdvancedSearch.defaultProps = {
     isGroup: false,
-    ListComponent: connectToSelectableList(ListComponentWithToolBar)
+    ListComponent: connectToSelectableList(ListComponentWithToolBar),
+    triggerStart: true
 };

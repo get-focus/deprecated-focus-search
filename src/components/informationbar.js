@@ -6,9 +6,18 @@ import i18next from 'i18next';
 
 export class InformationBar extends PureComponent {
     render() {
-        const {deleteFacet, facets, scope, selectedFacetsList, term, totalCount, unitSearchDispatch : {scopeAction}} = this.props;
-        const scopeLabel = scope && scope.length > 0 ? i18next.t(`search.scope.${lowerCase(scope)}`) : 'Not defined';
-        const scopeLetter = scopeLabel && scopeLabel.length > 0 ? scopeLabel[0] : 'N';
+        const {
+            deleteFacet,
+            facets,
+            hasDefinedScopes,
+            scope,
+            selectedFacetsList,
+            term,
+            totalCount,
+            unitSearchDispatch : {scopeAction}
+        } = this.props;
+        const scopeLabel = hasDefinedScopes && scope && scope.length > 0 ? i18next.t(`search.scope.${lowerCase(scope)}`) : 'Not defined';
+        const scopeLetter = hasDefinedScopes && scopeLabel && scopeLabel.length > 0 ? scopeLabel[0] : 'N';
         return (
             <div data-focus='information-bar'>
                 <div data-focus='totalCount'>
@@ -16,7 +25,7 @@ export class InformationBar extends PureComponent {
                     <span>{i18next.t('focus.search.results.for')}</span>
                     {term && <span>&laquo;&nbsp;{term}&nbsp;&raquo;</span>}
                 </div>
-                {scope &&
+                {hasDefinedScopes && scope &&
                     <div data-focus='scope-selected'>
                         <Chips label={scopeLabel}
                             letter={scopeLetter}
