@@ -82,7 +82,7 @@ export class FacetBlock extends PureComponent {
         const {code, deleteFacet, FacetComponent, FacetSelectedComponent, label, selected, selectFacet, selectedFacets, values} = this.props;
         return (
             <div data-focus='facet-block' data-selected={selected}>
-                <h3>{label}</h3>
+                <h3>{i18next.t(`search.facet.${label}`)}</h3>
                 {selected ?
                     <ul>
                         {
