@@ -79,8 +79,8 @@ class ToolbarSelection extends PureComponent {
         const {selectState, toggleAllLine, label, totalCount} = this.props;
         return (
             <span>
-                {selectState && <Button onClick={toggleAllLine} icon='check_box' shape='icon' />}
-                {!selectState && <Button onClick={toggleAllLine} icon='check_box_outline_blank' shape='icon' /> }
+                {toggleAllLine && selectState && <Button onClick={toggleAllLine} icon='check_box' shape='icon' />}
+                {toggleAllLine && !selectState && <Button onClick={toggleAllLine} icon='check_box_outline_blank' shape='icon' />}
                 <span>{label}</span>
                 {totalCount && <span> ({totalCount})</span>}
             </span>
@@ -115,7 +115,7 @@ export class ToolBar extends PureComponent {
         const displayGroup = !isGroup && groupList && groupList.length > 0;
         return (
             <div data-focus='toolbar' className='mdl-grid mdl-shadow--3dp'>
-                {toggleAllLine && <ToolbarSelection label={label} totalCount={totalCount} selectState={stateOfTheSelectionList} toggleAllLine={toggleAllLine} />}
+                <ToolbarSelection label={label} totalCount={totalCount} selectState={stateOfTheSelectionList} toggleAllLine={toggleAllLine} />
                 {(numberOfSelectedElement > 0) && <div data-focus='toolbar-selected-elements'>{i18next.t('focus.search.selected', {count: numberOfSelectedElement})}</div>}
                 {displaySort && <ToolbarSort scope={scope} sortAction={sortAction} sortList={sortList} />}
                 {displayGroup && <ToolbarGroup scope={scope} unGroup={unGroup} groupAction={groupAction} groupList={groupList} />}
