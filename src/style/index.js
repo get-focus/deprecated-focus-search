@@ -6,5 +6,6 @@ import './advanced-search.scss';
 import './facet.scss';
 import './informationbar.scss';
 import './list.scss';
+import './pagination.scss';
 import './search-bar.scss';
 import './toolbar.scss';

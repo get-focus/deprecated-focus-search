@@ -4,8 +4,8 @@ import {unitCriteriaSearchReducerBuilder} from './reducer-criteria-search';
 import {combineReducers} from 'redux';
 import {PropTypes} from 'react';
 
-export const unitSearchReducerBuilder = (name) => {
-    return combineReducers({results : unitResultsSearchReducerBuilder(name), criteria : unitCriteriaSearchReducerBuilder(name)})
+export const unitSearchReducerBuilder = (name, initCriteriaValues) => {
+    return combineReducers({results : unitResultsSearchReducerBuilder(name), criteria : unitCriteriaSearchReducerBuilder(name, initCriteriaValues)})
 }
 
 

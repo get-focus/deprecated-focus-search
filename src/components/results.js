@@ -218,7 +218,7 @@ ResultList.defaultProps = {
 
 export class ResultGroup extends PureComponent {
     render() {
-        const {customLineProps, isAllScopeResults, isGroup, ListComponent, scope, valuesForResults, unitSearchDispatch} = this.props;
+        const {customLineProps, isAllScopeResults, isGroup, ListComponent, paginateFunction, scope, valuesForResults, unitSearchDispatch} = this.props;
         return (
             <div data-focus='result-group'>
                 {!isAllScopeResults &&
@@ -239,6 +239,7 @@ export class ResultGroup extends PureComponent {
                             key={idx}
                             ListComponent={ListComponent}
                             numberOfList={idx}
+                            paginateFunction={paginateFunction}
                             valuesForResult={valuesForResult}
                             unitSearchDispatch={unitSearchDispatch} />
                     );

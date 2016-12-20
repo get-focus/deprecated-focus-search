@@ -17,6 +17,8 @@ export class AdvancedSearch extends PureComponent {
             InformationBarProps,
             isGroup,
             ListComponent,
+            paginateConnector,
+            paginateProps,
             ResultGroupProps,
             ResultListProps
         } = this.props;
@@ -28,13 +30,13 @@ export class AdvancedSearch extends PureComponent {
                         <ResultGroup
                             customLineProps={customLineProps}
                             data-focus='result-group-advanced-search'
-                            ListComponent={ListComponent}
+                            ListComponent={paginateConnector(paginateProps)(ListComponent)}
                             {...ResultGroupProps} />
                         :
                         <ResultList
                             customLineProps={customLineProps}
                             data-focus='result-list-advanced-search'
-                            ListComponent={ListComponent}
+                            ListComponent={paginateConnector(paginateProps)(ListComponent)}
                             {...ResultListProps} />
                     }
                 </div>
@@ -54,6 +56,8 @@ AdvancedSearch.propTypes = {
     InformationBarProps: PropTypes.object,
     isGroup: PropTypes.bool,
     ListComponent: PropTypes.func,
+    paginateConnector: PropTypes.func,
+    paginateProps: PropTypes.object,
     ResultGroupProps: PropTypes.object,
     ResultListProps: PropTypes.object,
     triggerStart: PropTypes.bool
@@ -61,5 +65,10 @@ AdvancedSearch.propTypes = {
 AdvancedSearch.defaultProps = {
     isGroup: false,
     ListComponent: connectToSelectableList(ListComponentWithToolBar),
+    paginateConnector: props => (Component => Component),
+    paginateProps: {
+        top: 20,
+        skip: 0
+    },
     triggerStart: true
 };

@@ -6,6 +6,7 @@ import isArray from 'lodash/isArray';
 import isUndefined from 'lodash/isUndefined';
 import {loadLine} from '../actions/single-action-creator';
 import {get, set} from 'lodash';
+import paginate from './paginate';
 
 const SEARCH_CONTEXT_TYPE = {
     searchMetadata: PropTypes.object
@@ -57,7 +58,7 @@ export function getResultsForList(list = [], searchMetadata, listType) {
 };
 
 export function connect(searchOptions) {
-    const {unitSearch: {updateSort, updateGroup, updateSelectedFacets, updateQuery, startSearch}} = searchOptions;
+    const {paginateConnector, unitSearch: {nextPage, updateSort, updateGroup, updateSelectedFacets, updateQuery, startSearch}} = searchOptions;
 
     return function getSearchConnectedComponent(ComponentToConnect) {
 
@@ -66,6 +67,7 @@ export function connect(searchOptions) {
                 super(props);
                 const {dispatch} = this.props;
                 this.unitSearchDispatch = {
+                    nextPage: (top, skip) => dispatch(nextPage(top, skip)),
                     startAction: element => dispatch(startSearch()),
                     sortAction: element => dispatch(updateSort(element)),
                     groupAction: (element, replace) => dispatch(updateGroup(element, replace)),
@@ -100,6 +102,7 @@ export function connect(searchOptions) {
                 const term = get(criteria, 'query.term');
                 const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, listType);
                 const facetInformations = facetListWithselectedInformation(this.props);
+
                 set(results, 'totalCount', totalCount);
                 set(results, 'groupSelect', groupSelect);
 
@@ -141,6 +144,8 @@ export function connect(searchOptions) {
                     unitSearchDispatch: this.unitSearchDispatch
                 }
 
+                const paginateProps = {onClickNext: this.unitSearchDispatch.nextPage, page: criteria.page, skip: criteria.skip, top: criteria.top};
+                console.log(paginateProps);
                 return (
                     <ComponentToConnect
                         {...otherProps}
@@ -148,6 +153,8 @@ export function connect(searchOptions) {
                         FacetPanelProps={FacetPanel}
                         InformationBarProps={InformationBarProps}
                         isGroup={hasGroups}
+                        paginateConnector={paginateConnector}
+                        paginateProps={paginateProps}
                         ResultGroupProps={ResultGroup}
                         ResultListProps={ResultList}
                         SearchBarProps={SearchBarProps}
