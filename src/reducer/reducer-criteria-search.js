@@ -6,20 +6,28 @@ import omit from 'lodash/omit';
 import toLower from 'lodash/lowerCase';
 
 
-export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = {}, action = {}) => {
+export const unitCriteriaSearchReducerBuilder = (name, initCriteriaValues = {top: 20, skip: 0, page: 10}, reduceQuery) => (state = initCriteriaValues, action = {}) => {
 
     const UPPER_NAME = toUpper(name);
-    const UPDATE_QUERY_SEARCH = `${toUpper(name)}_UPDATE_QUERY`;
-    const UPDATE_SORT_SEARCH = `${toUpper(name)}_UPDATE_SORT`;
-    const UPDATE_GROUP_SEARCH = `${toUpper(name)}_UPDATE_GROUP`;
-    const UPDATE_SELECTED_FACETS_SEARCH =  `${toUpper(name)}_UPDATE_SELECTED_FACETS`;
+    const NEXT_PAGE_SEARCH = `${UPPER_NAME}_NEXT_PAGE`;
+    const UPDATE_QUERY_SEARCH = `${UPPER_NAME}_UPDATE_QUERY`;
+    const UPDATE_SORT_SEARCH = `${UPPER_NAME}_UPDATE_SORT`;
+    const UPDATE_GROUP_SEARCH = `${UPPER_NAME}_UPDATE_GROUP`;
+    const UPDATE_SELECTED_FACETS_SEARCH =  `${UPPER_NAME}_UPDATE_SELECTED_FACETS`;
     switch(action.type) {
+        case NEXT_PAGE_SEARCH:
+            return {
+                ...state,
+                top: action.top,
+                skip: action.skip
+            };
         case UPDATE_QUERY_SEARCH:
             if(reduceQuery) {
                 return reduceQuery(state, action);
             } else {
                 if(action.replace) return {
                     ...state,
+                    ...initCriteriaValues,
                     query: {}
                 }
                 const {query} = action;
@@ -28,6 +36,7 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
                 }
                 return {
                     ...state,
+                    ...initCriteriaValues,
                     query : {
                         ...state.query,
                         ...query
@@ -37,11 +46,13 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
         case UPDATE_GROUP_SEARCH:
             return {
                 ...state,
+                ...initCriteriaValues,
                 group : action.group
             }
         case UPDATE_SORT_SEARCH :
             return  {
                 ...state,
+                ...initCriteriaValues,
                 sort: action.sort
             }
         case UPDATE_SELECTED_FACETS_SEARCH:
@@ -64,6 +75,7 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
             }
             return {
                 ...state,
+                ...initCriteriaValues,
                 selectedFacets: newSelectedFacets
             }
         default:

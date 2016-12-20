@@ -32,10 +32,10 @@ export const parseForVertigo = (searchParam) => {
     const config = {};
     const scope = (searchParam.query && searchParam.query.scope) ? searchParam.query.scope : 'all';
     config.urlData = {
-        skip: 0,
+        skip: searchParam.skip,
         sortFieldName: get(searchParam, 'sort.name'), //(searchParam.sort) ? searchParam.sort.name : "",
         sortDesc: (searchParam.sort) ? (searchParam.sort.order === 'asc' ? false : true) : false,
-        top: 50
+        top: searchParam.top
     }
     config.data = {
         scope: scope,
@@ -45,8 +45,6 @@ export const parseForVertigo = (searchParam) => {
     if(searchParam.group) {
         config.data['group'] = searchParam.group.name
     }
-    config.skip = 0;
-    config.top = 0;
     return config;
 }
 
