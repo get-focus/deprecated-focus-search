@@ -2,12 +2,12 @@ import React, {PropTypes, PureComponent} from 'react';
 import {slice, set} from 'lodash';
 import Button from 'focus-components/button';
 
-export const connect = (options) => {
+export const connect = (options = {}) => {
     const {
         displayAll = false,
         numberOfElements = 6,
         valuesPropsName = 'values'
-    } = options || {};
+    } = options;
     return (ComponentToConnect) => {
         class ConnectedComponent extends PureComponent {
             constructor(props) {
