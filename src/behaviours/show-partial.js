@@ -41,7 +41,6 @@ export const connect = (options = {}) => {
             }
         }
         ConnectedComponent.displayName = 'ShowPartialConnector';
-        ConnectedComponent.props = ComponentToConnect.props;
         return ConnectedComponent;
     }
 }
