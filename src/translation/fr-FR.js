@@ -5,7 +5,13 @@ export default {
             ungroup: 'Dégrouper',
             group: 'Grouper',
             sort: 'Trier',
-            facets: 'Filtres',
+            facets: {
+                title: 'Filtres',
+                show: {
+                    less: 'Afficher moins',
+                    more: 'Afficher tout'
+                }
+            },
             selected: 'aucun élément sélectionné',
             selected_plural: '{{count}} éléments sélectionnés',
             results: {

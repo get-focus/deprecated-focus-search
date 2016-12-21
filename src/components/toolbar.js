@@ -138,7 +138,7 @@ ToolBar.propTypes = {
     sortAction: PropTypes.func.isRequired,
     sortList: PropTypes.array,
     stateOfTheSelectionList: PropTypes.bool,
-    toggleAllLine: PropTypes.func.isRequired,
+    toggleAllLine: PropTypes.func,
     totalCount: PropTypes.number,
     unGroup: PropTypes.bool
 };

@@ -1,0 +1,13 @@
+
+
+[data-focus="show-partial-connector"] {
+    [data-focus="facet-block"] {
+        margin-bottom: 5px;
+    }
+    [data-focus="show-partial-connector__button"] {
+        width: 100%;
+        button.mdl-button {
+            font-size: 11px;
+        }
+    }
+}
