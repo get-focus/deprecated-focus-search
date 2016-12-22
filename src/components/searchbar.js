@@ -17,8 +17,11 @@ export class SearchBarInput extends PureComponent {
     }
     componentDidMount() {
         const {hasFocus, term} = this.props;
-        this.refs.searchBarInputText.refs.htmlInput.value = term; //if i use rawInputValue it block the component
-        if(hasFocus) ReactDOM.findDOMNode(this.refs.searchBarInputText.refs.htmlInput).focus();
+        if(hasFocus) {
+          ReactDOM.findDOMNode(this.refs.searchBarInputText.refs.htmlInput).focus();
+          this.refs.searchBarInputText.refs.htmlInput.value = term
+        }
+
     }
     _onSearchBarInputChange(value) {
         const {onChange, queryAction} = this.props;
