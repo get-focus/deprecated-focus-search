@@ -30,6 +30,7 @@ const Home = () => (
             <ConnectedSearchBarComponent />
         </div>
         <div data-demo='content'>
+          Yyoyooyoyo
             <ConnectedComponentAdvancedSearch/>;
         </div>
     </div>

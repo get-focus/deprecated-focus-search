@@ -7,7 +7,9 @@ export default (options = {}) => {
         page = 10,
         skip = 0,
         top = 10,
-        onClickNext = (params) => console.log('please define a function. The passed params are ' + JSON.stringify(params))
+        otherAction,
+        onClickNext = (params) => console.log('please define a function. The passed params are ' + JSON.stringify(params)),
+        isOtherAction
     } = options;
     return (ComponentToConnect) => {
         class PaginationConnector extends PureComponent {
@@ -17,7 +19,7 @@ export default (options = {}) => {
                     top: top
                 };
                 this._onClickNext = this._onClickNext.bind(this);
-                console.log('constructor');
+                this._otherAction = this._otherAction.bind(this);
             }
             _onClickNext() {
                 const newTop = this.state.top + page;
@@ -26,13 +28,19 @@ export default (options = {}) => {
                 });
                 onClickNext(newTop, skip);
             }
+            _otherAction(){
+              otherAction({...this.props, ...this.state})
+            }
             render() {
                 const {top} = this.state;
+                const {totalCount} = this.props;
                 return (
                     <div data-focus='pagination'>
                         <ComponentToConnect {...this.props} />
+                        <div data-focus='pagination-indicators'>{top} / {totalCount}</div>
                         <div data-focus='pagination__actions'>
-                            <Button label='focus.application.paginate.show.next' onClick={this._onClickNext} />
+                            {!isOtherAction && <Button label='focus.application.paginate.show.next' onClick={this._onClickNext} />}
+                            {isOtherAction && <Button label='focus.application.paginate.other.action' onClick={this._otherAction} />}
                         </div>
                     </div>
                 );

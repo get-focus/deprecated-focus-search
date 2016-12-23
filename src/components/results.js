@@ -173,7 +173,8 @@ export class ResultList extends PureComponent {
             numberOfList,
             scope,
             unitSearchDispatch,
-            valuesForResult
+            valuesForResult,
+            groupSelected
         } = this.props;
         const {listType} = valuesForResult;
         const lineProps = customLineProps && listType ? customLineProps[listType] : {};
@@ -183,6 +184,7 @@ export class ResultList extends PureComponent {
                 <ListComponent
                     data-focus='selectable-list-advanced-search'
                     data={valuesForResult.data}
+                    groupSelected={groupSelected}
                     GlobalGroupActionsComponent={valuesForResult.GlobalGroupActionsComponent}
                     isGroup={isGroup}
                     LineComponent={valuesForResult.LineComponent}
@@ -218,7 +220,8 @@ ResultList.defaultProps = {
 
 export class ResultGroup extends PureComponent {
     render() {
-        const {customLineProps, isAllScopeResults, isGroup, ListComponent, paginateFunction, scope, valuesForResults, unitSearchDispatch} = this.props;
+        const {customLineProps, isAllScopeResults, isGroup, ListComponent, paginateFunction, scope, valuesForResults, unitSearchDispatch, groupSelected} = this.props;
+        console.log(this.props)
         return (
             <div data-focus='result-group'>
                 {!isAllScopeResults &&
@@ -237,6 +240,7 @@ export class ResultGroup extends PureComponent {
                             customLineProps={customLineProps}
                             isGroup={isGroup}
                             key={idx}
+                            groupSelected={groupSelected}
                             ListComponent={ListComponent}
                             numberOfList={idx}
                             paginateFunction={paginateFunction}

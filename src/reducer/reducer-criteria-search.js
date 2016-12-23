@@ -9,6 +9,7 @@ import toLower from 'lodash/lowerCase';
 export const unitCriteriaSearchReducerBuilder = (name, initCriteriaValues = {top: 20, skip: 0, page: 10}, reduceQuery) => (state = initCriteriaValues, action = {}) => {
 
     const UPPER_NAME = toUpper(name);
+    const INIT_PAGE_SEARCH = `${UPPER_NAME}_INIT_PAGE`;
     const NEXT_PAGE_SEARCH = `${UPPER_NAME}_NEXT_PAGE`;
     const UPDATE_QUERY_SEARCH = `${UPPER_NAME}_UPDATE_QUERY`;
     const UPDATE_SORT_SEARCH = `${UPPER_NAME}_UPDATE_SORT`;
@@ -21,13 +22,17 @@ export const unitCriteriaSearchReducerBuilder = (name, initCriteriaValues = {top
                 top: action.top,
                 skip: action.skip
             };
+        case INIT_PAGE_SEARCH:
+            return {
+              ...state,
+              ...initCriteriaValues
+            }
         case UPDATE_QUERY_SEARCH:
             if(reduceQuery) {
                 return reduceQuery(state, action);
             } else {
                 if(action.replace) return {
                     ...state,
-                    ...initCriteriaValues,
                     query: {}
                 }
                 const {query} = action;
@@ -36,7 +41,6 @@ export const unitCriteriaSearchReducerBuilder = (name, initCriteriaValues = {top
                 }
                 return {
                     ...state,
-                    ...initCriteriaValues,
                     query : {
                         ...state.query,
                         ...query
@@ -46,13 +50,11 @@ export const unitCriteriaSearchReducerBuilder = (name, initCriteriaValues = {top
         case UPDATE_GROUP_SEARCH:
             return {
                 ...state,
-                ...initCriteriaValues,
                 group : action.group
             }
         case UPDATE_SORT_SEARCH :
             return  {
                 ...state,
-                ...initCriteriaValues,
                 sort: action.sort
             }
         case UPDATE_SELECTED_FACETS_SEARCH:
