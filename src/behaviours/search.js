@@ -58,7 +58,7 @@ export function getResultsForList(list = [], searchMetadata, listType) {
 };
 
 export function connect(searchOptions) {
-    const {paginateConnector, unitSearch: {nextPage, updateSort, updateGroup, updateSelectedFacets, updateQuery, startSearch}} = searchOptions;
+    const {paginateConnector, unitSearch: {nextPage, updateSort, updateGroup, updateSelectedFacets, updateQuery, startSearch, initPage}} = searchOptions;
 
     return function getSearchConnectedComponent(ComponentToConnect) {
 
@@ -68,9 +68,15 @@ export function connect(searchOptions) {
                 const {dispatch} = this.props;
                 this.unitSearchDispatch = {
                     nextPage: (top, skip) => dispatch(nextPage(top, skip)),
-                    startAction: element => dispatch(startSearch()),
-                    sortAction: element => dispatch(updateSort(element)),
-                    groupAction: (element, replace) => dispatch(updateGroup(element, replace)),
+                    startAction: element => {
+                      dispatch(startSearch())
+                    },
+                    sortAction: element => {
+                       dispatch(updateSort(element))
+                    },
+                    groupAction: (element, replace) => {
+                       dispatch(updateGroup(element, replace))
+                    },
                     facetAction: function facet(element, replace) {
                         if(element.code === 'FCT_SCOPE') {
                             dispatch(updateQuery({scope: element.values}, false, false));
@@ -80,8 +86,12 @@ export function connect(searchOptions) {
                         }
                         return dispatch(updateSelectedFacets(element, replace));
                     },
-                    queryAction: element => dispatch(updateQuery(element)),
+                    queryAction: element => {
+                       dispatch(updateQuery(element))
+                       dispatch(initPage())
+                    },
                     scopeAction: (element, replace) => {
+                        dispatch(initPage())
                         dispatch(updateQuery(element.query.value, element.query.replace, false));
                         dispatch(updateSort({}));
                         dispatch(updateGroup(element.group.value, element.group.replace, false));
@@ -121,6 +131,7 @@ export function connect(searchOptions) {
                     isAllScopeResults: hasDefinedScopes && !hasScope,
                     isGroup: hasGroups,
                     scope,
+                    groupSelected: groupSelect,
                     unitSearchDispatch: this.unitSearchDispatch,
                     valuesForResults: results
                 }
@@ -144,8 +155,15 @@ export function connect(searchOptions) {
                     unitSearchDispatch: this.unitSearchDispatch
                 }
 
-                const paginateProps = {onClickNext: this.unitSearchDispatch.nextPage, page: criteria.page, skip: criteria.skip, top: criteria.top};
-                console.log(paginateProps);
+                const paginateProps = {
+                  onClickNext: this.unitSearchDispatch.nextPage,
+                  page: criteria.page,
+                  skip: criteria.skip,
+                  top: criteria.top,
+                  isOtherAction: hasGroups && get(Object.keys(facetInformations.selectedFacetsList), '0') !== get(groupSelect, 'name'),
+                  otherAction:({groupSelected = {name:'FCT_SCOPE'}, valuesForResult: {code}}) => this.unitSearchDispatch.facetAction({code: groupSelected.name, values: code})
+                };
+
                 return (
                     <ComponentToConnect
                         {...otherProps}

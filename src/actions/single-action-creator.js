@@ -16,6 +16,7 @@ const _validateUnitActionBuilderParams = (name) => {
 export const singleActionCreatorBuilder = name => {
     _validateUnitActionBuilderParams(name);
     const NEXT_PAGE_SEARCH = `${toUpper(name)}_NEXT_PAGE`;
+    const INIT_PAGE_SEARCH = `${toUpper(name)}_INIT_PAGE`;
     const UPDATE_QUERY_SEARCH = `${toUpper(name)}_UPDATE_QUERY`;
     const UPDATE_SORT_SEARCH = `${toUpper(name)}_UPDATE_SORT`;
     const UPDATE_GROUP_SEARCH = `${toUpper(name)}_UPDATE_GROUP`;
@@ -25,6 +26,7 @@ export const singleActionCreatorBuilder = name => {
     return {
         creators: {
             nextPage: nextPage(NEXT_PAGE_SEARCH),
+            initPage: initPage(INIT_PAGE_SEARCH),
             updateQuery : updateQuery(UPDATE_QUERY_SEARCH),
             updateSort : updateSort(UPDATE_SORT_SEARCH),
             updateGroup : updateGroup(UPDATE_GROUP_SEARCH),
@@ -33,6 +35,7 @@ export const singleActionCreatorBuilder = name => {
         },
         types: {
             [NEXT_PAGE_SEARCH]: NEXT_PAGE_SEARCH,
+            [INIT_PAGE_SEARCH] : INIT_PAGE_SEARCH,
             [UPDATE_QUERY_SEARCH]: UPDATE_QUERY_SEARCH,
             [UPDATE_SORT_SEARCH]: UPDATE_SORT_SEARCH,
             [UPDATE_GROUP_SEARCH]: UPDATE_GROUP_SEARCH,
@@ -54,6 +57,10 @@ const nextPage = type => (top = 0, skip = 0, isSearchAction = true) => ({
     skip,
     isSearchAction
 });
+
+const initPage = type => () => ({
+  type
+})
 
 const updateQuery = type => (query, replace = false, isSearchAction = true) => ({
     type,

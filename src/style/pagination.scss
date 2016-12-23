@@ -1,6 +1,10 @@
 
 
 [data-focus="pagination"] {
+    [data-focus='pagination-indicators']{
+      text-align: center;
+
+    }
     [data-focus='pagination__actions'] {
         margin: 0 0 30px;
         text-align: center;
