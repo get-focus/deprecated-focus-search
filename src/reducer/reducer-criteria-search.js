@@ -6,14 +6,27 @@ import omit from 'lodash/omit';
 import toLower from 'lodash/lowerCase';
 
 
-export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = {}, action = {}) => {
+export const unitCriteriaSearchReducerBuilder = (name, initCriteriaValues = {top: 20, skip: 0, page: 10}, reduceQuery) => (state = initCriteriaValues, action = {}) => {
 
     const UPPER_NAME = toUpper(name);
-    const UPDATE_QUERY_SEARCH = `${toUpper(name)}_UPDATE_QUERY`;
-    const UPDATE_SORT_SEARCH = `${toUpper(name)}_UPDATE_SORT`;
-    const UPDATE_GROUP_SEARCH = `${toUpper(name)}_UPDATE_GROUP`;
-    const UPDATE_SELECTED_FACETS_SEARCH =  `${toUpper(name)}_UPDATE_SELECTED_FACETS`;
+    const INIT_PAGE_SEARCH = `${UPPER_NAME}_INIT_PAGE`;
+    const NEXT_PAGE_SEARCH = `${UPPER_NAME}_NEXT_PAGE`;
+    const UPDATE_QUERY_SEARCH = `${UPPER_NAME}_UPDATE_QUERY`;
+    const UPDATE_SORT_SEARCH = `${UPPER_NAME}_UPDATE_SORT`;
+    const UPDATE_GROUP_SEARCH = `${UPPER_NAME}_UPDATE_GROUP`;
+    const UPDATE_SELECTED_FACETS_SEARCH =  `${UPPER_NAME}_UPDATE_SELECTED_FACETS`;
     switch(action.type) {
+        case NEXT_PAGE_SEARCH:
+            return {
+                ...state,
+                top: action.top,
+                skip: action.skip
+            };
+        case INIT_PAGE_SEARCH:
+            return {
+              ...state,
+              ...initCriteriaValues
+            }
         case UPDATE_QUERY_SEARCH:
             if(reduceQuery) {
                 return reduceQuery(state, action);
@@ -64,6 +77,7 @@ export const unitCriteriaSearchReducerBuilder = (name, reduceQuery) => (state = 
             }
             return {
                 ...state,
+                ...initCriteriaValues,
                 selectedFacets: newSelectedFacets
             }
         default:

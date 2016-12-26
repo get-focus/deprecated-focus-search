@@ -7,6 +7,7 @@ import isUndefined from 'lodash/isUndefined';
 import {loadLine} from '../actions/single-action-creator';
 import {get, set} from 'lodash';
 
+
 const SEARCH_CONTEXT_TYPE = {
     searchMetadata: PropTypes.object
 };
@@ -57,7 +58,7 @@ export function getResultsForList(list = [], searchMetadata, listType) {
 };
 
 export function connect(searchOptions) {
-    const {unitSearch: {updateSort, updateGroup, updateSelectedFacets, updateQuery, startSearch}} = searchOptions;
+    const {unitSearch: {nextPage, updateSort, updateGroup, updateSelectedFacets, updateQuery, startSearch, initPage}} = searchOptions;
 
     return function getSearchConnectedComponent(ComponentToConnect) {
 
@@ -66,20 +67,38 @@ export function connect(searchOptions) {
                 super(props);
                 const {dispatch} = this.props;
                 this.unitSearchDispatch = {
-                    startAction: element => dispatch(startSearch()),
-                    sortAction: element => dispatch(updateSort(element)),
-                    groupAction: (element, replace) => dispatch(updateGroup(element, replace)),
+                    nextPage: (top, skip) => dispatch(nextPage(top, skip)),
+                    startAction: element => {
+                      dispatch(initPage())
+                      dispatch(startSearch())
+                    },
+                    sortAction: element => {
+                       dispatch(initPage())
+                       dispatch(updateSort(element))
+                    },
+                    groupAction: (element, replace) => {
+                      dispatch(initPage())
+                      dispatch(updateGroup(element, replace))
+                    },
                     facetAction: function facet(element, replace) {
                         if(element.code === 'FCT_SCOPE') {
+                            dispatch(initPage())
+
                             dispatch(updateQuery({scope: element.values}, false, false));
                             dispatch(updateGroup({}, true, false));
                             dispatch(updateSelectedFacets(null, true));
                             return;
                         }
-                        return dispatch(updateSelectedFacets(element, replace));
+                        dispatch(initPage())
+                        dispatch(updateGroup({}, true, false));
+                        return dispatch(updateSelectedFacets(element, replace, true));
                     },
-                    queryAction: element => dispatch(updateQuery(element)),
+                    queryAction: element => {
+                       dispatch(updateQuery(element))
+                       dispatch(initPage())
+                    },
                     scopeAction: (element, replace) => {
+                        dispatch(initPage())
                         dispatch(updateQuery(element.query.value, element.query.replace, false));
                         dispatch(updateSort({}));
                         dispatch(updateGroup(element.group.value, element.group.replace, false));
@@ -100,8 +119,19 @@ export function connect(searchOptions) {
                 const term = get(criteria, 'query.term');
                 const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, listType);
                 const facetInformations = facetListWithselectedInformation(this.props);
+
                 set(results, 'totalCount', totalCount);
                 set(results, 'groupSelect', groupSelect);
+
+                const paginateProps = {
+                  onClickNext: this.unitSearchDispatch.nextPage,
+                  page: criteria.page,
+                  skip: criteria.skip,
+                  top: criteria.top,
+                  isOtherAction: hasGroups,
+                  otherAction:({groupSelected = {name:'FCT_SCOPE'}, valuesForResult: {code}}) => this.unitSearchDispatch.facetAction({code: groupSelected.name, values: code})
+                };
+
 
                 const InformationBarProps = {
                     deleteFacet: value => this.unitSearchDispatch.facetAction(value, true),
@@ -118,6 +148,8 @@ export function connect(searchOptions) {
                     isAllScopeResults: hasDefinedScopes && !hasScope,
                     isGroup: hasGroups,
                     scope,
+                    groupSelected: groupSelect,
+                    paginateProps,
                     unitSearchDispatch: this.unitSearchDispatch,
                     valuesForResults: results
                 }
@@ -125,6 +157,7 @@ export function connect(searchOptions) {
                 const ResultList = {
                     isGroup: hasGroups,
                     scope,
+                    paginateProps,
                     unitSearchDispatch: this.unitSearchDispatch,
                     valuesForResult: results
                 }
@@ -140,6 +173,8 @@ export function connect(searchOptions) {
                     term,
                     unitSearchDispatch: this.unitSearchDispatch
                 }
+
+
 
                 return (
                     <ComponentToConnect

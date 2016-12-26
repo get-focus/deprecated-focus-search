@@ -53,13 +53,16 @@ export const searchTriggerMiddlewareBuilder = (
             // search selector
             next(action);
             const stateSearch = stateSearchSelector(store.getState());
-            if(!stateSearch.hasOwnProperty('criteria')){
+            if(!stateSearch.hasOwnProperty('criteria')) {
                 console.warn(
                     `SEARCH_TRIGGER_MIDDLEWARE_FOR_${actionsWhichTriggerTheSearch.join('_')}: It seems the state selector you provide does not have a criteria in its shape.`,
                     'stateSelector',  stateSearchSelector,
                     'extractedStatePart', stateSearch
                 );
-            }
+            };
+            //const searchCriteria = {criteriastateSearch.criteria};
+            // searchCriteria.top = action.top || stateSearch.criteria.pagination.top;
+            // searchCriteria.skip = action.skip || stateSearch.criteria.pagination.skip;
             store.dispatch(searchAction(stateSearch.criteria))
         }
         else {

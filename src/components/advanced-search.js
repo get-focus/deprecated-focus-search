@@ -3,7 +3,7 @@ import connectToSelectableList from './selectable-list'
 import {FacetPanel} from './facet';
 import {InformationBar} from './informationbar';
 import {ResultList, ResultGroup, ListComponentWithToolBar} from './results';
-
+import paginateConnector from '../behaviours/paginate';
 
 export class AdvancedSearch extends PureComponent {
     componentWillMount(){
@@ -28,13 +28,14 @@ export class AdvancedSearch extends PureComponent {
                         <ResultGroup
                             customLineProps={customLineProps}
                             data-focus='result-group-advanced-search'
-                            ListComponent={ListComponent}
-                            {...ResultGroupProps} />
+                            ListComponent={paginateConnector()(ListComponent)}
+                            {...ResultGroupProps}
+                           />
                         :
                         <ResultList
                             customLineProps={customLineProps}
                             data-focus='result-list-advanced-search'
-                            ListComponent={ListComponent}
+                            ListComponent={paginateConnector()(ListComponent)}
                             {...ResultListProps} />
                     }
                 </div>
@@ -54,6 +55,8 @@ AdvancedSearch.propTypes = {
     InformationBarProps: PropTypes.object,
     isGroup: PropTypes.bool,
     ListComponent: PropTypes.func,
+    paginateConnector: PropTypes.func,
+    paginateProps: PropTypes.object,
     ResultGroupProps: PropTypes.object,
     ResultListProps: PropTypes.object,
     triggerStart: PropTypes.bool
@@ -61,5 +64,10 @@ AdvancedSearch.propTypes = {
 AdvancedSearch.defaultProps = {
     isGroup: false,
     ListComponent: connectToSelectableList(ListComponentWithToolBar),
+    paginateConnector: props => (Component => Component),
+    paginateProps: {
+        top: 20,
+        skip: 0
+    },
     triggerStart: true
 };

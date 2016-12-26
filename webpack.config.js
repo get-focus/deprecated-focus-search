@@ -14,6 +14,7 @@ const customConfig = {
         errorDetails: true,
         warnings: true
     },
+
     proxy: null,
     externals: {
       'react': 'React',

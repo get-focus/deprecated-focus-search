@@ -125,7 +125,8 @@ class FacetBlock extends PureComponent {
                                 <FacetComponent
                                     key={facet.code}
                                     {...facet}
-                                    onClick={selectedValue => selectFacet({code: code, values: selectedValue})} />
+                                    onClick={selectedValue => selectFacet({code: code, values: selectedValue})
+                                    }  />
                             ))
                         }
                     </ul>
