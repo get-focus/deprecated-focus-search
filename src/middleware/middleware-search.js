@@ -60,10 +60,10 @@ export const searchTriggerMiddlewareBuilder = (
                     'extractedStatePart', stateSearch
                 );
             };
-            const searchCriteria = {...stateSearch.criteria};
+            //const searchCriteria = {criteriastateSearch.criteria};
             // searchCriteria.top = action.top || stateSearch.criteria.pagination.top;
             // searchCriteria.skip = action.skip || stateSearch.criteria.pagination.skip;
-            store.dispatch(searchAction(searchCriteria))
+            store.dispatch(searchAction(stateSearch.criteria))
         }
         else {
             next(action);
