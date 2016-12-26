@@ -8,4 +8,5 @@ import './informationbar.scss';
 import './list.scss';
 import './pagination.scss';
 import './search-bar.scss';
+import './show-partial-connector.scss';
 import './toolbar.scss';

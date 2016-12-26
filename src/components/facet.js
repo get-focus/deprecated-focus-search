@@ -4,14 +4,30 @@ import i18next from 'i18next';
 import Chips from 'focus-components/chips';
 import isArray from 'lodash/isArray';
 
+import {connect as connectToShowPartial} from '../behaviours/show-partial';
+
 import {facetListWithselectedInformation, selectSearch} from '../reducer';
 import {FACET_SHAPE_TYPE, FACET_DESCRIPTOR_SHAPE_TYPE} from '../reducer';
 
 
+/* HTML structure
+---------------
+FacetPanel
+FacetBlock
+Facet
+Facet
+Facet
+...
+FacetBlock
+Facet
+Facet
+...
+...
+-------------- */
 export class FacetTitle extends PureComponent {
     render() {
         const {children} = this.props;
-        return <span data-focus='facet-title' >{children}</span>
+        return <span data-focus='facet-title'>{children}</span>
     };
 };
 FacetTitle.displayName = 'FacetTitle';
@@ -77,12 +93,12 @@ FacetSelected.displayName = 'FacetSelected';
 FacetSelected.propTypes = FACET_SHAPE_TYPE;
 
 
-export class FacetBlock extends PureComponent {
+class FacetBlock extends PureComponent {
     render() {
         const {code, deleteFacet, FacetComponent, FacetSelectedComponent, label, selected, selectFacet, selectedFacets, values} = this.props;
         return (
             <div data-focus='facet-block' data-selected={selected}>
-                <h3>{i18next.t(`search.facet.${label}`)}</h3>
+                <h3>{i18next.t(`search.facets.items.${label}`)}</h3>
                 {selected ?
                     <ul>
                         {
@@ -133,10 +149,12 @@ FacetBlock.propTypes = {
     FacetComponent: PropTypes.func,
     FacetSelected: PropTypes.func
 };
+export const FacetBlockShowPartial = connectToShowPartial({})(FacetBlock);
+
 
 export class FacetPanel extends PureComponent {
     render() {
-        const {data, facetAction} = this.props;
+        const {FacetBlock, data, facetAction} = this.props;
         return  (
             <div data-focus='facet-panel'>
                 <h4>{i18next.t('focus.search.facets')}</h4>
@@ -159,31 +177,11 @@ export class FacetPanel extends PureComponent {
 }
 FacetPanel.displayName = 'FacetPanel';
 FacetPanel.defaultProps = {
-    data: []
+    data: [],
+    FacetBlock: FacetBlockShowPartial
 }
 FacetPanel.propTypes = {
-    title: PropTypes.string,
-    data: PropTypes.arrayOf(PropTypes.shape(FACET_DESCRIPTOR_SHAPE_TYPE))
+    data: PropTypes.arrayOf(PropTypes.shape(FACET_DESCRIPTOR_SHAPE_TYPE)),
+    FacetBlock: PropTypes.func,
+    title: PropTypes.string
 };
-
-
-/* HTML structure
----------------
-FacetPanel
-FacetBlock
-Facet
-Facet
-Facet
-...
-FacetBlock
-Facet
-Facet
-...
-...
---------------
-/* Default Export is a connected component */
-
-export const facetSelector = compose(
-    facetListWithselectedInformation,
-    selectSearch('advancedSearch')
-);

@@ -1,6 +1,6 @@
-import { mount, shallow } from 'enzyme';
+import { mount, shallow, render } from 'enzyme';
 import i18next from 'i18next';
-import {Facet, FacetPanel, FacetBlock,FacetTitle, FacetCount} from '../facet';
+import {Facet, FacetPanel, FacetBlockShowPartial as FacetBlock, FacetTitle, FacetCount} from '../facet';
 
 describe('Facets components ', () => {
     describe('<FacetTitle />', ()=> {
@@ -42,13 +42,16 @@ describe('Facets components ', () => {
     });
     describe('<FacetBlock />', () => {
         it('should be a div with a data-focus=facet', () => {
-            const wrapper = shallow(<FacetBlock />);
+            const wrapper = render(<FacetBlock />);
             expect(wrapper.find('[data-focus="facet-block"]')).to.have.length(1);
         });
-        it('should be an title when a label is provided', () => {
-            i18next.init({resources: {translation: {search: {facet: {label:'This is a title'}}}}}, () => {
-                const wrapper = shallow(<FacetBlock label='label'/>);
-                expect(wrapper.contains(<h3>{i18next.t('search.facet.label')}</h3>)).to.be.true;
+        it('should be a title when a label is provided', () => {
+            i18next.init({
+                lng: 'en',
+                resources: {en: {translation: {search: {facets: {items: {label: 'This is a title'}}}}}}
+            }, (err, t) => {
+                const wrapper = render(<FacetBlock label='label'/>);
+                expect(wrapper.find('h3').text()).to.equal(t('search.facets.items.label'));
             });
         });
         it('should be display all the facets provided into values', () => {
