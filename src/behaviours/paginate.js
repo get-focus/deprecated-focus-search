@@ -34,7 +34,7 @@ export default () => {
                     <div data-focus='list-with-pagination'>
                         <ComponentToConnect {...this.props} />
                         <div data-focus='pagination'>
-                          <div data-focus='pagination-indicators'>{data.length < top ? data.length : top} {i18next.t(`search.paginate.totalCount`)}</div>
+                          <div data-focus='pagination-indicators'>{(data && data.length < top) ? data.length : top} {i18next.t(`search.paginate.totalCount`)}</div>
                           <div data-focus='pagination__actions'>
                               {!isOtherAction && <Button data-focus='paginate.show.next' label='search.paginate.show.next' onClick={this._onClickNext} />}
                               {isOtherAction && <Button data-focus='paginate.other.action' label='search.paginate.other.action' onClick={this._otherAction} />}
