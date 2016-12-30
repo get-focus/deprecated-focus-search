@@ -29,9 +29,11 @@ export class SearchBarInput extends PureComponent {
         if(onChange) onChange({term: value});
     }
     render() {
+      console.log(this.props.placeholder)
         return (
             <InputText
                 data-focus='search-bar-input'
+                placeholder={this.props.placeholder}
                 name='search-bar-input'
                 onChange={this._debouncedOnSearchBarInputChange}
                 ref='searchBarInputText' />
@@ -95,7 +97,7 @@ SearchBarScopeSelection.defaultProps = {
 
 export default class SearchBar extends PureComponent {
     render() {
-        const {hasFocus, onChange, queryAction, queryActionWait, scope, scopeAction, scopes, term} = this.props;
+        const {hasFocus, onChange, queryAction, queryActionWait, scope, scopeAction, scopes, term, placeholder} = this.props;
         const hasScopes = scopes && scopes.length > 0;
         return (
             <div data-focus='search-bar'>
@@ -106,7 +108,7 @@ export default class SearchBar extends PureComponent {
                         scopes={scopes}
                         scope={scope} />
                 }
-                <SearchBarInput hasFocus={hasFocus} onChange={onChange} queryAction={queryAction} queryActionWait={queryActionWait} term={term} />
+                <SearchBarInput hasFocus={hasFocus} placeholder={placeholder} onChange={onChange} queryAction={queryAction} queryActionWait={queryActionWait} term={term} />
             </div>
         );
     }

@@ -1,6 +1,7 @@
 import React, {PropTypes, PureComponent} from 'react';
 import {slice, set} from 'lodash';
 import Button from 'focus-components/button';
+import i18next from 'i18next';
 
 export default () => {
     return (ComponentToConnect) => {
@@ -28,18 +29,17 @@ export default () => {
             }
             render() {
                 const {top} = this.state;
-                const {totalCount, isOtherAction} = this.props;
+                const {totalCount, isOtherAction, data} = this.props;
                 return (
                     <div data-focus='list-with-pagination'>
                         <ComponentToConnect {...this.props} />
                         <div data-focus='pagination'>
-                          <div data-focus='pagination-indicators'>{top} / {totalCount}</div>
+                          <div data-focus='pagination-indicators'>{data.length < top ? data.length : top} {i18next.t(`search.paginate.totalCount`)}</div>
                           <div data-focus='pagination__actions'>
-                              {!isOtherAction && <Button data-focus='paginate.show.next' label='focus.application.paginate.show.next' onClick={this._onClickNext} />}
-                              {isOtherAction && <Button data-focus='paginate.other.action' label='focus.application.paginate.other.action' onClick={this._otherAction} />}
+                              {!isOtherAction && <Button data-focus='paginate.show.next' label='search.paginate.show.next' onClick={this._onClickNext} />}
+                              {isOtherAction && <Button data-focus='paginate.other.action' label='search.paginate.other.action' onClick={this._otherAction} />}
                           </div>
                         </div>
-                        <Button className='tsonga' label='bonjour' />
                     </div>
                 );
             }
