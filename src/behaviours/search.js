@@ -8,6 +8,7 @@ import {loadLine} from '../actions/single-action-creator';
 import {get, set, omit, keys} from 'lodash';
 
 
+
 const SEARCH_CONTEXT_TYPE = {
     searchMetadata: PropTypes.object
 };
@@ -121,8 +122,6 @@ export function connect(searchOptions) {
                 const term = get(criteria, 'query.term');
                 const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, listType, selectedFacet);
                 const facetInformations = facetListWithselectedInformation(this.props);
-                console.log(facetInformations)
-                console.log(selectedFacet)
                 set(results, 'totalCount', totalCount);
                 set(results, 'groupSelect', groupSelect);
 
