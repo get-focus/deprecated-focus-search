@@ -5,7 +5,8 @@ import {map} from 'lodash/map';
 import isArray from 'lodash/isArray';
 import isUndefined from 'lodash/isUndefined';
 import {loadLine} from '../actions/single-action-creator';
-import {get, set} from 'lodash';
+import {get, set, omit, keys} from 'lodash';
+
 
 
 const SEARCH_CONTEXT_TYPE = {
@@ -48,10 +49,11 @@ export function getResultsForGroup(groups, searchMetadata){
     });
 };
 
-export function getResultsForList(list = [], searchMetadata, listType) {
+export function getResultsForList(list = [], searchMetadata, listType, selectedFacet) {
     const metadatas = extractMedatadas(searchMetadata.getListMetadata(listType, list));
     return {
         ...metadatas,
+        groupList: metadatas.groupList && metadatas.groupList.reduce((acc, element) => { if(keys(selectedFacet).indexOf(element) === -1) {acc.push(element); } return acc }, [] ),
         data: list,
         listType
     };
@@ -69,16 +71,16 @@ export function connect(searchOptions) {
                 this.unitSearchDispatch = {
                     nextPage: (top, skip) => dispatch(nextPage(top, skip)),
                     startAction: element => {
-                      dispatch(initPage())
-                      dispatch(startSearch())
+                        dispatch(initPage())
+                        dispatch(startSearch())
                     },
                     sortAction: element => {
-                       dispatch(initPage())
-                       dispatch(updateSort(element))
+                        dispatch(initPage())
+                        dispatch(updateSort(element))
                     },
                     groupAction: (element, replace) => {
-                      dispatch(initPage())
-                      dispatch(updateGroup(element, replace))
+                        dispatch(initPage())
+                        dispatch(updateGroup(element, replace))
                     },
                     facetAction: function facet(element, replace) {
                         if(element.code === 'FCT_SCOPE') {
@@ -94,8 +96,8 @@ export function connect(searchOptions) {
                         return dispatch(updateSelectedFacets(element, replace, true));
                     },
                     queryAction: element => {
-                       dispatch(updateQuery(element))
-                       dispatch(initPage())
+                        dispatch(updateQuery(element))
+                        dispatch(initPage())
                     },
                     scopeAction: (element, replace) => {
                         dispatch(initPage())
@@ -116,20 +118,19 @@ export function connect(searchOptions) {
                 const scope = hasDefinedScopes ? criteriaScope || 'all' : undefined;
                 const hasScope = hasDefinedScopes ? !isUndefined(get(criteria, 'query.scope')) : false;
                 const groupSelect = get(criteria, 'group');
+                const selectedFacet = get(criteria, 'selectedFacets')
                 const term = get(criteria, 'query.term');
-                const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, listType);
+                const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, listType, selectedFacet);
                 const facetInformations = facetListWithselectedInformation(this.props);
-
                 set(results, 'totalCount', totalCount);
                 set(results, 'groupSelect', groupSelect);
 
                 const paginateProps = {
-                  onClickNext: this.unitSearchDispatch.nextPage,
-                  page: criteria.page,
-                  skip: criteria.skip,
-                  top: criteria.top,
-                  isOtherAction: hasGroups,
-                  otherAction:({groupSelected = {name:'FCT_SCOPE'}, valuesForResult: {code}}) => this.unitSearchDispatch.facetAction({code: groupSelected.name, values: code})
+                    onClickNext: this.unitSearchDispatch.nextPage,
+                    page: criteria.page,
+                    skip: criteria.skip,
+                    top: criteria.top,
+                    otherAction: hasGroups ? ({groupSelected = {name:'FCT_SCOPE'}, valuesForResult: {code}}) => this.unitSearchDispatch.facetAction({code: groupSelected.name, values: code}) : undefined
                 };
 
 

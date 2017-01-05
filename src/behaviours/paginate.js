@@ -1,6 +1,7 @@
 import React, {PropTypes, PureComponent} from 'react';
 import {slice, set} from 'lodash';
 import Button from 'focus-components/button';
+import i18next from 'i18next';
 
 export default () => {
     return (ComponentToConnect) => {
@@ -14,7 +15,7 @@ export default () => {
                 this._otherAction = this._otherAction.bind(this);
             }
             _onClickNext() {
-                const { onClickNext, top, skip, page} = this.props;
+                const { onClickNext, top, skip, page } = this.props;
                 const newTop = this.state.top + page;
                 this.setState({
                     top: newTop
@@ -22,45 +23,46 @@ export default () => {
                 onClickNext(newTop, skip);
             }
             _otherAction(){
-              const {otherAction} = this.props;
-              window.scrollTo(0,0);
-              otherAction({...this.props, ...this.state})
+                const {otherAction} = this.props;
+                if(!otherAction) {
+                    console.log('please define a other function for the other action.');
+                    return;
+                }
+                window.scrollTo(0,0);
+                otherAction({...this.props, ...this.state})
             }
             render() {
                 const {top} = this.state;
-                const {totalCount, isOtherAction} = this.props;
+                const {totalCount, otherAction, data} = this.props;
+                const isOtherAction = otherAction !== undefined;
+                const paginateCount = (data && data.length < top) ? data.length : top;
                 return (
                     <div data-focus='list-with-pagination'>
                         <ComponentToConnect {...this.props} />
                         <div data-focus='pagination'>
-                          <div data-focus='pagination-indicators'>{top} / {totalCount}</div>
-                          <div data-focus='pagination__actions'>
-                              {!isOtherAction && <Button data-focus='paginate.show.next' label='focus.application.paginate.show.next' onClick={this._onClickNext} />}
-                              {isOtherAction && <Button data-focus='paginate.other.action' label='focus.application.paginate.other.action' onClick={this._otherAction} />}
-                          </div>
+                            <div data-focus='pagination-indicators'>{i18next.t(`focus.search.paginate.totalCount`, {count: paginateCount})}</div>
+                            <div data-focus='pagination__actions'>
+                                {!isOtherAction && <Button data-focus='paginate.show.next' label='focus.search.paginate.show.next' onClick={this._onClickNext} />}
+                                {isOtherAction && <Button data-focus='paginate.other.action' label='focus.search.paginate.other.action' onClick={this._otherAction} />}
+                            </div>
                         </div>
-                        <Button className='tsonga' label='bonjour' />
                     </div>
                 );
             }
         }
         PaginationConnector.displayName = 'PaginationConnector';
         PaginationConnector.defaultProps = {
-          page : 10,
-          skip : 0,
-          top : 10,
-          otherAction : (params) => console.log("please define a other function for the 'other action'. The passed params are " + JSON.stringify(params)),
-          onClickNext : (params) => console.log('please define a function. The passed params are ' + JSON.stringify(params)),
-          isOtherAction : false
-
+            onClickNext: (params) => console.log('please define a function. The passed params are ' + JSON.stringify(params)),
+            page: 10,
+            skip: 0,
+            top: 10
         }
         PaginationConnector.propTypes = {
-          page: PropTypes.number,
-          skip: PropTypes.nnumber,
-          top: PropTypes.number,
-          isOtherAction: PropTypes.bool,
-          otherAction: PropTypes.func,
-          onClickNext: PropTypes.func.isRequired
+            onClickNext: PropTypes.func,
+            otherAction: PropTypes.func,
+            page: PropTypes.number,
+            skip: PropTypes.nnumber,
+            top: PropTypes.number
         }
         return PaginationConnector;
     }
