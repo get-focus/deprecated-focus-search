@@ -35,14 +35,15 @@ export default () => {
                 const {top} = this.state;
                 const {totalCount, otherAction, data} = this.props;
                 const isOtherAction = otherAction !== undefined;
+                const paginateCount = (data && data.length < top) ? data.length : top;
                 return (
                     <div data-focus='list-with-pagination'>
                         <ComponentToConnect {...this.props} />
                         <div data-focus='pagination'>
-                            <div data-focus='pagination-indicators'>{(data && data.length < top) ? data.length : top} {i18next.t(`search.paginate.totalCount`)}</div>
+                            <div data-focus='pagination-indicators'>{i18next.t(`focus.search.paginate.totalCount`, {count: paginateCount})}</div>
                             <div data-focus='pagination__actions'>
-                                {!isOtherAction && <Button data-focus='paginate.show.next' label='search.paginate.show.next' onClick={this._onClickNext} />}
-                                {isOtherAction && <Button data-focus='paginate.other.action' label='search.paginate.other.action' onClick={this._otherAction} />}
+                                {!isOtherAction && <Button data-focus='paginate.show.next' label='focus.search.paginate.show.next' onClick={this._onClickNext} />}
+                                {isOtherAction && <Button data-focus='paginate.other.action' label='focus.search.paginate.other.action' onClick={this._otherAction} />}
                             </div>
                         </div>
                     </div>
