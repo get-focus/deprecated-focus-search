@@ -35,7 +35,6 @@ export default () => {
                 const {top} = this.state;
                 const {totalCount, otherAction, data} = this.props;
                 const isOtherAction = otherAction !== undefined;
-                console.log(otherAction, isOtherAction);
                 return (
                     <div data-focus='list-with-pagination'>
                         <ComponentToConnect {...this.props} />

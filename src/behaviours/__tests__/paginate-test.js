@@ -26,9 +26,9 @@ describe('The Pagninate connector ', () => {
             expect(propsSpy).to.have.been.calledWith(30, 0)
         });
 
-        it("should call the otherAction function on the button other action 's click and props isOtherAction", () => {
+        it("should call the otherAction function on the button other action 's click", () => {
             const otherAction=sinon.spy()
-            const wrapperOther = mount(<ConnectedPaginateList onClickNext={()=>{}} otherAction={otherAction} isOtherAction={true} />);
+            const wrapperOther = mount(<ConnectedPaginateList onClickNext={()=>{}} otherAction={otherAction} />);
             expect(wrapperOther.find("[data-focus='pagination__actions']").find('button')).to.have.length(1);
             wrapperOther.find("[data-focus='pagination__actions']").find('button').simulate('click');
             expect(otherAction).to.have.callCount(1);
