@@ -17,13 +17,13 @@ describe('The Pagninate connector ', () => {
         expect(wrapper.find('[data-focus="pagination__actions"]')).to.have.length(1);
         expect(wrapper.find('[data-focus="list-with-pagination"]')).to.have.length(1)
     });
-    it("should call the onClickNext function on the button next 's click", () => {
+    it("should call the onClickNext function on the button next's click", () => {
       expect(wrapper.find("[data-focus='pagination__actions']").find('button')).to.have.length(1);
       wrapper.find("[data-focus='pagination__actions']").find('button').simulate('click');
       wrapper.find("[data-focus='pagination__actions']").find('button').simulate('click');
       expect(propsSpy).to.have.callCount(2);
-      expect(propsSpy).to.have.been.calledWith(20,0)
-      expect(propsSpy).to.have.been.calledWith(30,0)
+      expect(propsSpy).to.have.been.calledWith(20, 0)
+      expect(propsSpy).to.have.been.calledWith(30, 0)
     });
 
     it("should call the otherAction function on the button other action 's click and props isOtherAction", () => {

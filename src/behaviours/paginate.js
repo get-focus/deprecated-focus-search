@@ -24,13 +24,18 @@ export default () => {
             }
             _otherAction(){
                 const {otherAction} = this.props;
+                if(!otherAction) {
+                    console.log('please define a other function for the other action.');
+                    return;
+                }
                 window.scrollTo(0,0);
                 otherAction({...this.props, ...this.state})
             }
             render() {
                 const {top} = this.state;
                 const {totalCount, otherAction, data} = this.props;
-                const isOtherAction = otherAction !== null;
+                const isOtherAction = otherAction !== undefined;
+                console.log(otherAction, isOtherAction);
                 return (
                     <div data-focus='list-with-pagination'>
                         <ComponentToConnect {...this.props} />
@@ -48,13 +53,12 @@ export default () => {
         PaginationConnector.displayName = 'PaginationConnector';
         PaginationConnector.defaultProps = {
             onClickNext: (params) => console.log('please define a function. The passed params are ' + JSON.stringify(params)),
-            otherAction: (params) => console.log("please define a other function for the 'other action'. The passed params are " + JSON.stringify(params)),
             page: 10,
             skip: 0,
             top: 10
         }
         PaginationConnector.propTypes = {
-            onClickNext: PropTypes.func.isRequired,
+            onClickNext: PropTypes.func,
             otherAction: PropTypes.func,
             page: PropTypes.number,
             skip: PropTypes.nnumber,
