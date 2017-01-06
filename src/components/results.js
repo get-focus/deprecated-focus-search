@@ -223,7 +223,7 @@ ResultList.defaultProps = {
 
 export class ResultGroup extends PureComponent {
     render() {
-        const {customLineProps, isAllScopeResults, isGroup, ListComponent, paginateFunction, scope, valuesForResults, unitSearchDispatch, groupSelected,paginateProps} = this.props;
+        const {customLineProps, isAllScopeResults, isGroup, ListComponent, paginateFunction, scope, valuesForResults, unitSearchDispatch, groupSelected, paginateProps} = this.props;
         return (
             <div data-focus='result-group'>
                 {!isAllScopeResults &&

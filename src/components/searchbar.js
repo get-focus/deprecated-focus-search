@@ -29,7 +29,6 @@ export class SearchBarInput extends PureComponent {
         if(onChange) onChange({term: value});
     }
     render() {
-      console.log(this.props.placeholder)
         return (
             <InputText
                 data-focus='search-bar-input'

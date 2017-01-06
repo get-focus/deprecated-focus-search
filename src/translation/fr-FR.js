@@ -21,7 +21,7 @@ export default {
                 totalCount_plural: '{{count}} éléments affichés'
             },
             sort: 'Trier',
-            selected: 'aucun élément sélectionné',
+            selected: '{{count}} élément sélectionné',
             selected_plural: '{{count}} éléments sélectionnés',
             results: {
                 number: '{{count}} résultat',
