@@ -4,23 +4,25 @@ import InputSelect from 'focus-components/select-mdl';
 import debounce from 'lodash/debounce';
 import Icon from 'focus-components/icon';
 
-//TODO TGN : when another search bar is mounted in the header and header is reduced, if value is changed in the other search bar : modification is not impacted in the other SB
-//maybe it should be possible de fix it by removing the cartridge when the page is scroll. or force the rerendering.
 export class SearchBarInput extends PureComponent {
     constructor(props) {
         super(props);
-        const {queryActionWait} = this.props;
+        const {queryActionWait, term} = props;
+        this._onInputChange = this._onInputChange.bind(this);
         this._debouncedOnSearchBarInputChange = debounce(this._onSearchBarInputChange.bind(this), queryActionWait);
+        this.state = { inputValue: term };
     }
-    // shouldComponentUpdate(nextProps) {
-    //     return false; //no need to rerender as props only init the component. and it avoid to rerender input at each keypress ! it freeze the rendering
-    // }
     componentDidMount() {
         const {hasFocus, term} = this.props;
         if(hasFocus) {
             ReactDOM.findDOMNode(this.refs.searchBarInputText.refs.htmlInput).focus();
-            this.refs.searchBarInputText.value = term;
         }
+    }
+    _onInputChange(value) {
+        this.setState({
+            inputValue: value
+        });
+        this._debouncedOnSearchBarInputChange(value)
     }
     _onSearchBarInputChange(value) {
         const {onChange, queryAction} = this.props;
@@ -29,14 +31,16 @@ export class SearchBarInput extends PureComponent {
     }
     render() {
         const {placeholder} = this.props;
+        const {inputValue} = this.state;
         return (
             <div data-focus='search-bar-input'>
                 <Icon name='search' />
                 <input
                     placeholder={this.props.placeholder}
                     name='search-bar-input'
-                    onChange={(evt) => this._debouncedOnSearchBarInputChange(evt.target.value)}
-                    ref='searchBarInputText' />
+                    onChange={(evt) => this._onInputChange(evt.target.value)}
+                    ref='searchBarInputText'
+                    value={inputValue} />
             </div>
         );
     }
@@ -73,6 +77,7 @@ export class SearchBarScopeSelection extends PureComponent {
     }
     render() {
         const {scope, scopes} = this.props;
+        //console.log('SearchBarScopeSelection', scope, scopes);
         return (
             <InputSelect
                 data-focus='search-bar-scope-selection'

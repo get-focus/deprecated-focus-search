@@ -4,9 +4,7 @@
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
-    min-width: 400px;
-    max-width: 500px;
-    margin: auto;
+    margin: 10px auto;
     transition: box-shadow 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
     &:hover {
         box-shadow: 0 4px 4px 1px rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
