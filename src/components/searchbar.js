@@ -1,27 +1,28 @@
 import React, {PropTypes, PureComponent} from 'react';
 import ReactDOM from 'react-dom';
-import InputText from 'focus-components/input-text';
 import InputSelect from 'focus-components/select-mdl';
 import debounce from 'lodash/debounce';
+import Icon from 'focus-components/icon';
 
-//TODO TGN : when another search bar is mounted in the header and header is reduced, if value is changed in the other search bar : modification is not impacted in the other SB
-//maybe it should be possible de fix it by removing the cartridge when the page is scroll. or force the rerendering.
 export class SearchBarInput extends PureComponent {
     constructor(props) {
         super(props);
-        const {queryActionWait} = this.props;
+        const {queryActionWait, term} = props;
+        this._onInputChange = this._onInputChange.bind(this);
         this._debouncedOnSearchBarInputChange = debounce(this._onSearchBarInputChange.bind(this), queryActionWait);
-    }
-    shouldComponentUpdate(nextProps) {
-        return false; //no need to rerender as props only init the component. and it avoid to rerender input at each keypress ! it freeze the rendering
+        this.state = { inputValue: term };
     }
     componentDidMount() {
         const {hasFocus, term} = this.props;
         if(hasFocus) {
-          ReactDOM.findDOMNode(this.refs.searchBarInputText.refs.htmlInput).focus();
-          this.refs.searchBarInputText.refs.htmlInput.value = term
+            ReactDOM.findDOMNode(this.refs.searchBarInputText.refs.htmlInput).focus();
         }
-
+    }
+    _onInputChange(value) {
+        this.setState({
+            inputValue: value
+        });
+        this._debouncedOnSearchBarInputChange(value)
     }
     _onSearchBarInputChange(value) {
         const {onChange, queryAction} = this.props;
@@ -29,26 +30,33 @@ export class SearchBarInput extends PureComponent {
         if(onChange) onChange({term: value});
     }
     render() {
+        const {placeholder} = this.props;
+        const {inputValue} = this.state;
         return (
-            <InputText
-                data-focus='search-bar-input'
-                placeholder={this.props.placeholder}
-                name='search-bar-input'
-                onChange={this._debouncedOnSearchBarInputChange}
-                ref='searchBarInputText' />
-        ); //do not use rawInputValue on InputText it freezes it value and make it uneditable.
+            <div data-focus='search-bar-input'>
+                <Icon name='search' />
+                <input
+                    placeholder={this.props.placeholder}
+                    name='search-bar-input'
+                    onChange={(evt) => this._onInputChange(evt.target.value)}
+                    ref='searchBarInputText'
+                    value={inputValue} />
+            </div>
+        );
     }
 };
 SearchBarInput.displayName = 'SearchBarInput';
 SearchBarInput.propTypes = {
     hasFocus: PropTypes.bool,
     onChange: PropTypes.func,
+    placeholder: PropTypes.string,
     queryAction: PropTypes.func.isRequired,
     queryActionWait: PropTypes.number,
     term: PropTypes.string
 };
 SearchBarInput.defaultProps = {
     hasFocus: false,
+    placeholder: '',
     queryActionWait: 300,
     term: ''
 };
@@ -69,6 +77,7 @@ export class SearchBarScopeSelection extends PureComponent {
     }
     render() {
         const {scope, scopes} = this.props;
+        //console.log('SearchBarScopeSelection', scope, scopes);
         return (
             <InputSelect
                 data-focus='search-bar-scope-selection'
@@ -100,14 +109,14 @@ export default class SearchBar extends PureComponent {
         const hasScopes = scopes && scopes.length > 0;
         return (
             <div data-focus='search-bar'>
-                {hasScopes &&
-                    <SearchBarScopeSelection
-                        onChange={onChange}
-                        scopeAction={scopeAction}
-                        scopes={scopes}
-                        scope={scope} />
-                }
-                <SearchBarInput hasFocus={hasFocus} placeholder={placeholder} onChange={onChange} queryAction={queryAction} queryActionWait={queryActionWait} term={term} />
+                    {hasScopes &&
+                        <SearchBarScopeSelection
+                            onChange={onChange}
+                            scopeAction={scopeAction}
+                            scopes={scopes}
+                            scope={scope} />
+                    }
+                    <SearchBarInput hasFocus={hasFocus} placeholder={placeholder} onChange={onChange} queryAction={queryAction} queryActionWait={queryActionWait} term={term} />
             </div>
         );
     }
@@ -116,6 +125,7 @@ SearchBar.displayName = 'SearchBar';
 SearchBar.PropTypes = {
     hasFocus: PropTypes.bool,
     onChange: PropTypes.func,
+    placeholder: PropTypes.string,
     queryAction: PropTypes.func.isRequired,
     queryActionWait: PropTypes.number,
     scope: PropTypes.string,
