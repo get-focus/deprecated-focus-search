@@ -14,10 +14,9 @@ export class InformationBar extends PureComponent {
             selectedFacetsList,
             term,
             totalCount,
-            unitSearchDispatch : {scopeAction}
+            unitSearchDispatch: {scopeAction}
         } = this.props;
         const scopeLabel = hasDefinedScopes && scope && scope.length > 0 ? i18next.t(`search.scope.${lowerCase(scope)}`) : 'Not defined';
-        const scopeLetter = hasDefinedScopes && scopeLabel && scopeLabel.length > 0 ? scopeLabel[0] : 'N';
         return (
             <div data-focus='information-bar'>
                 <div data-focus='totalCount'>
@@ -27,9 +26,9 @@ export class InformationBar extends PureComponent {
                 </div>
                 {hasDefinedScopes && scope &&
                     <div data-focus='scope-selected'>
-                        <Chips label={scopeLabel}
-                            letter={scopeLetter}
-                            onDeleteClick={scope === 'all' ? undefined : () => scopeAction({query:{value :{scope: undefined}, replace: false}, group: {value: {}, replace: false}})}/>
+                        <Chips
+                            label={scopeLabel}
+                            onDeleteClick={scope === 'all' ? undefined : () => scopeAction({query: {value: {scope: undefined}, replace: false}, group: {value: {}, replace: false}})} />
                     </div>
                 }
                 <div data-focus='selectedFacets'>
