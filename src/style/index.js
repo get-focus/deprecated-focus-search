@@ -2,6 +2,7 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import 'material-design-lite/material.css';
 import 'material-design-lite/material.min';
 
+import './quick-search.scss';
 import './advanced-search.scss';
 import './facet.scss';
 import './informationbar.scss';

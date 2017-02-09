@@ -105,7 +105,7 @@ SearchBarScopeSelection.defaultProps = {
 
 export default class SearchBar extends PureComponent {
     render() {
-        const {hasFocus, onChange, queryAction, queryActionWait, scope, scopeAction, scopes, term, placeholder} = this.props;
+        const {hasFocus, onChange, unitSearchDispatch:{queryAction, queryActionWait, scopeAction }, scopes, scope, term, placeholder} = this.props;
         const hasScopes = scopes && scopes.length > 0;
         return (
             <div data-focus='search-bar'>
