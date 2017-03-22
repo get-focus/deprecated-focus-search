@@ -1,6 +1,6 @@
-#La recherche Focus.
+# La recherche Focus
 
-##Etat des lieux
+## Etat des lieux
 
 ![search](https://cloud.githubusercontent.com/assets/10349407/19715562/58dc9bbe-9b56-11e6-8225-cdc91d7352f4.PNG)
 
@@ -24,15 +24,15 @@ Le composant de recherche avancée gère automatiquement:
  - Le store des données de recherche
  - Les actions liés à la recherche
 
-Peu de choses sont à déclarer pour créer une recherche. Tout au long des étapes vous devrez rester cohérent sur le nom de la recherche avancée dans notre exemple ce sera advancedSearch. Ainsi si vous voulez créer un autre recherche dans la même application il vous suffira de refaire ses étapes avec un autre nom.
+Peu de choses sont à déclarer pour créer une recherche. Tout au long des étapes vous devrez rester cohérent sur le nom de la recherche avancée dans notre exemple ce sera advancedSearch. Ainsi si vous voulez créer un autre recherche dans la même application il vous suffira de refaire ces étapes avec un autre nom.
 
-A la suite de ses étapes, vous aurez dans votre state redux un noeud du nom de votre recherche composé de deux noeuds :
+A la suite de ces étapes, vous aurez dans votre state redux un noeud du nom de votre recherche composé de deux noeuds :
  - criteria correspondant au critère permettant une recherche et envoyé au serveur
  - result correspondant aux résultats renvoyé par votre serveur
 
-##La vue pour le composant Recherche avancée
+## La vue pour le composant Recherche avancée
 
-###Le composant
+### Le composant
 ```
 import React from 'react';
 import compose from 'lodash/flowRight';
@@ -55,7 +55,7 @@ export default ConnectedSearch;
 ```
 Il suffit pour de connecter le composant en lui indiquant le nom de la recherche avancée et en lui donnant les actions unitaires de votre recherche.
 
-##L'action, le reducer et le middleware
+## L'action, le reducer et le middleware
 
 ```javascript
  import {actionSearchBuilder} from 'focus-search/actions/action-search-builder'
@@ -97,11 +97,11 @@ const updateQuery =  (query, replace = false, isSearchAction = true) => ({
  ```
  Il retourne les différentes actions ainsi créées ainsi que les types.
 
-###Les reducers
+### Les reducers
 
 Le unitSearchReducerBuilder permet de construire les différents reducers des actions que nous venons de créer. Il suffit pour cela de lui donner à nouveau le nom de la recherche que vous voulez créer.
 
-###Le middleware
+### Le middleware
 
 le searchTriggerMiddlewareBuilder sert de déclencheur pour la rechercher. Ainsi il prend en premier argument un tableau des différentes actions qui déclenchent une recherche. Dans notre exemple nous avons le changement de query, de sort, de groupe, et de facets. Puis une fonction qui permet de sélectionner le noeud correspondant à votre recherche dans le state redux et enfin l'action de search que vous avez créé avec le actionSearchBuilder.
 
@@ -137,7 +137,7 @@ import {parseForVertigo, getScope} from 'focus-search/store';
  - le parseForVertigo qui permet de créer l'objet attendu par le serveur
 
 
-##Le provider et le store
+## Le provider et le store
 
 De le même façon que les autres providers de l'application, le search a besoin d'informations statiques que vous devez lui fournir et qui sont décrites dans le paragraphe métadonnées.
 ```javascript
@@ -181,7 +181,7 @@ export default createStore(
 );
 
 ```
-##Les metadonnées
+## Les metadonnées
 
 Il est conseillé pour cette partie de créer un dossier métadonnées dans  votre dossier search.
 
@@ -214,7 +214,7 @@ export default {
 
 Il défini deux concepts celui de scopes et la fonction getListMetada.
 
-####Les scopes :
+#### Les scopes :
 
 ```
 
@@ -238,7 +238,7 @@ export default [
 
 ```
 
-####la fonction getListMetadata
+#### La fonction getListMetadata
 
 ```
 const listMetadata = (listType) => {
