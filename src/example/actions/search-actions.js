@@ -5,14 +5,17 @@ import {serviceSearch} from '../services/search'
 import {searchTriggerMiddlewareBuilder} from '../../middleware/middleware-search';
 
 //advanced_search
-export const searchAction = actionSearchBuilder({name: 'advancedSearch', type: 'search', service: serviceSearch});
-export const {creators : unitSearchActions, types : unitSearchActionsTypes} = singleActionCreatorBuilder('advancedSearch');
-export const unitSearchReducers = unitSearchReducerBuilder('advancedSearch')
-export const middlewareAdvancedSearch = searchTriggerMiddlewareBuilder(['ADVANCEDSEARCH_START_SEARCH'], state => state.advancedSearch,searchAction.action);
-
-
-
-// export const otherSearchAction = actionSearchBuilder({name: 'other_search', type: 'search', service: serviceSearch});
-// export const {creators : unitOtherSearchActions, types : unitOtherSearchTypes} = singleActionCreatorBuilder('advanced_search');
-// export const unitOtherSearchReducers = unitSearchReducerBuilder('other_search')
-// export const middlewareOtherSearch = searchTriggerMiddlewareBuilder(otherSearchAction.action, unitOtherSearchTypes);
+export const searchAction = actionSearchBuilder({name: 'quickSearch', type: 'search', service: serviceSearch});
+export const {creators : unitSearchActions, types : unitSearchActionsTypes} = singleActionCreatorBuilder('quickSearch');
+export const unitSearchReducers = unitSearchReducerBuilder('quickSearch')
+export const middlewareQuickSearch = searchTriggerMiddlewareBuilder(
+    [
+        'QUICKSEARCH_NEXT_PAGE',
+        'QUICKSEARCH_START_SEARCH',
+        'QUICKSEARCH_UPDATE_QUERY',
+        'QUICKSEARCH_UPDATE_SELECTED_FACETS',
+        'QUICKSEARCH_UPDATE_GROUP',
+        'QUICKSEARCH_UPDATE_SORT'
+    ]
+    , state => state.quickSearch,searchAction.action
+);

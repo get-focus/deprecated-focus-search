@@ -22,17 +22,20 @@ export class QuickSearch extends PureComponent {
             ResultGroupProps,
             ResultListProps
         } = this.props;
+        console.log('SEARCHBAR PROPS', SearchBarProps);
+        const {unitSearchDispatch, ...rest} = SearchBarProps;
+
         return (
             <div data-focus='quick-search'>
-                <div data-focus="search-bar-quick-search"><SearchBar {...SearchBarProps}/></div>
+                <div data-focus="search-bar-quick-search"><SearchBar {...unitSearchDispatch} {...rest}/></div>
                 <div data-focus="results-advanced-search">
                     {isGroup ?
-
                         <ResultGroup
                             customLineProps={customLineProps}
                             data-focus='result-group-advanced-search'
                             ListComponent={paginateConnector()(ListComponent)}
                             {...ResultGroupProps}
+                            isQuickSearch={true}
                            />
                         :
                         <ResultList

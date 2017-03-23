@@ -1,149 +1,547 @@
 const faker = require('faker');
 
-
-
 export const serviceSearch = () => {
-  return  Promise.resolve({
-
-    list: [
-      {
-        "code": 110644,
-        "title":  faker.name.firstName(),
-        "titleSortOnly": "Stardust, le mystère de l'étoile",
-        "movieType": "Long-métrage",
-        "productionYear": 2007
-      },
-      {
-        "code": 111267,
-        "title":  faker.name.firstName(),
-        "titleSortOnly": "The Moon and the Stars",
-        "movieType": "Long-métrage",
-        "productionYear": 2006
-      },
-      {
-        "code": 145475,
-        "title": faker.name.firstName(),
-        "titleSortOnly": "Star Trek Into Darkness",
-        "movieType": "Long-métrage",
-        "productionYear": 2013
-      },
-      {
-        "code": 147147,
-        "title":  faker.name.firstName(),
-        "titleSortOnly": "Confessions d'une star",
-        "movieType": "Télefilm",
-        "productionYear": 2008
-      },
-      {
-        "code": 13022,
-        "title":  faker.name.firstName(),
-        "titleSortOnly": "Star Trek : Le Film",
-        "movieType": "Long-métrage",
-        "productionYear": 1979
-      }
-    ],
-    facets: [
-    {
-      "FCT_MOVIE_TYPE": [
-        {
-          "code": "Long-métrage",
-          "count": 29,
-          "label": "Long-métrage"
-        },
-        {
-          "code": "Télefilm",
-          "count": 5,
-          "label": "Télefilm"
-        },
-        {
-          "code": "Court-métrage",
-          "count": 1,
-          "label": "Court-métrage"
-        }
-      ]
-    },
-    {
-      "FCT_MOVIE_TITLE": [
-        {
-          "code": "R1",
-          "count": 0,
-          "label": "#"
-        },
-        {
-          "code": "R2",
-          "count": 7,
-          "label": "a-f"
-        },
-        {
-          "code": "R3",
-          "count": 4,
-          "label": "g-m"
-        },
-        {
-          "code": "R4",
-          "count": 20,
-          "label": "n-s"
-        },
-        {
-          "code": "R4",
-          "count": 4,
-          "label": "t-z"
-        }
-      ]
-    },
-    {
-      "FCT_MOVIE_YEAR": [
-        {
-          "code": "R1",
-          "count": 0,
-          "label": "< années 30"
-        },
-        {
-          "code": "R2",
-          "count": 1,
-          "label": "années 30"
-        },
-        {
-          "code": "R3",
-          "count": 0,
-          "label": "années 40"
-        },
-        {
-          "code": "R4",
-          "count": 1,
-          "label": "années 50"
-        },
-        {
-          "code": "R5",
-          "count": 0,
-          "label": "années 60"
-        },
-        {
-          "code": "R6",
-          "count": 1,
-          "label": "années 70"
-        },
-        {
-          "code": "R7",
-          "count": 1,
-          "label": "années 80"
-        },
-        {
-          "code": "R8",
-          "count": 6,
-          "label": "années 90"
-        },
-        {
-          "code": "R9",
-          "count": 23,
-          "label": "années 2000"
-        },
-        {
-          "code": "R10",
-          "count": 2,
-          "label": "> années 2010"
-        }
-      ]
+    return  Promise.resolve({
+        "groups": [
+            {
+                "code": "MOVIE",
+                "label": "Films",
+                "list": [
+                    {
+                        "movId": 1,
+                        "title": "Le Facteur sonne toujours deux fois",
+                        "titleSortOnly": "Le Facteur sonne toujours deux fois",
+                        "originalTitle": "The Postman Always Rings Twice",
+                        "synopsis": "Frank Chamber rencontre, lors de ses pérégrinations, Nick Smith, qui tient un café au bord de la route. Quand il voit Cora, la très jolie femme de Nick, il accepte le travail qu\u0027il lui propose.",
+                        "shortSynopsis": "Frank Chamber rencontre lors de ses peregrinations Nick Smith, qui tient un café au bord de la route. Quand il voit Cora, la tres jolie femme de Nick, il accepte le travail qu\u0027il lui propose.",
+                        "keywords": "Le facteur sonne toujours deux fois The Postman always rings twice ",
+                        "poster": "http://fr.web.img1.acsta.net/medias/nmedia/18/62/87/33/18656571.jpg",
+                        "runtime": 7260,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1981,
+                        "userRating": 65,
+                        "pressRating": -1,
+                        "actorRoles": "Jack Nicholson,Jessica Lange,John Colicos,Michael Lerner,Christopher Lloyd,John P. Ryan,Anjelica Huston,Brion James",
+                        "writers": "David Mamet",
+                        "camera": "Sven Nykvist",
+                        "producers": "Bob Rafelson,Charles Mulvehill,Andrew Braunsberg",
+                        "directors": "Bob Rafelson"
+                    },
+                    {
+                        "movId": 11,
+                        "title": "Madame Bovary",
+                        "titleSortOnly": "Madame Bovary",
+                        "originalTitle": "Madame Bovary",
+                        "synopsis": "Face au tribunal, Gustave Flaubert rend des comptes sur son roman, considéré comme œuvre immorable, et en justifie le contenu, prenant la défense de son personnage principal. Emma Bovary est une ravissante femme qui aspire à un monde de rêves et de luxe depuis qu\u0027elle est toute petite. Mais après avoir épousé un vulgaire médecin de campagne, la belle plante s\u0027ennuie de pied ferme dans sa si grande maison. Jusqu\u0027au jour où elle se laisse aller à des infidélités avec l\u0027aristocrate Rodolphe et Léon Dupuis, un ami de son mari dont elle finit par tomber éperdument amoureuse, causant ainsi sa perte..",
+                        "shortSynopsis": "Une femme ayant fait un mariage malheureux avec un triste et pitoyable médecin de campagne rêve d\u0027amours romantiques.",
+                        "keywords": "Madame Bovary ",
+                        "poster": "http://fr.web.img4.acsta.net/medias/nmedia/18/36/19/13/18460485.jpg",
+                        "runtime": 5280,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1949,
+                        "userRating": 66,
+                        "pressRating": -1,
+                        "actorRoles": "Zoe Lister Jones,Jennifer Jones,Louis Jourdan,James Mason,Van Heflin,Alf Kjellin,Gene Lockhart,Frank Allenby,Gladys Cooper,John Abbott,Harry Morgan,George Zucco,Ellen Corby,Eduard Franz,Henri Letondal,Esther Somers",
+                        "writers": "Robert Ardrey,Jack Aldworth",
+                        "camera": "Robert H. Planck",
+                        "producers": "Gaston Gallimard,Pandro S. Berman",
+                        "directors": "Vincente Minnelli"
+                    },
+                    {
+                        "movId": 102,
+                        "title": "Les Noces de Figaro",
+                        "titleSortOnly": "Les Noces de Figaro",
+                        "originalTitle": "Le Nozze di Figaro",
+                        "synopsis": "L\u0027espiegle Figaro, valet de chambre du comte Almaviva, doit convoler en justes noces avec la tres jolie cameriste de la comtesse Susanna. Mais le comte, sujet inconstant en amour, est particulierement seduit par l\u0027apparence de Susanna. Pique au vif, Figaro va organiser sa vengeance.",
+                        "shortSynopsis": "L\u0027espiegle Figaro, valet de chambre du comte Almaviva, doit convoler en justes noces avec la tres jolie cameriste de la comtesse Susanna. Mais le comte, sujet inconstant en amour, est particulierement seduit par l\u0027apparence de Susanna. Pique au vif, Figaro va organiser sa vengeance.",
+                        "keywords": "Noces de Figaro Nozze di Figaro ",
+                        "poster": "http://fr.web.img6.acsta.net/medias/nmedia/18/79/57/00/19509717.jpg",
+                        "runtime": 10860,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1976,
+                        "userRating": 63,
+                        "pressRating": -1,
+                        "actorRoles": "Hermann Prey,Mirella Freni,Dietrich Fischer-Dieskau,Kiri Te Kanawa",
+                        "directors": "Jean-Pierre Ponnelle"
+                    },
+                    {
+                        "movId": 124,
+                        "title": "Le Baiser de la femme araignée",
+                        "titleSortOnly": "Le Baiser de la femme araignée",
+                        "originalTitle": "Kiss of the Spider Woman",
+                        "synopsis": "Valentin, journaliste révolutionnaire, a été torturé et incarcéré pour ses convictions politiques dans une prison d\u0027Amérique latine. Molina, décorateur homosexuel, est condamné pour une affaire de moeurs. Tout sépare ces deux hommes qu\u0027on enferme dans la même cellule. Pour oublier la solitude de leurs nuits, Molina fait partager à Valentin les rêves qu\u0027il imagine d\u0027après les vieux films qui peuplent sa mémoire. Alors que l\u0027animosité des deux détenus se transforme en amitié, une toile de trahison se tisse autour d\u0027eux, inexorablement, mettant à l\u0027épreuve leur confiance mutuelle et leur esprit de sacrifice…",
+                        "shortSynopsis": "Dans une prison d\u0027Amérique du Sud, Molina, un homosexuel, évoque chaque soir de vieux films romantiques. Son compagnon de cellule, Valentin, un prisonnier politique, entre peu à peu dans cet univers fantasmagorique.",
+                        "keywords": "Le Baiser de la femme-araignee, Le Baiser de la femme araignée Kiss of the Spider Woman ",
+                        "poster": "http://fr.web.img3.acsta.net/medias/nmedia/00/02/48/72/affiche.jpg",
+                        "runtime": 7200,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1985,
+                        "userRating": 78,
+                        "pressRating": -1,
+                        "actorRoles": "William Hurt,Raul Julia,Sonia Braga,José Lewgoy,Milton Gonçalves,Fernando Torres,Denise Dumont,Antônio Petrin,Wilson Grey,Miguel Falabella,Walter Breda,Míriam Pires,Patricio Bisso,Herson Capri,Claudio Curi,Ken Kaneko,Nildo Parente",
+                        "writers": "Leonard Schrader",
+                        "camera": "Rodolfo Sánchez",
+                        "producers": "David Weisman,David Maiello",
+                        "directors": "Hector Babenco"
+                    },
+                    {
+                        "movId": 127,
+                        "title": "Le Bal des vampires",
+                        "titleSortOnly": "Le Bal des vampires",
+                        "originalTitle": "The Fearless Vampire Killers",
+                        "synopsis": "Persuadé que les vampires existent, le professeur Abronsius consacre tout son temps à la traque de cette espèce effrayante. Accompagné par son fidèle assistant, le jeune Alfred, ce scientifique farfelu parcourt la Transylvanie et finit par arriver dans un petit village qui semble être un nid de vampires. Dans la taverne, des gousses d\u0027ail ornent les murs. Les habitants n\u0027osent répondre à ses questions et semblent terrifiés par une étrange présence. Bientôt, la fille de l\u0027aubergiste, Sarah, est enlevée par un vampire. Abronsius et Alfred, transi d\u0027amour devant la belle jeune fille, partent à sa recherche. Elle est retenue au château du comte von Krolock. Mais leur étonnement est à son comble lorsqu\u0027ils sont reçus avec amabilité dans la luxueuse demeure. Là, les vampires préparent leur bal annuel. Les deux compères ne sont pas au bout de leurs surprises...",
+                        "shortSynopsis": "Un vieux savant et son aide pourchassent, dans un sinistre château de Transylvanie, une curieuse espèce de vampires.",
+                        "keywords": "Le Bal des vampires The fearless vampire killers or pardon me but your teeth are on my neck Dance of the Vampires ",
+                        "poster": "http://fr.web.img3.acsta.net/medias/nmedia/18/35/59/99/19355043.jpg",
+                        "runtime": 6480,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1967,
+                        "userRating": 76,
+                        "pressRating": 80,
+                        "actorRoles": "Roman Polanski,Jack MacGowran,Sharon Tate,Ferdy Mayne,Ronald Lacey,Otto Diamant,Andreas Malandrinos,Alfie Bass,Jessie Robins,Iain Quarrier,Terry Downes,Fiona Lewis,Sydney Bromley,Matthew Walters",
+                        "writers": "Roman Polanski,Gérard Brach",
+                        "camera": "Douglas Slocombe",
+                        "producers": "Martin Ransohoff,Gene Gutowski",
+                        "directors": "Roman Polanski"
+                    },
+                    {
+                        "movId": 130,
+                        "title": "La Ballade du soldat",
+                        "titleSortOnly": "La Ballade du soldat",
+                        "originalTitle": "Ballada o soldate",
+                        "synopsis": "Ronge par la peur de mourir, un jeune soldat se couvre de gloire sur le front russe. Durant sa permission, il vit un amour ephemere.",
+                        "shortSynopsis": "Ronge par la peur de mourir, un jeune soldat se couvre de gloire sur le front russe. Durant sa permission, il vit un amour ephemere.",
+                        "keywords": "Ballade du soldat ",
+                        "poster": "http://fr.web.img4.acsta.net/medias/nmedia/18/72/40/22/19162791.jpg",
+                        "runtime": 3780,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1959,
+                        "userRating": 74,
+                        "pressRating": -1,
+                        "actorRoles": "Vladimir Ivachov,Antonina Maximova,Zhanna Prokhorenko",
+                        "directors": "Grigori Tchoukhrai"
+                    },
+                    {
+                        "movId": 133,
+                        "title": "Barbe-Noire le pirate",
+                        "titleSortOnly": "Barbe-Noire le pirate",
+                        "originalTitle": "Blackbeard the pirate",
+                        "synopsis": "Au XVIIème siècle dans la mer des Caraïbes, l\u0027ancien pirate Henry Morgan a pour mission de détruire Barbe Noire, filibustier des Antilles. Un aventurier, Robert Maynard, essaie d\u0027obtenir une récompense en prouvant que Morgan est toujours de mèche avec les pirates.",
+                        "shortSynopsis": "Au XVIIème siècle, le pirate Barbe Noire harcèle les forces du gouverneur de Port Royal, Henri Morgan.",
+                        "keywords": "Barbe Noire le pirate Blackbeard the pirate ",
+                        "poster": "http://fr.web.img4.acsta.net/medias/nmedia/18/76/36/71/19284614.jpg",
+                        "runtime": 5940,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1952,
+                        "userRating": 66,
+                        "pressRating": -1,
+                        "actorRoles": "Robert Newton,Linda Darnell,William Bendix,Keith Andes,Torin Thatcher,Irene Ryan,Alan Mowbray,Richard Egan,Jack Lambert,Skelton Knaggs,Dick Wessel,Anthony Caruso,Noel Drayton,Pat Flaherty",
+                        "writers": "Alan Le May",
+                        "camera": "William E. Snyder",
+                        "producers": "Edmund Grainger",
+                        "directors": "Raoul Walsh"
+                    },
+                    {
+                        "movId": 143,
+                        "title": "Broadway Danny Rose",
+                        "titleSortOnly": "Broadway Danny Rose",
+                        "originalTitle": "Broadway Danny Rose",
+                        "synopsis": "L\u0027imprésario Danny Rose se dévoue corps et âme pour ses protégés, artistes ringards du music-hall. Le lancement d\u0027un crooner auquel il croit dur comme fer est peut-être la clé de la réussite tant attendue.",
+                        "shortSynopsis": "L\u0027imprésario Danny Rose se dévoue corps et âme pour ses protégés, artistes ringards du music-hall. Le lancement d\u0027un crooner auquel il croit dur comme fer est peut-être la clé de la réussite tant attendue.",
+                        "keywords": "Broadway Danny Rose ",
+                        "poster": "http://fr.web.img3.acsta.net/medias/nmedia/18/70/98/94/19199655.jpg",
+                        "runtime": 3780,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1984,
+                        "userRating": 69,
+                        "pressRating": -1,
+                        "actorRoles": "Woody Allen,Mia Farrow,Nick Appolo Forte,Jackie Gayle,Milton Berle,Corbett Monica,Howard Cosell,Michael Badalucco,Paul Greco,Frank Renzulli,Gina DeAngeles,Edwin Bordo,Sandy Richman,Danny Aiello,Sammy Davis Jr.,John Doumanian,Ronald Maccone",
+                        "writers": "Woody Allen",
+                        "camera": "Gordon Willis",
+                        "producers": "Robert Greenhut,Charles H. Joffe,Michael Peyser",
+                        "directors": "Woody Allen"
+                    },
+                    {
+                        "movId": 150,
+                        "title": "Les Chariots de feu",
+                        "titleSortOnly": "Les Chariots de feu",
+                        "originalTitle": "Chariots of Fire",
+                        "synopsis": "Dans les années vingt, deux athlètes britanniques prédisposés pour la course à pied se servent de leur don, l\u0027un pour combattre les préjugés xénophobes, l\u0027autre pour affirmer sa foi religieuse.",
+                        "shortSynopsis": "Dans les années vingt, deux athlètes britanniques prédisposés pour la course à pied se servent de leur don, l\u0027un pour combattre les préjugés xénophobes, l\u0027autre pour affirmer sa foi religieuse.",
+                        "keywords": "Les Chariots de feu  Chariots of Fire ",
+                        "poster": "http://fr.web.img6.acsta.net/medias/nmedia/18/35/58/53/18969269.jpg",
+                        "runtime": 7500,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1981,
+                        "userRating": 68,
+                        "pressRating": -1,
+                        "actorRoles": "Ben Cross,Ian Charleson,Nicholas Farrell,Nigel Havers,Michael Lonsdale,Cheril Campbell,Ian Holm,Alice Krige,John Gielgud,Lindsay Anderson,Nigel Davenport,Patrick Magee,Dennis Christopher,Brad Davis,Richard Griffiths,Kenneth Branagh",
+                        "writers": "Colin Welland",
+                        "camera": "David Watkin",
+                        "producers": "David Puttnam",
+                        "directors": "Hugh Hudson"
+                    },
+                    {
+                        "movId": 161,
+                        "title": "Crin Blanc",
+                        "titleSortOnly": "Crin Blanc",
+                        "originalTitle": "Crin Blanc",
+                        "synopsis": "Au sud de la France, il est un pays presque désertique appelé La Camargue. Crin-Blanc est un magnifique étalon, chef d\u0027un troupeau de chevaux sauvages, trop fier pour se laisser dompter par les hommes. Seul Folco, un petit pêcheur, réussira à l\u0027apprivoiser. Une profondeamitié va naître entre l\u0027enfant et le cheval. Ensemble, ils partiront à la conquête d\u0027une liberté que les hommes leur refusent...",
+                        "shortSynopsis": "En Camargue, dans le sud de la France. Crin Blanc est un magnifique étalon, trop fier pour se laisser dompter par les hommes. Gardant son caractère sauvage, il n\u0027a pu être apprivoisé que par Folco, un jeune pêcheur.",
+                        "keywords": "Crin Blanc Crin-Blanc ",
+                        "poster": "http://fr.web.img6.acsta.net/medias/nmedia/18/64/34/17/18821655.jpg",
+                        "runtime": 2400,
+                        "movieType": "Moyen-métrage",
+                        "productionYear": 1953,
+                        "userRating": 68,
+                        "pressRating": 93,
+                        "actorRoles": "Alain Emery,Pascal Lamorisse,Denys Colomb Daunant,Alain Colomb Daunant,Pierre Bestieux,Charles Fouhetty,Charles Guillaume,Pierre Moureaux-Nery,Francois Perie,Laurent Roche,Jean-Pierre Grenier",
+                        "writers": "Albert Lamorisse,Denys Colomb Daunant",
+                        "camera": "Edmond Séchan",
+                        "producers": "Albert Lamorisse",
+                        "directors": "Albert Lamorisse"
+                    },
+                    {
+                        "movId": 167,
+                        "title": "Le Dernier Dragon",
+                        "titleSortOnly": "Le Dernier Dragon",
+                        "originalTitle": "The Last Dragon",
+                        "synopsis": "Leroy est un jeune noir timide et innocent, mais expert en arts martiaux. Un producteur mégalomane et un chef de bande débile, le \"Shogun de Harlem\", enlèvent la femme de ses rêves...",
+                        "shortSynopsis": "Leroy est un jeune noir timide et innocent, mais expert en arts martiaux. Un producteur mégalomane et un chef de bande débile, le \"Shogun de Harlem\", enlèvent la femme de ses rêves...",
+                        "keywords": "Le Dernier Dragon The Last Dragon ",
+                        "runtime": 6600,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1985,
+                        "userRating": 56,
+                        "pressRating": -1,
+                        "actorRoles": "Vanity,Taimak,Chris Murney,Julius Carry,Faith Prince,Leo O\u0027Brien,Mike Starr,Jim Moody,Keshia Knight Pulliam",
+                        "writers": "Louis Venosta",
+                        "camera": "James A. Contner",
+                        "producers": "Joseph M. Caracciolo,Berry Gordy,Rupert Hitzig",
+                        "directors": "Michael Schultz"
+                    },
+                    {
+                        "movId": 168,
+                        "title": "Le Dernier Combat",
+                        "titleSortOnly": "Le Dernier Combat",
+                        "originalTitle": "Le Dernier Combat",
+                        "synopsis": "A la suite d\u0027une catastrophe mondiale, la lutte pour la survie s\u0027organise. Certains pronent la violence, d\u0027autres veulent construire une nouvelle société.",
+                        "shortSynopsis": "A la suite d\u0027une catastrophe mondiale, la lutte pour la survie s\u0027organise. Certains pronent la violence, d\u0027autres veulent construire une nouvelle société.",
+                        "keywords": "Le Dernier combat ",
+                        "poster": "http://fr.web.img4.acsta.net/pictures/14/08/21/14/01/439574.jpg",
+                        "runtime": 5700,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1983,
+                        "userRating": 61,
+                        "pressRating": -1,
+                        "actorRoles": "Pierre Jolivet,Jean Reno,Jean Bouise,Fritz Wepper,Christiane Krüger,Maurice Lamy,Petra Müller",
+                        "writers": "Luc Besson,Pierre Jolivet",
+                        "camera": "Carlo Varini",
+                        "producers": "Luc Besson,Pierre Jolivet,Constantin Alexandrov",
+                        "directors": "Luc Besson"
+                    },
+                    {
+                        "movId": 169,
+                        "title": "Le Dernier métro",
+                        "titleSortOnly": "Le Dernier métro",
+                        "originalTitle": "Le Dernier métro",
+                        "synopsis": "Paris, septembre 1942. Lucas Steiner, le directeur du théâtre Montmartre a dû fuir parce qu’il est juif. Sa femme Marion Steiner dirige le théâtre et engage Bernard Granger, transfuge du Grand Guignol, pour jouer à ses côtés dans « la Disparue », que met en scène Jean-Louis Cottins. Jusqu’au soir de la générale, la troupe subit les menaces du virulent critique de « Je suis partout », Daxiat, dont l’ambition est de diriger la Comédie-Française. Et si, par amour pour sa femme, Lucas Steiner avait fait semblant de fuir la France et était resté caché dans la cave de son théâtre pendant toute la guerre….",
+                        "shortSynopsis": "Paris, septembre 1942. Lucas Steiner, le directeur du théâtre Montmartre a dû fuir parce qu’il est juif. Sa femme Marion Steiner dirige le théâtre et engage Bernard Granger, transfuge du Grand Guignol, pour jouer à ses côtés dans « la Disparue », que met en scène Jean-Louis Cottins.",
+                        "keywords": "Le Dernier métro The Last Metro ",
+                        "poster": "http://fr.web.img3.acsta.net/pictures/14/07/25/15/42/369952.jpg",
+                        "runtime": 7980,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1980,
+                        "userRating": 77,
+                        "pressRating": 66,
+                        "actorRoles": "Catherine Deneuve,Gérard Depardieu,Jean Poiret,Heinz Bennent,Laszlo Szabo (I),Andréa Ferréol,Jean-Louis Richard,Maurice Risch,Sabine Haudepin,Richard Bohringer,Alain Tasma,Paulette Dubost,Martine Simonet,Marcel Berbert,Rose Thiéry,Henia Ziv,Christian Baltauss,Jean-José Richer,Pierre Belot,Renata Flores,Jacob Weizbluth,Aude Loring,René Dupré,Jean-Pierre Klein,Jessica Zucman,Franck Pasquier",
+                        "writers": "François Truffaut,Suzanne Schiffman,Jean-Claude Grumberg",
+                        "camera": "Néstor Almendros",
+                        "producers": "François Truffaut",
+                        "directors": "François Truffaut"
+                    },
+                    {
+                        "movId": 173,
+                        "title": "Détective",
+                        "titleSortOnly": "Détective",
+                        "originalTitle": "Détective",
+                        "synopsis": "Au cours d\u0027un match de boxe, le meurtre d\u0027un Prince déclenche un étrange ballet entre la mafia et la police. Dans un grand hôtel parisien, près de la gare St-Lazare, deux flics enquêtent sur la mort prématurée du Prince. Dans les couloirs, tel un labyrinthe, des personnages cherchent leur chemin. Et leurs histoires se croisent par instants.",
+                        "shortSynopsis": "Une femme, deux hommes et une histoire d\u0027amour. Un match de boxe, la mafia et un meurtre... Un jeu des quatre familles et un polar signé Godard.",
+                        "keywords": "Détective ",
+                        "poster": "http://fr.web.img3.acsta.net/medias/nmedia/18/36/15/70/18456510.jpg",
+                        "runtime": 5700,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1984,
+                        "userRating": 53,
+                        "pressRating": -1,
+                        "actorRoles": "Laurent Terzieff,Aurelle Doazan,Jean-Pierre Léaud,Nathalie Baye,Claude Brasseur,Johnny Hallyday,Alain Cuny,Xavier Saint-Macary,Pierre Bertin,Stéphane Ferrara,Emmanuelle Seigner,Eugène Berthier,Julie Delpy,Erich Von Stroheim,Ann-Gisel Glass,Cyrille Autin",
+                        "writers": "Jean-Luc Godard,Anne-Marie Miéville,Alain Sarde,Philippe Setbon,Richard Debuisne",
+                        "camera": "Bruno Nuytten,Pierre Novion,Louis Bihi",
+                        "producers": "Alain Sarde,Christine Gozlan",
+                        "directors": "Jean-Luc Godard"
+                    },
+                    {
+                        "movId": 179,
+                        "title": "Element of crime",
+                        "titleSortOnly": "Element of crime",
+                        "originalTitle": "Forbrydelsens element",
+                        "synopsis": "Un psychanalyste tente de faire revivre à l\u0027inspecteur Fischer les événements qui l\u0027ont traumatisé. Celui-ci mène une enquête sur des crimes atroces, et décide d\u0027appliquer la théorie de son montor : un policier doit s\u0027identifier à l\u0027auteur du crime s\u0027il veut espérer l\u0027élucider.",
+                        "shortSynopsis": "Un psychanalyste tente de faire revivre à l\u0027inspecteur Fischer les événements qui l\u0027ont traumatisé. Celui-ci mène une enquête sur des crimes atroces, et décide d\u0027appliquer la théorie de son montor : un policier doit s\u0027identifier à l\u0027auteur du crime s\u0027il veut espérer l\u0027élucider.",
+                        "keywords": "Element of crime Forbrydelsens element ",
+                        "poster": "http://fr.web.img1.acsta.net/medias/nmedia/18/35/47/07/18881589.jpg",
+                        "runtime": 6300,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1984,
+                        "userRating": 65,
+                        "pressRating": -1,
+                        "actorRoles": "Michael Elphick,Esmond Knight,Me Me Lai,Jerold Wells,Ahmed El Shenawi,Astrid Henning-Jensen,János Herskó,Lars von Trier,Stig Larsson,Preben Lerdorff Rye,Camilla Overbye Roos,Mogens Rukov,Jon Bang Carlsen,Leif Magnusson",
+                        "writers": "Lars von Trier,Niels Vorsel",
+                        "camera": "Tom Rilling",
+                        "producers": "Per Holst",
+                        "directors": "Lars von Trier"
+                    },
+                    {
+                        "movId": 180,
+                        "title": "Elephant Man",
+                        "titleSortOnly": "Elephant Man",
+                        "originalTitle": "The Elephant Man",
+                        "synopsis": "Londres, 1884. Le chirurgien Frederick Treves découvre un homme complètement défiguré et difforme, devenu une attraction de foire. John Merrick, \" le monstre \", doit son nom de Elephant Man au terrible accident que subit sa mère. Alors enceinte de quelques mois, elle est renversée par un éléphant. Impressionné par de telles difformités, le Dr. Treves achète Merrick, l\u0027arrachant ainsi à la violence de son propriétaire, et à l\u0027humiliation quotidienne d\u0027être mis en spectacle. Le chirurgien pense alors que \" le monstre \" est un idiot congénital. Il découvre rapidement en Merrick un homme meurtri, intelligent et doté d\u0027une grande sensibilité.",
+                        "shortSynopsis": "Londres, 1884. Le chirurgien Frederick Treves découvre un homme complètement défiguré et difforme, devenu une attraction de foire. John Merrick, \" le monstre \", doit son nom de Elephant Man au terrible accident que subit sa mère. Alors enceinte de quelques mois, elle est renversée par un éléphant...",
+                        "keywords": "Elephant Man Elephant Man ",
+                        "poster": "http://fr.web.img4.acsta.net/medias/nmedia/18/35/90/89/18686437.jpg",
+                        "runtime": 7500,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1980,
+                        "userRating": 84,
+                        "pressRating": 96,
+                        "actorRoles": "Anthony Hopkins,John Hurt,Anne Bancroft,John Gielgud,Wendy Hiller,Freddie Jones,Hannah Gordon,Michael Elphick,Lesley Dunlop,Helen Ryan,Kenny Baker,John Standing,Dexter Fletcher,Phoebe Nicholls,Pat Gorman,Claire Davenport,Orla Pederson,Patsy Smart,Frederick Treves,Richard Hunter,James Cormack,Alfie Curtis,Roy Evans,Tony London,Bernadette Milnes,Brenda Kempner,Carol Harrison,Hugh Manning,Fanny Carby,William Morgan Sheppard,Kathleen Byron,Gerald Case,David Ryall,Deirdre Costello,Pauline Quirke,Chris Greener,Marcus Powell,Gilda Cohen,Eiji Kusuhara,Robert Day,Patricia Hodge,Tommy Wright,Peter Davidson (II),John Rapley,Hugh Spight,Teresa Codling,Eric Bergren,Christopher De Vore,Harry Fielder,Norman Gay,Ralph Morse,Fred Wood",
+                        "writers": "David Lynch,Christopher De Vore,Eric Bergren",
+                        "camera": "Freddie Francis",
+                        "producers": "Mel Brooks,Stuart Cornfeld,Jonathan Sanger",
+                        "directors": "David Lynch"
+                    },
+                    {
+                        "movId": 1019,
+                        "title": "Le Voyage a Paimpol",
+                        "titleSortOnly": "Le Voyage a Paimpol",
+                        "originalTitle": "Le Voyage a Paimpol",
+                        "synopsis": "Le rêve, qui comblait la moitié de sa vie, ne suffit plus a Maryvonne. Elle laisse choir mari, enfant, amant et part en autobus pour Paimpol. Et la, c\u0027est un bol d\u0027air en forme de vie reelle, la realite rejoint enfin le reve.",
+                        "shortSynopsis": "Le rêve, qui comblait la moitié de sa vie, ne suffit plus a Maryvonne. Elle laisse choir mari, enfant, amant et part en autobus pour Paimpol. Et la, c\u0027est un bol d\u0027air en forme de vie reelle, la realite rejoint enfin le reve.",
+                        "keywords": "Voyage a Paimpol ",
+                        "runtime": 5280,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1985,
+                        "userRating": 60,
+                        "pressRating": -1,
+                        "actorRoles": "Myriam Boyer,Michel Boujenah,Jean-Francois Garreaud,Michele Brousse,Andre Rouyer,Dora Doll,Jean-Paul Muel,Josiane Levêque,Francis Lemaire,Chantal Neuwirth,Arny Berry",
+                        "writers": "John Berry,Josiane Levêque",
+                        "camera": "Bernard Zitermann",
+                        "directors": "John Berry"
+                    },
+                    {
+                        "movId": 1061,
+                        "title": "La Septième Victime",
+                        "titleSortOnly": "La Septième Victime",
+                        "originalTitle": "The Seventh Victim",
+                        "synopsis": "Une jeune fille recherche sa soeur, mystérieusement disparue. Celle-çi est sous l\u0027influence d\u0027une secte d\u0027adorateurs de Satan.",
+                        "shortSynopsis": "Une jeune fille recherche sa soeur, mystérieusement disparue. Celle-çi est sous l\u0027influence d\u0027une secte d\u0027adorateurs de Satan.",
+                        "keywords": "Septième Victime Seventh victim ",
+                        "poster": "http://fr.web.img2.acsta.net/medias/nmedia/18/36/02/55/18446223.jpg",
+                        "runtime": 4260,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1943,
+                        "userRating": 55,
+                        "pressRating": -1,
+                        "actorRoles": "Tom Conway,Kim Hunter,Jean Brooks,Evelyn Brent,Lou Lubin,Hugh Beaumont,Ben Bard,Erford Gage",
+                        "writers": "Charles O\u0027Neal,De Witt Bodeen",
+                        "camera": "Nicholas Musuraca",
+                        "producers": "Val Lewton",
+                        "directors": "Mark Robson"
+                    },
+                    {
+                        "movId": 1077,
+                        "title": "Baton Rouge",
+                        "titleSortOnly": "Baton Rouge",
+                        "originalTitle": "Baton Rouge",
+                        "synopsis": "En 1985, où vont les Rastignac? A Bâton Rouge, pays de râve, pays de cocagne, l\u0027Amérique, quoi ! En tout cas, c\u0027est la seule solution pour Karim, Mozart et Abdenour. Et puisque Mike Jagger leur chantait \"I got to fly today on down to Baton Rouge\", ils iront à Bâton Rouge.",
+                        "shortSynopsis": "En 1985, où vont les Rastignac? A Bâton Rouge, pays de râve, pays de cocagne, l\u0027Amérique, quoi ! En tout cas, c\u0027est la seule solution pour Karim, Mozart et Abdenour. Et puisque Mike Jagger leur chantait \"I got to fly today on down to Baton Rouge\", ils iront à Bâton Rouge.",
+                        "keywords": "Baton Rouge ",
+                        "poster": "http://fr.web.img2.acsta.net/medias/nmedia/18/78/82/80/19480767.jpg",
+                        "runtime": 5400,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1985,
+                        "userRating": 59,
+                        "pressRating": -1,
+                        "actorRoles": "Jacques Penot,Pierre-Loup Rajot,Hammou Graïa,Frédéric Wizmane,Katia Tchenko,Larbi Zekkal,Elaine Foster,Romain Bouteille,Jacques Frantz,Christian Charmetant,Alexandra Steinbaum",
+                        "writers": "Rachid Bouchareb,Jean-Pierre Ronssin",
+                        "camera": "Pierre Dupouey,Jimmy Glasberg",
+                        "producers": "Humbert Balsan,Jean-Pierre Mahot",
+                        "directors": "Rachid Bouchareb"
+                    },
+                    {
+                        "movId": 1082,
+                        "title": "Le Loup-garou de Londres",
+                        "titleSortOnly": "Le Loup-garou de Londres",
+                        "originalTitle": "An American Werewolf in London",
+                        "synopsis": "Deux jeunes Américains en vacances s\u0027égarent dans une région déserte de l\u0027Angleterre. Ils sont attaqués par une bête étrange. Peu après, l\u0027un d\u0027entre eux s\u0027éveille dans un hôpital...",
+                        "shortSynopsis": "Deux jeunes Américains en vacances s\u0027égarent dans une région déserte de l\u0027Angleterre. Ils sont attaqués par une bête étrange. Peu après, l\u0027un d\u0027entre eux s\u0027éveille dans un hôpital...",
+                        "keywords": "Loup-garou de Londres An American Werewolf in London ",
+                        "poster": "http://fr.web.img2.acsta.net/medias/nmedia/18/70/93/88/20275675.jpg",
+                        "runtime": 5820,
+                        "movieType": "Long-métrage",
+                        "productionYear": 1981,
+                        "userRating": 64,
+                        "pressRating": -1,
+                        "actorRoles": "David Naughton,Griffin Dunne,Jenny Agutter,John Woodvine,Lila Kaye,Paddy Ryan,Don Mc Killop,Paul Kember,Frank Oz,Joe Belcher,Colin Fernandes,John Landis",
+                        "writers": "John Landis",
+                        "camera": "Robert Paynter",
+                        "producers": "George Folsey Jr.",
+                        "directors": "John Landis"
+                    }
+                ],
+                "listType": "MovieIndex",
+                "totalCount": 12741
+            },
+            {
+                "code": "PERSON",
+                "label": "Acteurs",
+                "list": [
+                    {
+                        "perId": 641,
+                        "fullName": "Richard Dembo",
+                        "fullNameSortOnly": "Richard Dembo",
+                        "photoUrl": "http://fr.web.img2.acsta.net/medias/nmedia/18/36/03/05/18446782.jpg"
+                    },
+                    {
+                        "perId": 650,
+                        "fullName": "Francesca Annis",
+                        "fullNameSortOnly": "Francesca Annis",
+                        "photoUrl": "http://fr.web.img5.acsta.net/medias/nmedia/18/79/54/51/19508684.jpg"
+                    },
+                    {
+                        "perId": 655,
+                        "fullName": "Peter Fonda",
+                        "fullNameSortOnly": "Peter Fonda",
+                        "photoUrl": "http://fr.web.img6.acsta.net/medias/nmedia/18/35/15/66/18737441.jpg"
+                    },
+                    {
+                        "perId": 659,
+                        "fullName": "Esmond Knight",
+                        "fullNameSortOnly": "Esmond Knight"
+                    },
+                    {
+                        "perId": 661,
+                        "fullName": "John Gielgud",
+                        "fullNameSortOnly": "John Gielgud",
+                        "photoUrl": "http://fr.web.img2.acsta.net/medias/nmedia/18/95/45/14/20404784.jpg"
+                    },
+                    {
+                        "perId": 671,
+                        "fullName": "Jacques Prévert",
+                        "fullNameSortOnly": "Jacques Prévert"
+                    },
+                    {
+                        "perId": 679,
+                        "fullName": "Rufus",
+                        "fullNameSortOnly": "Rufus",
+                        "photoUrl": "http://fr.web.img2.acsta.net/medias/nmedia/18/35/30/45/19705531.jpg"
+                    },
+                    {
+                        "perId": 680,
+                        "fullName": "Roger Vadim",
+                        "fullNameSortOnly": "Roger Vadim",
+                        "photoUrl": "http://fr.web.img5.acsta.net/pictures/210/138/21013864_20130619162822231.jpg"
+                    },
+                    {
+                        "perId": 687,
+                        "fullName": "Barbara Jefford",
+                        "fullNameSortOnly": "Barbara Jefford"
+                    },
+                    {
+                        "perId": 690,
+                        "fullName": "Bruce Campbell",
+                        "fullNameSortOnly": "Bruce Campbell",
+                        "photoUrl": "http://fr.web.img6.acsta.net/medias/nmedia/18/35/33/22/20480779.jpg"
+                    },
+                    {
+                        "perId": 696,
+                        "fullName": "Helen Mirren",
+                        "fullNameSortOnly": "Helen Mirren",
+                        "photoUrl": "http://fr.web.img1.acsta.net/pictures/15/09/15/10/03/576404.jpg"
+                    },
+                    {
+                        "perId": 699,
+                        "fullName": "Ellen Burstyn",
+                        "fullNameSortOnly": "Ellen Burstyn",
+                        "photoUrl": "http://fr.web.img3.acsta.net/medias/nmedia/18/35/38/23/19999771.jpg"
+                    },
+                    {
+                        "perId": 719,
+                        "fullName": "Zero Mostel",
+                        "fullNameSortOnly": "Zero Mostel"
+                    },
+                    {
+                        "perId": 729,
+                        "fullName": "Sarah Miles",
+                        "fullNameSortOnly": "Sarah Miles"
+                    },
+                    {
+                        "perId": 730,
+                        "fullName": "Robert Mitchum",
+                        "fullNameSortOnly": "Robert Mitchum",
+                        "photoUrl": "http://fr.web.img4.acsta.net/medias/nmedia/18/35/21/50/18457075.jpg"
+                    },
+                    {
+                        "perId": 750,
+                        "fullName": "Nagisa Oshima",
+                        "fullNameSortOnly": "Nagisa Oshima",
+                        "photoUrl": "http://fr.web.img4.acsta.net/medias/nmedia/18/74/77/91/20430519.jpg"
+                    },
+                    {
+                        "perId": 751,
+                        "fullName": "David Bowie",
+                        "fullNameSortOnly": "David Bowie",
+                        "photoUrl": "http://fr.web.img6.acsta.net/medias/nmedia/18/35/49/97/18681660.jpg"
+                    },
+                    {
+                        "perId": 752,
+                        "fullName": "Tom Conti",
+                        "fullNameSortOnly": "Tom Conti",
+                        "photoUrl": "http://fr.web.img1.acsta.net/medias/nmedia/18/36/36/86/20100384.jpg"
+                    },
+                    {
+                        "perId": 768,
+                        "fullName": "William Wyler",
+                        "fullNameSortOnly": "William Wyler"
+                    },
+                    {
+                        "perId": 769,
+                        "fullName": "Laurence Olivier",
+                        "fullNameSortOnly": "Laurence Olivier",
+                        "photoUrl": "http://fr.web.img4.acsta.net/medias/nmedia/18/35/51/83/18685411.jpg"
+                    }
+                ],
+                "listType": "PersonIndex",
+                "totalCount": 116672
+            }
+        ],
+        "facets": [
+            {
+                "code": "FCT_SCOPE",
+                "label": "cluster",
+                "values": [
+                    {
+                        "code": "MOVIE",
+                        "count": 12741,
+                        "label": "Films"
+                    },
+                    {
+                        "code": "PERSON",
+                        "count": 116672,
+                        "label": "Acteurs"
+                    }
+                ]
+            }
+        ],
+        "totalCount": 129413});
     }
-  ]});
-}

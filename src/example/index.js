@@ -9,6 +9,12 @@ import {createStore} from 'redux';
 import Root from './root';
 import store from './store';
 
+import i18next from 'i18next';
+import {intializeTranslation} from 'focus-application/translation';
+import frFR from '../translation/fr-FR';
+
+intializeTranslation(i18next, 'fr-FR', [frFR]);
+
 console.log('Launching the app...');
 const rootEl = document.querySelector('.focus-search-example')
 ReactDOM.render(
