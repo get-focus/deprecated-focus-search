@@ -45,7 +45,7 @@ export class MaterialLineWrapper extends PureComponent {
         const {isSelected} = lineDescriptor;
         return (
             <li data-focus='line-component' data-selected={isSelected} className='mdl-list__item'>
-                {otherProps.toggleLineSelection &&
+                {otherProps.toggleLineSelection && !this.props.isQuickSearch &&
                     <div data-focus='line-component-selection'>
                         <InputCheckbox rawInputValue={isSelected} onChange={() => otherProps.toggleLineSelection(otherProps.id)} />
                     </div>
@@ -107,6 +107,7 @@ export class ListQuickSearch extends PureComponent {
                                     toggleLineSelection={toggleLineSelection}
                                     stateOfTheSelectionList={stateOfTheSelectionList}
                                     id={lineDescriptor[this.props.lineIdentifierProperty]}
+                                    isQuickSearch={true}
                                     {...otherProps}>
                                     <LineComponent index={numberOfList} {...lineWrapperProps} />
                                 </LineWrapper>
@@ -217,8 +218,6 @@ ListComponentWithToolBar.defaultProps = {
     ListWrapper: MaterialListWrapper,
     LineWrapper: MaterialLineWrapper
 };
-
-
 
 
 export class ResultList extends PureComponent {

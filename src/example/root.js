@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {IndexRoute, Router, Route} from 'react-router';
 import Home from './views/home';
+import {AdvancedSearchView} from './views/advanced-search';
 import App from './app'
 import {Provider as StoreProvider} from 'react-redux';
 import 'babel-polyfill';
@@ -83,6 +84,8 @@ const _getListMetadata = (listType, listData) => {
             <Router history={history}>
                 <Route path='/' component={App} >
                     <IndexRoute component={Home}/>
+                </Route>
+                <Route path='/advanced' component={AdvancedSearchView} >
                 </Route>
             </Router>
         </SearchProvider>

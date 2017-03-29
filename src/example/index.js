@@ -13,13 +13,21 @@ import i18next from 'i18next';
 import {intializeTranslation} from 'focus-application/translation';
 import frFR from '../translation/fr-FR';
 
+import {initializeStore} from './store';
+
 intializeTranslation(i18next, 'fr-FR', [frFR]);
+
+initializeStore();
+
+import {getStore} from './store';
+const applicationStore = getStore();
+console.log('APPLICATION STORE', applicationStore);
 
 console.log('Launching the app...');
 const rootEl = document.querySelector('.focus-search-example')
 ReactDOM.render(
     <div>
-        <Root store={store} history={hashHistory} />
+        <Root store={applicationStore} history={hashHistory} />
     </div>,
     rootEl
 );
@@ -34,7 +42,7 @@ if (module.hot) {
         const NextApp = require('./root').default;
         ReactDOM.render(
 
-            <Root store={store} history={hashHistory} />,
+            <Root store={applicationStore} history={hashHistory} />,
             rootEl
         );
     });

@@ -11,6 +11,7 @@ export class QuickSearch extends PureComponent {
         const {start, triggerStart} = this.props;
         if(triggerStart) start();
     };
+
     render() {
         const {
             customLineProps,
@@ -22,9 +23,7 @@ export class QuickSearch extends PureComponent {
             ResultGroupProps,
             ResultListProps
         } = this.props;
-        console.log('SEARCHBAR PROPS', SearchBarProps);
         const {unitSearchDispatch, ...rest} = SearchBarProps;
-
         return (
             <div data-focus='quick-search'>
                 <div data-focus="search-bar-quick-search"><SearchBar {...unitSearchDispatch} {...rest}/></div>

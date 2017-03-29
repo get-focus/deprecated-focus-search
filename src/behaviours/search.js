@@ -175,8 +175,6 @@ export function connect(searchOptions) {
                     unitSearchDispatch: this.unitSearchDispatch
                 }
 
-
-
                 return (
                     <ComponentToConnect
                         {...otherProps}
