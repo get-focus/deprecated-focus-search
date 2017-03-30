@@ -2,59 +2,30 @@ import {get} from 'lodash';
 import identity from 'lodash/identity';
 import keys from 'lodash/keys';
 
-export const buildFieldForLineSearch = ({searchName, codeId, entityPath, code, arraySearchNames}) => (state = {}, props) => {
+export const buildFieldForLineSearch = ({searchName, codeId, entityPath, code}) => (state = {}, props) => {
     const {definitions, domains, index} = props;
     const entityDefinition = definitions[entityPath];
-    let fields = [];
-    arraySearchNames.forEach(name => {
-        console.log(name);
-        const results = state[name].results;
-        const findList = results.data ? get(results.data.find(element => element.code === code), 'list', get(results.data[index], 'list')) : null;
-        const list = findList ? findList : results.data || [];
-        const dataForLine = list.find(element => element[codeId] === props[codeId]);
-        const propertyKeys = keys(dataForLine);
-        propertyKeys.forEach(element => {
-            const propertyDefinition = entityDefinition[element];
-            const domain = get(domains, propertyDefinition ? propertyDefinition.domain : '', {});
-            const value = list.find(element => element[codeId] ===props[codeId])[element];
-            const formator = domain.formator || identity;
-            fields.push({
-                entityPath: entityPath,
-                name: element,
-                formattedInputValue: formator(value),
-                rawInputValue: value
-            });
-        });
-    });
+    const results = state[searchName].results;
+    const findList = results.data ? get(results.data.find(element => element.code === code), 'list', get(results.data[index], 'list')) : null;
+    const list = findList ? findList : results.data || [];
+    const dataForLine = list.find(element => element[codeId] === props[codeId]);
+    const propertyKeys = keys(dataForLine);
+    const fields = propertyKeys.map(element => {
+        const propertyDefinition = entityDefinition[element];
+        const domain = get(domains, propertyDefinition ? propertyDefinition.domain : '', {});
+        const value = list.find(element => element[codeId] ===props[codeId])[element];
+        const formator = domain.formator || identity;
+        return {
+            entityPath: entityPath,
+            name: element,
+            formattedInputValue: formator(value),
+            rawInputValue: value
+        }}
+    );
     return {
-        fields
+        fields: fields
     };
 };
-
-// export const buildFieldForLineSearch = ({searchName, codeId, entityPath, code}) => (state = {}, props) => {
-//     const {definitions, domains, index} = props;
-//     const entityDefinition = definitions[entityPath];
-//     const results = state[searchName].results;
-//     const findList = results.data ? get(results.data.find(element => element.code === code), 'list', get(results.data[index], 'list')) : null;
-//     const list = findList ? findList : results.data || [];
-//     const dataForLine = list.find(element => element[codeId] === props[codeId]);
-//     const propertyKeys = keys(dataForLine);
-//     const fields = propertyKeys.map(element => {
-//         const propertyDefinition = entityDefinition[element];
-//         const domain = get(domains, propertyDefinition ? propertyDefinition.domain : '', {});
-//         const value = list.find(element => element[codeId] ===props[codeId])[element];
-//         const formator = domain.formator || identity;
-//         return {
-//             entityPath: entityPath,
-//             name: element,
-//             formattedInputValue: formator(value),
-//             rawInputValue: value
-//         }}
-//     );
-//     return {
-//         fields: fields
-//     };
-// };
 
 
 export const parseForVertigo = (searchParam) => {
