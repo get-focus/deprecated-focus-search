@@ -31,13 +31,13 @@ export function facetListWithselectedInformation(state) {
     }
 }
 
-export function getResultsForGroup(groups, searchMetadata){
+export function getResultsForGroup(groups, searchMetadata, searchName){
     return groups.map(element => {
         // TODO: searchMetadataProvider => getListMetadata in data, and get sorts and groups function from data and facets
         // getListMetadata => LineComponent , ListComponent and maybe other informations concidered usefull
         const {scopeEntityDefintion} = searchMetadata;
         //TO Do scopeEntityDefintion existing
-        const metadatas = extractMedatadas(searchMetadata.getListMetadata(element.listType, element.values));
+        const metadatas = extractMedatadas(searchMetadata.getListMetadata(element.listType, element.values, searchName));
         return {
             ...element,
             ...metadatas,
@@ -49,8 +49,8 @@ export function getResultsForGroup(groups, searchMetadata){
     });
 };
 
-export function getResultsForList(list = [], searchMetadata, listType, selectedFacet) {
-    const metadatas = extractMedatadas(searchMetadata.getListMetadata(listType, list));
+export function getResultsForList(list = [], searchMetadata, listType, selectedFacet, searchName) {
+    const metadatas = extractMedatadas(searchMetadata.getListMetadata(listType, list, searchName));
     return {
         ...metadatas,
         groupList: metadatas.groupList && metadatas.groupList.reduce((acc, element) => { if(keys(selectedFacet).indexOf(element) === -1) {acc.push(element); } return acc }, [] ),
@@ -60,7 +60,7 @@ export function getResultsForList(list = [], searchMetadata, listType, selectedF
 };
 
 export function connect(searchOptions) {
-    const {unitSearch: {nextPage, updateSort, updateGroup, updateSelectedFacets, updateQuery, startSearch, initPage}} = searchOptions;
+    const {searchName, unitSearch: {nextPage, updateSort, updateGroup, updateSelectedFacets, updateQuery, startSearch, initPage}} = searchOptions;
 
     return function getSearchConnectedComponent(ComponentToConnect) {
 
@@ -120,7 +120,7 @@ export function connect(searchOptions) {
                 const groupSelect = get(criteria, 'group');
                 const selectedFacet = get(criteria, 'selectedFacets')
                 const term = get(criteria, 'query.term');
-                const results = hasGroups ? getResultsForGroup(data, searchMetadata) : getResultsForList(data, searchMetadata, listType, selectedFacet);
+                const results = hasGroups ? getResultsForGroup(data, searchMetadata, searchName) : getResultsForList(data, searchMetadata, listType, selectedFacet, searchName);
                 const facetInformations = facetListWithselectedInformation(this.props);
                 set(results, 'totalCount', totalCount);
                 set(results, 'groupSelect', groupSelect);
@@ -174,8 +174,6 @@ export function connect(searchOptions) {
                     term,
                     unitSearchDispatch: this.unitSearchDispatch
                 }
-
-
 
                 return (
                     <ComponentToConnect

@@ -1,5 +1,5 @@
 import React, {PropTypes, PureComponent} from 'react';
-import {ToolBar} from './toolbar';
+import {ToolBar, ToolBarQuickSearch} from './toolbar';
 import InputCheckbox from 'focus-components/input-checkbox';
 import Button from 'focus-components/button';
 
@@ -45,7 +45,7 @@ export class MaterialLineWrapper extends PureComponent {
         const {isSelected} = lineDescriptor;
         return (
             <li data-focus='line-component' data-selected={isSelected} className='mdl-list__item'>
-                {otherProps.toggleLineSelection &&
+                {otherProps.toggleLineSelection && !this.props.isQuickSearch &&
                     <div data-focus='line-component-selection'>
                         <InputCheckbox rawInputValue={isSelected} onChange={() => otherProps.toggleLineSelection(otherProps.id)} />
                     </div>
@@ -70,7 +70,64 @@ MaterialLineWrapper.PropTypes = {
     stateOfTheSelectionList: PropTypes.bool
 };
 
+export class ListQuickSearch extends PureComponent {
+    render() {
+        const {
+            data,
+            GlobalGroupActionsComponent,
+            isGroup,
+            lineIdentifierProperty,
+            lineProps,
+            LineWrapper,
+            ListWrapper,
+            numberOfList,
+            isToolBar,
+            numberOfSelectedElement,
+            scope,
+            selectedElements,
+            stateOfTheSelectionList,
+            toggleAllLine,
+            toggleLineSelection,
+            unitSearchDispatch,
+            valuesForResult: {ActionsComponent, actionsLine, groupList, groupSelect, isSelected, label, listType, LineComponent, numberList, values, sortList, ...otherProps},
+        } = this.props;
+        return (
+            <div data-focus='list-with-toolbar'>
+                <ToolBarQuickSearch title={label}/>
+                <ListWrapper>
+                    {data && data.map(({isSeleted, ...lineDescriptor}, idx) => {
+                        const lineWrapperProps = {...lineDescriptor, ...lineProps};
+                        return (
+                            <div data-focus='line-advanced-search' key={idx}>
+                                <LineWrapper
+                                    ActionsComponent={ActionsComponent}
+                                    actionsLine={actionsLine}
+                                    lineDescriptor={lineWrapperProps}
+                                    isSelected={isSeleted}
+                                    toggleLineSelection={toggleLineSelection}
+                                    stateOfTheSelectionList={stateOfTheSelectionList}
+                                    id={lineDescriptor[this.props.lineIdentifierProperty]}
+                                    isQuickSearch={true}
+                                    {...otherProps}>
+                                    <LineComponent index={numberOfList} {...lineWrapperProps} />
+                                </LineWrapper>
+                            </div>
+                        );
+                    })}
+                </ListWrapper>
+            </div>
+        )
+    }
+}
 
+ListQuickSearch.defaultProps = {
+    isGroup: false,
+    lineProps: {},
+    isToolBar: true,
+    lineIdentifierProperty: 'id',
+    ListWrapper: MaterialListWrapper,
+    LineWrapper: MaterialLineWrapper
+};
 
 export class ListComponentWithToolBar extends PureComponent {
     render () {  //to do check the values
@@ -83,6 +140,7 @@ export class ListComponentWithToolBar extends PureComponent {
             LineWrapper,
             ListWrapper,
             numberOfList,
+            isToolBar,
             numberOfSelectedElement,
             scope,
             selectedElements,
@@ -94,7 +152,7 @@ export class ListComponentWithToolBar extends PureComponent {
         } = this.props;
         return (
             <div data-focus='list-with-toolbar'>
-                <ToolBar
+                {isToolBar && <ToolBar
                     data-focus='toolbar-advanced-search'
                     GlobalGroupActionsComponent={GlobalGroupActionsComponent}
                     groupAction={unitSearchDispatch.groupAction}
@@ -109,7 +167,7 @@ export class ListComponentWithToolBar extends PureComponent {
                     sortList={sortList}
                     stateOfTheSelectionList={stateOfTheSelectionList}
                     toggleAllLine={toggleAllLine}
-                    unGroup={false} />
+                    unGroup={false} />}
                 <ListWrapper>
                     {data && data.map(({isSeleted, ...lineDescriptor}, idx) => {
                         const lineWrapperProps = {...lineDescriptor, ...lineProps};
@@ -155,12 +213,11 @@ ListComponentWithToolBar.propTypes = {
 ListComponentWithToolBar.defaultProps = {
     isGroup: false,
     lineProps: {},
+    isToolBar: true,
     lineIdentifierProperty: 'id',
     ListWrapper: MaterialListWrapper,
     LineWrapper: MaterialLineWrapper
 };
-
-
 
 
 export class ResultList extends PureComponent {
@@ -173,6 +230,7 @@ export class ResultList extends PureComponent {
             numberOfList,
             scope,
             unitSearchDispatch,
+            isToolBar,
             valuesForResult,
             groupSelected,
             paginateProps,
@@ -188,6 +246,7 @@ export class ResultList extends PureComponent {
                     groupSelected={groupSelected}
                     GlobalGroupActionsComponent={valuesForResult.GlobalGroupActionsComponent}
                     isGroup={isGroup}
+                    isToolBar={isToolBar}
                     LineComponent={valuesForResult.LineComponent}
                     lineIdentifierProperty={valuesForResult.lineIdentifierProperty}
                     lineProps={lineProps}
@@ -223,10 +282,10 @@ ResultList.defaultProps = {
 
 export class ResultGroup extends PureComponent {
     render() {
-        const {customLineProps, isAllScopeResults, isGroup, ListComponent, paginateFunction, scope, valuesForResults, unitSearchDispatch, groupSelected, paginateProps} = this.props;
+        const {customLineProps, isAllScopeResults, isGroup, isQuickSearch, ListComponent, paginateFunction, scope, valuesForResults, unitSearchDispatch, groupSelected, paginateProps} = this.props;
         return (
             <div data-focus='result-group'>
-                {!isAllScopeResults &&
+                {!isAllScopeResults && !isQuickSearch &&
                     <ToolBar
                         data-focus='toolbar-ungroup'
                         groupAction={unitSearchDispatch.groupAction}

@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {IndexRoute, Router, Route} from 'react-router';
 import Home from './views/home';
+import {AdvancedSearchView} from './views/advanced-search';
 import App from './app'
 import {Provider as StoreProvider} from 'react-redux';
 import 'babel-polyfill';
@@ -19,8 +20,8 @@ const _getListMetadata = (listType, listData) => {
                     </div>)
                 },
                 actionsLine: [
-                  {label: 'Yo', icon: 'print', action: () => {console.log('action')}},
-                  {label: 'La', icon: 'print', action: () => {console.log('action')}}
+                    {label: 'Yo', icon: 'print', action: () => {console.log('action')}},
+                    {label: 'La', icon: 'print', action: () => {console.log('action')}}
 
                 ],
                 sortList : [
@@ -52,40 +53,43 @@ const _getListMetadata = (listType, listData) => {
             break;
             default:
             return {
-                LineComponent: props => <div>Bien le bonsoir</div>,
+                LineComponent: props => (
+                    <div onClick={() => console.log('My Props', props)}>
+                        {props.title ? props.title : props.fullName}
+                    </div>
+                ),
                 sortList : [
                     'ouuuuaaa',
                     'trrropo',
                     'lalal'
                 ],
                 groupList: [
-                    {code: 'FCT_MOVIE_TYPE', label: 'Movie Type'},
-                    {code: 'FCT_MOVIE_Truc', label: 'Movie Truc'},
-                    {code: 'FCT_MOVIE_Machin', label: 'Movie Machin'}
+                    {code: 'FCT_MOVIE_TYPE'},
+                    {code: 'FCT_MOVIE_TITLE'},
+                    {code: 'FCT_MOVIE_YEAR'}
                 ]
             }
 
         }
     }
     const Root = ({store, history}) => /*On place le provider de store au plus haut afin de pouvoir injecter des informations du store dans toute l'applciation.*/
-       <StoreProvider store={store}>
-       <SearchProvider store={store} searchMetadata={{getListMetadata : _getListMetadata,
-               scopes:[{value: 'all', label:'all', selected:false}, {value: 'scope', label: 'Scope 01', selected:true}, {value: 'scope2', label:'Scope 02', selected:false}],
-               scopeEntityDefintion : {
-                 DonDiegoType : {
-                   firstName: {
-                     formator : props => props + 'YO'
-                   }
-                 }
-               }
-             }}>
-           <Router history={history}>
-             <Route path='/' component={App} >
-              <IndexRoute component={Home}/>
-            </Route>
-           </Router>
-         </SearchProvider>
-       </StoreProvider>;
+    <StoreProvider store={store}>
+        <SearchProvider store={store} searchMetadata={{getListMetadata : _getListMetadata,
+                scopes:[
+                    {value: 'all', label:'all', selected:true},
+                    {value: 'scope', label: 'Scope 01', selected:false},
+                    {value: 'scope2', label:'Scope 02', selected:false}
+                ]
+            }}>
+            <Router history={history}>
+                <Route path='/' component={App} >
+                    <IndexRoute component={Home}/>
+                </Route>
+                <Route path='/advanced' component={AdvancedSearchView} >
+                </Route>
+            </Router>
+        </SearchProvider>
+    </StoreProvider>;
 
     class RootHotLoader extends Component { /*On place le provider de store au plus haut afin de pouvoir injecter des informations du store dans toute l'applciation.*/
         render() {
@@ -95,7 +99,7 @@ const _getListMetadata = (listType, listData) => {
                     <SearchProvider store={store} searchMetadata={{getListMetadata : _getListMetadata,
                             scopes:[{value: 'scope', label: 'Scope 01', selected:true}, {value: 'scope2', label:'Scope 02', selected:false}, {value: 'all', label:'all', selected:false}]
 
-                          }}>
+                        }}>
                         <Router history={history}>
                             <Route path='/' component={App} >
                                 <IndexRoute component={Home}/>

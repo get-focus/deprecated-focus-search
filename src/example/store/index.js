@@ -1,21 +1,22 @@
-import thunkMiddleware from 'redux-thunk';
-import {createStore, applyMiddleware, combineReducers, compose} from 'redux';
+import {createStoreWithFocus} from './createStore';
 import DevTools from '../containers/dev-tools'
-import {unitSearchReducers, unitOtherSearchReducers} from '../actions/search-actions';
-import {middlewareAdvancedSearch, middlewareOtherSearch} from '../actions/search-actions'
+import {unitQuickSearchReducers, unitAdvancedSearchReducers} from '../actions/search-actions';
+import {middlewareQuickSearch, middlewareAdvancedSearch} from '../actions/search-actions'
 
-const store = createStore(
-  combineReducers({advancedSearch : unitSearchReducers, otherSearch : unitOtherSearchReducers}),
-  compose(
-    applyMiddleware(
-      thunkMiddleware,
-      
-      middlewareAdvancedSearch// lets us dispatch() functions
-    ),
-    DevTools.instrument()
-  )
+let applicationStore;
 
-)
+export const initializeStore = () => {
+    applicationStore = createStoreWithFocus(
+        {
+            advancedSearch : unitAdvancedSearchReducers,
+            quickSearch : unitQuickSearchReducers
+        },
+        [middlewareQuickSearch, middlewareAdvancedSearch],
+        [DevTools.instrument()]
+    );
+    return applicationStore;
+};
 
-
-export default store;
+export const getStore = () => {
+    return applicationStore;
+};

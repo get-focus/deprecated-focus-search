@@ -38,6 +38,11 @@ function _checkProps(sortList, groupList){
     }
 };
 
+export class ToolBarQuickSearch extends PureComponent {
+    render(){
+        return ( <div>{this.props.title}</div> )
+    }
+}
 export class ToolbarSort extends PureComponent {
     render() {
         const {scope, sortList, sortAction} = this.props;

@@ -6,7 +6,7 @@ export const buildFieldForLineSearch = ({searchName, codeId, entityPath, code}) 
     const {definitions, domains, index} = props;
     const entityDefinition = definitions[entityPath];
     const results = state[searchName].results;
-    const findList = get(results.data.find(element => element.code === code), 'list', get(results.data[index], 'list'));
+    const findList = results.data ? get(results.data.find(element => element.code === code), 'list', get(results.data[index], 'list')) : null;
     const list = findList ? findList : results.data || [];
     const dataForLine = list.find(element => element[codeId] === props[codeId]);
     const propertyKeys = keys(dataForLine);
